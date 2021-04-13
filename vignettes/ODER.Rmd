@@ -91,11 +91,11 @@ We hope that `r Biocpkg("ODER")` will be useful for your research. Please use th
 library("ODER")
 ```
 
-Edit this as you see fit =)
+<!-- Edit this as you see fit =) -->
 
-Here is an example of you can cite your package inside the vignette:
+<!-- Here is an example of you can cite your package inside the vignette: -->
 
-* `r Biocpkg("ODER")` `r Citep(bib[["ODER"]])`
+<!-- * `r Biocpkg("ODER")` `r Citep(bib[["ODER"]])` -->
 
 
 
@@ -154,12 +154,12 @@ session_info()
 
 # Bibliography
 
-This vignette was generated using `r Biocpkg("BiocStyle")` `r Citep(bib[["BiocStyle"]])`
-with `r CRANpkg("knitr")` `r Citep(bib[["knitr"]])` and `r CRANpkg("rmarkdown")` `r Citep(bib[["rmarkdown"]])` running behind the scenes.
+<!-- This vignette was generated using `r Biocpkg("BiocStyle")` `r Citep(bib[["BiocStyle"]])` -->
+<!-- with `r CRANpkg("knitr")` `r Citep(bib[["knitr"]])` and `r CRANpkg("rmarkdown")` `r Citep(bib[["rmarkdown"]])` running behind the scenes. -->
 
-Citations made with `r CRANpkg("RefManageR")` `r Citep(bib[["RefManageR"]])`.
+<!-- Citations made with `r CRANpkg("RefManageR")` `r Citep(bib[["RefManageR"]])`. -->
 
 ```{r vignetteBiblio, results = "asis", echo = FALSE, warning = FALSE, message = FALSE}
 ## Print bibliography
-PrintBibliography(bib, .opts = list(hyperlink = "to.doc", style = "html"))
+#PrintBibliography(bib, .opts = list(hyperlink = "to.doc", style = "html"))
 ```
