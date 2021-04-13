@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 ```
 
 
-```{r vignetteSetup, echo=FALSE, message=FALSE, warning = FALSE}
+```{r vignetteSetup, echo=FALSE, message=FALSE, warning = FALSE, eval=FALSE}
 ## Track time spent on making the vignette
 startTime <- Sys.time()
 
