@@ -91,25 +91,9 @@ We hope that `r Biocpkg("ODER")` will be useful for your research. Please use th
 library("ODER")
 ```
 
-<!-- Edit this as you see fit =) -->
-
-<!-- Here is an example of you can cite your package inside the vignette: -->
-
-<!-- * `r Biocpkg("ODER")` `r Citep(bib[["ODER"]])` -->
-
-
 
 # Reproducibility
 
-<!-- The `r Biocpkg("ODER")` package `r Citep(bib[["ODER"]])` was made possible thanks to: -->
-
-<!-- * R `r Citep(bib[["R"]])` -->
-<!-- * `r Biocpkg("BiocStyle")` `r Citep(bib[["BiocStyle"]])` -->
-<!-- * `r CRANpkg("knitr")` `r Citep(bib[["knitr"]])` -->
-<!-- * `r CRANpkg("RefManageR")` `r Citep(bib[["RefManageR"]])` -->
-<!-- * `r CRANpkg("rmarkdown")` `r Citep(bib[["rmarkdown"]])` -->
-<!-- * `r CRANpkg("sessioninfo")` `r Citep(bib[["sessioninfo"]])` -->
-<!-- * `r CRANpkg("testthat")` `r Citep(bib[["testthat"]])` -->
 
 This package was developed using `r BiocStyle::Biocpkg("biocthis")`.
 
@@ -154,10 +138,6 @@ session_info()
 
 # Bibliography
 
-<!-- This vignette was generated using `r Biocpkg("BiocStyle")` `r Citep(bib[["BiocStyle"]])` -->
-<!-- with `r CRANpkg("knitr")` `r Citep(bib[["knitr"]])` and `r CRANpkg("rmarkdown")` `r Citep(bib[["rmarkdown"]])` running behind the scenes. -->
-
-<!-- Citations made with `r CRANpkg("RefManageR")` `r Citep(bib[["RefManageR"]])`. -->
 
 ```{r vignetteBiblio, results = "asis", echo = FALSE, warning = FALSE, message = FALSE}
 ## Print bibliography
