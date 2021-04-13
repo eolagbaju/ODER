@@ -29,24 +29,24 @@ knitr::opts_chunk$set(
 ```
 
 
-```{r vignetteSetup, echo=FALSE, message=FALSE, warning = FALSE, eval=FALSE}
+```{r vignetteSetup, echo=FALSE, message=FALSE, warning = FALSE}
 ## Track time spent on making the vignette
 startTime <- Sys.time()
 
 ## Bib setup
 library("RefManageR")
 
-## Write bibliography information
-bib <- c(
-    R = citation(),
-    BiocStyle = citation("BiocStyle")[1],
-    knitr = citation("knitr")[1],
-    RefManageR = citation("RefManageR")[1],
-    rmarkdown = citation("rmarkdown")[1],
-    sessioninfo = citation("sessioninfo")[1],
-    testthat = citation("testthat")[1],
-    ODER = citation("ODER")[1]
-)
+# ## Write bibliography information
+# bib <- c(
+#     R = citation(),
+#     BiocStyle = citation("BiocStyle")[1],
+#     knitr = citation("knitr")[1],
+#     RefManageR = citation("RefManageR")[1],
+#     rmarkdown = citation("rmarkdown")[1],
+#     sessioninfo = citation("sessioninfo")[1],
+#     testthat = citation("testthat")[1],
+#     ODER = citation("ODER")[1]
+# )
 ```
 
 # Basics
