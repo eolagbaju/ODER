@@ -17,7 +17,7 @@ c(
         doi = '10.18129/B9.bioc.ODER'
     ),
     bibentry(bibtype="article",
-        title = "",
+        title = "Optimising the Definition of Expressed Regions",
         author = personList(
             as.person("eolagbaju")
         ),
