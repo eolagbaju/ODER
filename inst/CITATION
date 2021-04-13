@@ -7,7 +7,7 @@ pkgVer <- function(pkg) {
 c(
 
     bibentry(bibtype="manual",
-        title = "",
+        title = "Optimising the Definition of Expressed Regions",
         author = personList(
             as.person("eolagbaju")
         ),

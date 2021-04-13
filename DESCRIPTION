@@ -1,5 +1,5 @@
 Package: ODER
-Title: What the Package Does (One Line, Title Case)
+Title: Optimising the Definition of Expressed Regions
 Version: 0.99.0
 Date: 2021-04-13
 Authors@R: 
@@ -8,7 +8,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "first.last@example.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: Optimising the Definition of Expressed Regions
 License: Artistic-2.0
 URL: https://github.com/eolagbaju/ODER
 BugReports: https://support.bioconductor.org/t/ODER
