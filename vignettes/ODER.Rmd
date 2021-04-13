@@ -82,7 +82,7 @@ We hope that `r Biocpkg("ODER")` will be useful for your research. Please use th
 
 ```{r "citation"}
 ## Citation info
-citation("ODER")
+#citation("ODER")
 ```
 
 # Quick start to using to `ODER`
