@@ -101,15 +101,15 @@ Here is an example of you can cite your package inside the vignette:
 
 # Reproducibility
 
-The `r Biocpkg("ODER")` package `r Citep(bib[["ODER"]])` was made possible thanks to:
+<!-- The `r Biocpkg("ODER")` package `r Citep(bib[["ODER"]])` was made possible thanks to: -->
 
-* R `r Citep(bib[["R"]])`
-* `r Biocpkg("BiocStyle")` `r Citep(bib[["BiocStyle"]])`
-* `r CRANpkg("knitr")` `r Citep(bib[["knitr"]])`
-* `r CRANpkg("RefManageR")` `r Citep(bib[["RefManageR"]])`
-* `r CRANpkg("rmarkdown")` `r Citep(bib[["rmarkdown"]])`
-* `r CRANpkg("sessioninfo")` `r Citep(bib[["sessioninfo"]])`
-* `r CRANpkg("testthat")` `r Citep(bib[["testthat"]])`
+<!-- * R `r Citep(bib[["R"]])` -->
+<!-- * `r Biocpkg("BiocStyle")` `r Citep(bib[["BiocStyle"]])` -->
+<!-- * `r CRANpkg("knitr")` `r Citep(bib[["knitr"]])` -->
+<!-- * `r CRANpkg("RefManageR")` `r Citep(bib[["RefManageR"]])` -->
+<!-- * `r CRANpkg("rmarkdown")` `r Citep(bib[["rmarkdown"]])` -->
+<!-- * `r CRANpkg("sessioninfo")` `r Citep(bib[["sessioninfo"]])` -->
+<!-- * `r CRANpkg("testthat")` `r Citep(bib[["testthat"]])` -->
 
 This package was developed using `r BiocStyle::Biocpkg("biocthis")`.
 
