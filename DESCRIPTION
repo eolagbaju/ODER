@@ -12,7 +12,7 @@ Description: Optimising the Definition of Expressed Regions
 License: Artistic-2.0
 URL: https://github.com/eolagbaju/ODER
 BugReports: https://support.bioconductor.org/t/ODER
-biocViews: Software
+biocViews: Software, GenomeAnnotation, Transcriptomics, RNASeq
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
