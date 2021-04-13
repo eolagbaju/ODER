@@ -1,6 +1,7 @@
 Package: ODER
 Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Version: 0.99.0
+Date: 2021-04-13
 Authors@R: 
     person(given = "First",
            family = "Last",
@@ -8,11 +9,21 @@ Authors@R:
            email = "first.last@example.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: Artistic-2.0
+URL: https://github.com/eolagbaju/ODER
+BugReports: https://support.bioconductor.org/t/ODER
+biocViews: Software
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-URL: https://github.com/eolagbaju/ODER
-BugReports: https://github.com/eolagbaju/ODER/issues
+Suggests: 
+    BiocStyle,
+    covr,
+    knitr,
+    RefManageR,
+    rmarkdown,
+    sessioninfo,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
