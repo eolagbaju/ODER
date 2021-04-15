@@ -28,4 +28,7 @@ Suggests:
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Imports: 
+    stringr,
+    dplyr,
+    GenomeInfoDb,
     magrittr
