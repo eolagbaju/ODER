@@ -1,9 +1,21 @@
 
 # usethis::use_pipe(export = TRUE)
 
+#' Generating the mean coverage of the expressed regions
+#'
+#' @param bw_paths
+#' @param auc_raw
+#' @param auc_target
+#' @param chrs
+#' @param genome
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_coverage <- function(bw_paths,auc_raw,auc_target,chrs,genome="hg38"){
   chr_info <- GenomeInfoDb::getChromInfoFromUCSC(genome) %>%
-    dplyr::filter("chrom" %in% chrs)
+    dplyr::filter(chrom %in% chrs)
 
   all_chrs_mean_cov <- list()
 
@@ -17,8 +29,8 @@ get_coverage <- function(bw_paths,auc_raw,auc_target,chrs,genome="hg38"){
       derfinder::loadCoverage(files = bw_paths,
                               totalMapped = auc_raw, # normalise by auc here as for bws, more accurate since Rail-RNA clips reads
                               targetSize = auc_target,
-                              chr = chr_info["chrom"][i],
-                              chrlen = chr_info["chrom"][i],
+                              chr = chr_info$chrom[i],
+                              chrlen = chr_info$chrom[i],
                               inputType = "BigWig",
                               returnMean = T,
                               returnCoverage = F,
