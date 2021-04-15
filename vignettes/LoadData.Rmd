@@ -74,6 +74,12 @@ If you are asking yourself the question "Where do I start using Bioconductor?" y
 
 ```{r loadData, echo=FALSE}
 
+gtex_metadata <- recount::all_metadata('gtex') 
+
+gtex_metadata <- gtex_metadata %>% 
+  as.data.frame() %>% 
+  dplyr::filter(project == "SRP012682")
+
 # obtain path to example bw on recount2
 url <- recount::download_study(
     project = "SRP012682",
@@ -83,6 +89,18 @@ url <- recount::download_study(
 
 bw_path <- .file_cache(url[1])
 ```
+
+```{r generateERs, echo=FALSE}
+
+# getting the mean coverage of the expressed regions
+coverage=get_coverage(bw_paths = bw_path,
+                      auc_raw=gtex_metadata["auc"][[1]][1],
+                      auc_target = 40e6 * 100, #target 40 million coverage with 100 bp length reads
+                      chrs =c("chr21", "chr22") )# defaults to chr1-22, chrX, chrY, chrM
+
+coverage
+```
+
 
 ## Asking for help
 
