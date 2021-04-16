@@ -25,3 +25,19 @@
 
   return(file_path)
 }
+
+#' Check if larger vector contains a smaller vector
+#'
+#' @param values bigger vector to search
+#' @param x smaller vector to search for 
+#'
+#' @return
+#'
+#' @keywords internal
+#' @noRd
+"%contain%" <- function(values,x) {
+  tx <- table(x)
+  tv <- table(values)
+  z <- tv[names(tx)] - tx
+  all(z >= 0 & !is.na(z))
+} #https://stackoverflow.com/questions/34445106/test-if-vector-is-contained-in-another-vector-including-repetitions
