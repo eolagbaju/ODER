@@ -1,34 +1,35 @@
-
-# usethis::use_pipe(export = TRUE)
-
 #' Generating the mean coverage of the expressed regions
 #'
-#' @param bw_paths
-#' @param auc_raw
-#' @param auc_target
-#' @param chrs
-#' @param genome
+#' \code{get_coverage} returns the coverage of the BigWig data passed in
 #'
-#' @return
+#' @param bw_paths paths to bigwig files with the RNA-seq data that you want the coverage of.
+#' @param auc_raw vector containing aucs matching the order of bigwig paths.
+#' @param auc_target total auc to normalise all samples to. E.g. 40e6 * 100
+#'   would be the estimated total auc for sample sequenced to 40 million reads
+#'   of 100bp in length.
+#' @param chrs chromosomes to obtain mean coverage for, default is "" giving every chromosome
+#' @param genome the UCSC genome you want to use, the default is hg38
+#'
+#' @return a list of Rles per chromosome passed in
 #' @export
 #'
 #' @examples
-get_coverage <- function(bw_paths,auc_raw,auc_target,chrs,genome="hg38"){
-  chr_info <- GenomeInfoDb::getChromInfoFromUCSC(genome) %>%
-    dplyr::filter(chrom %in% chrs)
+get_coverage <- function(bw_paths,auc_raw,auc_target,chrs="",genome="hg38"){
+  
+  chr_info <- get_chr_info(chrs = chrs, genome = genome)
 
   all_chrs_mean_cov <- list()
 
-  print(stringr::str_c(Sys.time(), " - Obtaining mean coverage across ", length(bw_paths), " samples")) # sub for a rutils function maybe?
-
+  print(stringr::str_c(Sys.time(), " - Obtaining mean coverage across ", length(bw_paths), " samples"))
+  
   for(i in 1:nrow(chr_info)){
 
-    print(stringr::str_c(Sys.time(), " - ", chr_info[["chrom"]][i]))# sub for a rutils function maybe?
+    print(stringr::str_c(Sys.time(), " - ", chr_info[["chrom"]][i]))
     #loading coverage information for designated chromosomes and merging them into a dataframe
     chr_mean_cov <-
       derfinder::loadCoverage(files = bw_paths,
                               totalMapped = auc_raw, # normalise by auc here as for bws, more accurate since Rail-RNA clips reads
-                              targetSize = auc_target,
+                              targetSize = auc_target, #these come from derfinder::filterData
                               chr = chr_info$chrom[i],
                               chrlen = chr_info$size[i], 
                               inputType = "BigWig",
@@ -38,9 +39,20 @@ get_coverage <- function(bw_paths,auc_raw,auc_target,chrs,genome="hg38"){
                               cutoff = NULL) # setting cutoff as NULL here and instead to be applied in findRegions()
     #storing the mean coverage in a list
     all_chrs_mean_cov[[chr_info[["chrom"]][i]]] <- chr_mean_cov["meanCoverage"]
-
   }
-
   return(all_chrs_mean_cov)
+}
 
+get_chr_info <- function(chrs,genome){
+  all_UCSC_chr <- GenomeInfoDb::getChromInfoFromUCSC(genome)[["chrom"]]
+  if (all_UCSC_chr %contain% chrs) {
+    chr_info <- GenomeInfoDb::getChromInfoFromUCSC(genome) %>%
+      dplyr::filter(chrom %in% chrs)
+  } else if (chrs==""){
+    chr_info <- GenomeInfoDb::getChromInfoFromUCSC(genome)
+  } else {
+    stop("Non-UCSC chromosome format was entered")
+  }
+  
+  return(chr_info)
 }
