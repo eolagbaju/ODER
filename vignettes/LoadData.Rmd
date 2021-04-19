@@ -1,5 +1,5 @@
 ---
-title: "Introduction to ODER"
+title: "ODER workflow"
 author: 
   - name: Your name
     affiliation:
