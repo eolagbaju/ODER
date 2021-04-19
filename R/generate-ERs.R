@@ -43,6 +43,15 @@ get_coverage <- function(bw_paths,auc_raw,auc_target,chrs="",genome="hg38"){
   return(all_chrs_mean_cov)
 }
 
+#' Get information from UCSC about the chromosomes passed in
+#'
+#' @param chrs chromosomes to look up (must match UCSC format)
+#' @param genome the UCSC genome to look at 
+#'
+#' @return a dataframe with data on the passed in chromosomes
+#' @export
+#'
+#' @examples
 get_chr_info <- function(chrs,genome){
   all_UCSC_chr <- GenomeInfoDb::getChromInfoFromUCSC(genome)[["chrom"]]
   if (all_UCSC_chr %contain% chrs) {
