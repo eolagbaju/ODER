@@ -33,6 +33,8 @@
 #'
 #' @return
 #'
+#' @seealso \url{https://stackoverflow.com/questions/34445106/test-if-vector-is-contained-in-another-vector-including-repetitions}
+#'
 #' @keywords internal
 #' @noRd
 "%contain%" <- function(values, x) {
@@ -40,4 +42,25 @@
     tv <- table(values)
     z <- tv[names(tx)] - tx
     all(z >= 0 & !is.na(z))
-} # https://stackoverflow.com/questions/34445106/test-if-vector-is-contained-in-another-vector-including-repetitions
+}
+
+#' Check if valid bigwig path(s) is passed in
+#'
+#' @param bws bigwig path or paths passed in
+#'
+#' @return TRUE unless an invalid path(s) is passed in
+#'
+#' @keywords internal
+#' @noRd
+bw_check <- function(bws) {
+    if (length(bws) == 1 & stringr::str_sub(bws, -3, -1) != ".bw") {
+        return(FALSE)
+    } else if (length(bws) >= 1) {
+        for (fp in bws) {
+            if (stringr::str_sub(fp, -3, -1) != ".bw") {
+                return(FALSE)
+            }
+        }
+    }
+    return(TRUE)
+}
