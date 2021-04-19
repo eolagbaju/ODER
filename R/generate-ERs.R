@@ -14,10 +14,22 @@
 #' @export
 #'
 #' @examples
+#' eg_coverage <- get_coverage(
+#'     # 	bw_paths = bw_path,
+#'     auc_raw = gtex_metadata[["auc"]][1],
+#'     auc_target = 40e6 * 100,
+#'     chrs = test_chrs
+#' )
 get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38") {
-    if (is.numeric(auc_raw)) {
-          chr_info <- get_chr_info(chrs = chrs, genome = genome)
-      }
+    if (!is.numeric(auc_raw) | !is.numeric(auc_target)) {
+        stop("Please enter a valid number for the auc values")
+    } else if (missing(bw_paths)) {
+        stop("bw_paths is empty")
+    } else if (bw_check(bw_paths) == FALSE) {
+        stop("Please check your bigwig file paths are correct")
+    }
+
+    chr_info <- get_chr_info(chrs = chrs, genome = genome)
 
     all_chrs_mean_cov <- list()
 
@@ -54,6 +66,7 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
 #' @export
 #'
 #' @examples
+#' eg_info <- get_chr_info(chrs = chrs, genome = "hg38")
 get_chr_info <- function(chrs, genome) {
     all_UCSC_chr <- GenomeInfoDb::getChromInfoFromUCSC(genome)[["chrom"]]
     if (all_UCSC_chr %contain% chrs) {
