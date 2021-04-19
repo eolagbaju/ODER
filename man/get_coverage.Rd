@@ -25,3 +25,11 @@ a list of Rles per chromosome passed in
 \description{
 \code{get_coverage} returns the coverage of the BigWig data passed in
 }
+\examples{
+eg_coverage <- get_coverage(
+    # 	bw_paths = bw_path,
+    auc_raw = gtex_metadata[["auc"]][1],
+    auc_target = 40e6 * 100,
+    chrs = test_chrs
+)
+}
