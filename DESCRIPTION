@@ -30,6 +30,7 @@ Suggests:
     rmarkdown,
     sessioninfo,
     testthat (>= 3.0.0)
+    recount
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Imports: 
