@@ -17,3 +17,6 @@ a dataframe with data on the passed in chromosomes
 \description{
 Get information from UCSC about the chromosomes passed in
 }
+\examples{
+eg_info <- get_chr_info(chrs = chrs, genome = "hg38")
+}
