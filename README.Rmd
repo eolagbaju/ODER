@@ -72,7 +72,7 @@ Below is the citation output from using `citation('ODER')` in R. Please
 run this yourself to check for any updates on how to cite __ODER__.
 
 ```{r 'citation', eval = requireNamespace('ODER')}
-#print(citation('ODER'), bibtex = TRUE)
+# print(citation('ODER'), bibtex = TRUE)
 ```
 
 Please note that the `ODER` was only made possible thanks to many other R and bioinformatics software authors, which are cited either in the vignettes and/or the paper(s) describing this package.

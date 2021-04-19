@@ -57,8 +57,8 @@ library("RefManageR")
 
 ```{r "install", eval = FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
-      install.packages("BiocManager")
-  }
+    install.packages("BiocManager")
+}
 
 BiocManager::install("ODER")
 
@@ -82,7 +82,7 @@ We hope that `r Biocpkg("ODER")` will be useful for your research. Please use th
 
 ```{r "citation"}
 ## Citation info
-#citation("ODER")
+# citation("ODER")
 ```
 
 # Quick start to using to `ODER`
@@ -141,5 +141,5 @@ session_info()
 
 ```{r vignetteBiblio, results = "asis", echo = FALSE, warning = FALSE, message = FALSE}
 ## Print bibliography
-#PrintBibliography(bib, .opts = list(hyperlink = "to.doc", style = "html"))
+# PrintBibliography(bib, .opts = list(hyperlink = "to.doc", style = "html"))
 ```

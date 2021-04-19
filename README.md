@@ -68,7 +68,7 @@ You can also embed plots, for example:
 <img src="man/figures/README-pressure-1.png" width="100%" />
 
 In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub!
+files, so they display on GitHub\!
 
 ## Citation
 
@@ -76,7 +76,7 @@ Below is the citation output from using `citation('ODER')` in R. Please
 run this yourself to check for any updates on how to cite **ODER**.
 
 ``` r
-#print(citation('ODER'), bibtex = TRUE)
+# print(citation('ODER'), bibtex = TRUE)
 ```
 
 Please note that the `ODER` was only made possible thanks to many other
@@ -91,7 +91,7 @@ contributing to this project, you agree to abide by its terms.
 
 ## Development tools
 
--   Continuous code testing is possible thanks to [GitHub
+  - Continuous code testing is possible thanks to [GitHub
     actions](https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/)
     through *[usethis](https://CRAN.R-project.org/package=usethis)*,
     *[remotes](https://CRAN.R-project.org/package=remotes)*, and
@@ -99,15 +99,15 @@ contributing to this project, you agree to abide by its terms.
     customized to use [Bioconductor’s docker
     containers](https://www.bioconductor.org/help/docker/) and
     *[BiocCheck](https://bioconductor.org/packages/3.12/BiocCheck)*.
--   Code coverage assessment is possible thanks to
+  - Code coverage assessment is possible thanks to
     [codecov](https://codecov.io/gh) and
     *[covr](https://CRAN.R-project.org/package=covr)*.
--   The [documentation website](http://eolagbaju.github.io/ODER) is
+  - The [documentation website](http://eolagbaju.github.io/ODER) is
     automatically updated thanks to
     *[pkgdown](https://CRAN.R-project.org/package=pkgdown)*.
--   The code is styled automatically thanks to
+  - The code is styled automatically thanks to
     *[styler](https://CRAN.R-project.org/package=styler)*.
--   The documentation is formatted thanks to
+  - The documentation is formatted thanks to
     *[devtools](https://CRAN.R-project.org/package=devtools)* and
     *[roxygen2](https://CRAN.R-project.org/package=roxygen2)*.
 
