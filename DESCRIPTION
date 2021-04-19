@@ -3,11 +3,16 @@ Title: Optimising the Definition of Expressed Regions
 Version: 0.99.0
 Date: 2021-04-13
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    c(person(given = "Emmanuel",family = "Olagbaju",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           email = "e.olagbaju@ucl.ac.uk"),
+           person(given = "David",family = "Zhang",
+           role = c("ctb"),
+           email = "david.zhang.12@ucl.ac.uk",
+           comment = c(ORCID = "0000-0003-2382-8460")),
+           person(given = "Sebastian",family = "Guelfi",
+           role = c("ctb"),
+           email = "david.zhang.12@ucl.ac.uk"))
 Description: Optimising the Definition of Expressed Regions
 License: Artistic-2.0
 URL: https://github.com/eolagbaju/ODER
