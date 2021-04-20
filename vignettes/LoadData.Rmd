@@ -87,7 +87,7 @@ url <- recount::download_study(
     download = FALSE
 )
 
-bw_path <- .file_cache(url[1])
+bw_path <- ODER:::.file_cache(url[1])
 ```
 
 ```{r generateERs, echo=FALSE}
@@ -101,6 +101,8 @@ coverage <- get_coverage(
 ) # defaults to chr1-22, chrX, chrY, chrM
 
 coverage
+
+ers <- get_ers(coverage = coverage, mccs = c(5, 10), mrgs = c(10, 20))
 ```
 
 
