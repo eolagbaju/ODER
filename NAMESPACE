@@ -3,4 +3,5 @@
 export("%>%")
 export(get_chr_info)
 export(get_coverage)
+export(get_ers)
 importFrom(magrittr,"%>%")
