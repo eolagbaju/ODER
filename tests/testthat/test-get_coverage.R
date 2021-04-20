@@ -13,6 +13,14 @@ url <- recount::download_study(
 
 bw_path <- .file_cache(url[1])
 
+test_chrs <- c("chr21", "chr22")
+test_coverage <- get_coverage(
+    bw_paths = bw_path,
+    auc_raw = gtex_metadata[["auc"]][1],
+    auc_target = 40e6 * 100,
+    chrs = test_chrs
+)
+
 test_that("get_chr_info works", {
     chrs <- c("chr1", "chr2", "chr3")
     test_info <- get_chr_info(chrs = chrs, genome = "hg38")
@@ -27,14 +35,6 @@ test_that("get_chr_info works", {
 })
 
 test_that("get_coverage works", {
-    test_chrs <- c("chr21", "chr22")
-    test_coverage <- get_coverage(
-        bw_paths = bw_path,
-        auc_raw = gtex_metadata[["auc"]][1],
-        auc_target = 40e6 * 100,
-        chrs = test_chrs
-    )
-
     expect_error(
         get_coverage(
             bw_paths = bw_path,
@@ -82,4 +82,14 @@ test_that("get_coverage works", {
     expect_type(test_coverage, "list")
     expect_type(test_coverage[["chr21"]][["meanCoverage"]], "S4") # output should be an Rle which is an S4
     expect_equal(length(test_chrs), length(test_coverage))
+})
+
+test_that("get_ers works", {
+    test_ers <- get_ers(coverage = test_coverage, mccs = c(5, 10), mrgs = c(10, 20))
+    expect_error(get_ers(mccs = c(5, 10), mrgs = c(10, 20)), "Coverage is missing")
+    expect_error(get_ers(coverage = coverage, mrgs = c(10, 20)), "Mean Coverage Cutoff is empty")
+    expect_error(get_ers(coverage = coverage, mccs = c(5, 10)), "Max Region Gap is empty")
+
+    expect_type(test_ers, "list")
+    expect_type(test_ers[[1]][[1]], "S4")
 })
