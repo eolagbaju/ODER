@@ -26,10 +26,11 @@ a list of Rles per chromosome passed in
 \code{get_coverage} returns the coverage of the BigWig data passed in
 }
 \examples{
+bw_path <- "/data/recount/SRR1401276_SRS637923_SRX600213_male_brain.hypothalamus.bw"
 eg_coverage <- get_coverage(
-    # 	bw_paths = bw_path,
-    auc_raw = gtex_metadata[["auc"]][1],
+    bw_paths = bw_path,
+    auc_raw = 11872688252,
     auc_target = 40e6 * 100,
-    chrs = test_chrs
+    chrs = c("chr21", "chr22")
 )
 }
