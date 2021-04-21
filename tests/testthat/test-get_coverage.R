@@ -81,6 +81,7 @@ test_that("get_coverage works", {
     )
     expect_type(test_coverage, "list")
     expect_type(test_coverage[["chr21"]][["meanCoverage"]], "S4") # output should be an Rle which is an S4
+    methods::is(test_coverage[["chr21"]][["meanCoverage"]], "Rle")
     expect_equal(length(test_chrs), length(test_coverage))
 })
 
@@ -92,4 +93,5 @@ test_that("get_ers works", {
 
     expect_type(test_ers, "list")
     expect_type(test_ers[[1]][[1]], "S4")
+    methods::is(test_ers[[1]][[1]], "GenomicRanges")
 })
