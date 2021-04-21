@@ -14,11 +14,12 @@
 #' @export
 #'
 #' @examples
+#' bw_path <- "/data/recount/SRR1401276_SRS637923_SRX600213_male_brain.hypothalamus.bw"
 #' eg_coverage <- get_coverage(
-#'     # 	bw_paths = bw_path,
-#'     auc_raw = gtex_metadata[["auc"]][1],
+#'     bw_paths = bw_path,
+#'     auc_raw = 11872688252,
 #'     auc_target = 40e6 * 100,
-#'     chrs = test_chrs
+#'     chrs = c("chr21", "chr22")
 #' )
 get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38") {
     if (!is.numeric(auc_raw) | !is.numeric(auc_target)) {
@@ -66,7 +67,7 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
 #' @export
 #'
 #' @examples
-#' eg_info <- get_chr_info(chrs = chrs, genome = "hg38")
+#' eg_info <- get_chr_info(chrs = c("chr21", "chr22"), genome = "hg38")
 get_chr_info <- function(chrs, genome) {
     all_UCSC_chr <- GenomeInfoDb::getChromInfoFromUCSC(genome)[["chrom"]]
     if (all_UCSC_chr %contain% chrs) {
