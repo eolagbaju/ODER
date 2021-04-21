@@ -1,9 +1,3 @@
-gtex_metadata <- recount::all_metadata("gtex")
-
-gtex_metadata <- gtex_metadata %>%
-    as.data.frame() %>%
-    dplyr::filter(project == "SRP012682")
-
 # obtain path to example bw on recount2
 url <- recount::download_study(
     project = "SRP012682",
@@ -13,13 +7,6 @@ url <- recount::download_study(
 
 bw_path <- .file_cache(url[1])
 
-test_chrs <- c("chr21", "chr22")
-test_coverage <- get_coverage(
-    bw_paths = bw_path,
-    auc_raw = gtex_metadata[["auc"]][1],
-    auc_target = 40e6 * 100,
-    chrs = test_chrs
-)
 
 test_that("get_chr_info works", {
     chrs <- c("chr1", "chr2", "chr3")
@@ -47,7 +34,7 @@ test_that("get_coverage works", {
     expect_error(
         get_coverage(
             bw_paths = bw_path,
-            auc_raw = gtex_metadata[["auc"]][1],
+            auc_raw = auc_example,
             auc_target = "Not a number",
             chrs = c("chr21", "chr22")
         ),
@@ -56,7 +43,7 @@ test_that("get_coverage works", {
     expect_error(
         get_coverage(
             bw_paths = "",
-            auc_raw = gtex_metadata[["auc"]][1],
+            auc_raw = auc_example,
             auc_target = 40e6 * 100,
             chrs = c("chr21", "chr22")
         ),
@@ -64,7 +51,7 @@ test_that("get_coverage works", {
     )
     expect_error(
         get_coverage(
-            auc_raw = gtex_metadata[["auc"]][1],
+            auc_raw = auc_example,
             auc_target = 40e6 * 100,
             chrs = c("chr21", "chr22")
         ),
@@ -73,25 +60,24 @@ test_that("get_coverage works", {
     expect_error(
         get_coverage(
             bw_paths = "~/.cache/BiocFileCache/25c6571687b_SRR660824_SRS389722_SRX222703_male_lung.png",
-            auc_raw = gtex_metadata[["auc"]][1],
+            auc_raw = auc_example,
             auc_target = 40e6 * 100,
             chrs = c("chr21", "chr22")
         ),
         "Please check your bigwig file paths are correct"
     )
-    expect_type(test_coverage, "list")
-    expect_type(test_coverage[["chr21"]][["meanCoverage"]], "S4") # output should be an Rle which is an S4
-    methods::is(test_coverage[["chr21"]][["meanCoverage"]], "Rle")
-    expect_equal(length(test_chrs), length(test_coverage))
+    expect_type(coverage_example, "list")
+    expect_type(coverage_example[["chr21"]][["meanCoverage"]], "S4") # output should be an Rle which is an S4
+    methods::is(coverage_example[["chr21"]][["meanCoverage"]], "Rle")
+    expect_equal(length(c("chr21", "chr22")), length(coverage_example))
 })
 
 test_that("get_ers works", {
-    test_ers <- get_ers(coverage = test_coverage, mccs = c(5, 10), mrgs = c(10, 20))
     expect_error(get_ers(mccs = c(5, 10), mrgs = c(10, 20)), "Coverage is missing")
-    expect_error(get_ers(coverage = coverage, mrgs = c(10, 20)), "Mean Coverage Cutoff is empty")
-    expect_error(get_ers(coverage = coverage, mccs = c(5, 10)), "Max Region Gap is empty")
+    expect_error(get_ers(coverage = coverage_example, mrgs = c(10, 20)), "Mean Coverage Cutoff is empty")
+    expect_error(get_ers(coverage = coverage_example, mccs = c(5, 10)), "Max Region Gap is empty")
 
-    expect_type(test_ers, "list")
-    expect_type(test_ers[[1]][[1]], "S4")
-    methods::is(test_ers[[1]][[1]], "GenomicRanges")
+    expect_type(ers_example, "list")
+    expect_type(ers_example[[1]][[1]], "S4")
+    methods::is(ers_example[[1]][[1]], "GenomicRanges")
 })
