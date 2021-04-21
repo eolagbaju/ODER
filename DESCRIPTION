@@ -1,6 +1,6 @@
 Package: ODER
 Title: Optimising the Definition of Expressed Regions
-Version: 0.99.1
+Version: 0.99.2
 Date: 2021-04-13
 Authors@R: 
     c(person(given = "Emmanuel",family = "Olagbaju",
@@ -37,6 +37,10 @@ Imports:
     stringr,
     dplyr,
     GenomeInfoDb,
-    magrittr
+    magrittr,
+    BiocFileCache,
+    GenomicRanges,
+    S4Vectors,
+    derfinder
 Depends: 
     R (>= 2.10)
