@@ -13,7 +13,6 @@
 #' @export
 #'
 #' @examples
-#' # coverage_example <- load(file = "data/coverage_example.rda")
 #'
 #' eg_ers <- get_ers(coverage = coverage_example, mccs = c(5, 10), mrgs = c(10, 20))
 get_ers <- function(coverage, mccs, mrgs) {
