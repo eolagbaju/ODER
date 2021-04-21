@@ -14,7 +14,14 @@
 #' @export
 #'
 #' @examples
-#' bw_path <- "/data/recount/SRR1401276_SRS637923_SRX600213_male_brain.hypothalamus.bw"
+#' \dontshow{
+#' url <- recount::download_study(
+#'     project = "SRP012682",
+#'     type = "samples",
+#'     download = FALSE
+#' )
+#' bw_path <- ODER:::.file_cache(url[1])
+#' }
 #' eg_coverage <- get_coverage(
 #'     bw_paths = bw_path,
 #'     auc_raw = 11872688252,
