@@ -1,5 +1,5 @@
 gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-test_gtf_tempfile <- file.path(tempdir(), "gtf_file.gtf")
+test_gtf_tempfile <- file.path(tempdir(), "gtf_file.gtx")
 download.file(url = gtf_url, destfile = test_gtf_tempfile)
 
 test_that("get_exons works", {

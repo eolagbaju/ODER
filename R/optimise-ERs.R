@@ -18,7 +18,7 @@
 #'
 #' eg_exons_no_overlap <- get_exons(gtf = gtf_tempfile, ucsc_chr = T, ignore.strand = T)
 get_exons <- function(gtf, ucsc_chr, ignore.strand = T) {
-    if (is.character(gtf) & stringr::str_sub(gtf, -10, -1) != "chr.gtf.gz") {
+    if (is.character(gtf) & stringr::str_sub(gtf, -4, -1) != ".gtf") {
         stop("Please check your gtf file path")
     }
 
