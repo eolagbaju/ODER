@@ -25,11 +25,13 @@
 #'     ignore.strand = TRUE
 #' )
 get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE) {
-    if (is.character(gtf) & stringr::str_sub(gtf, -4, -1) != ".gtf") {
-        stop("Please check your gtf file path")
-    }
-
     if (is.character(gtf)) {
+        if (!xor(
+            stringr::str_sub(gtf, -4, -1) == ".gtf",
+            stringr::str_sub(gtf, -7, -1) == ".gtf.gz"
+        )) {
+            stop("Please check your gtf file path")
+        }
         print(stringr::str_c(Sys.time(), " - Loading in GTF..."))
 
         gtf_gr <- rtracklayer::import(gtf)
