@@ -4,7 +4,7 @@ download.file(url = gtf_url, destfile = test_gtf_tempfile)
 
 test_that("get_exons works", {
     expect_error(
-        get_exons(gtf = test_gtf_tempfile, ucsc_chr = T, ignore.strand = T),
+        get_exons(gtf = test_gtf_tempfile, ucsc_chr = TRUE, ignore.strand = TRUE),
         "Please check your gtf file path"
     )
     # expect_type(coverage_example, "list")

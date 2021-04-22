@@ -131,7 +131,7 @@ gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens
 gtf_tempfile <- file.path(tempdir(), "gtf_file.gtf")
 download.file(url = gtf_url, destfile = gtf_tempfile)
 
-exons_no_overlap <- get_exons(gtf = gtf_tempfile, ucsc_chr = T, ignore.strand = T)
+exons_no_overlap <- get_exons(gtf = gtf_tempfile, ucsc_chr = TRUE, ignore.strand = TRUE)
 ```
 
 # Reproducibility

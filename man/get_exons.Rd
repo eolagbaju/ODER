@@ -4,15 +4,15 @@
 \alias{get_exons}
 \title{Obtain set of non-overlapping exons}
 \usage{
-get_exons(gtf, ucsc_chr, ignore.strand = T)
+get_exons(gtf, ucsc_chr, ignore.strand = TRUE)
 }
 \arguments{
-\item{gtf}{Either a string containg the path to a .gtf file or a pre-imported gtf using
-\code{\link[rtracklayer]{import}}.}
+\item{gtf}{Either a string containg the path to a .gtf file or a pre-imported
+gtf using \code{\link[rtracklayer]{import}}.}
 
-\item{ucsc_chr}{logical scalar, determining whether to add "chr" prefix to the
-seqnames of non-overlapping exons and change "chrMT" -> "chrM". Note, if
-set to TRUE and seqnames already have "chr", it will not add another.}
+\item{ucsc_chr}{logical scalar, determining whether to add "chr" prefix to
+the seqnames of non-overlapping exons and change "chrMT" -> "chrM". Note,
+if set to TRUE and seqnames already have "chr", it will not add another.}
 
 \item{ignore.strand}{logical value for input into
 \code{\link[GenomicRanges]{findOverlaps}}, default is True.}
@@ -24,9 +24,16 @@ GRanges object containing non-overlapping exons.
 Obtain set of non-overlapping exons
 }
 \examples{
-gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+gtf_url <- paste0(
+    "http://ftp.ensembl.org/pub/release-103/gtf/",
+    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+)
 gtf_tempfile <- file.path(tempdir(), "gtf_file.gtf")
 download.file(url = gtf_url, destfile = gtf_tempfile)
 
-eg_exons_no_overlap <- get_exons(gtf = gtf_tempfile, ucsc_chr = T, ignore.strand = T)
+eg_exons_no_overlap <- get_exons(
+    gtf = gtf_tempfile,
+    ucsc_chr = TRUE,
+    ignore.strand = TRUE
+)
 }

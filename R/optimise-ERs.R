@@ -1,23 +1,30 @@
 #' Obtain set of non-overlapping exons
 #'
-#' @param gtf Either a string containg the path to a .gtf file or a pre-imported gtf using
-#'  \code{\link[rtracklayer]{import}}.
-#' @param ucsc_chr logical scalar, determining whether to add "chr" prefix to the
-#'  seqnames of non-overlapping exons and change "chrMT" -> "chrM". Note, if
-#'  set to TRUE and seqnames already have "chr", it will not add another.
+#' @param gtf Either a string containg the path to a .gtf file or a pre-imported
+#'   gtf using \code{\link[rtracklayer]{import}}.
+#' @param ucsc_chr logical scalar, determining whether to add "chr" prefix to
+#'   the seqnames of non-overlapping exons and change "chrMT" -> "chrM". Note,
+#'   if set to TRUE and seqnames already have "chr", it will not add another.
 #' @param ignore.strand logical value for input into
-#'  \code{\link[GenomicRanges]{findOverlaps}}, default is True.
+#'   \code{\link[GenomicRanges]{findOverlaps}}, default is True.
 #'
 #' @return GRanges object containing non-overlapping exons.
 #' @export
 #'
 #' @examples
-#' gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#' gtf_url <- paste0(
+#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#' )
 #' gtf_tempfile <- file.path(tempdir(), "gtf_file.gtf")
 #' download.file(url = gtf_url, destfile = gtf_tempfile)
 #'
-#' eg_exons_no_overlap <- get_exons(gtf = gtf_tempfile, ucsc_chr = T, ignore.strand = T)
-get_exons <- function(gtf, ucsc_chr, ignore.strand = T) {
+#' eg_exons_no_overlap <- get_exons(
+#'     gtf = gtf_tempfile,
+#'     ucsc_chr = TRUE,
+#'     ignore.strand = TRUE
+#' )
+get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE) {
     if (is.character(gtf) & stringr::str_sub(gtf, -4, -1) != ".gtf") {
         stop("Please check your gtf file path")
     }
@@ -36,7 +43,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = T) {
     exons_gr <- exons_gr[!duplicated(exons_gr$exon_id)]
 
     exons_hits <- GenomicRanges::findOverlaps(exons_gr,
-        drop.self = T,
+        drop.self = TRUE,
         ignore.strand = ignore.strand
     )
 
