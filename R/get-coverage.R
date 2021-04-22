@@ -54,9 +54,9 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
                 chr = chr_info$chrom[i],
                 chrlen = chr_info$size[i],
                 inputType = "BigWig",
-                returnMean = T,
-                returnCoverage = F,
-                verbose = F,
+                returnMean = TRUE,
+                returnCoverage = FALSE,
+                verbose = FALSE,
                 cutoff = NULL
             ) # setting cutoff as NULL here and instead to be applied in findRegions()
         # storing the mean coverage in a list
@@ -81,6 +81,7 @@ get_chr_info <- function(chrs, genome) {
         chr_info <- GenomeInfoDb::getChromInfoFromUCSC(genome) %>%
             dplyr::filter(chrom %in% chrs)
         # https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/
+        # https://github.com/LieberInstitute/megadepth/blob/master/R/globals.R
     } else if (chrs == "") {
         chr_info <- GenomeInfoDb::getChromInfoFromUCSC(genome)
     } else {

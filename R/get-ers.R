@@ -53,7 +53,7 @@ get_ers <- function(coverage, mccs, mrgs) {
                     cutoff = mccs[j],
                     maxRegionGap = 0L,
                     maxClusterGap = length(coverage[[i]][["meanCoverage"]]), # setting this to chr length (ignore clusters) to reduce run time. No impact on ERs
-                    verbose = F
+                    verbose = FALSE
                 )
             )
 
