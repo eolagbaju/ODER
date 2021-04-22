@@ -80,6 +80,7 @@ get_chr_info <- function(chrs, genome) {
     if (all_UCSC_chr %contain% chrs) {
         chr_info <- GenomeInfoDb::getChromInfoFromUCSC(genome) %>%
             dplyr::filter(chrom %in% chrs)
+        # https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/
     } else if (chrs == "") {
         chr_info <- GenomeInfoDb::getChromInfoFromUCSC(genome)
     } else {
