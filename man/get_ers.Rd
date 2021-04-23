@@ -22,6 +22,7 @@ combination of MCC and MRG.
 (MCCs) and max region gaps (MRGs).
 }
 \examples{
-
 eg_ers <- get_ers(coverage = coverage_example, mccs = c(5, 10), mrgs = c(10, 20))
+
+print(eg_ers)
 }

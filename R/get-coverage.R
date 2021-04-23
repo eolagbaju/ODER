@@ -28,6 +28,8 @@
 #'     auc_target = 40e6 * 100,
 #'     chrs = c("chr21", "chr22")
 #' )
+#'
+#' print(eg_coverage)
 get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38") {
     if (!is.numeric(auc_raw) | !is.numeric(auc_target)) {
         stop("Please enter a valid number for the auc values")
@@ -75,6 +77,8 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
 #'
 #' @examples
 #' eg_info <- get_chr_info(chrs = c("chr21", "chr22"), genome = "hg38")
+#'
+#' print(eg_info)
 get_chr_info <- function(chrs, genome) {
     all_UCSC_chr <- GenomeInfoDb::getChromInfoFromUCSC(genome)[["chrom"]]
     if (all_UCSC_chr %contain% chrs) {

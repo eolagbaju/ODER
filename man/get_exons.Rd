@@ -34,4 +34,6 @@ eg_exons_no_overlap <- get_exons(
     ucsc_chr = TRUE,
     ignore.strand = TRUE
 )
+
+print(eg_exons_no_overlap)
 }

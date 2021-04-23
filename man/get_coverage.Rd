@@ -40,4 +40,6 @@ eg_coverage <- get_coverage(
     auc_target = 40e6 * 100,
     chrs = c("chr21", "chr22")
 )
+
+print(eg_coverage)
 }

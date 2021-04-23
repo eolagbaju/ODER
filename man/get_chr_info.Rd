@@ -19,4 +19,6 @@ Get information from UCSC about the chromosomes passed in
 }
 \examples{
 eg_info <- get_chr_info(chrs = c("chr21", "chr22"), genome = "hg38")
+
+print(eg_info)
 }
