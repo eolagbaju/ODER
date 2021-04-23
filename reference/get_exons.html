@@ -170,8 +170,90 @@ if set to TRUE and seqnames already have "chr", it will not add another.</p></td
     ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,
     ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-04-23 09:54:28 - Loading in GTF..."
-#&gt; [1] "2021-04-23 09:55:16 - Obtaining non-overlapping exons"</div></pre>
+</div><div class='output co'>#&gt; [1] "2021-04-23 16:48:29 - Loading in GTF..."
+#&gt; [1] "2021-04-23 16:49:11 - Obtaining non-overlapping exons"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_exons_no_overlap</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; GRanges object with 160103 ranges and 22 metadata columns:
+#&gt;            seqnames      ranges strand |   source     type     score     phase
+#&gt;               &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;factor&gt; &lt;factor&gt; &lt;numeric&gt; &lt;integer&gt;
+#&gt;        [1]     chr1 12975-13052      + |   havana     exon        NA      &lt;NA&gt;
+#&gt;        [2]     chr1 24738-24891      - |   havana     exon        NA      &lt;NA&gt;
+#&gt;        [3]     chr1 18268-18366      - |   havana     exon        NA      &lt;NA&gt;
+#&gt;        [4]     chr1 17915-18061      - |   havana     exon        NA      &lt;NA&gt;
+#&gt;        [5]     chr1 17606-17742      - |   havana     exon        NA      &lt;NA&gt;
+#&gt;        ...      ...         ...    ... .      ...      ...       ...       ...
+#&gt;   [160099]     chrM 14149-14673      - |    insdc     exon        NA      &lt;NA&gt;
+#&gt;   [160100]     chrM 14674-14742      - |    insdc     exon        NA      &lt;NA&gt;
+#&gt;   [160101]     chrM 14747-15887      + |    insdc     exon        NA      &lt;NA&gt;
+#&gt;   [160102]     chrM 15888-15953      + |    insdc     exon        NA      &lt;NA&gt;
+#&gt;   [160103]     chrM 15956-16023      - |    insdc     exon        NA      &lt;NA&gt;
+#&gt;                    gene_id gene_version   gene_name gene_source
+#&gt;                &lt;character&gt;  &lt;character&gt; &lt;character&gt; &lt;character&gt;
+#&gt;        [1] ENSG00000223972            5     DDX11L1      havana
+#&gt;        [2] ENSG00000227232            5      WASH7P      havana
+#&gt;        [3] ENSG00000227232            5      WASH7P      havana
+#&gt;        [4] ENSG00000227232            5      WASH7P      havana
+#&gt;        [5] ENSG00000227232            5      WASH7P      havana
+#&gt;        ...             ...          ...         ...         ...
+#&gt;   [160099] ENSG00000198695            2      MT-ND6       insdc
+#&gt;   [160100] ENSG00000210194            1       MT-TE       insdc
+#&gt;   [160101] ENSG00000198727            2      MT-CYB       insdc
+#&gt;   [160102] ENSG00000210195            2       MT-TT       insdc
+#&gt;   [160103] ENSG00000210196            2       MT-TP       insdc
+#&gt;                      gene_biotype   transcript_id transcript_version
+#&gt;                       &lt;character&gt;     &lt;character&gt;        &lt;character&gt;
+#&gt;        [1] transcribed_unproces.. ENST00000450305                  2
+#&gt;        [2] unprocessed_pseudogene ENST00000488147                  1
+#&gt;        [3] unprocessed_pseudogene ENST00000488147                  1
+#&gt;        [4] unprocessed_pseudogene ENST00000488147                  1
+#&gt;        [5] unprocessed_pseudogene ENST00000488147                  1
+#&gt;        ...                    ...             ...                ...
+#&gt;   [160099]         protein_coding ENST00000361681                  2
+#&gt;   [160100]                Mt_tRNA ENST00000387459                  1
+#&gt;   [160101]         protein_coding ENST00000361789                  2
+#&gt;   [160102]                Mt_tRNA ENST00000387460                  2
+#&gt;   [160103]                Mt_tRNA ENST00000387461                  2
+#&gt;            transcript_name transcript_source     transcript_biotype         tag
+#&gt;                &lt;character&gt;       &lt;character&gt;            &lt;character&gt; &lt;character&gt;
+#&gt;        [1]     DDX11L1-201            havana transcribed_unproces..       basic
+#&gt;        [2]      WASH7P-201            havana unprocessed_pseudogene       basic
+#&gt;        [3]      WASH7P-201            havana unprocessed_pseudogene       basic
+#&gt;        [4]      WASH7P-201            havana unprocessed_pseudogene       basic
+#&gt;        [5]      WASH7P-201            havana unprocessed_pseudogene       basic
+#&gt;        ...             ...               ...                    ...         ...
+#&gt;   [160099]      MT-ND6-201             insdc         protein_coding       basic
+#&gt;   [160100]       MT-TE-201             insdc                Mt_tRNA       basic
+#&gt;   [160101]      MT-CYB-201             insdc         protein_coding       basic
+#&gt;   [160102]       MT-TT-201             insdc                Mt_tRNA       basic
+#&gt;   [160103]       MT-TP-201             insdc                Mt_tRNA       basic
+#&gt;            transcript_support_level exon_number         exon_id exon_version
+#&gt;                         &lt;character&gt; &lt;character&gt;     &lt;character&gt;  &lt;character&gt;
+#&gt;        [1]                       NA           4 ENSE00001799933            2
+#&gt;        [2]                       NA           2 ENSE00003507205            1
+#&gt;        [3]                       NA           3 ENSE00003477500            1
+#&gt;        [4]                       NA           4 ENSE00003565697            1
+#&gt;        [5]                       NA           5 ENSE00003475637            1
+#&gt;        ...                      ...         ...             ...          ...
+#&gt;   [160099]                       NA           1 ENSE00001434974            2
+#&gt;   [160100]                       NA           1 ENSE00001544476            1
+#&gt;   [160101]                       NA           1 ENSE00001436074            2
+#&gt;   [160102]                       NA           1 ENSE00001544475            2
+#&gt;   [160103]                       NA           1 ENSE00001544473            2
+#&gt;             protein_id protein_version     ccds_id
+#&gt;            &lt;character&gt;     &lt;character&gt; &lt;character&gt;
+#&gt;        [1]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
+#&gt;        [2]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
+#&gt;        [3]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
+#&gt;        [4]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
+#&gt;        [5]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
+#&gt;        ...         ...             ...         ...
+#&gt;   [160099]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
+#&gt;   [160100]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
+#&gt;   [160101]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
+#&gt;   [160102]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
+#&gt;   [160103]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
+#&gt;   -------
+#&gt;   seqinfo: 25 sequences from an unspecified genome; no seqlengths</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

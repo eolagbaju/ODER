@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get information from UCSC about the chromosomes passed in — get_chr_info • ODER</title>
+<title>Default delta functions — .delta • ODER</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get information from UCSC about the chromosomes passed in — get_chr_info" />
-<meta property="og:description" content="Get information from UCSC about the chromosomes passed in" />
+<meta property="og:title" content="Default delta functions — .delta" />
+<meta property="og:description" content="Default delta functions" />
 
 
 
@@ -123,58 +123,51 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get information from UCSC about the chromosomes passed in</h1>
-    <small class="dont-index">Source: <a href='https://github.com/eolagbaju/ODER/blob/master/R/get-coverage.R'><code>R/get-coverage.R</code></a></small>
-    <div class="hidden name"><code>get_chr_info.Rd</code></div>
+    <h1>Default delta functions</h1>
+    <small class="dont-index">Source: <a href='https://github.com/eolagbaju/ODER/blob/master/R/optimise-ERs.R'><code>R/optimise-ERs.R</code></a></small>
+    <div class="hidden name"><code>dot-delta.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get information from UCSC about the chromosomes passed in</p>
+    <p>Default delta functions</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_chr_info</span><span class='op'>(</span><span class='va'>chrs</span>, <span class='va'>genome</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>.delta</span><span class='op'>(</span><span class='va'>query</span>, <span class='va'>subject</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>chrs</th>
-      <td><p>chromosomes to look up (must match UCSC format)</p></td>
+      <th>query</th>
+      <td><p>Set of ERs</p></td>
     </tr>
     <tr>
-      <th>genome</th>
-      <td><p>the UCSC genome to look at</p></td>
+      <th>subject</th>
+      <td><p>Optimum exons</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a dataframe with data on the passed in chromosomes</p>
+    <p>summarised delta scores</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>eg_info</span> <span class='op'>&lt;-</span> <span class='fu'>get_chr_info</span><span class='op'>(</span>chrs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>, genome <span class='op'>=</span> <span class='st'>"hg38"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: BiocGenerics</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: parallel</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘BiocGenerics’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:parallel’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,</span>
-#&gt; <span class='message'>    clusterExport, clusterMap, parApply, parCapply, parLapply,</span>
-#&gt; <span class='message'>    parLapplyLB, parRapply, parSapply, parSapplyLB</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    IQR, mad, sd, var, xtabs</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    anyDuplicated, append, as.data.frame, basename, cbind, colnames,</span>
-#&gt; <span class='message'>    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,</span>
-#&gt; <span class='message'>    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,</span>
-#&gt; <span class='message'>    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,</span>
-#&gt; <span class='message'>    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,</span>
-#&gt; <span class='message'>    union, unique, unsplit, which.max, which.min</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: S4Vectors</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: stats4</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘S4Vectors’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    expand.grid</span></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_info</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   chrom     size assembled circular
-#&gt; 1 chr21 46709983      TRUE    FALSE
-#&gt; 2 chr22 50818468      TRUE    FALSE</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
+    <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
+    <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
+<span class='op'>)</span>
+<span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
+
+<span class='va'>eg_opt_exons</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_exons.html'>get_exons</a></span><span class='op'>(</span>gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>, ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "2021-04-23 16:46:24 - Loading in GTF..."
+#&gt; [1] "2021-04-23 16:47:24 - Obtaining non-overlapping exons"</div><div class='input'>
+<span class='va'>eg_delta</span> <span class='op'>&lt;-</span> <span class='fu'>.delta</span><span class='op'>(</span>query <span class='op'>=</span> <span class='va'>ers_example</span><span class='op'>[[</span><span class='st'>"mcc_5"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='st'>"mrg_10"</span><span class='op'>]</span><span class='op'>]</span>, subject <span class='op'>=</span> <span class='va'>eg_opt_exons</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_delta</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 5</span><span>
+#&gt;       sum  mean median n_eq_0 propor_eq_0
+#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2</span><span style='text-decoration: underline;'>187</span><span>300  964.   150.    322       0.142</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
