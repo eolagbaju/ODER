@@ -133,6 +133,11 @@ gtf_path <- ODER:::.file_cache(gtf_url)
 exons_no_overlap <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE)
 ```
 
+```{r get_er_deltas, echo=FALSE}
+# get the ers_delta
+ers_delta <- get_ers_delta(ers = ers, opt_exons = exons_no_overlap, delta_fun = .delta)
+```
+
 # Reproducibility
 
 
