@@ -26,12 +26,23 @@ of ERs.
 Calculates delta for sets of ERs
 }
 \examples{
-gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+gtf_url <- paste0(
+    "http://ftp.ensembl.org/pub/release-103/gtf/",
+    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+)
 gtf_path <- ODER:::.file_cache(gtf_url)
 
-eg_opt_exons <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE)
+eg_opt_exons <- get_exons(
+    gtf = gtf_path,
+    ucsc_chr = TRUE,
+    ignore.strand = TRUE
+)
 
-eg_ers_delta <- get_ers_delta(ers = ers, opt_exons = eg_opt_exons, delta_fun = .delta)
+eg_ers_delta <- get_ers_delta(
+    ers = ers_example,
+    opt_exons = eg_opt_exons,
+    delta_fun = .delta
+)
 
 print(eg_ers_delta)
 }
