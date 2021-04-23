@@ -145,7 +145,7 @@ get_ers_delta <- function(ers, opt_exons, delta_fun = .delta) {
 #' @export
 #'
 #' @examples
-#' #' gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#' gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 #' gtf_path <- ODER:::.file_cache(gtf_url)
 #'
 #' eg_opt_exons <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE)
