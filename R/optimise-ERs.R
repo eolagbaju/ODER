@@ -142,8 +142,17 @@ get_ers_delta <- function(ers, opt_exons, delta_fun = .delta) {
 #' @param subject Optimum exons
 #'
 #' @return summarised delta scores
-#' @internal
-#' @noRd
+#' @export
+#'
+#' @examples
+#' #' gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#' gtf_path <- ODER:::.file_cache(gtf_url)
+#'
+#' eg_opt_exons <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE)
+#'
+#' eg_delta <- .delta(query = ers_example[["mcc_5"]][["mrg_10"]], subject = eg_opt_exons)
+#'
+#' print(eg_delta)
 .delta <- function(query, subject) {
     # finding ovelaps of exons and expressed regions
     hits <- GenomicRanges::findOverlaps(query = query, subject = subject)
