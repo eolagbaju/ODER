@@ -11,6 +11,12 @@ test_exons <- get_exons(
     ignore.strand = TRUE
 )
 
+test_ers_delta <- get_ers_delta(
+    ers = ers_example,
+    opt_exons = test_exons,
+    delta_fun = .delta
+)
+
 test_that("get_exons works", {
     expect_error(
         get_exons(
@@ -29,4 +35,24 @@ test_that("get_exons works", {
         "Please check your gtf file path"
     )
     expect_true(methods::is(test_exons, "GenomicRanges"))
+})
+
+test_that("get_ers_delta works", {
+    expect_error(
+        get_ers_delta(
+            opt_exons = test_exons,
+            delta_fun = .delta
+        ),
+        "No ERs were entered"
+    )
+    expect_error(
+        get_ers_delta(
+            ers = ers_example,
+            delta_fun = .delta
+        ),
+        "No opt_exons were entered"
+    )
+
+
+    expect_true(methods::is(test_ers_delta, "data.frame"))
 })

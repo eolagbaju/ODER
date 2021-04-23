@@ -3,5 +3,6 @@
 export(get_chr_info)
 export(get_coverage)
 export(get_ers)
+export(get_ers_delta)
 export(get_exons)
 importFrom(magrittr,"%>%")
