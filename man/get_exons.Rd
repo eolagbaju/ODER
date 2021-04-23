@@ -28,11 +28,9 @@ gtf_url <- paste0(
     "http://ftp.ensembl.org/pub/release-103/gtf/",
     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 )
-gtf_tempfile <- file.path(tempdir(), "gtf_file.gtf")
-download.file(url = gtf_url, destfile = gtf_tempfile)
-
+gtf_path <- ODER:::.file_cache(gtf_url)
 eg_exons_no_overlap <- get_exons(
-    gtf = gtf_tempfile,
+    gtf = gtf_path,
     ucsc_chr = TRUE,
     ignore.strand = TRUE
 )
