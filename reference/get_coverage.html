@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • ODER</title>
+<title>Generating the mean coverage of the expressed regions — get_coverage • ODER</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="Generating the mean coverage of the expressed regions — get_coverage" />
+<meta property="og:description" content="get_coverage returns the coverage of the BigWig data passed in" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -122,18 +123,71 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>Generating the mean coverage of the expressed regions</h1>
+    <small class="dont-index">Source: <a href='https://github.com/eolagbaju/ODER/blob/master/R/get-coverage.R'><code>R/get-coverage.R</code></a></small>
+    <div class="hidden name"><code>get_coverage.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <dl>
-        <dt><a href="ODERflow.html">ODER workflow</a></dt>
-        <dd></dt>
-      </dl>
+    <div class="ref-description">
+    <p><code>get_coverage</code> returns the coverage of the BigWig data passed in</p>
     </div>
+
+    <pre class="usage"><span class='fu'>get_coverage</span><span class='op'>(</span><span class='va'>bw_paths</span>, <span class='va'>auc_raw</span>, <span class='va'>auc_target</span>, chrs <span class='op'>=</span> <span class='st'>""</span>, genome <span class='op'>=</span> <span class='st'>"hg38"</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>bw_paths</th>
+      <td><p>paths to bigwig files with the RNA-seq data that you want the coverage of.</p></td>
+    </tr>
+    <tr>
+      <th>auc_raw</th>
+      <td><p>vector containing aucs matching the order of bigwig paths.</p></td>
+    </tr>
+    <tr>
+      <th>auc_target</th>
+      <td><p>total auc to normalise all samples to. E.g. 40e6 * 100
+would be the estimated total auc for sample sequenced to 40 million reads
+of 100bp in length.</p></td>
+    </tr>
+    <tr>
+      <th>chrs</th>
+      <td><p>chromosomes to obtain mean coverage for, default is "" giving every chromosome</p></td>
+    </tr>
+    <tr>
+      <th>genome</th>
+      <td><p>the UCSC genome you want to use, the default is hg38</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a list of Rles per chromosome passed in</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
+<span class='va'>url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span>
+    project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,
+    type <span class='op'>=</span> <span class='st'>"samples"</span>,
+    download <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Setting options('download.file.method.GEOquery'='auto')</span></div><div class='output co'>#&gt; <span class='message'>Setting options('GEOquery.inmemory.gpl'=FALSE)</span></div><div class='input'><span class='va'>bw_path</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>url</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='co'># }</span>
+<span class='va'>eg_coverage</span> <span class='op'>&lt;-</span> <span class='fu'>get_coverage</span><span class='op'>(</span>
+    bw_paths <span class='op'>=</span> <span class='va'>bw_path</span>,
+    auc_raw <span class='op'>=</span> <span class='fl'>11872688252</span>,
+    auc_target <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>,
+    chrs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "2021-04-23 09:54:18 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-04-23 09:54:18 - chr21"
+#&gt; [1] "2021-04-23 09:54:19 - chr22"</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
