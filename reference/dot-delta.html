@@ -159,8 +159,8 @@
 <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
 
 <span class='va'>eg_opt_exons</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_exons.html'>get_exons</a></span><span class='op'>(</span>gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>, ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-04-23 16:46:24 - Loading in GTF..."
-#&gt; [1] "2021-04-23 16:47:24 - Obtaining non-overlapping exons"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-05-04 09:31:29 - Loading in GTF..."
+#&gt; [1] "2021-05-04 09:32:14 - Obtaining non-overlapping exons"</div><div class='input'>
 <span class='va'>eg_delta</span> <span class='op'>&lt;-</span> <span class='fu'>.delta</span><span class='op'>(</span>query <span class='op'>=</span> <span class='va'>ers_example</span><span class='op'>[[</span><span class='st'>"mcc_5"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='st'>"mrg_10"</span><span class='op'>]</span><span class='op'>]</span>, subject <span class='op'>=</span> <span class='va'>eg_opt_exons</span><span class='op'>)</span>
 
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_delta</span><span class='op'>)</span>
