@@ -138,6 +138,11 @@ exons_no_overlap <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = T
 ers_delta <- get_ers_delta(ers = ers, opt_exons = exons_no_overlap, delta_fun = .delta)
 ```
 
+```{r get_opt_ers, echo=FALSE}
+# get the opt_ers
+opt_ers <- get_opt_ers(ers = ers, ers_delta = ers_delta)
+```
+
 # Reproducibility
 
 

@@ -17,6 +17,11 @@ test_ers_delta <- get_ers_delta(
     delta_fun = .delta
 )
 
+test_opt_ers <- get_opt_ers(
+    ers = ers_example,
+    ers_delta = test_ers_delta
+)
+
 test_that("get_exons works", {
     expect_error(
         get_exons(
@@ -55,4 +60,23 @@ test_that("get_ers_delta works", {
 
 
     expect_true(methods::is(test_ers_delta, "data.frame"))
+})
+
+test_that("get_opt_ers works", {
+    expect_error(
+        get_opt_ers(
+            ers_delta = test_ers_delta
+        ),
+        "No ERs were entered"
+    )
+    expect_error(
+        get_opt_ers(
+            ers = ers_example
+        ),
+        "No ers_delta were entered"
+    )
+
+    expect_true(methods::is(test_opt_ers, "list"))
+
+    expect_equal(length(test_opt_ers), 3)
 })

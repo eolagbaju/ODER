@@ -147,6 +147,69 @@ get_ers_delta <- function(ers, opt_exons, delta_fun = .delta) {
     return(delta_df)
 }
 
+
+#' Obtains optimised set of ERs
+#'
+#' @param ers Sets of ERs across various MCCs/MRGs - output of
+#' \code{\link{get_ers}}.
+#' @param ers_delta tibble/dataframe containing summarised delta values. One row per set
+#'   of ERs.
+#'
+#' @return list containing optimised ERs, optimal pair of MCC/MRGs and
+#' \code{delta_df}
+#' @export
+#'
+#' @examples
+#'
+#' gtf_url <- paste0(
+#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#' )
+#' gtf_path <- ODER:::.file_cache(gtf_url)
+#' exons_no_overlap <- get_exons(
+#'     gtf = gtf_path,
+#'     ucsc_chr = TRUE,
+#'     ignore.strand = TRUE
+#' )
+#'
+#' ers_delta <- get_ers_delta(
+#'     ers = ers_example,
+#'     opt_exons = exons_no_overlap,
+#'     delta_fun = .delta
+#' )
+#'
+#' opt_ers <- get_opt_ers(
+#'     ers = ers_example,
+#'     ers_delta = ers_delta
+#' )
+get_opt_ers <- function(ers, ers_delta) {
+    if (missing(ers)) {
+        stop("No ERs were entered")
+    } else if (missing(ers_delta)) {
+        stop("No ers_delta were entered")
+    }
+
+    print(stringr::str_c(Sys.time(), " - Obtaining optimal set of ERs..."))
+
+    delta_opt <-
+        ers_delta %>%
+        dplyr::filter(median == min(median)) %>% # with the lowest median ER delta
+        dplyr::filter(n_eq_0 == max(n_eq_0)) # and highest num of delta equal to 0
+
+    mcc_label <- stringr::str_c("mcc_", as.character(delta_opt[["mcc"]]))
+    mrg_label <- stringr::str_c("mrg_", as.character(delta_opt[["mrg"]]))
+
+    opt_ers <-
+        list(
+            opt_ers = ers[[mcc_label]][[mrg_label]],
+            opt_mcc_mrg = c(mcc_label, mrg_label),
+            deltas = ers_delta
+        )
+
+    return(opt_ers)
+}
+
+
 #' Default delta functions
 #'
 #' @param query Set of ERs
