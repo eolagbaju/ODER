@@ -144,7 +144,7 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/eolagbaju/ODER">"ODER"</a></span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; Setting options('download.file.method.GEOquery'='auto')
 #&gt; Setting options('GEOquery.inmemory.gpl'=FALSE)
-#&gt; 2021-05-04 09:33:49 downloading the metadata to /tmp/RtmprS1kBm/metadata_clean_gtex.Rdata</code></pre>
+#&gt; 2021-05-04 11:28:26 downloading the metadata to /tmp/RtmpeM68Fq/metadata_clean_gtex.Rdata</code></pre>
 <pre><code>#&gt; Loading required package: BiocGenerics
 #&gt; Loading required package: parallel
 #&gt; 
@@ -172,9 +172,9 @@
 #&gt; The following object is masked from 'package:base':
 #&gt; 
 #&gt;     expand.grid
-#&gt; [1] "2021-05-04 09:33:53 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-05-04 09:33:53 - chr21"
-#&gt; [1] "2021-05-04 09:33:55 - chr22"
+#&gt; [1] "2021-05-04 11:28:31 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-05-04 11:28:31 - chr21"
+#&gt; [1] "2021-05-04 11:28:32 - chr22"
 #&gt; $chr21
 #&gt; $chr21$meanCoverage
 #&gt; numeric-Rle of length 46709983 with 351770 runs
@@ -187,18 +187,19 @@
 #&gt; numeric-Rle of length 50818468 with 619684 runs
 #&gt;   Lengths: 10519675        2        1        2 ...      160       76    13858
 #&gt;   Values : 0.000000 0.336908 0.673815 6.401246 ... 0.000000 0.336908 0.000000
-#&gt; [1] "2021-05-04 09:33:55 - Generating ERs for chr21"
-#&gt; [1] "2021-05-04 09:33:57 - Generating ERs for chr22"</code></pre>
-<pre><code>#&gt; [1] "2021-05-04 09:33:59 - Loading in GTF..."
-#&gt; [1] "2021-05-04 09:34:38 - Obtaining non-overlapping exons"</code></pre>
-<pre><code>#&gt; [1] "2021-05-04 09:34:40 - Calculating delta for ERs..."</code></pre>
+#&gt; [1] "2021-05-04 11:28:33 - Generating ERs for chr21"
+#&gt; [1] "2021-05-04 11:28:36 - Generating ERs for chr22"</code></pre>
+<pre><code>#&gt; [1] "2021-05-04 11:28:38 - Loading in GTF..."
+#&gt; [1] "2021-05-04 11:29:29 - Obtaining non-overlapping exons"</code></pre>
+<pre><code>#&gt; [1] "2021-05-04 11:29:31 - Calculating delta for ERs..."</code></pre>
+<pre><code>#&gt; [1] "2021-05-04 11:29:32 - Obtaining optimal set of ERs..."</code></pre>
 </div>
 <div id="reproducibility" class="section level1">
 <h1 class="hasAnchor">
 <a href="#reproducibility" class="anchor"></a>Reproducibility</h1>
 <p>This package was developed using <em><a href="https://bioconductor.org/packages/3.12/biocthis">biocthis</a></em>.</p>
 <p>Code for creating the vignette</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Create the vignette</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rstudio/rmarkdown">"rmarkdown"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/rmarkdown/man/render.html">render</a></span><span class="op">(</span><span class="st">"ODER.Rmd"</span>, <span class="st">"BiocStyle::html_document"</span><span class="op">)</span><span class="op">)</span>
@@ -207,9 +208,9 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/">"knitr"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html">knit</a></span><span class="op">(</span><span class="st">"ODER.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code>#&gt; [1] "2021-05-04 09:34:40 UTC"</code></pre>
+<pre><code>#&gt; [1] "2021-05-04 11:29:32 UTC"</code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code>#&gt; Time difference of 1.073 mins</code></pre>
+<pre><code>#&gt; Time difference of 1.394 mins</code></pre>
 <p><code>R</code> session information.</p>
 <pre><code>#&gt; ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt;  setting  value                       

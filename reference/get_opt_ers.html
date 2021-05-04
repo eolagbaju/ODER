@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Default delta functions — .delta • ODER</title>
+<title>Obtains optimised set of ERs — get_opt_ers • ODER</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Default delta functions — .delta" />
-<meta property="og:description" content="Default delta functions" />
+<meta property="og:title" content="Obtains optimised set of ERs — get_opt_ers" />
+<meta property="og:description" content="Obtains optimised set of ERs" />
 
 
 
@@ -123,51 +123,62 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Default delta functions</h1>
+    <h1>Obtains optimised set of ERs</h1>
     <small class="dont-index">Source: <a href='https://github.com/eolagbaju/ODER/blob/master/R/optimise-ERs.R'><code>R/optimise-ERs.R</code></a></small>
-    <div class="hidden name"><code>dot-delta.Rd</code></div>
+    <div class="hidden name"><code>get_opt_ers.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Default delta functions</p>
+    <p>Obtains optimised set of ERs</p>
     </div>
 
-    <pre class="usage"><span class='fu'>.delta</span><span class='op'>(</span><span class='va'>query</span>, <span class='va'>subject</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_opt_ers</span><span class='op'>(</span><span class='va'>ers</span>, <span class='va'>ers_delta</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>query</th>
-      <td><p>Set of ERs</p></td>
+      <th>ers</th>
+      <td><p>Sets of ERs across various MCCs/MRGs - output of
+<code><a href='get_ers.html'>get_ers</a></code>.</p></td>
     </tr>
     <tr>
-      <th>subject</th>
-      <td><p>Optimum exons</p></td>
+      <th>ers_delta</th>
+      <td><p>tibble/dataframe containing summarised delta values. One row per set
+of ERs.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>summarised delta scores</p>
+    <p>list containing optimised ERs, optimal pair of MCC/MRGs and
+<code>delta_df</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
+    <pre class="examples"><div class='input'>
+<span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
     <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
     <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
 <span class='op'>)</span>
 <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
-
-<span class='va'>eg_opt_exons</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_exons.html'>get_exons</a></span><span class='op'>(</span>gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>, ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-05-04 11:24:35 - Loading in GTF..."
-#&gt; [1] "2021-05-04 11:25:34 - Obtaining non-overlapping exons"</div><div class='input'>
-<span class='va'>eg_delta</span> <span class='op'>&lt;-</span> <span class='fu'>.delta</span><span class='op'>(</span>query <span class='op'>=</span> <span class='va'>ers_example</span><span class='op'>[[</span><span class='st'>"mcc_5"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='st'>"mrg_10"</span><span class='op'>]</span><span class='op'>]</span>, subject <span class='op'>=</span> <span class='va'>eg_opt_exons</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_delta</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 5</span><span>
-#&gt;       sum  mean median n_eq_0 propor_eq_0
-#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 2</span><span style='text-decoration: underline;'>187</span><span>300  964.   150.    322       0.142</div></span></pre>
+<span class='va'>exons_no_overlap</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_exons.html'>get_exons</a></span><span class='op'>(</span>
+    gtf <span class='op'>=</span> <span class='va'>gtf_path</span>,
+    ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,
+    ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "2021-05-04 11:27:23 - Loading in GTF..."
+#&gt; [1] "2021-05-04 11:28:03 - Obtaining non-overlapping exons"</div><div class='input'>
+<span class='va'>ers_delta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_ers_delta.html'>get_ers_delta</a></span><span class='op'>(</span>
+    ers <span class='op'>=</span> <span class='va'>ers_example</span>,
+    opt_exons <span class='op'>=</span> <span class='va'>exons_no_overlap</span>,
+    delta_fun <span class='op'>=</span> <span class='va'>.delta</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "2021-05-04 11:28:07 - Calculating delta for ERs..."</div><div class='input'>
+<span class='va'>opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_opt_ers</span><span class='op'>(</span>
+    ers <span class='op'>=</span> <span class='va'>ers_example</span>,
+    ers_delta <span class='op'>=</span> <span class='va'>ers_delta</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "2021-05-04 11:28:07 - Obtaining optimal set of ERs..."</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
