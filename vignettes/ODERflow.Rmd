@@ -122,7 +122,7 @@ coverage <- get_coverage(
 
 coverage
 
-ers <- get_ers(coverage = coverage, mccs = c(5, 10), mrgs = c(10, 20))
+ers <- get_ers(coverage = coverage, mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30))
 ```
 
 ```{r non_overlapping_exons, echo=FALSE}
@@ -141,6 +141,13 @@ ers_delta <- get_ers_delta(ers = ers, opt_exons = exons_no_overlap, delta_fun = 
 ```{r get_opt_ers, echo=FALSE}
 # get the opt_ers
 opt_ers <- get_opt_ers(ers = ers, ers_delta = ers_delta)
+```
+
+```{r plot_ers, echo=FALSE, eval=TRUE}
+# visualise the spread of mccs and mrgs
+opt_plots <- plot_ers(ers_delta = ers_delta, opt_mcc_mrg = opt_ers[["opt_mcc_mrg"]])
+
+opt_plots
 ```
 
 # Reproducibility
