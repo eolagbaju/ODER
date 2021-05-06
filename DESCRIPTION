@@ -42,6 +42,9 @@ Imports:
     GenomicRanges,
     S4Vectors,
     derfinder,
-    rtracklayer
+    rtracklayer,
+    ggplot2,
+    ggpubr,
+    ggrepel
 Depends: 
     R (>= 2.10)
