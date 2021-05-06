@@ -8,7 +8,9 @@
 #' @export
 #' @import ggplot2
 #' @examples
-#' # tbc
+#' opt_plots <- plot_ers(ers_delta = ers_delta_example, opt_mcc_mrg = c("mcc_10", "mrg_20"))
+#'
+#' opt_plots
 plot_ers <- function(ers_delta, opt_mcc_mrg) {
     opt_mcc <- as.double(stringr::str_remove(
         opt_mcc_mrg[[1]],
@@ -31,16 +33,15 @@ plot_ers <- function(ers_delta, opt_mcc_mrg) {
 
     maxgaps_colours <-
         data.frame(maxgap = mrgs, colours = ggpubr::get_palette("Blues", clr_num)) %>%
-        mutate(colours = ifelse(maxgap == opt_mrg, "red", colours))
+        dplyr::mutate(colours = ifelse(maxgap == opt_mrg, "red", colours))
 
-    exon_delta_median_plot <- ggplot2::ggplot(
+    exon_delta_median_plot <- ggplot(
         data = ers_delta,
-        mapping = ggplot2::aes(
-            x = mcc,
-            y = median
-        )
+        mapping = ggplot2::aes(x = mcc, y = median)
     ) +
         geom_line(aes(colour = as.factor(mrg))) +
+        geom_vline(xintercept = opt_mcc, colour = "#177D87", linetype = 2) +
+        geom_point(aes(x = opt_mcc, y = opt_median), colour = "black", shape = 4) +
         ggrepel::geom_text_repel(
             data = dplyr::tibble(mcc = opt_mcc, median = opt_median),
             aes(x = mcc, y = median),
@@ -50,26 +51,22 @@ plot_ers <- function(ers_delta, opt_mcc_mrg) {
         ) +
         scale_x_continuous(name = "MCC") +
         scale_y_continuous(name = expression("Median" ~ Delta)) +
-        geom_vline(xintercept = opt_mcc, colour = "#177D87", linetype = 2) +
         scale_colour_manual("MRG", values = maxgaps_colours$colours) +
         theme_pubr(legend = "right") +
         theme(
             legend.title = element_text(colour = "red"),
             axis.title.x = element_text(colour = "#177D87")
-        ) +
-        geom_point(aes(x = opt_mcc, y = opt_median), colour = "black", shape = 4)
-
-    num_exon_delta_eq_0_plot <- ggplot2::ggplot(
-        data = ers_delta,
-        mapping = ggplot2::aes(
-            x = mcc,
-            y = n_eq_0
         )
+
+    num_exon_delta_eq_0_plot <- ggplot(
+        data = ers_delta,
+        mapping = aes(x = mcc, y = n_eq_0)
     ) +
         geom_line(aes(colour = as.factor(mrg))) +
+        geom_vline(xintercept = opt_mcc, colour = "#177D87", linetype = 2) +
+        geom_point(aes(x = opt_mcc, y = opt_n_eq_0), colour = "black", shape = 4) +
         scale_x_continuous(name = "MCC") +
         scale_y_continuous(name = expression("Number of ERs with " ~ Delta ~ "= 0")) +
-        geom_vline(xintercept = opt_mcc, colour = "#177D87", linetype = 2) +
         scale_colour_manual("MRG", values = maxgaps_colours$colours) +
         theme_pubr(legend = "right") +
         theme(
@@ -82,12 +79,14 @@ plot_ers <- function(ers_delta, opt_mcc_mrg) {
             label = "optimum",
             min.segment.length = 0,
             force_pull = 0.5
-        ) +
-        geom_point(aes(x = opt_mcc, y = opt_n_eq_0), colour = "black", shape = 4)
+        )
 
-    optimised_exon_delta_plots <- ggarrange(exon_delta_median_plot, num_exon_delta_eq_0_plot,
-        nrow = 2, ncol = 1, align = "v",
-        common.legend = T, legend = "right"
+    optimised_exon_delta_plots <- ggpubr::ggarrange(exon_delta_median_plot,
+        num_exon_delta_eq_0_plot,
+        nrow = 2, ncol = 1,
+        align = "v",
+        common.legend = T,
+        legend = "right"
     )
 
     return(optimised_exon_delta_plots)
