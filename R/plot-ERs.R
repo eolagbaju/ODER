@@ -8,10 +8,16 @@
 #' @export
 #' @import ggplot2
 #' @examples
-#' opt_plots <- plot_ers(ers_delta = ers_delta_example, opt_mcc_mrg = c("mcc_10", "mrg_20"))
+#' eg_plots <- plot_ers(ers_delta = ers_delta_example, opt_mcc_mrg = c("mcc_10", "mrg_20"))
 #'
-#' opt_plots
+#' eg_plots
 plot_ers <- function(ers_delta, opt_mcc_mrg) {
+    if (missing(ers_delta)) {
+        stop("No ER deltas were entered")
+    } else if (missing(opt_mcc_mrg)) {
+        stop("The optimum MCC and/or MRG were not entered")
+    }
+
     opt_mcc <- as.double(stringr::str_remove(
         opt_mcc_mrg[[1]],
         stringr::fixed("mcc_")
@@ -52,7 +58,7 @@ plot_ers <- function(ers_delta, opt_mcc_mrg) {
         scale_x_continuous(name = "MCC") +
         scale_y_continuous(name = expression("Median" ~ Delta)) +
         scale_colour_manual("MRG", values = maxgaps_colours$colours) +
-        theme_pubr(legend = "right") +
+        ggpubr::theme_pubr(legend = "right") +
         theme(
             legend.title = element_text(colour = "red"),
             axis.title.x = element_text(colour = "#177D87")
@@ -68,7 +74,7 @@ plot_ers <- function(ers_delta, opt_mcc_mrg) {
         scale_x_continuous(name = "MCC") +
         scale_y_continuous(name = expression("Number of ERs with " ~ Delta ~ "= 0")) +
         scale_colour_manual("MRG", values = maxgaps_colours$colours) +
-        theme_pubr(legend = "right") +
+        ggpubr::theme_pubr(legend = "right") +
         theme(
             legend.title = element_text(colour = "red"),
             axis.title.x = element_text(colour = "#177D87")
