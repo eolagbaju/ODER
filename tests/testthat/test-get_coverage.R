@@ -40,7 +40,7 @@ test_that("get_coverage works", {
     expect_error(
         get_coverage(
             bw_paths = bw_path,
-            auc_raw = auc_example,
+            auc_raw = auc_example, # auc_example is from the data folder
             auc_target = "Not a number",
             chrs = c("chr21", "chr22")
         ),
@@ -75,7 +75,7 @@ test_that("get_coverage works", {
         ),
         "Please check your bigwig file paths are correct"
     )
-    expect_type(coverage_example, "list")
+    expect_type(coverage_example, "list") # coverage_example is from the data folder
     expect_type(coverage_example[["chr21"]][["meanCoverage"]], "S4")
     expect_true(methods::is(coverage_example[["chr21"]][["meanCoverage"]], "Rle"))
     expect_equal(length(c("chr21", "chr22")), length(coverage_example))
@@ -104,7 +104,7 @@ test_that("get_ers works", {
         "Max Region Gap is empty"
     )
 
-    expect_type(ers_example, "list")
+    expect_type(ers_example, "list") # ers_example is from the data folder
     expect_type(ers_example[[1]][[1]], "S4")
     expect_true(methods::is(ers_example[[1]][[1]], "GenomicRanges"))
 })

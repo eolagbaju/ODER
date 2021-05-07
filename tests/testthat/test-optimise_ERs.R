@@ -12,7 +12,7 @@ test_exons <- get_exons(
 )
 
 test_ers_delta <- get_ers_delta(
-    ers = ers_example,
+    ers = ers_example, # ers_example is from the data folder
     opt_exons = test_exons,
     delta_fun = .delta
 )
@@ -43,6 +43,8 @@ test_that("get_exons works", {
 })
 
 test_that("get_ers_delta works", {
+    ers_delta_cols <- c("mcc", "mrg", "sum", "mean", "median", "n_eq_0", "propor_eq_0")
+
     expect_error(
         get_ers_delta(
             opt_exons = test_exons,
@@ -58,8 +60,16 @@ test_that("get_ers_delta works", {
         "No opt_exons were entered"
     )
 
-
+    expect_true(all(ifelse(colnames(test_ers_delta) == ers_delta_cols, TRUE, FALSE)))
     expect_true(methods::is(test_ers_delta, "data.frame"))
+
+    expect_type(test_ers_delta[["mcc"]], "double")
+    expect_type(test_ers_delta[["mrg"]], "double")
+    expect_type(test_ers_delta[["sum"]], "integer")
+    expect_type(test_ers_delta[["mean"]], "double")
+    expect_type(test_ers_delta[["median"]], "double")
+    expect_type(test_ers_delta[["n_eq_0"]], "integer")
+    expect_type(test_ers_delta[["propor_eq_0"]], "double")
 })
 
 test_that("get_opt_ers works", {
@@ -77,6 +87,10 @@ test_that("get_opt_ers works", {
     )
 
     expect_true(methods::is(test_opt_ers, "list"))
+    expect_true(methods::is(test_opt_ers[[1]], "GenomicRanges"))
+    expect_true(methods::is(test_opt_ers[[2]], "character"))
+    expect_true(methods::is(test_opt_ers[[3]], "data.frame"))
 
+    expect_equal(length(test_opt_ers[[2]]), 2)
     expect_equal(length(test_opt_ers), 3)
 })

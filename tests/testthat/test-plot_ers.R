@@ -1,5 +1,5 @@
 test_plots <- plot_ers(
-    ers_delta = ers_delta_example,
+    ers_delta = ers_delta_example, # ers_delta_example is from the data folder
     opt_mcc_mrg = c("mcc_10", "mrg_20")
 )
 
