@@ -17,16 +17,4 @@ summarised delta scores
 \description{
 Default delta functions
 }
-\examples{
-gtf_url <- paste0(
-    "http://ftp.ensembl.org/pub/release-103/gtf/",
-    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-)
-gtf_path <- ODER:::.file_cache(gtf_url)
-
-eg_opt_exons <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE)
-
-eg_delta <- .delta(query = ers_example[["mcc_5"]][["mrg_10"]], subject = eg_opt_exons)
-
-print(eg_delta)
-}
+\keyword{internal}
