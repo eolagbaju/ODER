@@ -6,8 +6,18 @@
 #'
 #' @return Plot of MCC against median delta and number of ERS with a delta of 0
 #' @export
-#' @import ggplot2
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_line
+#' @importFrom ggplot2 geom_vline
+#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 scale_x_continuous
+#' @importFrom ggplot2 scale_y_continuous
+#' @importFrom ggplot2 scale_colour_manual
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 ggplot
+#'
 #' @examples
+#' # ers_delta_example is from the package data folder
 #' eg_plots <- plot_ers(ers_delta = ers_delta_example, opt_mcc_mrg = c("mcc_10", "mrg_20"))
 #'
 #' eg_plots
@@ -43,7 +53,7 @@ plot_ers <- function(ers_delta, opt_mcc_mrg) {
 
     exon_delta_median_plot <- ggplot(
         data = ers_delta,
-        mapping = ggplot2::aes(x = mcc, y = median)
+        mapping = aes(x = mcc, y = median)
     ) +
         geom_line(aes(colour = as.factor(mrg))) +
         geom_vline(xintercept = opt_mcc, colour = "#177D87", linetype = 2) +
