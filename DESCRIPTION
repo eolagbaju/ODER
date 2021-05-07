@@ -13,7 +13,10 @@ Authors@R:
            person(given = "Sebastian",family = "Guelfi",
            role = c("ctb"),
            email = "david.zhang.12@ucl.ac.uk"))
-Description: The aim of ODER is to help with identifying previously unannotated expressed regions using RNA-sequencing data.  ODER enhances gene annotation which can improve the interpretation/ prioritisation of disease related variants.
+Description: The aim of ODER is to help with identifying previously unannotated
+    expressed regions using RNA-sequencing data.  ODER enhances gene annotation
+    which can improve the interpretation/ prioritisation of disease related
+    variants.
 License: Artistic-2.0
 URL: https://github.com/eolagbaju/ODER
 BugReports: https://support.bioconductor.org/t/ODER
