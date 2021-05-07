@@ -19,6 +19,7 @@ Plot of MCC against median delta and number of ERS with a delta of 0
 Plot Expressed regions
 }
 \examples{
+# ers_delta_example is from the package data folder
 eg_plots <- plot_ers(ers_delta = ers_delta_example, opt_mcc_mrg = c("mcc_10", "mrg_20"))
 
 eg_plots

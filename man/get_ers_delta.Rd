@@ -39,7 +39,7 @@ eg_opt_exons <- get_exons(
 )
 
 eg_ers_delta <- get_ers_delta(
-    ers = ers_example,
+    ers = ers_example, # ers_example is from the package data folder
     opt_exons = eg_opt_exons,
     delta_fun = .delta
 )

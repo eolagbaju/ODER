@@ -9,9 +9,9 @@ get_coverage(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38")
 \arguments{
 \item{bw_paths}{paths to bigwig files with the RNA-seq data that you want the coverage of.}
 
-\item{auc_raw}{vector containing aucs matching the order of bigwig paths.}
+\item{auc_raw}{vector containing AUCs(Area Under Coverage) matching the order of bigwig paths.}
 
-\item{auc_target}{total auc to normalise all samples to. E.g. 40e6 * 100
+\item{auc_target}{total AUC to normalise all samples to. E.g. 40e6 * 100
 would be the estimated total auc for sample sequenced to 40 million reads
 of 100bp in length.}
 

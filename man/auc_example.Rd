@@ -3,7 +3,7 @@
 \docType{data}
 \name{auc_example}
 \alias{auc_example}
-\title{An example auc value}
+\title{An example AUC value}
 \format{
 A numeric value
 }
@@ -14,6 +14,6 @@ See example.R in data-raw
 auc_example
 }
 \description{
-An auc value for a user to try out the package and to pass in for tests
+An AUC(Area Under Coverage) value for a user to try out the package and to pass in for tests
 }
 \keyword{datasets}
