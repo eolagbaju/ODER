@@ -15,6 +15,7 @@
 #' @importFrom ggplot2 scale_colour_manual
 #' @importFrom ggplot2 theme
 #' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 element_text
 #'
 #' @examples
 #' # ers_delta_example is from the package data folder
