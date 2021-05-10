@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>An example AUC value — auc_example • ODER</title>
+<title>An example set of ER deltas — ers_delta_example • ODER</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="An example AUC value — auc_example" />
-<meta property="og:description" content="An AUC(Area Under Coverage) value for a user to try out the package and to pass in for tests" />
+<meta property="og:title" content="An example set of ER deltas — ers_delta_example" />
+<meta property="og:description" content="This set of deltas was calculated using Expressed Regions from chromosomes 21
+and 22 and exons from the ensemble hg38 set" />
 
 
 
@@ -123,21 +124,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>An example AUC value</h1>
+    <h1>An example set of ER deltas</h1>
     <small class="dont-index">Source: <a href='https://github.com/eolagbaju/ODER/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>auc_example.Rd</code></div>
+    <div class="hidden name"><code>ers_delta_example.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>An AUC(Area Under Coverage) value for a user to try out the package and to pass in for tests</p>
+    <p>This set of deltas was calculated using Expressed Regions from chromosomes 21
+and 22 and exons from the ensemble hg38 set</p>
     </div>
 
-    <pre class="usage"><span class='va'>auc_example</span></pre>
+    <pre class="usage"><span class='va'>ers_delta_example</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A numeric value</p>
+    <p>A tibble/dataframe with the sums, means, medians, n_eq_0 and
+propor_eq_0 for each combination of mccs (5 &amp; 10) and mrgs (10 &amp; 20)</p>
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
     <p>See example.R in data-raw</p>

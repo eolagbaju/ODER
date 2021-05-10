@@ -88,7 +88,7 @@
       Your institution<br><a class="author_email" href="mailto:#"></a><a href="mailto:your.email@somewhere.com" class="email">your.email@somewhere.com</a>
       </address>
                   
-            <h4 class="date">6 May 2021</h4>
+            <h4 class="date">10 May 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/eolagbaju/ODER/blob/master/vignettes/ODERflow.Rmd"><code>vignettes/ODERflow.Rmd</code></a></small>
       <div class="hidden name"><code>ODERflow.Rmd</code></div>
@@ -144,7 +144,7 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/eolagbaju/ODER">"ODER"</a></span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; Setting options('download.file.method.GEOquery'='auto')
 #&gt; Setting options('GEOquery.inmemory.gpl'=FALSE)
-#&gt; 2021-05-06 14:00:59 downloading the metadata to /tmp/RtmppbnuvV/metadata_clean_gtex.Rdata</code></pre>
+#&gt; 2021-05-10 13:22:22 downloading the metadata to /tmp/RtmphxiHgC/metadata_clean_gtex.Rdata</code></pre>
 <pre><code>#&gt; Loading required package: BiocGenerics
 #&gt; Loading required package: parallel
 #&gt; 
@@ -172,9 +172,9 @@
 #&gt; The following object is masked from 'package:base':
 #&gt; 
 #&gt;     expand.grid
-#&gt; [1] "2021-05-06 14:01:04 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-05-06 14:01:04 - chr21"
-#&gt; [1] "2021-05-06 14:01:06 - chr22"
+#&gt; [1] "2021-05-10 13:22:26 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-05-10 13:22:26 - chr21"
+#&gt; [1] "2021-05-10 13:22:28 - chr22"
 #&gt; $chr21
 #&gt; $chr21$meanCoverage
 #&gt; numeric-Rle of length 46709983 with 351770 runs
@@ -187,12 +187,12 @@
 #&gt; numeric-Rle of length 50818468 with 619684 runs
 #&gt;   Lengths: 10519675        2        1        2 ...      160       76    13858
 #&gt;   Values : 0.000000 0.336908 0.673815 6.401246 ... 0.000000 0.336908 0.000000
-#&gt; [1] "2021-05-06 14:01:07 - Generating ERs for chr21"
-#&gt; [1] "2021-05-06 14:01:14 - Generating ERs for chr22"</code></pre>
-<pre><code>#&gt; [1] "2021-05-06 14:01:20 - Loading in GTF..."
-#&gt; [1] "2021-05-06 14:02:11 - Obtaining non-overlapping exons"</code></pre>
-<pre><code>#&gt; [1] "2021-05-06 14:02:13 - Calculating delta for ERs..."</code></pre>
-<pre><code>#&gt; [1] "2021-05-06 14:02:18 - Obtaining optimal set of ERs..."</code></pre>
+#&gt; [1] "2021-05-10 13:22:29 - Generating ERs for chr21"
+#&gt; [1] "2021-05-10 13:22:35 - Generating ERs for chr22"</code></pre>
+<pre><code>#&gt; [1] "2021-05-10 13:22:41 - Loading in GTF..."
+#&gt; [1] "2021-05-10 13:23:29 - Obtaining non-overlapping exons"</code></pre>
+<pre><code>#&gt; [1] "2021-05-10 13:23:31 - Calculating delta for ERs..."</code></pre>
+<pre><code>#&gt; [1] "2021-05-10 13:23:36 - Obtaining optimal set of ERs..."</code></pre>
 <p><img src="ODERflow_files/figure-html/plot_ers-1.png" width="700"></p>
 </div>
 <div id="reproducibility" class="section level1">
@@ -209,9 +209,9 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/">"knitr"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html">knit</a></span><span class="op">(</span><span class="st">"ODER.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code>#&gt; [1] "2021-05-06 14:02:20 UTC"</code></pre>
+<pre><code>#&gt; [1] "2021-05-10 13:23:37 UTC"</code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code>#&gt; Time difference of 1.647 mins</code></pre>
+<pre><code>#&gt; Time difference of 1.539 mins</code></pre>
 <p><code>R</code> session information.</p>
 <pre><code>#&gt; ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt;  setting  value                       
@@ -223,7 +223,7 @@
 #&gt;  collate  en_US.UTF-8                 
 #&gt;  ctype    en_US.UTF-8                 
 #&gt;  tz       Etc/UTC                     
-#&gt;  date     2021-05-06                  
+#&gt;  date     2021-05-10                  
 #&gt; 
 #&gt; ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt;  package              * version  date       lib source        
@@ -323,7 +323,7 @@
 #&gt;  memoise                2.0.0    2021-01-26 [2] RSPM (R 4.0.3)
 #&gt;  munsell                0.5.0    2018-06-12 [1] RSPM (R 4.0.3)
 #&gt;  nnet                   7.3-15   2021-01-24 [3] RSPM (R 4.0.3)
-#&gt;  ODER                 * 0.99.4   2021-05-06 [1] Bioconductor  
+#&gt;  ODER                 * 0.99.4   2021-05-10 [1] Bioconductor  
 #&gt;  openssl                1.4.3    2020-09-18 [2] RSPM (R 4.0.3)
 #&gt;  openxlsx               4.2.3    2020-10-27 [1] RSPM (R 4.0.3)
 #&gt;  pillar                 1.4.7    2020-11-20 [2] RSPM (R 4.0.3)
