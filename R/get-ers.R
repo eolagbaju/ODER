@@ -1,8 +1,7 @@
-
 #' Define sets of ERs
 #'
 #' \code{gen_ERs} defines ERs across an inputted range of mean coverage cut-offs
-#' (MCCs) and max region gaps (MRGs).
+#' (MCCs) and max region gaps (MRGs) from the coverage.
 #'
 #' @param coverage the coverage of the bigwig files passed into \code{\link{get_coverage}}.
 #' @param mccs mean coverage cut-offs to apply.

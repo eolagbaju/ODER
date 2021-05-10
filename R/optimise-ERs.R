@@ -1,4 +1,7 @@
 #' Obtain set of non-overlapping exons
+#' 
+#' Downloads a well-defined set of exons to be used in obtaining the optimum set
+#' of Expressed regions. These exons are used in calculating the exon deltas.
 #'
 #' @param gtf Either a string containg the path to a .gtf file or a pre-imported
 #'   gtf using \code{\link[rtracklayer]{import}}.
@@ -12,11 +15,15 @@
 #' @export
 #'
 #' @examples
+#' \dontshow{
 #' gtf_url <- paste0(
 #'     "http://ftp.ensembl.org/pub/release-103/gtf/",
 #'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 #' )
+#' # .file_cache is an internal function to download a bigwig file from a link
+#' # if the file has been downloaded recently, it will be retrieved from a cache
 #' gtf_path <- ODER:::.file_cache(gtf_url)
+#' }
 #' eg_exons_no_overlap <- get_exons(
 #'     gtf = gtf_path,
 #'     ucsc_chr = TRUE,
@@ -66,6 +73,10 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE) {
 
 
 #' Calculates delta for sets of ERs
+#' 
+#' Calculates the median exon delta and the number of ERs with an exon delta of 
+#' 0 by comparing each combination of MCC and MRG with the optimum exons from
+#' the ensembl database.
 #'
 #' @param ers Sets of ERs across various MCCs/MRGs - output of
 #' \code{\link{get_ers}}.
@@ -81,18 +92,21 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE) {
 #' @export
 #'
 #' @examples
+#' \dontshow{
 #' gtf_url <- paste0(
 #'     "http://ftp.ensembl.org/pub/release-103/gtf/",
 #'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 #' )
+#' # .file_cache is an internal function to download a bigwig file from a link
+#' # if the file has been downloaded recently, it will be retrieved from a cache
 #' gtf_path <- ODER:::.file_cache(gtf_url)
-#'
+#' 
 #' eg_opt_exons <- get_exons(
 #'     gtf = gtf_path,
 #'     ucsc_chr = TRUE,
 #'     ignore.strand = TRUE
 #' )
-#'
+#' }
 #' eg_ers_delta <- get_ers_delta(
 #'     ers = ers_example, # ers_example is from the package data folder
 #'     opt_exons = eg_opt_exons,
@@ -149,18 +163,21 @@ get_ers_delta <- function(ers, opt_exons, delta_fun = ODER:::.delta) {
 
 
 #' Obtains optimised set of ERs
+#' 
+#' Uses a delta calculating function and a well defined set of exons to find 
+#' which combination of MCC and MRG gives the best definition of the Expressed
+#' regions.
 #'
 #' @param ers Sets of ERs across various MCCs/MRGs - output of
 #' \code{\link{get_ers}}.
-#' @param ers_delta tibble/dataframe containing summarised delta values. One row per set
-#'   of ERs.
+#' @param ers_delta tibble/dataframe containing summarised delta values. One row
+#' per set of ERs.
 #'
 #' @return list containing optimised ERs, optimal pair of MCC/MRGs and
 #' \code{delta_df}
 #' @export
-#'
 #' @examples
-#'
+#' \dontshow{
 #' gtf_url <- paste0(
 #'     "http://ftp.ensembl.org/pub/release-103/gtf/",
 #'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
@@ -176,11 +193,12 @@ get_ers_delta <- function(ers, opt_exons, delta_fun = ODER:::.delta) {
 #'     ers = ers_example, # ers_example is from the package data folder
 #'     opt_exons = exons_no_overlap
 #' )
-#'
+#' }
 #' opt_ers <- get_opt_ers(
 #'     ers = ers_example,
 #'     ers_delta = ers_delta
 #' )
+#' opt_ers
 get_opt_ers <- function(ers, ers_delta) {
     if (missing(ers)) {
         stop("No ERs were entered")
@@ -209,7 +227,10 @@ get_opt_ers <- function(ers, ers_delta) {
 }
 
 
-#' Default delta functions
+#' Default delta function
+#' 
+#' Calculates the difference between the starts and ends of the ERs and the set 
+#' of exons. Default function used when using \code{\link{get_ers_delta}}.
 #'
 #' @param query Set of ERs
 #' @param subject Optimum exons

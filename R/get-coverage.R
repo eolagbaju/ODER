@@ -1,16 +1,20 @@
 #' Generating the mean coverage of the expressed regions
 #'
-#' \code{get_coverage} returns the coverage of the BigWig data passed in
+#' \code{get_coverage} returns the mean coverage of the RNA sequencing data 
+#' passed in. The data should be passed in via the file path to a Bigwig file.
 #'
-#' @param bw_paths paths to bigwig files with the RNA-seq data that you want the coverage of.
-#' @param auc_raw vector containing AUCs(Area Under Coverage) matching the order of bigwig paths.
+#' @param bw_paths paths to bigwig files with the RNA-seq data that you want the
+#'   coverage of.
+#' @param auc_raw vector containing AUCs(Area Under Coverage) matching the order
+#'   of bigwig paths.
 #' @param auc_target total AUC to normalise all samples to. E.g. 40e6 * 100
 #'   would be the estimated total auc for sample sequenced to 40 million reads
 #'   of 100bp in length.
-#' @param chrs chromosomes to obtain mean coverage for, default is "" giving every chromosome
-#' @param genome the UCSC genome you want to use, the default is hg38
+#' @param chrs chromosomes to obtain mean coverage for, default is "" giving 
+#'   every chromosome.
+#' @param genome the UCSC genome you want to use, the default is hg38.
 #'
-#' @return a list of Rles per chromosome passed in
+#' @return a list of Rles detailing the mean coverage per chromosome passed in.
 #' @export
 #'
 #' @examples
@@ -19,8 +23,10 @@
 #'     project = "SRP012682",
 #'     type = "samples",
 #'     download = FALSE
-#' )
-#' bw_path <- ODER:::.file_cache(url[1])
+#' ) # .file_cache is an internal function to download a bigwig file from a link
+#'   # if the file has been downloaded recently, it will be retrieved from a cache
+#'   
+#' #' bw_path <- ODER:::.file_cache(url[1])
 #' }
 #' eg_coverage <- get_coverage(
 #'     bw_paths = bw_path,
@@ -68,9 +74,12 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
 }
 
 #' Get information from UCSC about the chromosomes passed in
+#' 
+#' Download information about each of the chromosomes passed in, most importantly
+#' the size.
 #'
 #' @param chrs chromosomes to look up (must match UCSC format)
-#' @param genome the UCSC genome to look at
+#' @param genome the UCSC genome to look at see \url{https://genome.ucsc.edu/}.
 #'
 #' @return a dataframe with data on the passed in chromosomes
 #' @export
@@ -84,8 +93,7 @@ get_chr_info <- function(chrs, genome) {
     if (all_UCSC_chr %contain% chrs) {
         chr_info <- GenomeInfoDb::getChromInfoFromUCSC(genome) %>%
             dplyr::filter(chrom %in% chrs)
-        # https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/
-        # https://github.com/LieberInstitute/megadepth/blob/master/R/globals.R
+
     } else if (chrs == "") {
         chr_info <- GenomeInfoDb::getChromInfoFromUCSC(genome)
     } else {
