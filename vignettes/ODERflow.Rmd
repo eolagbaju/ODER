@@ -135,7 +135,9 @@ exons_no_overlap <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = T
 
 ```{r get_er_deltas, echo=FALSE}
 # get the ers_delta
-ers_delta <- get_ers_delta(ers = ers, opt_exons = exons_no_overlap, delta_fun = .delta)
+ers_delta <- get_ers_delta(ers = ers, opt_exons = exons_no_overlap)
+# if you have your own delta function you can enter it as an argument i.e.
+# delta_fun <- your_delta_function
 ```
 
 ```{r get_opt_ers, echo=FALSE}

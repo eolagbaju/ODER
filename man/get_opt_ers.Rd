@@ -35,8 +35,7 @@ exons_no_overlap <- get_exons(
 
 ers_delta <- get_ers_delta(
     ers = ers_example, # ers_example is from the package data folder
-    opt_exons = exons_no_overlap,
-    delta_fun = .delta
+    opt_exons = exons_no_overlap
 )
 
 opt_ers <- get_opt_ers(

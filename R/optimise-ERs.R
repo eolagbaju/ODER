@@ -96,11 +96,11 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE) {
 #' eg_ers_delta <- get_ers_delta(
 #'     ers = ers_example, # ers_example is from the package data folder
 #'     opt_exons = eg_opt_exons,
-#'     delta_fun = .delta
-#' )
+#'     delta_fun = ODER:::.delta
+#' ) # .delta is ODER's default, you can pass in your own if you have one
 #'
 #' print(eg_ers_delta)
-get_ers_delta <- function(ers, opt_exons, delta_fun = .delta) {
+get_ers_delta <- function(ers, opt_exons, delta_fun = ODER:::.delta) {
     if (missing(ers)) {
         stop("No ERs were entered")
     } else if (missing(opt_exons)) {
@@ -174,8 +174,7 @@ get_ers_delta <- function(ers, opt_exons, delta_fun = .delta) {
 #'
 #' ers_delta <- get_ers_delta(
 #'     ers = ers_example, # ers_example is from the package data folder
-#'     opt_exons = exons_no_overlap,
-#'     delta_fun = .delta
+#'     opt_exons = exons_no_overlap
 #' )
 #'
 #' opt_ers <- get_opt_ers(
@@ -217,20 +216,8 @@ get_opt_ers <- function(ers, ers_delta) {
 #'
 #' @return summarised delta scores
 #'
-#' @examples
 #' @keywords internal
 #' @noRd
-#' gtf_url <- paste0(
-#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#' )
-#' gtf_path <- ODER:::.file_cache(gtf_url)
-#'
-#' eg_opt_exons <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE)
-#' #ers_example is from the package data folder
-#' eg_delta <- .delta(query = ers_example[["mcc_5"]][["mrg_10"]], subject = eg_opt_exons)
-#'
-#' print(eg_delta)
 .delta <- function(query, subject) {
     # finding ovelaps of exons and expressed regions
     hits <- GenomicRanges::findOverlaps(query = query, subject = subject)
