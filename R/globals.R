@@ -16,5 +16,8 @@ utils::globalVariables(c(
     "median",
     "mcc",
     "mrg",
-    "."
+    ".",
+    "n_eq_0",
+    "maxgap",
+    "colours"
 ))
