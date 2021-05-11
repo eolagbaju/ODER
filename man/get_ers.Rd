@@ -19,7 +19,7 @@ combination of MCC and MRG.
 }
 \description{
 \code{gen_ERs} defines ERs across an inputted range of mean coverage cut-offs
-(MCCs) and max region gaps (MRGs).
+(MCCs) and max region gaps (MRGs) from the coverage.
 }
 \examples{
 # coverage_example is from the package data folder

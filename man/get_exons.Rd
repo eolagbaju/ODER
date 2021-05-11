@@ -21,14 +21,19 @@ if set to TRUE and seqnames already have "chr", it will not add another.}
 GRanges object containing non-overlapping exons.
 }
 \description{
-Obtain set of non-overlapping exons
+Downloads a well-defined set of exons to be used in obtaining the optimum set
+of Expressed regions. These exons are used in calculating the exon deltas.
 }
 \examples{
+\dontshow{
 gtf_url <- paste0(
     "http://ftp.ensembl.org/pub/release-103/gtf/",
     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 )
+# .file_cache is an internal function to download a bigwig file from a link
+# if the file has been downloaded recently, it will be retrieved from a cache
 gtf_path <- ODER:::.file_cache(gtf_url)
+}
 eg_exons_no_overlap <- get_exons(
     gtf = gtf_path,
     ucsc_chr = TRUE,

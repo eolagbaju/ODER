@@ -1,5 +1,5 @@
 #' Obtain set of non-overlapping exons
-#' 
+#'
 #' Downloads a well-defined set of exons to be used in obtaining the optimum set
 #' of Expressed regions. These exons are used in calculating the exon deltas.
 #'
@@ -73,8 +73,8 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE) {
 
 
 #' Calculates delta for sets of ERs
-#' 
-#' Calculates the median exon delta and the number of ERs with an exon delta of 
+#'
+#' Calculates the median exon delta and the number of ERs with an exon delta of
 #' 0 by comparing each combination of MCC and MRG with the optimum exons from
 #' the ensembl database.
 #'
@@ -100,7 +100,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE) {
 #' # .file_cache is an internal function to download a bigwig file from a link
 #' # if the file has been downloaded recently, it will be retrieved from a cache
 #' gtf_path <- ODER:::.file_cache(gtf_url)
-#' 
+#'
 #' eg_opt_exons <- get_exons(
 #'     gtf = gtf_path,
 #'     ucsc_chr = TRUE,
@@ -163,8 +163,8 @@ get_ers_delta <- function(ers, opt_exons, delta_fun = ODER:::.delta) {
 
 
 #' Obtains optimised set of ERs
-#' 
-#' Uses a delta calculating function and a well defined set of exons to find 
+#'
+#' Uses a delta calculating function and a well defined set of exons to find
 #' which combination of MCC and MRG gives the best definition of the Expressed
 #' regions.
 #'
@@ -228,8 +228,8 @@ get_opt_ers <- function(ers, ers_delta) {
 
 
 #' Default delta function
-#' 
-#' Calculates the difference between the starts and ends of the ERs and the set 
+#'
+#' Calculates the difference between the starts and ends of the ERs and the set
 #' of exons. Default function used when using \code{\link{get_ers_delta}}.
 #'
 #' @param query Set of ERs

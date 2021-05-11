@@ -1,6 +1,6 @@
 #' Generating the mean coverage of the expressed regions
 #'
-#' \code{get_coverage} returns the mean coverage of the RNA sequencing data 
+#' \code{get_coverage} returns the mean coverage of the RNA sequencing data
 #' passed in. The data should be passed in via the file path to a Bigwig file.
 #'
 #' @param bw_paths paths to bigwig files with the RNA-seq data that you want the
@@ -10,7 +10,7 @@
 #' @param auc_target total AUC to normalise all samples to. E.g. 40e6 * 100
 #'   would be the estimated total auc for sample sequenced to 40 million reads
 #'   of 100bp in length.
-#' @param chrs chromosomes to obtain mean coverage for, default is "" giving 
+#' @param chrs chromosomes to obtain mean coverage for, default is "" giving
 #'   every chromosome.
 #' @param genome the UCSC genome you want to use, the default is hg38.
 #'
@@ -24,8 +24,8 @@
 #'     type = "samples",
 #'     download = FALSE
 #' ) # .file_cache is an internal function to download a bigwig file from a link
-#'   # if the file has been downloaded recently, it will be retrieved from a cache
-#'   
+#' # if the file has been downloaded recently, it will be retrieved from a cache
+#'
 #' #' bw_path <- ODER:::.file_cache(url[1])
 #' }
 #' eg_coverage <- get_coverage(
@@ -74,7 +74,7 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
 }
 
 #' Get information from UCSC about the chromosomes passed in
-#' 
+#'
 #' Download information about each of the chromosomes passed in, most importantly
 #' the size.
 #'
@@ -93,7 +93,6 @@ get_chr_info <- function(chrs, genome) {
     if (all_UCSC_chr %contain% chrs) {
         chr_info <- GenomeInfoDb::getChromInfoFromUCSC(genome) %>%
             dplyr::filter(chrom %in% chrs)
-
     } else if (chrs == "") {
         chr_info <- GenomeInfoDb::getChromInfoFromUCSC(genome)
     } else {

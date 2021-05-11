@@ -10,18 +10,20 @@ get_opt_ers(ers, ers_delta)
 \item{ers}{Sets of ERs across various MCCs/MRGs - output of
 \code{\link{get_ers}}.}
 
-\item{ers_delta}{tibble/dataframe containing summarised delta values. One row per set
-of ERs.}
+\item{ers_delta}{tibble/dataframe containing summarised delta values. One row
+per set of ERs.}
 }
 \value{
 list containing optimised ERs, optimal pair of MCC/MRGs and
 \code{delta_df}
 }
 \description{
-Obtains optimised set of ERs
+Uses a delta calculating function and a well defined set of exons to find
+which combination of MCC and MRG gives the best definition of the Expressed
+regions.
 }
 \examples{
-
+\dontshow{
 gtf_url <- paste0(
     "http://ftp.ensembl.org/pub/release-103/gtf/",
     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
@@ -37,9 +39,10 @@ ers_delta <- get_ers_delta(
     ers = ers_example, # ers_example is from the package data folder
     opt_exons = exons_no_overlap
 )
-
+}
 opt_ers <- get_opt_ers(
     ers = ers_example,
     ers_delta = ers_delta
 )
+opt_ers
 }

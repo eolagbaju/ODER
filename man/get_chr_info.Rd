@@ -9,13 +9,14 @@ get_chr_info(chrs, genome)
 \arguments{
 \item{chrs}{chromosomes to look up (must match UCSC format)}
 
-\item{genome}{the UCSC genome to look at}
+\item{genome}{the UCSC genome to look at see \url{https://genome.ucsc.edu/}.}
 }
 \value{
 a dataframe with data on the passed in chromosomes
 }
 \description{
-Get information from UCSC about the chromosomes passed in
+Download information about each of the chromosomes passed in, most importantly
+the size.
 }
 \examples{
 eg_info <- get_chr_info(chrs = c("chr21", "chr22"), genome = "hg38")

@@ -15,7 +15,6 @@ See example.R in data-raw
 ers_delta_example
 }
 \description{
-This set of deltas was calculated using Expressed Regions from chromosomes 21
-and 22 and exons from the ensemble hg38 set
+This set of deltas was calculated using ers_example and exons from ensembl.
 }
 \keyword{datasets}

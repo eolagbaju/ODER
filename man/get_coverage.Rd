@@ -7,23 +7,27 @@
 get_coverage(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38")
 }
 \arguments{
-\item{bw_paths}{paths to bigwig files with the RNA-seq data that you want the coverage of.}
+\item{bw_paths}{paths to bigwig files with the RNA-seq data that you want the
+coverage of.}
 
-\item{auc_raw}{vector containing AUCs(Area Under Coverage) matching the order of bigwig paths.}
+\item{auc_raw}{vector containing AUCs(Area Under Coverage) matching the order
+of bigwig paths.}
 
 \item{auc_target}{total AUC to normalise all samples to. E.g. 40e6 * 100
 would be the estimated total auc for sample sequenced to 40 million reads
 of 100bp in length.}
 
-\item{chrs}{chromosomes to obtain mean coverage for, default is "" giving every chromosome}
+\item{chrs}{chromosomes to obtain mean coverage for, default is "" giving
+every chromosome.}
 
-\item{genome}{the UCSC genome you want to use, the default is hg38}
+\item{genome}{the UCSC genome you want to use, the default is hg38.}
 }
 \value{
-a list of Rles per chromosome passed in
+a list of Rles detailing the mean coverage per chromosome passed in.
 }
 \description{
-\code{get_coverage} returns the coverage of the BigWig data passed in
+\code{get_coverage} returns the mean coverage of the RNA sequencing data
+passed in. The data should be passed in via the file path to a Bigwig file.
 }
 \examples{
 \dontshow{
@@ -31,8 +35,10 @@ url <- recount::download_study(
     project = "SRP012682",
     type = "samples",
     download = FALSE
-)
-bw_path <- ODER:::.file_cache(url[1])
+) # .file_cache is an internal function to download a bigwig file from a link
+# if the file has been downloaded recently, it will be retrieved from a cache
+
+#' bw_path <- ODER:::.file_cache(url[1])
 }
 eg_coverage <- get_coverage(
     bw_paths = bw_path,

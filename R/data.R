@@ -1,6 +1,6 @@
 #' An example AUC value
 #'
-#' An AUC(Area Under Coverage) value for a user to try out the package and to 
+#' An AUC(Area Under Coverage) value for a user to try out the package and to
 #' pass in for tests. From the GTEX data set and project SRP012682, the actual
 #' value is 11872688252.
 #'
@@ -22,9 +22,9 @@
 "coverage_example"
 #' An example set of Expressed Regions
 #'
-#' An example set of Expressed Regions generated for a user to try out the 
-#' package and to pass in for tests. Generated using coverage_example and MCCs 
-#' of 5 and 10 and MRGs of 10 and 20. 
+#' An example set of Expressed Regions generated for a user to try out the
+#' package and to pass in for tests. Generated using coverage_example and MCCs
+#' of 5 and 10 and MRGs of 10 and 20.
 #'
 #' @format A list containing two lists (for each mcc) each with a set of genomic ranges
 #' for the different combinations of mcc and mrg

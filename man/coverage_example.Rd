@@ -15,6 +15,7 @@ coverage_example
 }
 \description{
 An example coverage generated for a user to try out the package and
-to pass in for tests
+to pass in for tests. Coverage of chromosomes 21 and 22 from the project
+SRP012682.
 }
 \keyword{datasets}

@@ -15,7 +15,8 @@ See example.R in data-raw
 ers_example
 }
 \description{
-An example set of Expressed Regions generated for a user to try out the package and
-to pass in for tests
+An example set of Expressed Regions generated for a user to try out the
+package and to pass in for tests. Generated using coverage_example and MCCs
+of 5 and 10 and MRGs of 10 and 20.
 }
 \keyword{datasets}
