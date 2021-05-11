@@ -14,7 +14,11 @@ status](http://www.bioconductor.org/shields/build/release/bioc/ODER.svg)](https:
 coverage](https://codecov.io/gh/eolagbaju/ODER/branch/master/graph/badge.svg)](https://codecov.io/gh/eolagbaju/ODER?branch=master)
 <!-- badges: end -->
 
-The goal of `ODER` is to …
+The goal of `ODER` is to well define expressed regions from
+RNA-squencing experiments so that they can be confidently identified as
+either currently annotated exons or previously unannotated exons. If the
+exons are unannotated, `ODER` also enables you to annotate these
+unannotated expressed regions.
 
 ## Installation instructions
 
@@ -43,29 +47,113 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library("ODER")
-## basic example code
+url <- recount::download_study(
+    project = "SRP012682",
+    type = "samples",
+    download = FALSE
+)
+#> Setting options('download.file.method.GEOquery'='auto')
+#> Setting options('GEOquery.inmemory.gpl'=FALSE)
+# .file_cache is an internal function to download a bigwig file from a link if the file has been downloaded recently, it will be retrieved from a cache
+bw_path <- ODER:::.file_cache(url[1])
+gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+gtf_path <- ODER:::.file_cache(gtf_url)
+
+opt_ers <- ODER(
+    bw_paths = bw_path, auc_raw = auc_example,
+    auc_target = 40e6 * 100, chrs = c("chr20", "chr21", "chr22"),
+    genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),
+    gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+    exons_no_overlap = NULL
+)
+#> Loading required package: BiocGenerics
+#> Loading required package: parallel
+#> 
+#> Attaching package: 'BiocGenerics'
+#> The following objects are masked from 'package:parallel':
+#> 
+#>     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+#>     clusterExport, clusterMap, parApply, parCapply, parLapply,
+#>     parLapplyLB, parRapply, parSapply, parSapplyLB
+#> The following objects are masked from 'package:stats':
+#> 
+#>     IQR, mad, sd, var, xtabs
+#> The following objects are masked from 'package:base':
+#> 
+#>     anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+#>     dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+#>     grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+#>     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+#>     rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+#>     union, unique, unsplit, which.max, which.min
+#> Loading required package: S4Vectors
+#> Loading required package: stats4
+#> 
+#> Attaching package: 'S4Vectors'
+#> The following object is masked from 'package:base':
+#> 
+#>     expand.grid
+#> [1] "2021-05-11 15:47:31 - Obtaining mean coverage across 1 samples"
+#> [1] "2021-05-11 15:47:31 - chr20"
+#> [1] "2021-05-11 15:47:32 - chr21"
+#> [1] "2021-05-11 15:47:33 - chr22"
+#> [1] "2021-05-11 15:47:35 - Generating ERs for chr20"
+#> [1] "2021-05-11 15:47:40 - Generating ERs for chr21"
+#> [1] "2021-05-11 15:47:43 - Generating ERs for chr22"
+#> [1] "2021-05-11 15:47:48 - Loading in GTF..."
+#> [1] "2021-05-11 15:48:38 - Obtaining non-overlapping exons"
+#> [1] "2021-05-11 15:48:40 - Calculating delta for ERs..."
+#> [1] "2021-05-11 15:48:44 - Obtaining optimal set of ERs..."
+
+opt_ers
+#> $opt_ers
+#> GRanges object with 25393 ranges and 0 metadata columns:
+#>         seqnames            ranges strand
+#>            <Rle>         <IRanges>  <Rle>
+#>   chr20    chr20     167593-167621      *
+#>   chr20    chr20     191726-191774      *
+#>   chr20    chr20     269685-269730      *
+#>   chr20    chr20     271105-271130      *
+#>   chr20    chr20     271210-271267      *
+#>     ...      ...               ...    ...
+#>   chr22    chr22 50798779-50798835      *
+#>   chr22    chr22 50798884-50799149      *
+#>   chr22    chr22 50799209-50799284      *
+#>   chr22    chr22 50799669-50799744      *
+#>   chr22    chr22 50800460-50800587      *
+#>   -------
+#>   seqinfo: 3 sequences from an unspecified genome; no seqlengths
+#> 
+#> $opt_mcc_mrg
+#> [1] "mcc_10" "mrg_30"
+#> 
+#> $deltas
+#> # A tibble: 15 x 7
+#>      mcc   mrg     sum  mean median n_eq_0 propor_eq_0
+#>    <dbl> <dbl>   <int> <dbl>  <dbl>  <int>       <dbl>
+#>  1     2    10 4718631  870.  149      795       0.147
+#>  2     2    20 4250197  830.  145      805       0.157
+#>  3     2    30 3839111  794.  138      814       0.168
+#>  4     4    10 4395515  901.  132      814       0.167
+#>  5     4    20 3868780  847.  123      835       0.183
+#>  6     4    30 3426418  793.  116      847       0.196
+#>  7     6    10 4271226  953.  130      835       0.186
+#>  8     6    20 3583476  868.  113      852       0.206
+#>  9     6    30 3139405  806.  107      870       0.223
+#> 10     8    10 4069944  981.  126      839       0.202
+#> 11     8    20 3406090  899.  111      858       0.227
+#> 12     8    30 2917974  822.  100      884       0.249
+#> 13    10    10 3891345 1011.  124      798       0.207
+#> 14    10    20 3181382  909.  106      827       0.236
+#> 15    10    30 2790475  854.   94.5    853       0.261
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
+<img src="man/figures/README-plotting the expressed regions-1.png" width="100%" />
 
 You’ll still need to render `README.Rmd` regularly, to keep `README.md`
 up-to-date.
 
 You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
 
 In that case, don’t forget to commit and push the resulting figure
 files, so they display on GitHub\!

@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/eolagbaju/ODER/branch/master/graph/badge.svg)](https://codecov.io/gh/eolagbaju/ODER?branch=master)
 <!-- badges: end -->
 
-The goal of `ODER` is to ...
+The goal of `ODER` is to well define expressed regions from RNA-squencing experiments so that they can be confidently identified as either currently annotated exons or previously unannotated exons. If the exons are unannotated, `ODER` also enables you to annotate these unannotated expressed regions.
 
 ## Installation instructions
 
@@ -47,22 +47,36 @@ This is a basic example which shows you how to solve a common problem:
 
 ```{r example, eval = requireNamespace('ODER')}
 library("ODER")
-## basic example code
+url <- recount::download_study(
+    project = "SRP012682",
+    type = "samples",
+    download = FALSE
+)
+# .file_cache is an internal function to download a bigwig file from a link if the file has been downloaded recently, it will be retrieved from a cache
+bw_path <- ODER:::.file_cache(url[1])
+gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+gtf_path <- ODER:::.file_cache(gtf_url)
+
+opt_ers <- ODER(
+    bw_paths = bw_path, auc_raw = auc_example,
+    auc_target = 40e6 * 100, chrs = c("chr20", "chr21", "chr22"),
+    genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),
+    gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+    exons_no_overlap = NULL
+)
+
+opt_ers
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
 
-```{r cars}
-summary(cars)
+```{r plotting the expressed regions, echo = FALSE}
+plot_ers(opt_ers[["deltas"]], opt_ers[["opt_mcc_mrg"]])
 ```
 
 You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
 
 You can also embed plots, for example:
 
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
 
 In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
 
