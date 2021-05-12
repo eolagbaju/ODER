@@ -93,17 +93,17 @@ opt_ers <- ODER(
 #> The following object is masked from 'package:base':
 #> 
 #>     expand.grid
-#> [1] "2021-05-12 09:07:41 - Obtaining mean coverage across 1 samples"
-#> [1] "2021-05-12 09:07:41 - chr20"
-#> [1] "2021-05-12 09:07:43 - chr21"
-#> [1] "2021-05-12 09:07:44 - chr22"
-#> [1] "2021-05-12 09:07:45 - Generating ERs for chr20"
-#> [1] "2021-05-12 09:07:51 - Generating ERs for chr21"
-#> [1] "2021-05-12 09:07:54 - Generating ERs for chr22"
-#> [1] "2021-05-12 09:07:59 - Loading in GTF..."
-#> [1] "2021-05-12 09:08:46 - Obtaining non-overlapping exons"
-#> [1] "2021-05-12 09:08:48 - Calculating delta for ERs..."
-#> [1] "2021-05-12 09:08:53 - Obtaining optimal set of ERs..."
+#> [1] "2021-05-12 14:01:59 - Obtaining mean coverage across 1 samples"
+#> [1] "2021-05-12 14:01:59 - chr20"
+#> [1] "2021-05-12 14:02:01 - chr21"
+#> [1] "2021-05-12 14:02:01 - chr22"
+#> [1] "2021-05-12 14:02:03 - Generating ERs for chr20"
+#> [1] "2021-05-12 14:02:08 - Generating ERs for chr21"
+#> [1] "2021-05-12 14:02:11 - Generating ERs for chr22"
+#> [1] "2021-05-12 14:02:17 - Loading in GTF..."
+#> [1] "2021-05-12 14:03:04 - Obtaining non-overlapping exons"
+#> [1] "2021-05-12 14:03:06 - Calculating delta for ERs..."
+#> [1] "2021-05-12 14:03:10 - Obtaining optimal set of ERs..."
 
 opt_ers
 #> $opt_ers
