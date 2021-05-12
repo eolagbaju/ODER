@@ -47,6 +47,8 @@ if set to TRUE and seqnames already have "chr", it will not add another.}
 
 \item{ignore.strand}{logical value for input into
 \code{\link[GenomicRanges]{findOverlaps}}, default is True.}
+
+\item{exons_no_overlap}{Optimum set of exons to help calculate deltas}
 }
 \value{
 list containing optimised ERs, optimal pair of MCC/MRGs and
@@ -62,21 +64,23 @@ url <- recount::download_study(
     type = "samples",
     download = FALSE
 ) # .file_cache is an internal function to download a bigwig file from a link
-  # if the file has been downloaded recently, it will be retrieved from a cache
-  
-#' bw_path <- ODER:::.file_cache(url[1])
-#' gtf_url <- paste0(
+# if the file has been downloaded recently, it will be retrieved from a cache
+
+bw_path <- ODER:::.file_cache(url[1])
+gtf_url <- paste0(
     "http://ftp.ensembl.org/pub/release-103/gtf/",
     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 )
 gtf_path <- ODER:::.file_cache(gtf_url)
 }
 
-opt_ers <- ODER(bw_paths = bw_path, auc_raw = auc_example, 
-                auc_target = 40e6 * 100, chrs = c("chr21","chr22"),
-                genome = "hg38", mccs = c(5,10), mrgs = c(10,20),
-                gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-                exons_no_overlap = NULL)
-                
+opt_ers <- ODER(
+    bw_paths = bw_path, auc_raw = auc_example,
+    auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
+    genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
+    gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+    exons_no_overlap = NULL
+)
+
 opt_ers
 }
