@@ -93,17 +93,17 @@ opt_ers <- ODER(
 #> The following object is masked from 'package:base':
 #> 
 #>     expand.grid
-#> [1] "2021-05-11 15:47:31 - Obtaining mean coverage across 1 samples"
-#> [1] "2021-05-11 15:47:31 - chr20"
-#> [1] "2021-05-11 15:47:32 - chr21"
-#> [1] "2021-05-11 15:47:33 - chr22"
-#> [1] "2021-05-11 15:47:35 - Generating ERs for chr20"
-#> [1] "2021-05-11 15:47:40 - Generating ERs for chr21"
-#> [1] "2021-05-11 15:47:43 - Generating ERs for chr22"
-#> [1] "2021-05-11 15:47:48 - Loading in GTF..."
-#> [1] "2021-05-11 15:48:38 - Obtaining non-overlapping exons"
-#> [1] "2021-05-11 15:48:40 - Calculating delta for ERs..."
-#> [1] "2021-05-11 15:48:44 - Obtaining optimal set of ERs..."
+#> [1] "2021-05-12 09:07:41 - Obtaining mean coverage across 1 samples"
+#> [1] "2021-05-12 09:07:41 - chr20"
+#> [1] "2021-05-12 09:07:43 - chr21"
+#> [1] "2021-05-12 09:07:44 - chr22"
+#> [1] "2021-05-12 09:07:45 - Generating ERs for chr20"
+#> [1] "2021-05-12 09:07:51 - Generating ERs for chr21"
+#> [1] "2021-05-12 09:07:54 - Generating ERs for chr22"
+#> [1] "2021-05-12 09:07:59 - Loading in GTF..."
+#> [1] "2021-05-12 09:08:46 - Obtaining non-overlapping exons"
+#> [1] "2021-05-12 09:08:48 - Calculating delta for ERs..."
+#> [1] "2021-05-12 09:08:53 - Obtaining optimal set of ERs..."
 
 opt_ers
 #> $opt_ers
@@ -148,7 +148,7 @@ opt_ers
 #> 15    10    30 2790475  854.   94.5    853       0.261
 ```
 
-<img src="man/figures/README-plotting the expressed regions-1.png" width="100%" />
+<img src="man/figures/README-plot_example-1.png" width="100%" />
 
 You’ll still need to render `README.Rmd` regularly, to keep `README.md`
 up-to-date.

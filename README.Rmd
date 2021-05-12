@@ -69,7 +69,7 @@ opt_ers
 ```
 
 
-```{r plotting the expressed regions, echo = FALSE}
+```{r plot_example, echo = FALSE}
 plot_ers(opt_ers[["deltas"]], opt_ers[["opt_mcc_mrg"]])
 ```
 
