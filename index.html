@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@
 <a href="#oder" class="anchor"></a>ODER</h1></div>
 <!-- badges: start -->
 
-<p>The goal of <code>ODER</code> is to …</p>
+<p>The goal of <code>ODER</code> is to well define expressed regions from RNA-squencing experiments so that they can be confidently identified as either currently annotated exons or previously unannotated exons. If the exons are unannotated, <code>ODER</code> also enables you to annotate these unannotated expressed regions.</p>
 <div id="installation-instructions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation-instructions" class="anchor"></a>Installation instructions</h2>
@@ -110,27 +110,115 @@
 <p>This is a basic example which shows you how to solve a common problem:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/eolagbaju/ODER">"ODER"</a></span><span class="op">)</span>
-<span class="co">## basic example code</span></code></pre></div>
-<p>What is special about using <code>README.Rmd</code> instead of just <code>README.md</code>? You can include R chunks like so:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">cars</span><span class="op">)</span>
-<span class="co">#&gt;      speed           dist       </span>
-<span class="co">#&gt;  Min.   : 4.0   Min.   :  2.00  </span>
-<span class="co">#&gt;  1st Qu.:12.0   1st Qu.: 26.00  </span>
-<span class="co">#&gt;  Median :15.0   Median : 36.00  </span>
-<span class="co">#&gt;  Mean   :15.4   Mean   : 42.98  </span>
-<span class="co">#&gt;  3rd Qu.:19.0   3rd Qu.: 56.00  </span>
-<span class="co">#&gt;  Max.   :25.0   Max.   :120.00</span></code></pre></div>
+<span class="va">url</span> <span class="op">&lt;-</span> <span class="fu">recount</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/recount/man/download_study.html">download_study</a></span><span class="op">(</span>
+    project <span class="op">=</span> <span class="st">"SRP012682"</span>,
+    type <span class="op">=</span> <span class="st">"samples"</span>,
+    download <span class="op">=</span> <span class="cn">FALSE</span>
+<span class="op">)</span>
+<span class="co">#&gt; Setting options('download.file.method.GEOquery'='auto')</span>
+<span class="co">#&gt; Setting options('GEOquery.inmemory.gpl'=FALSE)</span>
+<span class="co"># .file_cache is an internal function to download a bigwig file from a link if the file has been downloaded recently, it will be retrieved from a cache</span>
+<span class="va">bw_path</span> <span class="op">&lt;-</span> <span class="fu">ODER</span><span class="fu">:::</span><span class="fu">.file_cache</span><span class="op">(</span><span class="va">url</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
+<span class="va">gtf_url</span> <span class="op">&lt;-</span> <span class="st">"http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
+<span class="va">gtf_path</span> <span class="op">&lt;-</span> <span class="fu">ODER</span><span class="fu">:::</span><span class="fu">.file_cache</span><span class="op">(</span><span class="va">gtf_url</span><span class="op">)</span>
+
+<span class="va">opt_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ODER.html">ODER</a></span><span class="op">(</span>
+    bw_paths <span class="op">=</span> <span class="va">bw_path</span>, auc_raw <span class="op">=</span> <span class="va">auc_example</span>,
+    auc_target <span class="op">=</span> <span class="fl">40e6</span> <span class="op">*</span> <span class="fl">100</span>, chrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chr20"</span>, <span class="st">"chr21"</span>, <span class="st">"chr22"</span><span class="op">)</span>,
+    genome <span class="op">=</span> <span class="st">"hg38"</span>, mccs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>, mrgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span>,
+    gtf <span class="op">=</span> <span class="va">gtf_path</span>, ucsc_chr <span class="op">=</span> <span class="cn">TRUE</span>, ignore.strand <span class="op">=</span> <span class="cn">TRUE</span>,
+    exons_no_overlap <span class="op">=</span> <span class="cn">NULL</span>
+<span class="op">)</span>
+<span class="co">#&gt; Loading required package: BiocGenerics</span>
+<span class="co">#&gt; Loading required package: parallel</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'BiocGenerics'</span>
+<span class="co">#&gt; The following objects are masked from 'package:parallel':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,</span>
+<span class="co">#&gt;     clusterExport, clusterMap, parApply, parCapply, parLapply,</span>
+<span class="co">#&gt;     parLapplyLB, parRapply, parSapply, parSapplyLB</span>
+<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     IQR, mad, sd, var, xtabs</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     anyDuplicated, append, as.data.frame, basename, cbind, colnames,</span>
+<span class="co">#&gt;     dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,</span>
+<span class="co">#&gt;     grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,</span>
+<span class="co">#&gt;     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,</span>
+<span class="co">#&gt;     rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,</span>
+<span class="co">#&gt;     union, unique, unsplit, which.max, which.min</span>
+<span class="co">#&gt; Loading required package: S4Vectors</span>
+<span class="co">#&gt; Loading required package: stats4</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'S4Vectors'</span>
+<span class="co">#&gt; The following object is masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     expand.grid</span>
+<span class="co">#&gt; [1] "2021-05-12 09:07:41 - Obtaining mean coverage across 1 samples"</span>
+<span class="co">#&gt; [1] "2021-05-12 09:07:41 - chr20"</span>
+<span class="co">#&gt; [1] "2021-05-12 09:07:43 - chr21"</span>
+<span class="co">#&gt; [1] "2021-05-12 09:07:44 - chr22"</span>
+<span class="co">#&gt; [1] "2021-05-12 09:07:45 - Generating ERs for chr20"</span>
+<span class="co">#&gt; [1] "2021-05-12 09:07:51 - Generating ERs for chr21"</span>
+<span class="co">#&gt; [1] "2021-05-12 09:07:54 - Generating ERs for chr22"</span>
+<span class="co">#&gt; [1] "2021-05-12 09:07:59 - Loading in GTF..."</span>
+<span class="co">#&gt; [1] "2021-05-12 09:08:46 - Obtaining non-overlapping exons"</span>
+<span class="co">#&gt; [1] "2021-05-12 09:08:48 - Calculating delta for ERs..."</span>
+<span class="co">#&gt; [1] "2021-05-12 09:08:53 - Obtaining optimal set of ERs..."</span>
+
+<span class="va">opt_ers</span>
+<span class="co">#&gt; $opt_ers</span>
+<span class="co">#&gt; GRanges object with 25393 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;         seqnames            ranges strand</span>
+<span class="co">#&gt;            &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;   chr20    chr20     167593-167621      *</span>
+<span class="co">#&gt;   chr20    chr20     191726-191774      *</span>
+<span class="co">#&gt;   chr20    chr20     269685-269730      *</span>
+<span class="co">#&gt;   chr20    chr20     271105-271130      *</span>
+<span class="co">#&gt;   chr20    chr20     271210-271267      *</span>
+<span class="co">#&gt;     ...      ...               ...    ...</span>
+<span class="co">#&gt;   chr22    chr22 50798779-50798835      *</span>
+<span class="co">#&gt;   chr22    chr22 50798884-50799149      *</span>
+<span class="co">#&gt;   chr22    chr22 50799209-50799284      *</span>
+<span class="co">#&gt;   chr22    chr22 50799669-50799744      *</span>
+<span class="co">#&gt;   chr22    chr22 50800460-50800587      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 3 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $opt_mcc_mrg</span>
+<span class="co">#&gt; [1] "mcc_10" "mrg_30"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $deltas</span>
+<span class="co">#&gt; # A tibble: 15 x 7</span>
+<span class="co">#&gt;      mcc   mrg     sum  mean median n_eq_0 propor_eq_0</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;   &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;int&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt;  1     2    10 4718631  870.  149      795       0.147</span>
+<span class="co">#&gt;  2     2    20 4250197  830.  145      805       0.157</span>
+<span class="co">#&gt;  3     2    30 3839111  794.  138      814       0.168</span>
+<span class="co">#&gt;  4     4    10 4395515  901.  132      814       0.167</span>
+<span class="co">#&gt;  5     4    20 3868780  847.  123      835       0.183</span>
+<span class="co">#&gt;  6     4    30 3426418  793.  116      847       0.196</span>
+<span class="co">#&gt;  7     6    10 4271226  953.  130      835       0.186</span>
+<span class="co">#&gt;  8     6    20 3583476  868.  113      852       0.206</span>
+<span class="co">#&gt;  9     6    30 3139405  806.  107      870       0.223</span>
+<span class="co">#&gt; 10     8    10 4069944  981.  126      839       0.202</span>
+<span class="co">#&gt; 11     8    20 3406090  899.  111      858       0.227</span>
+<span class="co">#&gt; 12     8    30 2917974  822.  100      884       0.249</span>
+<span class="co">#&gt; 13    10    10 3891345 1011.  124      798       0.207</span>
+<span class="co">#&gt; 14    10    20 3181382  909.  106      827       0.236</span>
+<span class="co">#&gt; 15    10    30 2790475  854.   94.5    853       0.261</span></code></pre></div>
+<p><img src="reference/figures/README-plot_example-1.png" width="100%"></p>
 <p>You’ll still need to render <code>README.Rmd</code> regularly, to keep <code>README.md</code> up-to-date.</p>
 <p>You can also embed plots, for example:</p>
-<p><img src="reference/figures/README-pressure-1.png" width="100%"></p>
 <p>In that case, don’t forget to commit and push the resulting figure files, so they display on GitHub!</p>
 </div>
 <div id="citation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
 <p>Below is the citation output from using <code><a href="https://rdrr.io/r/utils/citation.html">citation('ODER')</a></code> in R. Please run this yourself to check for any updates on how to cite <strong>ODER</strong>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># print(citation('ODER'), bibtex = TRUE)</span></code></pre></div>
 <p>Please note that the <code>ODER</code> was only made possible thanks to many other R and bioinformatics software authors, which are cited either in the vignettes and/or the paper(s) describing this package.</p>
 </div>
