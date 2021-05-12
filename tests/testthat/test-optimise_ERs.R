@@ -22,6 +22,20 @@ test_opt_ers <- get_opt_ers(
     ers_delta = test_ers_delta
 )
 
+test_grs <- GenomicRanges::GRanges(
+    seqnames = S4Vectors::Rle(c("chr1"), c(10)),
+    ranges = IRanges::IRanges(
+        start = c(12975, 24738, 18157, 17915, 17554, 17233, 16858, 16570, 15796, 15005),
+        end = c(13052, 24891, 18354, 18061, 17728, 17368, 17055, 16723, 15947, 15038),
+        names = head(letters, 10)
+    ),
+    strand = S4Vectors::Rle((c("-", "+", "*", "+", "-")), c(1, 2, 2, 3, 2)),
+    score = 1:10,
+    GC = seq(1, 0, length = 10)
+)
+
+test_deltas <- ODER:::.delta(test_grs, test_exons)
+
 test_that("get_exons works", {
     expect_error(
         get_exons(
@@ -93,4 +107,12 @@ test_that("get_opt_ers works", {
 
     expect_equal(length(test_opt_ers[[2]]), 2)
     expect_equal(length(test_opt_ers), 3)
+})
+
+test_that(".delta works", {
+    expect_equal(test_deltas[["sum"]], 66)
+    expect_equal(test_deltas[["mean"]], 16.5)
+    expect_equal(test_deltas[["median"]], 0)
+    expect_equal(test_deltas[["n_eq_0"]], 3)
+    expect_equal(test_deltas[["propor_eq_0"]], 0.75)
 })
