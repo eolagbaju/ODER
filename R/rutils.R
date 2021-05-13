@@ -64,3 +64,20 @@ bw_check <- function(bws) {
     }
     return(TRUE)
 }
+
+#' Modify chromosome format for get-coverage
+#'
+#' @param chr chromosome of interest
+#' @param chr_format chromosome format, either chr or nochr
+#'
+#' @return string with unmodified chromosome format or modified
+#' @keywords internal
+#' @noRd
+chr_formatting <- function(chr, chr_format) {
+    if (chr_format == "chr") {
+        return(chr)
+    } else if (chr_format == "nochr") {
+        mod_chr <- stringr::str_replace(chr, "chr", "")
+        return(mod_chr)
+    }
+}

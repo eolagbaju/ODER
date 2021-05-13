@@ -13,6 +13,9 @@
 #' @param chrs chromosomes to obtain mean coverage for, default is "" giving
 #'   every chromosome.
 #' @param genome the UCSC genome you want to use, the default is hg38.
+#' @param bw_chr specifies whether the bigwig files has the chromosomes labelled
+#'   with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
+#'   "chr" or "nochr" with "chr" being the default.
 #'
 #' @return a list of Rles detailing the mean coverage per chromosome passed in.
 #' @export
@@ -36,7 +39,7 @@
 #' )
 #'
 #' print(eg_coverage)
-get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38") {
+get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38", bw_chr = "chr") {
     if (!is.numeric(auc_raw) | !is.numeric(auc_target)) {
         stop("Please enter a valid number for the auc values")
     } else if (missing(bw_paths)) {
@@ -59,7 +62,7 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
                 files = bw_paths,
                 totalMapped = auc_raw, # normalise by auc here as for bws, more accurate since Rail-RNA clips reads
                 targetSize = auc_target, # these come from derfinder::filterData
-                chr = chr_info$chrom[i],
+                chr = chr_formatting(chr_info$chrom[i], bw_chr),
                 chrlen = chr_info$size[i],
                 inputType = "BigWig",
                 returnMean = TRUE,

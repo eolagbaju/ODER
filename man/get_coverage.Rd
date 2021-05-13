@@ -4,7 +4,14 @@
 \alias{get_coverage}
 \title{Generating the mean coverage of the expressed regions}
 \usage{
-get_coverage(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38")
+get_coverage(
+  bw_paths,
+  auc_raw,
+  auc_target,
+  chrs = "",
+  genome = "hg38",
+  bw_chr = "chr"
+)
 }
 \arguments{
 \item{bw_paths}{paths to bigwig files with the RNA-seq data that you want the
@@ -21,6 +28,10 @@ of 100bp in length.}
 every chromosome.}
 
 \item{genome}{the UCSC genome you want to use, the default is hg38.}
+
+\item{bw_chr}{specifies whether the bigwig files has the chromosomes labelled
+with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
+"chr" or "nochr" with "chr" being the default.}
 }
 \value{
 a list of Rles detailing the mean coverage per chromosome passed in.
