@@ -15,7 +15,8 @@ ODER(
   gtf = NULL,
   ucsc_chr,
   ignore.strand,
-  exons_no_overlap = NULL
+  exons_no_overlap = NULL,
+  bw_chr = "chr"
 )
 }
 \arguments{
@@ -49,6 +50,10 @@ if set to TRUE and seqnames already have "chr", it will not add another.}
 \code{\link[GenomicRanges]{findOverlaps}}, default is True.}
 
 \item{exons_no_overlap}{Optimum set of exons to help calculate deltas}
+
+\item{bw_chr}{specifies whether the bigwig files has the chromosomes labelled
+with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
+"chr" or "nochr" with "chr" being the default.}
 }
 \value{
 list containing optimised ERs, optimal pair of MCC/MRGs and
@@ -79,7 +84,7 @@ opt_ers <- ODER(
     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
     genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-    exons_no_overlap = NULL
+    exons_no_overlap = NULL, bw_chr = "chr"
 )
 
 opt_ers

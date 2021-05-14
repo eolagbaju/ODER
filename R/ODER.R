@@ -32,19 +32,20 @@
 #'     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
 #'     genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
 #'     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-#'     exons_no_overlap = NULL
+#'     exons_no_overlap = NULL, bw_chr = "chr"
 #' )
 #'
 #' opt_ers
 ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
     mccs, mrgs,
     gtf = NULL, ucsc_chr, ignore.strand,
-    exons_no_overlap = NULL) {
+    exons_no_overlap = NULL,
+    bw_chr = "chr") {
     if (is.null(gtf) && is.null(opt_ers)) stop("One of gtf OR opt_gr must be provided.")
 
     coverage <- get_coverage(
-        bw_paths = bw_paths, auc_raw = auc_raw,
-        auc_target = auc_target, chrs = chrs, genome = "hg38"
+        bw_paths = bw_paths, auc_raw = auc_raw, auc_target = auc_target,
+        chrs = chrs, genome = "hg38", bw_chr = bw_chr
     )
 
     ers <- get_ers(coverage = coverage, mccs = mccs, mrgs = mrgs)
