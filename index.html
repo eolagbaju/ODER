@@ -127,7 +127,7 @@
     auc_target <span class="op">=</span> <span class="fl">40e6</span> <span class="op">*</span> <span class="fl">100</span>, chrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chr20"</span>, <span class="st">"chr21"</span>, <span class="st">"chr22"</span><span class="op">)</span>,
     genome <span class="op">=</span> <span class="st">"hg38"</span>, mccs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>, mrgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span>,
     gtf <span class="op">=</span> <span class="va">gtf_path</span>, ucsc_chr <span class="op">=</span> <span class="cn">TRUE</span>, ignore.strand <span class="op">=</span> <span class="cn">TRUE</span>,
-    exons_no_overlap <span class="op">=</span> <span class="cn">NULL</span>
+    exons_no_overlap <span class="op">=</span> <span class="cn">NULL</span>, bw_chr <span class="op">=</span> <span class="st">"chr"</span>
 <span class="op">)</span>
 <span class="co">#&gt; Loading required package: BiocGenerics</span>
 <span class="co">#&gt; Loading required package: parallel</span>
@@ -156,17 +156,17 @@
 <span class="co">#&gt; The following object is masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     expand.grid</span>
-<span class="co">#&gt; [1] "2021-05-12 14:01:59 - Obtaining mean coverage across 1 samples"</span>
-<span class="co">#&gt; [1] "2021-05-12 14:01:59 - chr20"</span>
-<span class="co">#&gt; [1] "2021-05-12 14:02:01 - chr21"</span>
-<span class="co">#&gt; [1] "2021-05-12 14:02:01 - chr22"</span>
-<span class="co">#&gt; [1] "2021-05-12 14:02:03 - Generating ERs for chr20"</span>
-<span class="co">#&gt; [1] "2021-05-12 14:02:08 - Generating ERs for chr21"</span>
-<span class="co">#&gt; [1] "2021-05-12 14:02:11 - Generating ERs for chr22"</span>
-<span class="co">#&gt; [1] "2021-05-12 14:02:17 - Loading in GTF..."</span>
-<span class="co">#&gt; [1] "2021-05-12 14:03:04 - Obtaining non-overlapping exons"</span>
-<span class="co">#&gt; [1] "2021-05-12 14:03:06 - Calculating delta for ERs..."</span>
-<span class="co">#&gt; [1] "2021-05-12 14:03:10 - Obtaining optimal set of ERs..."</span>
+<span class="co">#&gt; [1] "2021-05-14 15:09:02 - Obtaining mean coverage across 1 samples"</span>
+<span class="co">#&gt; [1] "2021-05-14 15:09:02 - chr20"</span>
+<span class="co">#&gt; [1] "2021-05-14 15:09:04 - chr21"</span>
+<span class="co">#&gt; [1] "2021-05-14 15:09:05 - chr22"</span>
+<span class="co">#&gt; [1] "2021-05-14 15:09:06 - Generating ERs for chr20"</span>
+<span class="co">#&gt; [1] "2021-05-14 15:09:12 - Generating ERs for chr21"</span>
+<span class="co">#&gt; [1] "2021-05-14 15:09:15 - Generating ERs for chr22"</span>
+<span class="co">#&gt; [1] "2021-05-14 15:09:20 - Loading in GTF..."</span>
+<span class="co">#&gt; [1] "2021-05-14 15:10:07 - Obtaining non-overlapping exons"</span>
+<span class="co">#&gt; [1] "2021-05-14 15:10:09 - Calculating delta for ERs..."</span>
+<span class="co">#&gt; [1] "2021-05-14 15:10:14 - Obtaining optimal set of ERs..."</span>
 
 <span class="va">opt_ers</span>
 <span class="co">#&gt; $opt_ers</span>
