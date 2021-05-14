@@ -62,7 +62,7 @@ opt_ers <- ODER(
     auc_target = 40e6 * 100, chrs = c("chr20", "chr21", "chr22"),
     genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),
     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-    exons_no_overlap = NULL
+    exons_no_overlap = NULL, bw_chr = "chr"
 )
 
 opt_ers

@@ -64,7 +64,7 @@ opt_ers <- ODER(
     auc_target = 40e6 * 100, chrs = c("chr20", "chr21", "chr22"),
     genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),
     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-    exons_no_overlap = NULL
+    exons_no_overlap = NULL, bw_chr = "chr"
 )
 #> Loading required package: BiocGenerics
 #> Loading required package: parallel
@@ -93,17 +93,17 @@ opt_ers <- ODER(
 #> The following object is masked from 'package:base':
 #> 
 #>     expand.grid
-#> [1] "2021-05-12 14:01:59 - Obtaining mean coverage across 1 samples"
-#> [1] "2021-05-12 14:01:59 - chr20"
-#> [1] "2021-05-12 14:02:01 - chr21"
-#> [1] "2021-05-12 14:02:01 - chr22"
-#> [1] "2021-05-12 14:02:03 - Generating ERs for chr20"
-#> [1] "2021-05-12 14:02:08 - Generating ERs for chr21"
-#> [1] "2021-05-12 14:02:11 - Generating ERs for chr22"
-#> [1] "2021-05-12 14:02:17 - Loading in GTF..."
-#> [1] "2021-05-12 14:03:04 - Obtaining non-overlapping exons"
-#> [1] "2021-05-12 14:03:06 - Calculating delta for ERs..."
-#> [1] "2021-05-12 14:03:10 - Obtaining optimal set of ERs..."
+#> [1] "2021-05-14 15:09:02 - Obtaining mean coverage across 1 samples"
+#> [1] "2021-05-14 15:09:02 - chr20"
+#> [1] "2021-05-14 15:09:04 - chr21"
+#> [1] "2021-05-14 15:09:05 - chr22"
+#> [1] "2021-05-14 15:09:06 - Generating ERs for chr20"
+#> [1] "2021-05-14 15:09:12 - Generating ERs for chr21"
+#> [1] "2021-05-14 15:09:15 - Generating ERs for chr22"
+#> [1] "2021-05-14 15:09:20 - Loading in GTF..."
+#> [1] "2021-05-14 15:10:07 - Obtaining non-overlapping exons"
+#> [1] "2021-05-14 15:10:09 - Calculating delta for ERs..."
+#> [1] "2021-05-14 15:10:14 - Obtaining optimal set of ERs..."
 
 opt_ers
 #> $opt_ers
