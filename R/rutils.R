@@ -76,8 +76,13 @@ bw_check <- function(bws) {
 chr_formatting <- function(chr, chr_format) {
     if (chr_format == "chr") {
         return(chr)
-    } else if (chr_format == "nochr") {
-        mod_chr <- stringr::str_replace(chr, "chr", "")
-        return(mod_chr)
+    } else if (chr_format == "nochr") { # MT for mitochondrial
+        if (grepl("M", chr)) {
+            return("MT")
+        }
+        else {
+            mod_chr <- stringr::str_replace(chr, "chr", "")
+            return(mod_chr)
+        }
     }
 }
