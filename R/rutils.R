@@ -53,8 +53,10 @@
 #' @keywords internal
 #' @noRd
 bw_check <- function(bws) {
-    if (length(bws) == 1 & stringr::str_sub(bws, -3, -1) != ".bw") {
-        return(FALSE)
+    if (length(bws) == 1) {
+        if (stringr::str_sub(bws, -3, -1) != ".bw") {
+            return(FALSE)
+        }
     } else if (length(bws) >= 1) {
         for (fp in bws) {
             if (stringr::str_sub(fp, -3, -1) != ".bw") {
@@ -85,4 +87,53 @@ chr_formatting <- function(chr, chr_format) {
             return(mod_chr)
         }
     }
+}
+
+#' Modify chromosome format for get_chr_info
+#'
+#' @param chrs vector of desried chromosomes
+#'
+#' @return appropriately formatted chromosomes for
+#' @keywords internal
+#' @noRd
+informatting <- function(chrs) {
+    default <- c(
+        "chr1", "chr2", "chr3", "chr4", "chr5", "chr6", "chr7", "chr8", "chr9",
+        "chr10", "chr11", "chr12", "chr13", "chr14", "chr15", "chr16", "chr17",
+        "chr18", "chr19", "chr20", "chr21", "chr22", "chrX", "chrY", "chrM"
+    )
+
+    if (length(chrs) == 1) {
+        if (chrs == "") {
+            return(default)
+        }
+        if (stringr::str_detect(chrs, "chr")) {
+            return(chrs)
+        }
+        if (chrs == "M" | chrs == "MT") {
+            return("chrM")
+        } else {
+            return(stringr::str_c("chr", as.character(chrs)))
+        }
+    }
+    if (length(chrs) > 1) {
+        if (stringr::str_detect(chrs[1], "chr")) {
+            return(chrs)
+        }
+    }
+
+    mod_chrs <- vector(mode = "character", length = length(chrs))
+    counter <- 1
+    for (chr in chrs) {
+        chr <- as.character(chr)
+        if (chr == "M" | chr == "MT") {
+            mod_chrs[counter] <- "chrM"
+        } else if (stringr::str_sub(chr, 1, 3) != "chr") {
+            mod_chrs[counter] <- stringr::str_c("chr", chr)
+        } else {
+            mod_chrs[counter] <- chr
+        }
+        counter <- counter + 1
+    }
+    return(mod_chrs)
 }

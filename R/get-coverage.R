@@ -11,7 +11,8 @@
 #'   would be the estimated total auc for sample sequenced to 40 million reads
 #'   of 100bp in length.
 #' @param chrs chromosomes to obtain mean coverage for, default is "" giving
-#'   every chromosome.
+#'   every chromosome. Can take UCSC format(chrs = "chr1")
+#'   or just the chromosome i.e. chrs = c(1,X)
 #' @param genome the UCSC genome you want to use, the default is hg38.
 #' @param bw_chr specifies whether the bigwig files has the chromosomes labelled
 #'   with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
@@ -92,6 +93,8 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
 #'
 #' print(eg_info)
 get_chr_info <- function(chrs, genome) {
+    chrs <- informatting(chrs)
+
     all_UCSC_chr <- GenomeInfoDb::getChromInfoFromUCSC(genome)[["chrom"]]
     if (all_UCSC_chr %contain% chrs) {
         chr_info <- GenomeInfoDb::getChromInfoFromUCSC(genome) %>%
