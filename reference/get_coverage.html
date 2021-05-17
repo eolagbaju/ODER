@@ -165,7 +165,8 @@ of 100bp in length.</p></td>
     <tr>
       <th>chrs</th>
       <td><p>chromosomes to obtain mean coverage for, default is "" giving
-every chromosome.</p></td>
+every chromosome. Can take UCSC format(chrs = "chr1")
+or just the chromosome i.e. chrs = c(1,X)</p></td>
     </tr>
     <tr>
       <th>genome</th>
@@ -200,9 +201,9 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
     auc_target <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>,
     chrs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-05-14 15:30:49 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-05-14 15:30:49 - chr21"
-#&gt; [1] "2021-05-14 15:30:49 - chr22"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-05-17 16:47:52 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-05-17 16:47:52 - chr21"
+#&gt; [1] "2021-05-17 16:47:52 - chr22"</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_coverage</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $chr21
 #&gt; $chr21$meanCoverage

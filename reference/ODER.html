@@ -169,7 +169,8 @@ of 100bp in length.</p></td>
     <tr>
       <th>chrs</th>
       <td><p>chromosomes to obtain mean coverage for, default is "" giving
-every chromosome.</p></td>
+every chromosome. Can take UCSC format(chrs = "chr1")
+or just the chromosome i.e. chrs = c(1,X)</p></td>
     </tr>
     <tr>
       <th>genome</th>
@@ -257,31 +258,31 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 #&gt; <span class='message'>    union, unique, unsplit, which.max, which.min</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: S4Vectors</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: stats4</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘S4Vectors’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    expand.grid</span></div><div class='output co'>#&gt; [1] "2021-05-14 15:30:03 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-05-14 15:30:03 - chr21"
-#&gt; [1] "2021-05-14 15:30:04 - chr22"
-#&gt; [1] "2021-05-14 15:30:05 - Generating ERs for chr21"
-#&gt; [1] "2021-05-14 15:30:08 - Generating ERs for chr22"
-#&gt; [1] "2021-05-14 15:30:09 - Loading in GTF..."
-#&gt; [1] "2021-05-14 15:30:46 - Obtaining non-overlapping exons"
-#&gt; [1] "2021-05-14 15:30:48 - Calculating delta for ERs..."
-#&gt; [1] "2021-05-14 15:30:48 - Obtaining optimal set of ERs..."</div><div class='input'>
+#&gt; <span class='message'>    expand.grid</span></div><div class='output co'>#&gt; [1] "2021-05-17 16:47:00 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-05-17 16:47:00 - chr21"
+#&gt; [1] "2021-05-17 16:47:01 - chr22"
+#&gt; [1] "2021-05-17 16:47:02 - Generating ERs for chr21"
+#&gt; [1] "2021-05-17 16:47:06 - Generating ERs for chr22"
+#&gt; [1] "2021-05-17 16:47:07 - Loading in GTF..."
+#&gt; [1] "2021-05-17 16:47:48 - Obtaining non-overlapping exons"
+#&gt; [1] "2021-05-17 16:47:50 - Calculating delta for ERs..."
+#&gt; [1] "2021-05-17 16:47:51 - Obtaining optimal set of ERs..."</div><div class='input'>
 <span class='va'>opt_ers</span>
 </div><div class='output co'>#&gt; $opt_ers
 #&gt; GRanges object with 15977 ranges and 0 metadata columns:
-#&gt;         seqnames            ranges strand
-#&gt;            &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;   chr21    chr21   5032176-5032217      *
-#&gt;   chr21    chr21   5033408-5033425      *
-#&gt;   chr21    chr21   5034717-5034756      *
-#&gt;   chr21    chr21   5035188-5035189      *
-#&gt;   chr21    chr21   5036577-5036581      *
-#&gt;     ...      ...               ...    ...
-#&gt;   chr22    chr22 50798996-50799149      *
-#&gt;   chr22    chr22 50799209-50799284      *
-#&gt;   chr22    chr22 50799669-50799688      *
-#&gt;   chr22    chr22 50799717-50799744      *
-#&gt;   chr22    chr22 50800460-50800587      *
+#&gt;           seqnames            ranges strand
+#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
+#&gt;       [1]    chr21   5032176-5032217      *
+#&gt;       [2]    chr21   5033408-5033425      *
+#&gt;       [3]    chr21   5034717-5034756      *
+#&gt;       [4]    chr21   5035188-5035189      *
+#&gt;       [5]    chr21   5036577-5036581      *
+#&gt;       ...      ...               ...    ...
+#&gt;   [15973]    chr22 50798996-50799149      *
+#&gt;   [15974]    chr22 50799209-50799284      *
+#&gt;   [15975]    chr22 50799669-50799688      *
+#&gt;   [15976]    chr22 50799717-50799744      *
+#&gt;   [15977]    chr22 50800460-50800587      *
 #&gt;   -------
 #&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths
 #&gt; 

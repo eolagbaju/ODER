@@ -170,33 +170,33 @@ per set of ERs.</p></td>
     ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,
     ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-05-14 15:31:58 - Loading in GTF..."
-#&gt; [1] "2021-05-14 15:32:30 - Obtaining non-overlapping exons"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-05-17 16:49:12 - Loading in GTF..."
+#&gt; [1] "2021-05-17 16:49:48 - Obtaining non-overlapping exons"</div><div class='input'>
 <span class='va'>ers_delta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_ers_delta.html'>get_ers_delta</a></span><span class='op'>(</span>
     ers <span class='op'>=</span> <span class='va'>ers_example</span>, <span class='co'># ers_example is from the package data folder</span>
     opt_exons <span class='op'>=</span> <span class='va'>exons_no_overlap</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-05-14 15:32:31 - Calculating delta for ERs..."</div><div class='input'><span class='co'># }</span>
+</div><div class='output co'>#&gt; [1] "2021-05-17 16:49:50 - Calculating delta for ERs..."</div><div class='input'><span class='co'># }</span>
 <span class='va'>opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_opt_ers</span><span class='op'>(</span>
     ers <span class='op'>=</span> <span class='va'>ers_example</span>,
     ers_delta <span class='op'>=</span> <span class='va'>ers_delta</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-05-14 15:32:31 - Obtaining optimal set of ERs..."</div><div class='input'><span class='va'>opt_ers</span>
+</div><div class='output co'>#&gt; [1] "2021-05-17 16:49:50 - Obtaining optimal set of ERs..."</div><div class='input'><span class='va'>opt_ers</span>
 </div><div class='output co'>#&gt; $opt_ers
 #&gt; GRanges object with 15977 ranges and 0 metadata columns:
-#&gt;         seqnames            ranges strand
-#&gt;            &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;   chr21    chr21   5032176-5032217      *
-#&gt;   chr21    chr21   5033408-5033425      *
-#&gt;   chr21    chr21   5034717-5034756      *
-#&gt;   chr21    chr21   5035188-5035189      *
-#&gt;   chr21    chr21   5036577-5036581      *
-#&gt;     ...      ...               ...    ...
-#&gt;   chr22    chr22 50798996-50799149      *
-#&gt;   chr22    chr22 50799209-50799284      *
-#&gt;   chr22    chr22 50799669-50799688      *
-#&gt;   chr22    chr22 50799717-50799744      *
-#&gt;   chr22    chr22 50800460-50800587      *
+#&gt;           seqnames            ranges strand
+#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
+#&gt;       [1]    chr21   5032176-5032217      *
+#&gt;       [2]    chr21   5033408-5033425      *
+#&gt;       [3]    chr21   5034717-5034756      *
+#&gt;       [4]    chr21   5035188-5035189      *
+#&gt;       [5]    chr21   5036577-5036581      *
+#&gt;       ...      ...               ...    ...
+#&gt;   [15973]    chr22 50798996-50799149      *
+#&gt;   [15974]    chr22 50799209-50799284      *
+#&gt;   [15975]    chr22 50799669-50799688      *
+#&gt;   [15976]    chr22 50799717-50799744      *
+#&gt;   [15977]    chr22 50800460-50800587      *
 #&gt;   -------
 #&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths
 #&gt; 
