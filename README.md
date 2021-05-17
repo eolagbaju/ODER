@@ -93,34 +93,34 @@ opt_ers <- ODER(
 #> The following object is masked from 'package:base':
 #> 
 #>     expand.grid
-#> [1] "2021-05-14 15:09:02 - Obtaining mean coverage across 1 samples"
-#> [1] "2021-05-14 15:09:02 - chr20"
-#> [1] "2021-05-14 15:09:04 - chr21"
-#> [1] "2021-05-14 15:09:05 - chr22"
-#> [1] "2021-05-14 15:09:06 - Generating ERs for chr20"
-#> [1] "2021-05-14 15:09:12 - Generating ERs for chr21"
-#> [1] "2021-05-14 15:09:15 - Generating ERs for chr22"
-#> [1] "2021-05-14 15:09:20 - Loading in GTF..."
-#> [1] "2021-05-14 15:10:07 - Obtaining non-overlapping exons"
-#> [1] "2021-05-14 15:10:09 - Calculating delta for ERs..."
-#> [1] "2021-05-14 15:10:14 - Obtaining optimal set of ERs..."
+#> [1] "2021-05-17 16:25:43 - Obtaining mean coverage across 1 samples"
+#> [1] "2021-05-17 16:25:43 - chr20"
+#> [1] "2021-05-17 16:25:44 - chr21"
+#> [1] "2021-05-17 16:25:45 - chr22"
+#> [1] "2021-05-17 16:25:46 - Generating ERs for chr20"
+#> [1] "2021-05-17 16:25:52 - Generating ERs for chr21"
+#> [1] "2021-05-17 16:25:55 - Generating ERs for chr22"
+#> [1] "2021-05-17 16:26:00 - Loading in GTF..."
+#> [1] "2021-05-17 16:26:47 - Obtaining non-overlapping exons"
+#> [1] "2021-05-17 16:26:49 - Calculating delta for ERs..."
+#> [1] "2021-05-17 16:26:54 - Obtaining optimal set of ERs..."
 
 opt_ers
 #> $opt_ers
 #> GRanges object with 25393 ranges and 0 metadata columns:
-#>         seqnames            ranges strand
-#>            <Rle>         <IRanges>  <Rle>
-#>   chr20    chr20     167593-167621      *
-#>   chr20    chr20     191726-191774      *
-#>   chr20    chr20     269685-269730      *
-#>   chr20    chr20     271105-271130      *
-#>   chr20    chr20     271210-271267      *
-#>     ...      ...               ...    ...
-#>   chr22    chr22 50798779-50798835      *
-#>   chr22    chr22 50798884-50799149      *
-#>   chr22    chr22 50799209-50799284      *
-#>   chr22    chr22 50799669-50799744      *
-#>   chr22    chr22 50800460-50800587      *
+#>           seqnames            ranges strand
+#>              <Rle>         <IRanges>  <Rle>
+#>       [1]    chr20     167593-167621      *
+#>       [2]    chr20     191726-191774      *
+#>       [3]    chr20     269685-269730      *
+#>       [4]    chr20     271105-271130      *
+#>       [5]    chr20     271210-271267      *
+#>       ...      ...               ...    ...
+#>   [25389]    chr22 50798779-50798835      *
+#>   [25390]    chr22 50798884-50799149      *
+#>   [25391]    chr22 50799209-50799284      *
+#>   [25392]    chr22 50799669-50799744      *
+#>   [25393]    chr22 50800460-50800587      *
 #>   -------
 #>   seqinfo: 3 sequences from an unspecified genome; no seqlengths
 #> 

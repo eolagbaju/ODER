@@ -118,7 +118,7 @@ coverage <- get_coverage(
     auc_raw = gtex_metadata[["auc"]][1],
     auc_target = 40e6 * 100, # target 40 million coverage with 100 bp length reads
     chrs = c("chr21", "chr22")
-) # defaults to chr1-22, chrX, chrY, chrM
+) # defaults to chr1-22, chrX, chrY, chrM if chrs = ""
 
 coverage
 

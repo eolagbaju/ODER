@@ -61,6 +61,7 @@ get_ers <- function(coverage, mccs, mrgs) {
             for (k in 1:length(mrgs)) {
                 mrg_label <- stringr::str_c("mrg_", mrgs[k])
 
+
                 # collapse ERs with less than a MRG apart
                 ers[[mcc_label]][[mrg_label]][[names(coverage)[i]]] <- er_mcc %>%
                     GenomicRanges::reduce(min.gapwidth = mrgs[k])
@@ -81,6 +82,9 @@ get_ers <- function(coverage, mccs, mrgs) {
                 GenomicRanges::GRangesList() %>%
                 unlist() %>%
                 sort()
+
+            names(ers[[mcc_label]][[mrg_label]]) <- NULL
+            # enables conversion into dataframe otherwise all rows will have chr
         }
     }
 

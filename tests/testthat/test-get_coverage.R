@@ -82,6 +82,8 @@ test_that("get_coverage works", {
 })
 
 test_that("get_ers works", {
+    test_er_df <- as.data.frame(ers_example[[1]][[1]])
+
     expect_error(
         get_ers(
             mccs = c(5, 10),
@@ -107,4 +109,5 @@ test_that("get_ers works", {
     expect_type(ers_example, "list") # ers_example is from the data folder
     expect_type(ers_example[[1]][[1]], "S4")
     expect_true(methods::is(ers_example[[1]][[1]], "GenomicRanges"))
+    expect_true(methods::is(test_er_df, "data.frame"))
 })
