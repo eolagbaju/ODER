@@ -1,0 +1,144 @@
+---
+title: "AnnotatER workflow"
+author: 
+  - name: Your name
+    affiliation:
+    - Your institution
+    email: your.email@somewhere.com
+output: 
+  BiocStyle::html_document:
+    self_contained: yes
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    code_folding: show
+date: "`r doc_date()`"
+package: "`r pkg_ver('ODER')`"
+vignette: >
+  %\VignetteIndexEntry{AnnotatER workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}  
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    crop = NULL ## Related to https://stat.ethz.ch/pipermail/bioc-devel/2020-April/016656.html
+)
+```
+
+
+```{r vignetteSetup, echo=FALSE, message=FALSE, warning = FALSE}
+## Track time spent on making the vignette
+startTime <- Sys.time()
+
+## Bib setup
+library("RefManageR")
+
+# ## Write bibliography information
+# bib <- c(
+#     R = citation(),
+#     BiocStyle = citation("BiocStyle")[1],
+#     knitr = citation("knitr")[1],
+#     RefManageR = citation("RefManageR")[1],
+#     rmarkdown = citation("rmarkdown")[1],
+#     sessioninfo = citation("sessioninfo")[1],
+#     testthat = citation("testthat")[1],
+#     ODER = citation("ODER")[1]
+# )
+```
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r "start", message=FALSE}
+library("ODER")
+```
+
+```{r get_opt_ers}
+url <- recount::download_study(
+    project = "SRP012682",
+    type = "samples",
+    download = FALSE
+) # .file_cache is an internal function to download a bigwig file from a link
+# if the file has been downloaded recently, it will be retrieved from a cache
+
+bw_path <- ODER:::.file_cache(url[1])
+gtf_url <- paste0(
+    "http://ftp.ensembl.org/pub/release-103/gtf/",
+    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+)
+gtf_path <- ODER:::.file_cache(gtf_url)
+
+gtex_metadata <- recount::all_metadata("gtex")
+
+gtex_metadata <- gtex_metadata %>%
+    as.data.frame() %>%
+    dplyr::filter(project == "SRP012682")
+
+opt_ers <- ODER(
+    bw_paths = bw_path, auc_raw = gtex_metadata[["auc"]][1],
+    auc_target = 40e6 * 100, chrs = c(1),
+    genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
+    gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+    exons_no_overlap = NULL, bw_chr = "chr"
+)
+```
+
+
+```{r annotate_junctions, echo=FALSE}
+load(file = "/data/recount/GTEx_SRP012682/gtex_split_read_table_annotated_rda/lung_split_read_table_annotated.rda")
+
+lung_junc <- gtex_split_read_table_annotated_only_junc_coverage
+
+ann_opt_ers <- get_junctions(opt_ers = opt_ers[["opt_ers"]], junc_data = lung_junc, gtf_path = gtf_path)
+```
+
+Code for creating the vignette
+
+```{r createVignette, eval=FALSE}
+## Create the vignette
+library("rmarkdown")
+system.time(render("ODER.Rmd", "BiocStyle::html_document"))
+
+## Extract the R code
+library("knitr")
+knit("ODER.Rmd", tangle = TRUE)
+```
+
+Date the vignette was generated.
+
+```{r reproduce1, echo=FALSE}
+## Date the vignette was generated
+Sys.time()
+```
+
+Wallclock time spent generating the vignette.
+
+```{r reproduce2, echo=FALSE}
+## Processing time in seconds
+totalTime <- diff(c(startTime, Sys.time()))
+round(totalTime, digits = 3)
+```
+
+`R` session information.
+
+```{r reproduce3, echo=FALSE}
+## Session info
+library("sessioninfo")
+options(width = 120)
+session_info()
+```
+
+
+
+# Bibliography
+
+
+```{r vignetteBiblio, results = "asis", echo = FALSE, warning = FALSE, message = FALSE}
+## Print bibliography
+# PrintBibliography(bib, .opts = list(hyperlink = "to.doc", style = "html"))
+```
