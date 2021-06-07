@@ -1,6 +1,6 @@
 Package: ODER
 Title: Optimising the Definition of Expressed Regions
-Version: 0.99.6
+Version: 0.99.8
 Date: 2021-04-13
 Authors@R: 
     c(person(given = "Emmanuel",family = "Olagbaju",
@@ -35,7 +35,8 @@ Suggests:
     testthat (>= 3.0.0),
     recount,
     IRanges,
-    S4Vectors
+    S4Vectors,
+    SummarizedExperiment
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Imports: 
@@ -50,6 +51,7 @@ Imports:
     rtracklayer,
     ggplot2,
     ggpubr,
-    ggrepel
+    ggrepel,
+    dasper
 Depends: 
     R (>= 2.10)
