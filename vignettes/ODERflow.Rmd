@@ -153,11 +153,13 @@ opt_plots
 ```
 
 ```{r annotate_junctions, echo=FALSE}
-load(file = "/data/recount/GTEx_SRP012682/gtex_split_read_table_annotated_rda/lung_split_read_table_annotated.rda")
+# load(file = "/data/recount/GTEx_SRP012682/gtex_split_read_table_annotated_rda/lung_split_read_table_annotated.rda")
+# 
+# lung_junc <- gtex_split_read_table_annotated_only_junc_coverage
 
-lung_junc <- gtex_split_read_table_annotated_only_junc_coverage
+junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
 
-ann_opt_ers <- get_junctions(opt_ers = opt_ers[["opt_ers"]], junc_data = lung_junc, gtf_path = gtf_path)
+ann_opt_ers <- get_junctions(opt_ers = opt_ers[["opt_ers"]], junc_data = junctions, gtf_path = gtf_path)
 ```
 
 # Reproducibility
