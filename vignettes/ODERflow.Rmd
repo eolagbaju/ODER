@@ -173,6 +173,15 @@ annot_ers <- annotatERs(
 )
 ```
 
+```{r refine_ERs, echo=FALSE}
+
+#mcols(annot_ers)[["annotation"]][!(grepl("exon",mcols(annot_ers)[["annotation"]]))]
+ne_annot_ers <- annot_ers[!(grepl("exon",mcols(annot_ers)[["annotation"]]))]
+#ranges(ne_annot_ers[1])
+# ranges(mcols(ne_annot_ers)[["grl"]][1])
+
+```
+
 # Reproducibility
 
 

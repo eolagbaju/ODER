@@ -207,12 +207,12 @@ generate_genomic_state <- function(gtf = NULL, txdb = NULL,
         return(derfinder::makeGenomicState(txdb = txdb))
     } else if (ensembl) {
         gtf_txdb <- GenomicFeatures::makeTxDbFromGFF(file = gtf, format = "gtf")
-        gtf_txdb <- keepSeqlevels(gtf_txdb, chrs_to_keep)
+        gtf_txdb <- GenomeInfoDb::keepSeqlevels(gtf_txdb, chrs_to_keep)
 
         hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
         new_info <- hg38_chrominfo$size[match(
-            seqlevels(gtf_txdb),
-            mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
+            GenomeInfoDb::seqlevels(gtf_txdb),
+            GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
         )]
         names(new_info) <- chrs_to_keep
 
@@ -221,9 +221,9 @@ generate_genomic_state <- function(gtf = NULL, txdb = NULL,
             chrs_to_keep,
             pruning.mode = "tidy"
         )
-        seqlengths(gtf_gr) <- new_info
+        GenomeInfoDb::seqlengths(gtf_gr) <- new_info
         GenomeInfoDb::seqlevelsStyle(gtf_gr) <- "UCSC"
-        genome(gtf_gr) <- "hg38"
+        rtracklayer::genome(gtf_gr) <- "hg38"
 
         pro_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr)
 
