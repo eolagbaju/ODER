@@ -170,18 +170,18 @@ per set of ERs.</p></td>
     ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,
     ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-06-11 14:50:54 - Loading in GTF..."
-#&gt; [1] "2021-06-11 14:51:36 - Obtaining non-overlapping exons"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-06-11 15:43:19 - Loading in GTF..."
+#&gt; [1] "2021-06-11 15:43:57 - Obtaining non-overlapping exons"</div><div class='input'>
 <span class='va'>ers_delta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_ers_delta.html'>get_ers_delta</a></span><span class='op'>(</span>
     ers <span class='op'>=</span> <span class='va'>ers_example</span>, <span class='co'># ers_example is from the package data folder</span>
     opt_exons <span class='op'>=</span> <span class='va'>exons_no_overlap</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-06-11 14:51:39 - Calculating delta for ERs..."</div><div class='input'><span class='co'># }</span>
+</div><div class='output co'>#&gt; [1] "2021-06-11 15:44:00 - Calculating delta for ERs..."</div><div class='input'><span class='co'># }</span>
 <span class='va'>opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_opt_ers</span><span class='op'>(</span>
     ers <span class='op'>=</span> <span class='va'>ers_example</span>,
     ers_delta <span class='op'>=</span> <span class='va'>ers_delta</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-06-11 14:51:40 - Obtaining optimal set of ERs..."</div><div class='input'><span class='va'>opt_ers</span>
+</div><div class='output co'>#&gt; [1] "2021-06-11 15:44:01 - Obtaining optimal set of ERs..."</div><div class='input'><span class='va'>opt_ers</span>
 </div><div class='output co'>#&gt; $opt_ers
 #&gt; GRanges object with 15977 ranges and 0 metadata columns:
 #&gt;           seqnames            ranges strand
