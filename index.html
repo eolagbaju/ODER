@@ -156,17 +156,17 @@
 <span class="co">#&gt; The following object is masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     expand.grid</span>
-<span class="co">#&gt; [1] "2021-06-07 15:57:50 - Obtaining mean coverage across 1 samples"</span>
-<span class="co">#&gt; [1] "2021-06-07 15:57:50 - chr20"</span>
-<span class="co">#&gt; [1] "2021-06-07 15:57:52 - chr21"</span>
-<span class="co">#&gt; [1] "2021-06-07 15:57:52 - chr22"</span>
-<span class="co">#&gt; [1] "2021-06-07 15:57:54 - Generating ERs for chr20"</span>
-<span class="co">#&gt; [1] "2021-06-07 15:58:02 - Generating ERs for chr21"</span>
-<span class="co">#&gt; [1] "2021-06-07 15:58:04 - Generating ERs for chr22"</span>
-<span class="co">#&gt; [1] "2021-06-07 15:58:08 - Loading in GTF..."</span>
-<span class="co">#&gt; [1] "2021-06-07 15:58:55 - Obtaining non-overlapping exons"</span>
-<span class="co">#&gt; [1] "2021-06-07 15:58:57 - Calculating delta for ERs..."</span>
-<span class="co">#&gt; [1] "2021-06-07 15:59:01 - Obtaining optimal set of ERs..."</span>
+<span class="co">#&gt; [1] "2021-06-11 13:14:48 - Obtaining mean coverage across 1 samples"</span>
+<span class="co">#&gt; [1] "2021-06-11 13:14:48 - chr20"</span>
+<span class="co">#&gt; [1] "2021-06-11 13:14:52 - chr21"</span>
+<span class="co">#&gt; [1] "2021-06-11 13:14:52 - chr22"</span>
+<span class="co">#&gt; [1] "2021-06-11 13:14:54 - Generating ERs for chr20"</span>
+<span class="co">#&gt; [1] "2021-06-11 13:15:05 - Generating ERs for chr21"</span>
+<span class="co">#&gt; [1] "2021-06-11 13:15:09 - Generating ERs for chr22"</span>
+<span class="co">#&gt; [1] "2021-06-11 13:15:12 - Loading in GTF..."</span>
+<span class="co">#&gt; [1] "2021-06-11 13:16:05 - Obtaining non-overlapping exons"</span>
+<span class="co">#&gt; [1] "2021-06-11 13:16:07 - Calculating delta for ERs..."</span>
+<span class="co">#&gt; [1] "2021-06-11 13:16:12 - Obtaining optimal set of ERs..."</span>
 
 <span class="va">opt_ers</span>
 <span class="co">#&gt; $opt_ers</span>
@@ -210,6 +210,72 @@
 <span class="co">#&gt; 14    10    20 3181382  909.  106      827       0.236</span>
 <span class="co">#&gt; 15    10    30 2790475  854.   94.5    853       0.261</span></code></pre></div>
 <p><img src="reference/figures/README-plot_example-1.png" width="100%"></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-11 13:16:14 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-11 13:16:14 - Importing gtf/gff3 as a TxDb..."</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Make the TxDb object ...</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   stop_codon. This information was ignored.</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; OK</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-11 13:17:56 - Getting junction annotation using overlapping exons..."</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-11 13:17:58 - Tidying junction annotation..."</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-11 13:17:59 - Deriving junction categories..."</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-11 13:18:06 - done!"</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Make the TxDb object ...</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   stop_codon. This information was ignored.</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; OK</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   stop_codon. This information was ignored.</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 'select()' returned 1:1 mapping between keys and columns</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021-06-11 13:23:34 annotateRegions: counting</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021-06-11 13:23:34 annotateRegions: annotating</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GRanges object with 25393 ranges and 4 metadata columns:</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           seqnames            ranges strand |</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; |</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [1]    chr20     167593-167621      * |</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [2]    chr20     191726-191774      * |</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [3]    chr20     269685-269730      * |</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [4]    chr20     271105-271130      * |</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [5]    chr20     271210-271267      * |</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       ...      ...               ...    ... .</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25389]    chr22 50798779-50798835      * |</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25390]    chr22 50798884-50799149      * |</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25391]    chr22 50799209-50799284      * |</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25392]    chr22 50799669-50799744      * |</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25393]    chr22 50800460-50800587      * |</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                         grl</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               &lt;GRangesList&gt;</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [1]                                                                                  </span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [2]                                                                                  </span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [3]                                                                                  </span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [4]                                                                                  </span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [5]                                                                                  </span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       ...                                                                               ...</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25389] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25390]     chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25391]     chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25392] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25393] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     genes  annotation  og_index</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           &lt;CharacterList&gt; &lt;character&gt; &lt;integer&gt;</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [1]                        none         1</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [2]                        none         2</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [3]                        none         3</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [4]                        none         4</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [5]                        none         5</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       ...             ...         ...       ...</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25389] ENSG00000184319        exon     25389</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25390]                        exon     25390</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25391]                        exon     25391</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25392]                        exon     25392</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25393]                        exon     25393</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   -------</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   seqinfo: 3 sequences from an unspecified genome; no seqlengths</span></span></code></pre></div>
 <p>You’ll still need to render <code>README.Rmd</code> regularly, to keep <code>README.md</code> up-to-date.</p>
 <p>You can also embed plots, for example:</p>
 <p>In that case, don’t forget to commit and push the resulting figure files, so they display on GitHub!</p>
@@ -218,7 +284,7 @@
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
 <p>Below is the citation output from using <code><a href="https://rdrr.io/r/utils/citation.html">citation('ODER')</a></code> in R. Please run this yourself to check for any updates on how to cite <strong>ODER</strong>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># print(citation('ODER'), bibtex = TRUE)</span></code></pre></div>
 <p>Please note that the <code>ODER</code> was only made possible thanks to many other R and bioinformatics software authors, which are cited either in the vignettes and/or the paper(s) describing this package.</p>
 </div>
