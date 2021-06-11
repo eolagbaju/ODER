@@ -59,6 +59,7 @@ GenomeInfoDb::seqlevelsStyle(annotated_junctions) <- "UCSC" #to match opt_ers
 
 ```{r overlapping_ERs, include=FALSE}
 
+
 hits <- GenomicRanges::findOverlaps(opt_ers[["opt_ers"]],
                                     annotated_junctions)
 

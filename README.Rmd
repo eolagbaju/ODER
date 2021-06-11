@@ -45,7 +45,7 @@ BiocManager::install("eolagbaju/ODER")
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example, eval = requireNamespace('ODER')}
+```{r example_ODER, eval = requireNamespace('ODER')}
 library("ODER")
 url <- recount::download_study(
     project = "SRP012682",
@@ -71,6 +71,16 @@ opt_ers
 
 ```{r plot_example, echo = FALSE}
 plot_ers(opt_ers[["deltas"]], opt_ers[["opt_mcc_mrg"]])
+```
+
+```{r annotatER_example, echo = FALSE}
+junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
+annot_ers <- annotatERs(
+    opt_ers = opt_ers[["opt_ers"]], junc_data = junctions,
+    gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
+)
+
+annot_ers
 ```
 
 You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.

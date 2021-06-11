@@ -152,14 +152,25 @@ opt_plots <- plot_ers(ers_delta = ers_delta, opt_mcc_mrg = opt_ers[["opt_mcc_mrg
 opt_plots
 ```
 
-```{r annotate_junctions, echo=FALSE}
+```{r get_junctions, echo=FALSE}
 # load(file = "/data/recount/GTEx_SRP012682/gtex_split_read_table_annotated_rda/lung_split_read_table_annotated.rda")
-# 
+#
 # lung_junc <- gtex_split_read_table_annotated_only_junc_coverage
 
 junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
+GenomeInfoDb::seqlevelsStyle(junctions) <- "NCBI"
 
 ann_opt_ers <- get_junctions(opt_ers = opt_ers[["opt_ers"]], junc_data = junctions, gtf_path = gtf_path)
+```
+
+```{r annotate_junctions, echo=FALSE}
+
+junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
+GenomeInfoDb::seqlevelsStyle(junctions) <- "NCBI"
+annot_ers <- annotatERs(
+    opt_ers = opt_ers[["opt_ers"]], junc_data = junctions,
+    gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
+)
 ```
 
 # Reproducibility

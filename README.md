@@ -93,17 +93,17 @@ opt_ers <- ODER(
 #> The following object is masked from 'package:base':
 #> 
 #>     expand.grid
-#> [1] "2021-06-07 15:57:50 - Obtaining mean coverage across 1 samples"
-#> [1] "2021-06-07 15:57:50 - chr20"
-#> [1] "2021-06-07 15:57:52 - chr21"
-#> [1] "2021-06-07 15:57:52 - chr22"
-#> [1] "2021-06-07 15:57:54 - Generating ERs for chr20"
-#> [1] "2021-06-07 15:58:02 - Generating ERs for chr21"
-#> [1] "2021-06-07 15:58:04 - Generating ERs for chr22"
-#> [1] "2021-06-07 15:58:08 - Loading in GTF..."
-#> [1] "2021-06-07 15:58:55 - Obtaining non-overlapping exons"
-#> [1] "2021-06-07 15:58:57 - Calculating delta for ERs..."
-#> [1] "2021-06-07 15:59:01 - Obtaining optimal set of ERs..."
+#> [1] "2021-06-11 13:14:48 - Obtaining mean coverage across 1 samples"
+#> [1] "2021-06-11 13:14:48 - chr20"
+#> [1] "2021-06-11 13:14:52 - chr21"
+#> [1] "2021-06-11 13:14:52 - chr22"
+#> [1] "2021-06-11 13:14:54 - Generating ERs for chr20"
+#> [1] "2021-06-11 13:15:05 - Generating ERs for chr21"
+#> [1] "2021-06-11 13:15:09 - Generating ERs for chr22"
+#> [1] "2021-06-11 13:15:12 - Loading in GTF..."
+#> [1] "2021-06-11 13:16:05 - Obtaining non-overlapping exons"
+#> [1] "2021-06-11 13:16:07 - Calculating delta for ERs..."
+#> [1] "2021-06-11 13:16:12 - Obtaining optimal set of ERs..."
 
 opt_ers
 #> $opt_ers
@@ -149,6 +149,73 @@ opt_ers
 ```
 
 <img src="man/figures/README-plot_example-1.png" width="100%" />
+
+    #> [1] "2021-06-11 13:16:14 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+    #> [1] "2021-06-11 13:16:14 - Importing gtf/gff3 as a TxDb..."
+    #> Import genomic features from the file as a GRanges object ... OK
+    #> Prepare the 'metadata' data frame ... OK
+    #> Make the TxDb object ...
+    #> Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
+    #>   stop_codon. This information was ignored.
+    #> OK
+    #> [1] "2021-06-11 13:17:56 - Getting junction annotation using overlapping exons..."
+    #> [1] "2021-06-11 13:17:58 - Tidying junction annotation..."
+    #> [1] "2021-06-11 13:17:59 - Deriving junction categories..."
+    #> [1] "2021-06-11 13:18:06 - done!"
+    #> Import genomic features from the file as a GRanges object ... OK
+    #> Prepare the 'metadata' data frame ... OK
+    #> Make the TxDb object ...
+    #> Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
+    #>   stop_codon. This information was ignored.
+    #> OK
+    #> Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
+    #>   stop_codon. This information was ignored.
+    #> extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens
+    #> 'select()' returned 1:1 mapping between keys and columns
+    #> 2021-06-11 13:23:34 annotateRegions: counting
+    #> 2021-06-11 13:23:34 annotateRegions: annotating
+    #> GRanges object with 25393 ranges and 4 metadata columns:
+    #>           seqnames            ranges strand |
+    #>              <Rle>         <IRanges>  <Rle> |
+    #>       [1]    chr20     167593-167621      * |
+    #>       [2]    chr20     191726-191774      * |
+    #>       [3]    chr20     269685-269730      * |
+    #>       [4]    chr20     271105-271130      * |
+    #>       [5]    chr20     271210-271267      * |
+    #>       ...      ...               ...    ... .
+    #>   [25389]    chr22 50798779-50798835      * |
+    #>   [25390]    chr22 50798884-50799149      * |
+    #>   [25391]    chr22 50799209-50799284      * |
+    #>   [25392]    chr22 50799669-50799744      * |
+    #>   [25393]    chr22 50800460-50800587      * |
+    #>                                                                                         grl
+    #>                                                                               <GRangesList>
+    #>       [1]                                                                                  
+    #>       [2]                                                                                  
+    #>       [3]                                                                                  
+    #>       [4]                                                                                  
+    #>       [5]                                                                                  
+    #>       ...                                                                               ...
+    #>   [25389] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...
+    #>   [25390]     chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-
+    #>   [25391]     chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-
+    #>   [25392] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...
+    #>   [25393] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...
+    #>                     genes  annotation  og_index
+    #>           <CharacterList> <character> <integer>
+    #>       [1]                        none         1
+    #>       [2]                        none         2
+    #>       [3]                        none         3
+    #>       [4]                        none         4
+    #>       [5]                        none         5
+    #>       ...             ...         ...       ...
+    #>   [25389] ENSG00000184319        exon     25389
+    #>   [25390]                        exon     25390
+    #>   [25391]                        exon     25391
+    #>   [25392]                        exon     25392
+    #>   [25393]                        exon     25393
+    #>   -------
+    #>   seqinfo: 3 sequences from an unspecified genome; no seqlengths
 
 You’ll still need to render `README.Rmd` regularly, to keep `README.md`
 up-to-date.

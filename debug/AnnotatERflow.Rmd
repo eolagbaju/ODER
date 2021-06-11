@@ -97,6 +97,52 @@ lung_junc <- gtex_split_read_table_annotated_only_junc_coverage
 ann_opt_ers <- get_junctions(opt_ers = opt_ers[["opt_ers"]], junc_data = lung_junc, gtf_path = gtf_path)
 ```
 
+```{r annotate_ers, echo=FALSE}
+test_gs <- generate_genomic_state(gtf=gtf_path,chrs_to_keep="1",ensembl=TRUE)
+
+annot_ers <- derfinder::annotateRegions(regions = ann_opt_ers, genomicState = test_gs$fullGenome,
+                                        maxgap = -1L, minoverlap = 1L)
+annot_table <- annotate_table(annot_ers$countTable)
+GenomicRanges::mcols(ann_opt_ers)$annotation <- annot_table[["region_annot"]]
+GenomicRanges::mcols(ann_opt_ers)$og_index <- annot_table[["ER_index"]]
+
+#dplyr::select(annot_table,c("region_annot","ER_index"))
+
+
+#annot_ers$annotationList[seqnames(annot_ers$annotationList)=="chr1"]
+# https://support.bioconductor.org/p/45305/
+# 
+# rn <- 1:length(ann_opt_ers)
+# rn <- as.character(rn)
+# 
+# names(ann_opt_ers) <- rn
+# 
+# ann_novel_ers <- ann_opt_ers[ rownames(annot_count[annot_count[["exon"]]==0,])]
+# annotations <- annot_ers$annotationList[ rownames(annot_count[annot_count[["exon"]]==0,])]
+
+```
+
+``` {r refine_ers, echo=FALSE}
+  for (gr in seq_along(ann_opt_ers)){
+    if (length(ranges(mcols(ann_opt_ers[gr])[["grl"]][[1]]))==1 || length(ranges(mcols(ann_opt_ers[gr])[["grl"]][[1]]))==2){
+      #print(length(ranges(mcols(ann_opt_ers[gr])[["grl"]][[1]])))
+      }
+  }
+
+```
+``` {r refine_ers2, echo=FALSE}
+counter=0
+  for (gr in seq_along(ranges(mcols(ann_opt_ers)[["grl"]]))){
+    #print(ranges(mcols(ann_opt_ers)[["grl"]])[gr])
+    if(length(unlist(ranges(mcols(ann_opt_ers)[["grl"]])[gr]))==1 || length(unlist(ranges(mcols(ann_opt_ers)[["grl"]])[gr]))==2) {
+      counter = counter + 1
+      #print(gr)
+    }
+  }
+    print(counter)
+
+```
+
 Code for creating the vignette
 
 ```{r createVignette, eval=FALSE}
