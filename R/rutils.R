@@ -91,7 +91,7 @@ chr_formatting <- function(chr, chr_format) {
 
 #' Modify chromosome format for get_chr_info
 #'
-#' @param chrs vector of desried chromosomes
+#' @param chrs vector of desired chromosomes
 #'
 #' @return appropriately formatted chromosomes for
 #' @keywords internal
@@ -136,4 +136,109 @@ informatting <- function(chrs) {
         counter <- counter + 1
     }
     return(mod_chrs)
+}
+
+#' Modify chromosome format for annotatERs
+#'
+#' @param chrs vector of desired chromosomes
+#'
+#' @return appropriately formatted chromosomes for
+#' @keywords internal
+#' @noRd
+informatting2 <- function(chrs) {
+    default <- c(
+        "1", "2", "3", "4", "5", "6", "7", "8", "9",
+        "10", "11", "12", "13", "14", "15", "16", "17",
+        "18", "19", "20", "21", "22", "X", "Y", "MT"
+    )
+
+
+    if (length(chrs) == 1) {
+        if (chrs == "") {
+            return(default)
+        }
+        if (!(stringr::str_detect(chrs, "chr"))) {
+            return(chrs)
+        }
+        if (chrs == "M" | chrs == "MT") {
+            return("MT")
+        }
+    }
+    if (length(chrs) > 1) {
+        if (!(stringr::str_detect(chrs[1], "chr"))) {
+            return(chrs)
+        }
+    }
+
+    mod_chrs <- vector(mode = "character", length = length(chrs))
+    counter <- 1
+    for (chr in chrs) {
+        chr <- as.character(chr)
+        if (chr == "chrM" | chr == "chrMT") {
+            mod_chrs[counter] <- "MT"
+        } else if (stringr::str_sub(chr, 1, 3) == "chr") {
+            mod_chrs[counter] <- stringr::str_remove(chr, "chr")
+        } else {
+            mod_chrs[counter] <- chr
+        }
+        counter <- counter + 1
+    }
+    return(mod_chrs)
+}
+
+#' Check if value is between two other values or is within a range
+#'
+#' @param value value to check
+#' @param rstart start of range
+#' @param rend end of range
+#'
+#' @return TRUE or FALSE
+#' @keywords internal
+#' @noRd
+inbetween <- function(value, rstart, rend) {
+    if ((value > rstart) & (value < rend)) {
+        return(TRUE)
+    } else if (value == rstart) {
+        return(TRUE)
+    }
+    else if (value == rend) {
+        return(TRUE)
+    }
+    else {
+        return(FALSE)
+    }
+}
+
+#' Finds overlapping genomic ranges (specifically junctions)
+#'
+#' @param x metadata containing one or two genomic ranges
+#'
+#' @return TRUE or FALSE
+#' @keywords internal
+#' @noRd
+colgrs <- function(x) {
+    if (length(x) == 1) {
+        return(FALSE)
+    } else if (GenomicRanges::countOverlaps(x[1], x[2]) > 0) {
+        return(TRUE)
+    } else {
+        return(FALSE)
+    }
+}
+
+#' Finds non-overlapping genomic ranges (specifically junctions)
+#'
+#' @param x metadata containing one or two genomic ranges
+#'
+#' @return TRUE or FALSE
+#' @keywords internal
+#' @noRd
+inv_colgrs <- function(x) {
+    if (length(x) == 1) {
+        return(TRUE)
+    } else if (GenomicRanges::countOverlaps(x[1], x[2]) > 0) {
+        return(FALSE)
+    } else {
+        return(TRUE)
+    }
 }

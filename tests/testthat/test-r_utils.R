@@ -33,3 +33,40 @@ test_that("informatting works", {
     expect_equal(informatting("MT"), "chrM")
     expect_equal(informatting(c(1, 2, "M")), c("chr1", "chr2", "chrM"))
 })
+
+test_that("informatting2 works", {
+    default <- c(
+        "1", "2", "3", "4", "5", "6", "7", "8", "9",
+        "10", "11", "12", "13", "14", "15", "16", "17",
+        "18", "19", "20", "21", "22", "X", "Y", "MT"
+    )
+
+    expect_equal(informatting2(c("1", "2")), c("1", "2"))
+    expect_equal(informatting2(c("chr1", "chr2")), c("1", "2"))
+    expect_equal(informatting2(c("chr1", "chr2", "chrX")), c(1, 2, "X"))
+    expect_equal(informatting2(""), default)
+    expect_equal(informatting2("chrM"), "MT")
+    expect_equal(informatting2(c("chr1", "chr2", "chrM")), c(1, 2, "MT"))
+})
+
+test_that("inbetween works", {
+    expect_true(inbetween(5, 4, 6))
+    expect_false(inbetween(2, 4, 6))
+    expect_false(inbetween(4, 4, 6))
+})
+
+test_gr1 <- GenomicRanges::GRanges("chr21", IRanges::IRanges(5026423, 5323718), strand = "+")
+test_gr2 <- GenomicRanges::GRanges("chr21", IRanges::IRanges(c(13261708, 13482787), c(13482707, 13851281)), strand = "-")
+test_gr3 <- GenomicRanges::GRanges("chr21", IRanges::IRanges(c(25085652, 25086122), c(25086438, 25087197)), strand = "+")
+
+test_that("colgrs works", {
+    expect_false(colgrs(test_gr1))
+    expect_false(colgrs(test_gr2))
+    expect_true(colgrs(test_gr3))
+})
+
+test_that("colgrs works", {
+    expect_true(inv_colgrs(test_gr1))
+    expect_true(inv_colgrs(test_gr2))
+    expect_false(inv_colgrs(test_gr3))
+})

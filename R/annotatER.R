@@ -1,6 +1,11 @@
 #' Finds overlapping junctions and annotates ERs as exonic, intronic, intergenic,
 #' some combination or none of those
 #'
+#' Looks at junctions passed in to find any overlaps and adds them in along with
+#' other information as metadata columns. Then uses a gtf file or a Txdb passed
+#' in to generate a genomic state and then labels each ER as to whether they are
+#' exonic, intronic, intergenic on none.
+#'
 #'
 #' @inheritParams get_junctions
 #' @inheritParams generate_genomic_state
@@ -49,10 +54,10 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, txdb = NULL,
     )
     genom_state <- generate_genomic_state(
         gtf = gtf_path, txdb = txdb,
-        chrs_to_keep = chrs_to_keep,
+        chrs_to_keep = informatting2(chrs_to_keep),
         ensembl = ensembl
     )
-
+    print(stringr::str_c(Sys.time(), " - Annotating the Expressed regions..."))
     annot_ers <- derfinder::annotateRegions(
         regions = ann_opt_ers,
         genomicState = genom_state[["fullGenome"]],
@@ -61,6 +66,8 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, txdb = NULL,
     annot_table <- annotate_table(annot_ers[["countTable"]])
     GenomicRanges::mcols(ann_opt_ers)$annotation <- annot_table[["region_annot"]]
     GenomicRanges::mcols(ann_opt_ers)$og_index <- annot_table[["ER_index"]]
+
+    print(stringr::str_c(Sys.time(), " - done!"))
 
     return(ann_opt_ers)
 }
@@ -80,6 +87,9 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, txdb = NULL,
 #' "gene_id_start", "tx_name_start", "exon_name_start", "strand_start",
 #' "exon_width_start","gene_id_end", "tx_name_end", "exon_name_end", "strand_end",
 #' "exon_width_end", "gene_id_junction", "strand_junction", "type" and "er_index
+#'  add the columns I'm adding
+#'
+#' @seealso dasper::junction...
 #'
 #' add more detail to description i.e. columns added in mcols by junction_annot
 #' , gene id er etc. also talk about the empty granges for no overlaps
@@ -136,6 +146,8 @@ get_junctions <- function(opt_ers, junc_data, gtf_path) {
     GenomeInfoDb::seqlevelsStyle(junc_data) <- "NCBI"
     annotated_junctions <- dasper::junction_annot(junctions = junc_data, ref = gtf_path)
     GenomeInfoDb::seqlevelsStyle(annotated_junctions) <- "UCSC" # to match opt_ers
+
+    print(stringr::str_c(Sys.time(), " - Finding junctions overlapping ers..."))
 
     hits <- GenomicRanges::findOverlaps(opt_ers, annotated_junctions)
     ann_junc_hits <- annotated_junctions[S4Vectors::subjectHits(hits)]
@@ -198,6 +210,21 @@ get_junctions <- function(opt_ers, junc_data, gtf_path) {
 #' @return a genomic state
 #'
 #' @export
+#'
+#' @examples
+#' \dontshow{
+#' gtf_url <- paste0(
+#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#' )
+#' # .file_cache is an internal function to download a bigwig file from a link
+#' # if the file has been downloaded recently, it will be retrieved from a cache
+#' gtf_path <- ODER:::.file_cache(gtf_url)
+#' }
+#' genom_state <- generate_genomic_state(
+#'     gtf = gtf_path,
+#'     chrs_to_keep = c("1", "2", "X"), ensembl = TRUE
+#' )
 generate_genomic_state <- function(gtf = NULL, txdb = NULL,
     chrs_to_keep = c(1:22, "X", "Y", "MT"),
     ensembl = TRUE) {
@@ -206,6 +233,8 @@ generate_genomic_state <- function(gtf = NULL, txdb = NULL,
     } else if (!(is.null(txdb))) {
         return(derfinder::makeGenomicState(txdb = txdb))
     } else if (ensembl) {
+        print(stringr::str_c(Sys.time(), " - Generating a genomic state..."))
+
         gtf_txdb <- GenomicFeatures::makeTxDbFromGFF(file = gtf, format = "gtf")
         gtf_txdb <- GenomeInfoDb::keepSeqlevels(gtf_txdb, chrs_to_keep)
 
@@ -286,56 +315,3 @@ count_conversion <- function(annot_code) {
 
     return(region_annot)
 }
-
-
-# find_intersect <- function(erstart,erend,junctions){
-#
-#   for (i in 1:length(ranges(junctions))){
-#     jlist <- list()
-#     if (erstart<=start(ranges(junctions)[i]) & erend>=start(ranges(junctions)[i])){
-#       append(jlist,stringr::str_c(as.character(start(ranges(junctions)[i])),
-#                                   " - ",
-#                                   as.character(end(ranges(junctions)[i])))
-#       )
-#     }else if (erstart<=end(ranges(junctions)[i]) & erend>=end(ranges(junctions)[i])){
-#       append(jlist,stringr::str_c(as.character(start(ranges(junctions)[i])),
-#                                   " - ",
-#                                   as.character(end(ranges(junctions)[i])))
-#       )
-#     }
-#   }
-#
-#   return(jlist)
-# }
-#
-# .gr_convert <- function(bplist){
-#   #str_extract(er_junc_hits[["junction_coords"]][[1]][[1]],":(.*?):") - gets ranges
-#   #str_extract(er_junc_hits[["junction_coords"]][[1]][[1]],"(.*?):") - gets chr/seqname
-#   #str_sub(er_junc_hits[["junction_coords"]][[1]][[1]],-1,-1) - get the strand
-#   grlist <- GenomicRanges::GRangesList()
-#
-#   for (i in seq_along(bplist)){
-#     seqname <- gsub(":","",str_extract(bplist[i],"(.*?):"))
-#     ranges <- gsub(":","",str_extract(bplist[i],":(.*?):"))
-#     strand <- str_sub(bplist[i],-1,-1)
-#     gr <- GenomicRanges::GRanges(
-#       seqnames = seqname,
-#       ranges = ranges,
-#       strand <- strand
-#     )
-#
-#     grlist[[i]] <- gr
-#   }
-#
-#   return(grlist)
-#
-# }
-#
-# extract_gene_ids <- function(grange){
-#   genes <- unlist(mcols(grange)[["gene_id_junction"]])
-#   return(genes)
-# }
-#
-# gene_id_extract <- function(grange){
-#   return(unique(unlist(mcols(grange)[["gene_id_junction"]])))
-# }
