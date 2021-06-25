@@ -66,6 +66,8 @@ opt_ers <- ODER(
     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
     exons_no_overlap = NULL, bw_chr = "chr"
 )
+#> Warning in if (chrs == "") {: the condition has length > 1 and only the first
+#> element will be used
 #> Loading required package: BiocGenerics
 #> Loading required package: parallel
 #> 
@@ -93,17 +95,17 @@ opt_ers <- ODER(
 #> The following object is masked from 'package:base':
 #> 
 #>     expand.grid
-#> [1] "2021-06-11 13:14:48 - Obtaining mean coverage across 1 samples"
-#> [1] "2021-06-11 13:14:48 - chr20"
-#> [1] "2021-06-11 13:14:52 - chr21"
-#> [1] "2021-06-11 13:14:52 - chr22"
-#> [1] "2021-06-11 13:14:54 - Generating ERs for chr20"
-#> [1] "2021-06-11 13:15:05 - Generating ERs for chr21"
-#> [1] "2021-06-11 13:15:09 - Generating ERs for chr22"
-#> [1] "2021-06-11 13:15:12 - Loading in GTF..."
-#> [1] "2021-06-11 13:16:05 - Obtaining non-overlapping exons"
-#> [1] "2021-06-11 13:16:07 - Calculating delta for ERs..."
-#> [1] "2021-06-11 13:16:12 - Obtaining optimal set of ERs..."
+#> [1] "2021-06-25 15:23:11 - Obtaining mean coverage across 1 samples"
+#> [1] "2021-06-25 15:23:11 - chr20"
+#> [1] "2021-06-25 15:23:14 - chr21"
+#> [1] "2021-06-25 15:23:14 - chr22"
+#> [1] "2021-06-25 15:23:15 - Generating ERs for chr20"
+#> [1] "2021-06-25 15:23:23 - Generating ERs for chr21"
+#> [1] "2021-06-25 15:23:26 - Generating ERs for chr22"
+#> [1] "2021-06-25 15:23:29 - Loading in GTF..."
+#> [1] "2021-06-25 15:24:17 - Obtaining non-overlapping exons"
+#> [1] "2021-06-25 15:24:19 - Calculating delta for ERs..."
+#> [1] "2021-06-25 15:24:23 - Obtaining optimal set of ERs..."
 
 opt_ers
 #> $opt_ers
@@ -150,18 +152,20 @@ opt_ers
 
 <img src="man/figures/README-plot_example-1.png" width="100%" />
 
-    #> [1] "2021-06-11 13:16:14 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-    #> [1] "2021-06-11 13:16:14 - Importing gtf/gff3 as a TxDb..."
+    #> [1] "2021-06-25 15:24:24 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+    #> [1] "2021-06-25 15:24:24 - Importing gtf/gff3 as a TxDb..."
     #> Import genomic features from the file as a GRanges object ... OK
     #> Prepare the 'metadata' data frame ... OK
     #> Make the TxDb object ...
     #> Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
     #>   stop_codon. This information was ignored.
     #> OK
-    #> [1] "2021-06-11 13:17:56 - Getting junction annotation using overlapping exons..."
-    #> [1] "2021-06-11 13:17:58 - Tidying junction annotation..."
-    #> [1] "2021-06-11 13:17:59 - Deriving junction categories..."
-    #> [1] "2021-06-11 13:18:06 - done!"
+    #> [1] "2021-06-25 15:25:56 - Getting junction annotation using overlapping exons..."
+    #> [1] "2021-06-25 15:25:58 - Tidying junction annotation..."
+    #> [1] "2021-06-25 15:25:58 - Deriving junction categories..."
+    #> [1] "2021-06-25 15:26:04 - done!"
+    #> [1] "2021-06-25 15:26:04 - Finding junctions overlapping ers..."
+    #> [1] "2021-06-25 15:28:42 - Generating a genomic state..."
     #> Import genomic features from the file as a GRanges object ... OK
     #> Prepare the 'metadata' data frame ... OK
     #> Make the TxDb object ...
@@ -172,8 +176,10 @@ opt_ers
     #>   stop_codon. This information was ignored.
     #> extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens
     #> 'select()' returned 1:1 mapping between keys and columns
-    #> 2021-06-11 13:23:34 annotateRegions: counting
-    #> 2021-06-11 13:23:34 annotateRegions: annotating
+    #> [1] "2021-06-25 15:30:58 - Annotating the Expressed regions..."
+    #> 2021-06-25 15:30:58 annotateRegions: counting
+    #> 2021-06-25 15:30:58 annotateRegions: annotating
+    #> [1] "2021-06-25 15:30:58 - done!"
     #> GRanges object with 25393 ranges and 4 metadata columns:
     #>           seqnames            ranges strand |
     #>              <Rle>         <IRanges>  <Rle> |

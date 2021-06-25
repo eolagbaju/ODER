@@ -130,6 +130,7 @@ GenomicRanges::mcols(ann_opt_ers)$og_index <- annot_table[["ER_index"]]
   }
 
 ```
+
 ``` {r refine_ers2, echo=FALSE}
 counter=0
   for (gr in seq_along(ranges(mcols(ann_opt_ers)[["grl"]]))){

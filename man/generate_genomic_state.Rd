@@ -30,3 +30,18 @@ a genomic state
 \code{generate_genomic_state} takes txdb object or a gtf file and makes a
 genomic state
 }
+\examples{
+\dontshow{
+gtf_url <- paste0(
+    "http://ftp.ensembl.org/pub/release-103/gtf/",
+    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+)
+# .file_cache is an internal function to download a bigwig file from a link
+# if the file has been downloaded recently, it will be retrieved from a cache
+gtf_path <- ODER:::.file_cache(gtf_url)
+}
+genom_state <- generate_genomic_state(
+    gtf = gtf_path,
+    chrs_to_keep = c("1", "2", "X"), ensembl = TRUE
+)
+}
