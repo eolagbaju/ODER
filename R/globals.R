@@ -19,5 +19,8 @@ utils::globalVariables(c(
     ".",
     "n_eq_0",
     "maxgap",
-    "colours"
+    "colours",
+    "exon",
+    "intergenic",
+    "intron"
 ))

@@ -49,14 +49,8 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
         stop("Please check your bigwig file paths are correct")
     }
 
-    if (chrs == "") {
-        chrs <- c(
-            "chr1", "chr2", "chr3", "chr4", "chr5", "chr6", "chr7", "chr8",
-            "chr9", "chr10", "chr11", "chr12", "chr13", "chr14", "chr15",
-            "chr16", "chr17", "chr18", "chr19", "chr20", "chr21", "chr22",
-            "chrX", "chrY", "chrM"
-        )
-    }
+    chrs <- informatting(chrs)
+    
     chr_info <- get_chr_info(chrs = chrs, genome = genome)
 
     all_chrs_mean_cov <- list()

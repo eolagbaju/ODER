@@ -174,10 +174,10 @@ genomic_state <- generate_genomic_state(
     ensembl = TRUE,
 )
 annot_ers <- derfinder::annotateRegions(
-    regions = ann_opt_ers, genomicState = test_gs$fullGenome,
+    regions = ann_opt_ers, genomicState = genomic_state$fullGenome,
     maxgap = -1L, minoverlap = 1L
 )
-annot_table <- annotate_table(annot_ers$countTable)
+annot_table <- ODER:::annotate_table(annot_ers$countTable)
 GenomicRanges::mcols(ann_opt_ers)$annotation <- annot_table[["region_annot"]]
 GenomicRanges::mcols(ann_opt_ers)$og_index <- annot_table[["ER_index"]]
 
@@ -191,15 +191,7 @@ genomic_state <- generate_genomic_state(
     chrs_to_keep = c("21", "22"),
     ensembl = TRUE,
 )
-annot_ers <- derfinder::annotateRegions(
-    regions = ann_opt_ers, genomicState = test_gs$fullGenome,
-    maxgap = -1L, minoverlap = 1L
-)
-annot_table <- annotate_table(annot_ers$countTable)
-GenomicRanges::mcols(ann_opt_ers)$annotation <- annot_table[["region_annot"]]
-GenomicRanges::mcols(ann_opt_ers)$og_index <- annot_table[["ER_index"]]
 
-ann_opt_ers
 ```
 
 ```{r annotate_junctions, echo=FALSE}
@@ -218,216 +210,21 @@ annot_ers <- annotatERs(
 
 ```{r refine_ERs, echo=FALSE}
 
+annot_ers <- annot_ers[S4Vectors::mcols(annot_ers)[["annotation"]] %in% c("intron", "intergenic")]
+annot_ers <- annot_ers[lengths(S4Vectors::mcols(annot_ers)[["grl"]]) == 2 |
+    lengths(S4Vectors::mcols(annot_ers)[["grl"]]) == 1]
 
-# # mcols(annot_ers)[["annotation"]][!(grepl("exon",mcols(annot_ers)[["annotation"]]))]
-# neon_annot_ers <- annot_ers[mcols(annot_ers)[["annotation"]] %in% c("intron","intergenic")]#remove exon junctions
-#
-# #neon_annot_ers[!(lengths(mcols(neon_annot_ers)[["grl"]])>2)] #ers where only 1 or 2 junctions overlap
-# neon12_annot_ers <- neon_annot_ers[lengths(mcols(neon_annot_ers)[["grl"]])==2 |
-#                                      lengths(mcols(neon_annot_ers)[["grl"]])==1]
-# # good_js <- lapply(ranges(mcols(neon12_annot_ers)[["grl"]]),inv_colgrs)
-# # pro_neon12_annot_ers <- neon12_annot_ers[unlist(good_js)]
 
-# ref_results <- refine_ERs(neon12_annot_ers)
 
-ref_results <- refine_ERs(annot_ers)
+ref_results <- ODER:::modify_ers(annot_ers)
 
-refined_ers <- ref_results[[1]]
+partially_refined_ers <- ref_results[[1]]
 
 changes <- ref_results[[2]]
 
-test_grs <- GenomicRanges::GRanges(
-    seqnames = S4Vectors::Rle(c("chr21"), c(7)),
-    ranges = IRanges::IRanges(
-        start = c(5026400, 13482700, 17236500, 18365500, 19350000, 19772900, 20179900),
-        end = c(5026500, 13482800, 17609100, 18366000, 19352000, 19773000, 20180000),
-        names = c(1:7)
-    ),
-    strand = S4Vectors::Rle((c("+", "-", "-", "-", "+", "+", "-")))
-)
-
-gr1 <- GRanges("chr21", IRanges(5026423, 5323718), strand = "+")
-gr2 <- GRanges("chr21", IRanges(c(13261708, 13482787), c(13482707, 13851281)), strand = "-")
-gr3 <- GRanges("chr21", IRanges(c(18365503, 18365938), c(18365600, 18857780)), strand = "-")
-gr4 <- GRanges("chr21", IRanges(c(18858010, 19351750), c(19350050, 19351960)), strand = "+")
-gr5 <- GRanges("chr21", IRanges(19408735, 19772936), strand = "+")
-gr6 <- GRanges("chr21", IRanges(20091736, 20179922), strand = "-")
-grl <- GenomicRanges::GRangesList(gr1, gr2, gr3, gr4, gr5, gr6)
-check_annot_ers <- GenomicRanges::GRanges(
-    seqnames = S4Vectors::Rle(c("chr21"), c(6)),
-    ranges = IRanges::IRanges(
-        start = c(5026400, 13482700, 18365500, 19350000, 19772900, 20179900),
-        end = c(5026500, 13482800, 18366000, 19352000, 19773000, 20180000),
-        names = c(1:6)
-    ),
-    strand = S4Vectors::Rle((c("+", "-", "-", "+", "+", "-"))),
-    grl = grl
-)
+fully_refined_ers <- partially_refined_ers[changes]
 ```
 
-```{r refine_ERs2, echo=FALSE}
-
-test_grs <- GenomicRanges::GRanges(
-    seqnames = S4Vectors::Rle(c("chr21"), c(7)),
-    ranges = IRanges::IRanges(
-        start = c(5026400, 13482700, 17236500, 18365500, 19350000, 19772900, 20179900),
-        end = c(5026500, 13482800, 17609100, 18366000, 19352000, 19773000, 20180000),
-        names = c(1:7)
-    ),
-    strand = S4Vectors::Rle((c("+", "-", "-", "-", "+", "+", "-")))
-)
-
-gr1 <- GRanges("chr21", IRanges(5026423, 5323718), strand = "+")
-gr2 <- GRanges("chr21", IRanges(c(13261708, 13482787), c(13482707, 13851281)), strand = "-")
-gr3 <- GRanges("chr21", IRanges(c(18365503, 18365938), c(18365600, 18857780)), strand = "-")
-gr4 <- GRanges("chr21", IRanges(c(18858010, 19351750), c(19350050, 19351960)), strand = "+")
-gr5 <- GRanges("chr21", IRanges(19408735, 19772936), strand = "+")
-gr6 <- GRanges("chr21", IRanges(20091736, 20179922), strand = "-")
-grl <- GenomicRanges::GRangesList(gr1, gr2, gr3, gr4, gr5, gr6)
-check_annot_ers <- GenomicRanges::GRanges(
-    seqnames = S4Vectors::Rle(c("chr21"), c(6)),
-    ranges = IRanges::IRanges(
-        start = c(5026400, 13482700, 18365500, 19350000, 19772900, 20179900),
-        end = c(5026500, 13482800, 18366000, 19352000, 19773000, 20180000),
-        names = c(1:6)
-    ),
-    strand = S4Vectors::Rle((c("+", "-", "-", "+", "+", "-"))),
-    grl = grl
-)
-
-test_annot_ers <- annotatERs(
-    opt_ers = test_grs, junc_data = junctions,
-    gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
-)
-
-check_test_annot_ers <- test_annot_ers
-changes <- logical(0)
-for (a in seq_along(test_annot_ers)) {
-    er_start <- start(ranges(test_annot_ers)[a])
-    er_end <- end(ranges(test_annot_ers)[a])
-    change <- FALSE
-    if (length(ranges(mcols(test_annot_ers)[["grl"]])[[a]]) == 1) {
-        j_start <- as.integer(start(ranges(mcols(test_annot_ers)[["grl"]])[a]))
-        j_end <- as.integer(end(ranges(mcols(test_annot_ers)[["grl"]])[a]))
-        if (inbetween(value = j_start, rstart = er_start, rend = er_end) &
-            inbetween(value = j_end, rstart = er_start, rend = er_end)) {
-            er_start <- j_start + 1
-            er_end <- j_end - 1
-            change <- TRUE
-        } else if (inbetween(value = j_start, rstart = er_start, rend = er_end)) {
-            er_end <- j_start - 1
-            change <- TRUE
-        } else if (inbetween(value = j_end, rstart = er_start, rend = er_end)) {
-            er_start <- j_end + 1
-            change <- TRUE
-        }
-    } else if (length(ranges(mcols(test_annot_ers)[["grl"]])[[a]]) == 2) {
-        if (colgrs(ranges(mcols(test_annot_ers)[["grl"]])[[a]])) {
-            changes <- c(changes, change)
-            next
-        }
-        if (ranges(mcols(test_annot_ers)[["grl"]])[[a]][1] >
-            ranges(mcols(test_annot_ers)[["grl"]])[[a]][2]) {
-            er_start <- as.integer(end(ranges(mcols(test_annot_ers)[["grl"]])[[a]][2])) + 1
-            er_end <- as.integer(start(ranges(mcols(test_annot_ers)[["grl"]])[[a]][1])) - 1
-            change <- TRUE
-        } else {
-            er_start <- as.integer(end(ranges(mcols(test_annot_ers)[["grl"]])[[a]][1])) + 1
-            er_end <- as.integer(start(ranges(mcols(test_annot_ers)[["grl"]])[[a]][2])) - 1
-            change <- TRUE
-        }
-    }
-
-    start(check_test_annot_ers[a]) <- er_start
-    end(check_test_annot_ers[a]) <- er_end
-    changes <- c(changes, change)
-}
-
-# mcols(annot_ers)[["annotation"]][!(grepl("exon",mcols(annot_ers)[["annotation"]]))]
-ne_annot_ers <- annot_ers[!(grepl("exon", mcols(annot_ers)[["annotation"]]))] # remove exon junctions
-neon_annot_ers <- ne_annot_ers[mcols(annot_ers)[["annotation"]] %in% c("intron", "intergenic")] # empty junctions
-# neon_annot_ers <- ne_annot_ers[!(mcols(ne_annot_ers)[["annotation"]]=="none")] #empty junctions
-# annot_ers[ mcols(annot_ers)[["annotation"]] %in% c("intron","intergenic")]
-
-
-# neon_annot_ers[!(lengths(mcols(neon_annot_ers)[["grl"]])>2)] #ers where only 1 or 2 junctions overlap
-neon12_annot_ers <- neon_annot_ers[lengths(mcols(neon_annot_ers)[["grl"]]) == 2 | lengths(mcols(neon_annot_ers)[["grl"]]) == 1]
-good_js <- lapply(ranges(mcols(neon12_annot_ers)[["grl"]]), inv_colgrs)
-pro_neon12_annot_ers <- neon12_annot_ers[unlist(good_js)]
-
-# countOverlaps(mcols(neon12_annot_ers)[["grl"]][[2]][1],mcols(neon12_annot_ers)[["grl"]][[2]][2])
-# ranges(ne_annot_ers)[1]
-# ranges(mcols(ne_annot_ers)[["grl"]])[1]
-changes <- logical(0)
-# findoverlaps on all junctions, keep er indicies and wrangle the final product into list of TRUEs and FalSEs
-
-
-
-
-
-for (a in seq_along(neon12_annot_ers)) {
-    er_start <- start(ranges(neon12_annot_ers)[a])
-    er_end <- end(ranges(neon12_annot_ers)[a])
-    change <- FALSE
-    if (length(ranges(mcols(neon12_annot_ers)[["grl"]])[[a]]) == 1) {
-        j_start <- as.integer(start(ranges(mcols(neon12_annot_ers)[["grl"]])[a]))
-        j_end <- as.integer(end(ranges(mcols(neon12_annot_ers)[["grl"]])[a]))
-        if (inbetween(value = j_start, rstart = er_start, rend = er_end) &
-            inbetween(value = j_end, rstart = er_start, rend = er_end)) {
-            er_start <- j_start + 1
-            er_end <- j_end - 1
-            change <- TRUE
-        } else if (inbetween(value = j_start, rstart = er_start, rend = er_end)) {
-            er_end <- j_start - 1
-            change <- TRUE
-        } else if (inbetween(value = j_end, rstart = er_start, rend = er_end)) {
-            er_start <- j_end + 1
-            change <- TRUE
-        }
-    } else if (length(ranges(mcols(neon12_annot_ers)[["grl"]])[[a]]) == 2) {
-        if (colgrs(ranges(mcols(neon12_annot_ers)[["grl"]])[[a]])) {
-            changes <- c(changes, change)
-            next
-        }
-        if (ranges(mcols(neon12_annot_ers)[["grl"]])[[a]][1] >
-            ranges(mcols(neon12_annot_ers)[["grl"]])[[a]][2]) {
-            er_start <- as.integer(end(ranges(mcols(neon12_annot_ers)[["grl"]])[[a]][2])) + 1
-            er_end <- as.integer(start(ranges(mcols(neon12_annot_ers)[["grl"]])[[a]][1])) - 1
-            change <- TRUE
-        } else {
-            er_start <- as.integer(end(ranges(mcols(neon12_annot_ers)[["grl"]])[[a]][1])) + 1
-            er_end <- as.integer(start(ranges(mcols(neon12_annot_ers)[["grl"]])[[a]][2])) - 1
-            change <- TRUE
-        }
-    }
-
-    start(check_neon12_annot_ers[a]) <- er_start
-    end(check_neon12_annot_ers[a]) <- er_end
-    changes <- c(changes, change)
-}
-
-
-# for (a in seq_along(ne_annot_ers)){ #takes around 2mins
-#
-#
-#
-#   er_start <-  start(ranges(ne_annot_ers)[a])
-#   er_end <-  end(ranges(ne_annot_ers)[a])
-#   if (length(ranges(mcols(ne_annot_ers)[["grl"]])[[a]])==1){
-#     j_start <- start(ranges(mcols(ne_annot_ers)[["grl"]])[a])
-#     j_end <- end(ranges(mcols(ne_annot_ers)[["grl"]])[a])
-#   }
-# }
-
-# for (a in seq_along(neon_annot_ers)){ #running for 15mins and still not finished
-#   er_start <-  start(neon_annot_ers[a])
-#   er_end <-  end(neon_annot_ers[a])
-#   if (length(mcols(neon_annot_ers)[["grl"]][[a]])==1){
-#     j_start <- start(mcols(neon_annot_ers)[["grl"]][[a]])
-#     j_end <- end(mcols(neon_annot_ers)[["grl"]][[a]])
-#   }
-# }
-```
 
 # Reproducibility
 

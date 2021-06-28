@@ -52,7 +52,7 @@ test_that("informatting2 works", {
 test_that("inbetween works", {
     expect_true(inbetween(5, 4, 6))
     expect_false(inbetween(2, 4, 6))
-    expect_false(inbetween(4, 4, 6))
+    expect_true(inbetween(4, 4, 6))
 })
 
 test_gr1 <- GenomicRanges::GRanges("chr21", IRanges::IRanges(5026423, 5323718), strand = "+")
