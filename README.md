@@ -66,8 +66,6 @@ opt_ers <- ODER(
     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
     exons_no_overlap = NULL, bw_chr = "chr"
 )
-#> Warning in if (chrs == "") {: the condition has length > 1 and only the first
-#> element will be used
 #> Loading required package: BiocGenerics
 #> Loading required package: parallel
 #> 
@@ -95,17 +93,17 @@ opt_ers <- ODER(
 #> The following object is masked from 'package:base':
 #> 
 #>     expand.grid
-#> [1] "2021-06-25 15:23:11 - Obtaining mean coverage across 1 samples"
-#> [1] "2021-06-25 15:23:11 - chr20"
-#> [1] "2021-06-25 15:23:14 - chr21"
-#> [1] "2021-06-25 15:23:14 - chr22"
-#> [1] "2021-06-25 15:23:15 - Generating ERs for chr20"
-#> [1] "2021-06-25 15:23:23 - Generating ERs for chr21"
-#> [1] "2021-06-25 15:23:26 - Generating ERs for chr22"
-#> [1] "2021-06-25 15:23:29 - Loading in GTF..."
-#> [1] "2021-06-25 15:24:17 - Obtaining non-overlapping exons"
-#> [1] "2021-06-25 15:24:19 - Calculating delta for ERs..."
-#> [1] "2021-06-25 15:24:23 - Obtaining optimal set of ERs..."
+#> [1] "2021-06-29 15:37:48 - Obtaining mean coverage across 1 samples"
+#> [1] "2021-06-29 15:37:48 - chr20"
+#> [1] "2021-06-29 15:37:50 - chr21"
+#> [1] "2021-06-29 15:37:51 - chr22"
+#> [1] "2021-06-29 15:37:52 - Generating ERs for chr20"
+#> [1] "2021-06-29 15:38:00 - Generating ERs for chr21"
+#> [1] "2021-06-29 15:38:03 - Generating ERs for chr22"
+#> [1] "2021-06-29 15:38:06 - Loading in GTF..."
+#> [1] "2021-06-29 15:38:54 - Obtaining non-overlapping exons"
+#> [1] "2021-06-29 15:38:56 - Calculating delta for ERs..."
+#> [1] "2021-06-29 15:39:00 - Obtaining optimal set of ERs..."
 
 opt_ers
 #> $opt_ers
@@ -152,20 +150,20 @@ opt_ers
 
 <img src="man/figures/README-plot_example-1.png" width="100%" />
 
-    #> [1] "2021-06-25 15:24:24 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-    #> [1] "2021-06-25 15:24:24 - Importing gtf/gff3 as a TxDb..."
+    #> [1] "2021-06-29 15:39:03 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+    #> [1] "2021-06-29 15:39:03 - Importing gtf/gff3 as a TxDb..."
     #> Import genomic features from the file as a GRanges object ... OK
     #> Prepare the 'metadata' data frame ... OK
     #> Make the TxDb object ...
     #> Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
     #>   stop_codon. This information was ignored.
     #> OK
-    #> [1] "2021-06-25 15:25:56 - Getting junction annotation using overlapping exons..."
-    #> [1] "2021-06-25 15:25:58 - Tidying junction annotation..."
-    #> [1] "2021-06-25 15:25:58 - Deriving junction categories..."
-    #> [1] "2021-06-25 15:26:04 - done!"
-    #> [1] "2021-06-25 15:26:04 - Finding junctions overlapping ers..."
-    #> [1] "2021-06-25 15:28:42 - Generating a genomic state..."
+    #> [1] "2021-06-29 15:40:35 - Getting junction annotation using overlapping exons..."
+    #> [1] "2021-06-29 15:40:37 - Tidying junction annotation..."
+    #> [1] "2021-06-29 15:40:38 - Deriving junction categories..."
+    #> [1] "2021-06-29 15:40:43 - done!"
+    #> [1] "2021-06-29 15:40:43 - Finding junctions overlapping ers..."
+    #> [1] "2021-06-29 15:43:19 - Generating a genomic state..."
     #> Import genomic features from the file as a GRanges object ... OK
     #> Prepare the 'metadata' data frame ... OK
     #> Make the TxDb object ...
@@ -176,11 +174,11 @@ opt_ers
     #>   stop_codon. This information was ignored.
     #> extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens
     #> 'select()' returned 1:1 mapping between keys and columns
-    #> [1] "2021-06-25 15:30:58 - Annotating the Expressed regions..."
-    #> 2021-06-25 15:30:58 annotateRegions: counting
-    #> 2021-06-25 15:30:58 annotateRegions: annotating
-    #> [1] "2021-06-25 15:30:58 - done!"
-    #> GRanges object with 25393 ranges and 4 metadata columns:
+    #> [1] "2021-06-29 15:45:35 - Annotating the Expressed regions..."
+    #> 2021-06-29 15:45:35 annotateRegions: counting
+    #> 2021-06-29 15:45:36 annotateRegions: annotating
+    #> [1] "2021-06-29 15:46:37 - done!"
+    #> GRanges object with 25393 ranges and 5 metadata columns:
     #>           seqnames            ranges strand |
     #>              <Rle>         <IRanges>  <Rle> |
     #>       [1]    chr20     167593-167621      * |
@@ -207,19 +205,19 @@ opt_ers
     #>   [25391]     chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-
     #>   [25392] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...
     #>   [25393] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...
-    #>                     genes  annotation  og_index
-    #>           <CharacterList> <character> <integer>
-    #>       [1]                        none         1
-    #>       [2]                        none         2
-    #>       [3]                        none         3
-    #>       [4]                        none         4
-    #>       [5]                        none         5
-    #>       ...             ...         ...       ...
-    #>   [25389] ENSG00000184319        exon     25389
-    #>   [25390]                        exon     25390
-    #>   [25391]                        exon     25391
-    #>   [25392]                        exon     25392
-    #>   [25393]                        exon     25393
+    #>                     genes  annotation  og_index       gene_source
+    #>           <CharacterList> <character> <integer>       <character>
+    #>       [1] ENSG00000088782        none         1 nearest gtf genes
+    #>       [2] ENSG00000185982        none         2 nearest gtf genes
+    #>       [3] ENSG00000272874        none         3 nearest gtf genes
+    #>       [4] ENSG00000196476        none         4 nearest gtf genes
+    #>       [5] ENSG00000196476        none         5 nearest gtf genes
+    #>       ...             ...         ...       ...               ...
+    #>   [25389] ENSG00000184319        exon     25389       junction(s)
+    #>   [25390] ENSG00000184319        exon     25390 nearest gtf genes
+    #>   [25391] ENSG00000184319        exon     25391 nearest gtf genes
+    #>   [25392] ENSG00000184319        exon     25392 nearest gtf genes
+    #>   [25393] ENSG00000184319        exon     25393 nearest gtf genes
     #>   -------
     #>   seqinfo: 3 sequences from an unspecified genome; no seqlengths
 

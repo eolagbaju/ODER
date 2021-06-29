@@ -50,7 +50,7 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
     }
 
     chrs <- informatting(chrs)
-    
+
     chr_info <- get_chr_info(chrs = chrs, genome = genome)
 
     all_chrs_mean_cov <- list()

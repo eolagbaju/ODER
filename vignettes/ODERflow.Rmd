@@ -191,7 +191,6 @@ genomic_state <- generate_genomic_state(
     chrs_to_keep = c("21", "22"),
     ensembl = TRUE,
 )
-
 ```
 
 ```{r annotate_junctions, echo=FALSE}

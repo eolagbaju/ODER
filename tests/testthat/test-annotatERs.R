@@ -13,7 +13,7 @@ gtf_grs <- rtracklayer::import(gtf_path)
 GenomeInfoDb::seqlevelsStyle(gtf_grs) <- "UCSC"
 gtf_grs <- GenomeInfoDb::keepSeqlevels(gtf_grs, c("chr21", "chr22"), pruning.mode = "coarse")
 exons_gr <- gtf_grs[gtf_grs$type == "exon"]
-
+genes_gr <- gtf_grs[gtf_grs$type == "gene"]
 
 url <- recount::download_study(
     project = "SRP012682",
@@ -137,4 +137,11 @@ test_that("annotatERs works", {
     expect_true(all(GenomicRanges::countOverlaps(test_annot_opters[S4Vectors::mcols(test_annot_opters)[["annotation"]] == "intron"], gtf_grs) > 0))
     expect_true(all(GenomicRanges::countOverlaps(test_annot_opters[S4Vectors::mcols(test_annot_opters)[["annotation"]] == "exon"], exons_gr) > 0))
     expect_equal(IRanges::ranges(test_opt_ers[["opt_ers"]][5479]), IRanges::ranges(test_annot_opters[5479]))
+    expect_equal(GenomicRanges::mcols(test_annot_ers)[["genes"]][[4]], "ENSG00000277117")
+    expect_equal(GenomicRanges::mcols(test_annot_ers)[["gene_source"]][[4]], "nearest gtf genes")
+    expect_true(GenomicRanges::mcols(GenomicRanges::distanceToNearest(test_grs, genes_gr))[4, 1] < 10000)
+    expect_equal(GenomicRanges::mcols(test_annot_ers)[["genes"]][[5]], "")
+    expect_equal(GenomicRanges::mcols(test_annot_ers)[["gene_source"]][[5]], "Too far")
+    expect_true(GenomicRanges::mcols(GenomicRanges::distanceToNearest(test_grs, genes_gr))[5, 1] > 10000)
+    expect_false("" %in% GenomicRanges::mcols(test_annot_ers)[["gene_source"]])
 })

@@ -52,6 +52,8 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, txdb = NULL,
         opt_ers = opt_ers, junc_data = junc_data,
         gtf_path = gtf_path
     )
+
+
     genom_state <- generate_genomic_state(
         gtf = gtf_path, txdb = txdb,
         chrs_to_keep = informatting2(chrs_to_keep),
@@ -66,6 +68,28 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, txdb = NULL,
     annot_table <- annotate_table(annot_ers[["countTable"]])
     GenomicRanges::mcols(ann_opt_ers)$annotation <- annot_table[["region_annot"]]
     GenomicRanges::mcols(ann_opt_ers)$og_index <- annot_table[["ER_index"]]
+
+    ## add missing junction genes
+    genesource <- character(length(ann_opt_ers))
+    GenomicRanges::mcols(ann_opt_ers)$gene_source <- genesource
+    GenomicRanges::mcols(ann_opt_ers[lengths(GenomicRanges::mcols(ann_opt_ers)[["genes"]]) > 0])$gene_source <- "junction(s)"
+
+
+    ng_ann_opt_ers <- ann_opt_ers[lengths(GenomicRanges::mcols(ann_opt_ers)[["genes"]]) == 0]
+    gtf_gr <- rtracklayer::import(gtf_path)
+    genes_gr <- gtf_gr[gtf_gr$type == "gene"]
+    GenomeInfoDb::seqlevelsStyle(genes_gr) <- "UCSC"
+    nearest_genes <- GenomicRanges::nearest(ng_ann_opt_ers, genes_gr)
+    missing_genes <- GenomicRanges::mcols(genes_gr[nearest_genes])[["gene_id"]]
+    GenomicRanges::mcols(ng_ann_opt_ers)[["genes"]] <- missing_genes
+    GenomicRanges::mcols(ann_opt_ers[GenomicRanges::mcols(ng_ann_opt_ers)[["og_index"]]])[["genes"]] <- missing_genes
+    GenomicRanges::mcols(ann_opt_ers[GenomicRanges::mcols(ng_ann_opt_ers)[["og_index"]]])[["gene_source"]] <- "nearest gtf genes"
+
+    ngdist <- GenomicRanges::distanceToNearest(ann_opt_ers, genes_gr)
+    overmaxdist <- ngdist[GenomicRanges::mcols(ngdist)[["distance"]] > 10000]
+    GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["genes"]] <- ""
+    GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["gene_source"]] <- "Too far"
+
 
     print(stringr::str_c(Sys.time(), " - done!"))
 
