@@ -129,8 +129,6 @@
     gtf <span class="op">=</span> <span class="va">gtf_path</span>, ucsc_chr <span class="op">=</span> <span class="cn">TRUE</span>, ignore.strand <span class="op">=</span> <span class="cn">TRUE</span>,
     exons_no_overlap <span class="op">=</span> <span class="cn">NULL</span>, bw_chr <span class="op">=</span> <span class="st">"chr"</span>
 <span class="op">)</span>
-<span class="co">#&gt; Warning in if (chrs == "") {: the condition has length &gt; 1 and only the first</span>
-<span class="co">#&gt; element will be used</span>
 <span class="co">#&gt; Loading required package: BiocGenerics</span>
 <span class="co">#&gt; Loading required package: parallel</span>
 <span class="co">#&gt; </span>
@@ -158,17 +156,17 @@
 <span class="co">#&gt; The following object is masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     expand.grid</span>
-<span class="co">#&gt; [1] "2021-06-25 15:23:11 - Obtaining mean coverage across 1 samples"</span>
-<span class="co">#&gt; [1] "2021-06-25 15:23:11 - chr20"</span>
-<span class="co">#&gt; [1] "2021-06-25 15:23:14 - chr21"</span>
-<span class="co">#&gt; [1] "2021-06-25 15:23:14 - chr22"</span>
-<span class="co">#&gt; [1] "2021-06-25 15:23:15 - Generating ERs for chr20"</span>
-<span class="co">#&gt; [1] "2021-06-25 15:23:23 - Generating ERs for chr21"</span>
-<span class="co">#&gt; [1] "2021-06-25 15:23:26 - Generating ERs for chr22"</span>
-<span class="co">#&gt; [1] "2021-06-25 15:23:29 - Loading in GTF..."</span>
-<span class="co">#&gt; [1] "2021-06-25 15:24:17 - Obtaining non-overlapping exons"</span>
-<span class="co">#&gt; [1] "2021-06-25 15:24:19 - Calculating delta for ERs..."</span>
-<span class="co">#&gt; [1] "2021-06-25 15:24:23 - Obtaining optimal set of ERs..."</span>
+<span class="co">#&gt; [1] "2021-06-29 15:37:48 - Obtaining mean coverage across 1 samples"</span>
+<span class="co">#&gt; [1] "2021-06-29 15:37:48 - chr20"</span>
+<span class="co">#&gt; [1] "2021-06-29 15:37:50 - chr21"</span>
+<span class="co">#&gt; [1] "2021-06-29 15:37:51 - chr22"</span>
+<span class="co">#&gt; [1] "2021-06-29 15:37:52 - Generating ERs for chr20"</span>
+<span class="co">#&gt; [1] "2021-06-29 15:38:00 - Generating ERs for chr21"</span>
+<span class="co">#&gt; [1] "2021-06-29 15:38:03 - Generating ERs for chr22"</span>
+<span class="co">#&gt; [1] "2021-06-29 15:38:06 - Loading in GTF..."</span>
+<span class="co">#&gt; [1] "2021-06-29 15:38:54 - Obtaining non-overlapping exons"</span>
+<span class="co">#&gt; [1] "2021-06-29 15:38:56 - Calculating delta for ERs..."</span>
+<span class="co">#&gt; [1] "2021-06-29 15:39:00 - Obtaining optimal set of ERs..."</span>
 
 <span class="va">opt_ers</span>
 <span class="co">#&gt; $opt_ers</span>
@@ -212,20 +210,20 @@
 <span class="co">#&gt; 14    10    20 3181382  909.  106      827       0.236</span>
 <span class="co">#&gt; 15    10    30 2790475  854.   94.5    853       0.261</span></code></pre></div>
 <p><img src="reference/figures/README-plot_example-1.png" width="100%"></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-25 15:24:24 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-25 15:24:24 - Importing gtf/gff3 as a TxDb..."</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-29 15:39:03 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-29 15:39:03 - Importing gtf/gff3 as a TxDb..."</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Make the TxDb object ...</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   stop_codon. This information was ignored.</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; OK</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-25 15:25:56 - Getting junction annotation using overlapping exons..."</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-25 15:25:58 - Tidying junction annotation..."</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-25 15:25:58 - Deriving junction categories..."</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-25 15:26:04 - done!"</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-25 15:26:04 - Finding junctions overlapping ers..."</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-25 15:28:42 - Generating a genomic state..."</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-29 15:40:35 - Getting junction annotation using overlapping exons..."</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-29 15:40:37 - Tidying junction annotation..."</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-29 15:40:38 - Deriving junction categories..."</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-29 15:40:43 - done!"</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-29 15:40:43 - Finding junctions overlapping ers..."</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-29 15:43:19 - Generating a genomic state..."</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span></span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span></span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Make the TxDb object ...</span></span>
@@ -236,11 +234,11 @@
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   stop_codon. This information was ignored.</span></span>
 <span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></span>
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 'select()' returned 1:1 mapping between keys and columns</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-25 15:30:58 - Annotating the Expressed regions..."</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021-06-25 15:30:58 annotateRegions: counting</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021-06-25 15:30:58 annotateRegions: annotating</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-25 15:30:58 - done!"</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GRanges object with 25393 ranges and 4 metadata columns:</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-29 15:45:35 - Annotating the Expressed regions..."</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021-06-29 15:45:35 annotateRegions: counting</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021-06-29 15:45:36 annotateRegions: annotating</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-06-29 15:46:37 - done!"</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GRanges object with 25393 ranges and 5 metadata columns:</span></span>
 <span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           seqnames            ranges strand |</span></span>
 <span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; |</span></span>
 <span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [1]    chr20     167593-167621      * |</span></span>
@@ -267,19 +265,19 @@
 <span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25391]     chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-</span></span>
 <span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25392] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...</span></span>
 <span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25393] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...</span></span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     genes  annotation  og_index</span></span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           &lt;CharacterList&gt; &lt;character&gt; &lt;integer&gt;</span></span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [1]                        none         1</span></span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [2]                        none         2</span></span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [3]                        none         3</span></span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [4]                        none         4</span></span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [5]                        none         5</span></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       ...             ...         ...       ...</span></span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25389] ENSG00000184319        exon     25389</span></span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25390]                        exon     25390</span></span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25391]                        exon     25391</span></span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25392]                        exon     25392</span></span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25393]                        exon     25393</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     genes  annotation  og_index       gene_source</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           &lt;CharacterList&gt; &lt;character&gt; &lt;integer&gt;       &lt;character&gt;</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [1] ENSG00000088782        none         1 nearest gtf genes</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [2] ENSG00000185982        none         2 nearest gtf genes</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [3] ENSG00000272874        none         3 nearest gtf genes</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [4] ENSG00000196476        none         4 nearest gtf genes</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       [5] ENSG00000196476        none         5 nearest gtf genes</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       ...             ...         ...       ...               ...</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25389] ENSG00000184319        exon     25389       junction(s)</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25390] ENSG00000184319        exon     25390 nearest gtf genes</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25391] ENSG00000184319        exon     25391 nearest gtf genes</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25392] ENSG00000184319        exon     25392 nearest gtf genes</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [25393] ENSG00000184319        exon     25393 nearest gtf genes</span></span>
 <span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   -------</span></span>
 <span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   seqinfo: 3 sequences from an unspecified genome; no seqlengths</span></span></code></pre></div>
 <p>You’ll still need to render <code>README.Rmd</code> regularly, to keep <code>README.md</code> up-to-date.</p>
