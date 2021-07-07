@@ -10,6 +10,7 @@
 #'
 #' @examples
 #' \dontshow{
+#' library(magrittr)
 #' gtex_metadata <- recount::all_metadata("gtex")
 #' gtex_metadata <- gtex_metadata %>%
 #'     as.data.frame() %>%
@@ -66,7 +67,7 @@ get_count_matrix <- function(bw_paths, annot_ers, cols = NULL) {
         fil <- tempfile("annotation.bed")
         annot_bed <- rtracklayer::export.bed(annot_ers, fil)
         mean_coverage <- megadepth::get_coverage(bigwig_file = bw_paths, op = "mean", annotation = annot_bed)
-        gene_counts <- as.matrix(mcols(mean_coverage)[["score"]])
+        gene_counts <- as.matrix(S4Vectors::mcols(mean_coverage)[["score"]])
         se <- SummarizedExperiment::SummarizedExperiment(
             assays = gene_counts,
             rowRanges = rranges,
@@ -83,7 +84,7 @@ get_count_matrix <- function(bw_paths, annot_ers, cols = NULL) {
         fil <- tempfile(stringr::str_c("annotation", as.character(i), ".bed"))
         annot_bed <- rtracklayer::export.bed(annot_ers[[i]], fil)
         mean_coverage <- megadepth::get_coverage(bigwig_file = bw_paths[i], op = "mean", annotation = annot_bed)
-        gene_counts[, i] <- mcols(mean_coverage)[["score"]]
+        gene_counts[, i] <- S4Vectors::mcols(mean_coverage)[["score"]]
     }
 
 

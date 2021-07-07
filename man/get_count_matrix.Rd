@@ -22,6 +22,7 @@ Generate the count matrix
 }
 \examples{
 \dontshow{
+library(magrittr)
 gtex_metadata <- recount::all_metadata("gtex")
 gtex_metadata <- gtex_metadata \%>\%
     as.data.frame() \%>\%
