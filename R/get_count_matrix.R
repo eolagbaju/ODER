@@ -61,6 +61,8 @@
 #' example_cm <- get_count_matrix(bw_paths = example_bw_paths, annot_ers = annot_ersl)
 #' example_cm
 get_count_matrix <- function(bw_paths, annot_ers, cols = NULL) {
+    megadepth::install_megadepth()
+
     if (is.null(cols)) {
         cols <- as.data.frame(bw_paths)
     }

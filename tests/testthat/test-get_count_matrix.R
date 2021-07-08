@@ -1,3 +1,5 @@
+megadepth::install_megadepth()
+
 gtex_metadata <- recount::all_metadata("gtex")
 gtex_metadata <- gtex_metadata %>%
     as.data.frame() %>%
