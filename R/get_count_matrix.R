@@ -16,6 +16,9 @@
 #'     as.data.frame() %>%
 #'     dplyr::filter(project == "SRP012682")
 #'
+#' gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#' gtf_path <- ODER:::.file_cache(gtf_url)
+#'
 #' url <- recount::download_study(
 #'     project = "SRP012682",
 #'     type = "samples",
