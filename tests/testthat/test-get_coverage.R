@@ -1,4 +1,8 @@
-# obtain path to example bw on recount2
+gtex_metadata <- recount::all_metadata("gtex")
+gtex_metadata <- gtex_metadata %>%
+    as.data.frame() %>%
+    dplyr::filter(project == "SRP012682")
+
 url <- recount::download_study(
     project = "SRP012682",
     type = "samples",
@@ -7,6 +11,14 @@ url <- recount::download_study(
 
 bw_path <- .file_cache(url[1])
 
+bw_plus <- ODER:::.file_cache(url[58])
+bw_minus <- ODER:::.file_cache(url[84])
+
+test_strand_ers <- get_strand_ers(
+    bw_pos = bw_plus, bw_neg = bw_minus, auc_raw_pos = gtex_metadata[["auc"]][58],
+    auc_raw_neg = gtex_metadata[["auc"]][84], auc_tar_pos = 40e6 * 100,
+    auc_tar_neg = 40e6 * 100, chrs = "chr21", mccs = c(5, 10), mrgs = c(10, 20), bw_chr = "chr"
+)
 
 test_that("get_chr_info works", {
     chrs <- c("chr1", "chr2", "chr3")
@@ -110,4 +122,10 @@ test_that("get_ers works", {
     expect_type(ers_example[[1]][[1]], "S4")
     expect_true(methods::is(ers_example[[1]][[1]], "GenomicRanges"))
     expect_true(methods::is(test_er_df, "data.frame"))
+})
+
+test_that("get_strand_ers works", {
+    expect_true("+" %in% strand(test_strand_ers[[1]][[1]]))
+    expect_true("-" %in% strand(test_strand_ers[[1]][[1]]))
+    expect_false("*" %in% strand(test_strand_ers[[1]][[1]]))
 })

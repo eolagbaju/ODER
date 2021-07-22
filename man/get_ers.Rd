@@ -18,7 +18,7 @@ list containing sets of ERs, each generated using a particular
 combination of MCC and MRG.
 }
 \description{
-\code{gen_ERs} defines ERs across an inputted range of mean coverage cut-offs
+\code{ge_ERs} defines ERs across an inputted range of mean coverage cut-offs
 (MCCs) and max region gaps (MRGs) from the coverage.
 }
 \examples{

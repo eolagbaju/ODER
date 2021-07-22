@@ -1,6 +1,6 @@
 #' Define sets of ERs
 #'
-#' \code{gen_ERs} defines ERs across an inputted range of mean coverage cut-offs
+#' \code{ge_ERs} defines ERs across an inputted range of mean coverage cut-offs
 #' (MCCs) and max region gaps (MRGs) from the coverage.
 #'
 #' @param coverage the coverage of the bigwig files passed into \code{\link{get_coverage}}.
@@ -89,4 +89,87 @@ get_ers <- function(coverage, mccs, mrgs) {
     }
 
     return(ers)
+}
+
+#' Define sets of ERs for stranded Bigwigs
+#'
+#' \code{get_strand_ers} defines ERs across an inputted range of mean coverage cut-offs
+#' (MCCs) and max region gaps (MRGs) from the coverage.
+#'
+#' @param bw_pos positive strand bigwig file
+#' @param bw_neg negative strand bigwig file
+#' @param auc_raw_pos vector containing AUCs(Area Under Coverage) matching the order
+#'   of bigwig paths.
+#' @param auc_raw_neg vector containing AUCs(Area Under Coverage) matching the order
+#'   of bigwig paths.
+#' @param auc_tar_pos total AUC to normalise all samples to. E.g. 40e6 * 100
+#'   would be the estimated total auc for sample sequenced to 40 million reads
+#'   of 100bp in length.
+#' @param auc_tar_neg total AUC to normalise all samples to. E.g. 40e6 * 100
+#'   would be the estimated total auc for sample sequenced to 40 million reads
+#'   of 100bp in length.
+#' @param chrs chromosomes to obtain mean coverage for, default is "" giving
+#'   every chromosome. Can take UCSC format(chrs = "chr1")
+#'   or just the chromosome i.e. chrs = c(1,X)
+#' @param mccs mean coverage cut-offs to apply.
+#' @param mrgs max region gaps to apply.
+#' @param bw_chr specifies whether the bigwig files has the chromosomes labelled
+#'   with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
+#'   "chr" or "nochr" with "chr" being the default.
+#'
+#' @return list containing sets of stranded ERs, each generated using a particular
+#'   combination of MCC and MRG.
+#' @export
+#'
+#' @examples
+#' gtex_metadata <- recount::all_metadata("gtex")
+#' gtex_metadata <- gtex_metadata %>%
+#'     as.data.frame() %>%
+#'     dplyr::filter(project == "SRP012682")
+#'
+#' url <- recount::download_study(
+#'     project = "SRP012682",
+#'     type = "samples",
+#'     download = FALSE
+#' ) # .file_cache is an internal function to download a bigwig file from a link
+#' # if the file has been downloaded recently, it will be retrieved from a cache
+#'
+#' bw_plus <- ODER:::.file_cache(url[58])
+#' bw_minus <- ODER:::.file_cache(url[84])
+#'
+#' stranded_ers <- get_strand_ers(
+#'     bw_pos = bw_plus, bw_neg = bw_minus,
+#'     auc_raw_pos = gtex_metadata[["auc"]][58],
+#'     auc_raw_neg = gtex_metadata[["auc"]][84], auc_tar_pos = 40e6 * 100,
+#'     auc_tar_neg = 40e6 * 100, chrs = "chr21", mccs = c(5, 10), mrgs = c(10, 20)
+#' )
+#'
+#' stranded_ers
+get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_tar_pos, auc_tar_neg, chrs, mccs, mrgs, bw_chr = "chr") {
+    plus_coverage <- get_coverage(bw_paths = bw_pos, auc_raw = auc_raw_pos, auc_target = auc_tar_pos, chrs = chrs, bw_chr = bw_chr)
+    minus_coverage <- get_coverage(bw_paths = bw_neg, auc_raw = auc_raw_neg, auc_target = auc_tar_neg, chrs = chrs, bw_chr = bw_chr)
+
+    ers_plus <- get_ers(coverage = plus_coverage, mccs = mccs, mrgs = mrgs)
+    ers_minus <- get_ers(coverage = minus_coverage, mccs = mccs, mrgs = mrgs)
+
+    sublist <- vector("list", length(ers_plus[[1]]))
+    ers_combi <- vector("list", length(ers_plus))
+
+    for (i in 1:length(ers_combi)) {
+        ers_combi[[i]] <- sublist
+    }
+
+    for (i in 1:length(ers_plus)) {
+        names(ers_combi) <- names(ers_plus)
+        for (j in 1:length(ers_plus[[i]])) {
+            names(ers_combi[[j]]) <- names(ers_plus[[j]])
+            strand(ers_plus[[i]][[j]]) <- "+"
+            strand(ers_minus[[i]][[j]]) <- "-"
+            ers_combi[[i]][[j]] <- c(ers_plus[[i]][[j]], ers_minus[[i]][[j]])
+            GenomeInfoDb::sortSeqlevels(ers_combi[[i]][[j]])
+            BiocGenerics::sort(ers_combi[[i]][[j]])
+        }
+    }
+
+    return(ers_combi)
 }
