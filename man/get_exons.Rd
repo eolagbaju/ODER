@@ -4,7 +4,7 @@
 \alias{get_exons}
 \title{Obtain set of non-overlapping exons}
 \usage{
-get_exons(gtf, ucsc_chr, ignore.strand = TRUE)
+get_exons(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overlapping")
 }
 \arguments{
 \item{gtf}{Either a string containg the path to a .gtf file or a pre-imported
@@ -16,6 +16,12 @@ if set to TRUE and seqnames already have "chr", it will not add another.}
 
 \item{ignore.strand}{logical value for input into
 \code{\link[GenomicRanges]{findOverlaps}}, default is True.}
+
+\item{biotype}{Filters the GTF file passed in to what would be considered the
+"Gold Standard" exons. The Default is "Non-overlapping" but the options are:
+"Non-overlapping" (exons that don't intersect each other),
+"Three Prime" (3' UTR), "Five Prime" (5' UTR), "Internal" (Internal coding),
+"lncRNA" (Long Non-Coding RNA), "ncRNA" (Non-Coding RNA) and "Pseudogene"}
 }
 \value{
 GRanges object containing non-overlapping exons.
