@@ -12,7 +12,10 @@ Authors@R:
            comment = c(ORCID = "0000-0003-2382-8460")),
            person(given = "Sebastian",family = "Guelfi",
            role = c("ctb"),
-           email = "david.zhang.12@ucl.ac.uk"))
+           email = "sebastian@vergegenomics.com"),
+           person(given = "Siddharth",family = "Sethi",
+           role = c("ctb"),
+           email = "siddharth.sethi@astx.com"))
 Description: The aim of ODER is to help with identifying previously unannotated
     expressed regions using RNA-sequencing data.  ODER enhances gene annotation
     which can improve the interpretation/ prioritisation of disease related
