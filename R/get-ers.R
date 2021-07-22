@@ -162,7 +162,7 @@ get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_tar_pos
     for (i in 1:length(ers_plus)) {
         names(ers_combi) <- names(ers_plus)
         for (j in 1:length(ers_plus[[i]])) {
-            names(ers_combi[[j]]) <- names(ers_plus[[j]])
+            names(ers_combi[[i]]) <- names(ers_plus[[j]])
             strand(ers_plus[[i]][[j]]) <- "+"
             strand(ers_minus[[i]][[j]]) <- "-"
             ers_combi[[i]][[j]] <- c(ers_plus[[i]][[j]], ers_minus[[i]][[j]])

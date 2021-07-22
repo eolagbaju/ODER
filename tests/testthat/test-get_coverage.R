@@ -125,7 +125,7 @@ test_that("get_ers works", {
 })
 
 test_that("get_strand_ers works", {
-    expect_true("+" %in% strand(test_strand_ers[[1]][[1]]))
-    expect_true("-" %in% strand(test_strand_ers[[1]][[1]]))
-    expect_false("*" %in% strand(test_strand_ers[[1]][[1]]))
+    expect_true("+" %in% BiocGenerics::strand(test_strand_ers[[1]][[1]]))
+    expect_true("-" %in% BiocGenerics::strand(test_strand_ers[[1]][[1]]))
+    expect_false("*" %in% BiocGenerics::strand(test_strand_ers[[1]][[1]]))
 })

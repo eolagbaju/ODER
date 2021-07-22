@@ -58,6 +58,7 @@ Generates the optimum expressed regions
 }
 \examples{
 \dontshow{
+library("magrittr")
 gtex_metadata <- recount::all_metadata("gtex")
 gtex_metadata <- gtex_metadata \%>\%
     as.data.frame() \%>\%
@@ -83,8 +84,8 @@ opt_ers <- ODER_strand(
     auc_raw_pos = gtex_metadata[["auc"]][58],
     auc_raw_neg = gtex_metadata[["auc"]][84],
     auc_tar_pos = auc_target, auc_tar_neg = auc_target,
-    chrs = "", genome = "hg38", mccs, mrgs, gtf = NULL, ucsc_chr,
-    ignore.strand, exons_no_overlap = NULL, bw_chr = "chr"
+    chrs = "", genome = "hg38", mccs = c(5,10), mrgs = c(10,20), gtf = NULL, ucsc_chr = TRUE,
+    ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
 )
 
 opt_ers
