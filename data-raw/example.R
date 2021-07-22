@@ -30,6 +30,12 @@ exons_no_overlap <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = T
 
 ers_delta_example <- get_ers_delta(ers = ers_example, opt_exons = exons_no_overlap, delta_fun = .delta)
 
+# gtex_url <- "https://storage.googleapis.com/gtex_analysis_v6p/rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_median_rpkm.gct.gz"
+# gtex_path <- ODER:::.file_cache(gtex_url)
+# library(data.table)
+# gtex_data <- fread(gtex_path)
+
+
 usethis::use_data(auc_example, overwrite = TRUE)
 usethis::use_data(coverage_example, overwrite = TRUE) # might have to exclude - 1.4MB
 usethis::use_data(ers_example, overwrite = TRUE)
