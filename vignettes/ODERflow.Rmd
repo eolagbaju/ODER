@@ -112,7 +112,7 @@ url <- recount::download_study(
 # bw_path <- ODER:::.file_cache(url[1])
 # bw_path <- ODER:::.file_cache(url[58])
 # 84  91   98  106  141  217  245  253  280  301  306  310  318  328  330  375  396  488  522  547  561  588  599
-bw_path <- ODER:::.file_cache(url[280])
+bw_path <- ODER:::.file_cache(url[58])
 ```
 
 ```{r generateERs}
@@ -122,7 +122,7 @@ coverage <- get_coverage(
     bw_paths = bw_path,
     # auc_raw = gtex_metadata[["auc"]][1],
     # auc_raw = gtex_metadata[["auc"]][58],
-    auc_raw = gtex_metadata[["auc"]][280],
+    auc_raw = gtex_metadata[["auc"]][58],
     auc_target = 40e6 * 100, # target 40 million coverage with 100 bp length reads
     chrs = c("chr21", "chr22")
 ) # defaults to chr1-22, chrX, chrY, chrM if chrs = ""
@@ -138,11 +138,18 @@ gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens
 gtf_path <- ODER:::.file_cache(gtf_url)
 
 exons_no_overlap <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE)
+# threeprime <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Three Prime")
+# fiveprime <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Five Prime")
+# internal <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Internal")
+# lncrna <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "lncRNA")
+# ncrna <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "ncRNA")
+# pseudogene <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Pseudogene")
 ```
 
 ```{r get_er_deltas}
 # get the ers_delta
 ers_delta <- get_ers_delta(ers = ers, opt_exons = exons_no_overlap)
+ers_delta
 # if you have your own delta function you can enter it as an argument i.e.
 # delta_fun <- your_delta_function
 ```
