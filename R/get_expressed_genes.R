@@ -1,11 +1,13 @@
 #' Adding the nearest expressed genes
 #'
-#' Adding the nearest gene and nearest expressed gene to the mcols of the
-#' annotated ERs
+#' Updating expressed regions with the expressed gene that is closest to it.
+#' After entering the tissue that has been sequenced, the nearest gene and
+#' nearest expressed gene will be added to the metadata columns of the annotated
+#' ERs.
 #'
 #' @inheritParams get_tissue
 #' @inheritParams get_expressed_genes
-#'
+#' @inheritParams get_nearest_expressed_genes
 #' @return Granges with annotated ERs and details of their nearest expressed
 #' genes
 #' @export
@@ -60,19 +62,30 @@ add_expressed_genes <- function(input_file = NULL, tissue, gtf_path,
 #' Get gene data for a tissue
 #'
 #' Generate a dataframe for the tissue entered in containing a list of expressed
-#' genes. The threshold used is RPKM>0.1
+#' genes that appear above a threshold of RPKM>0.1.
+#' (RPKM - Reads Per Kilobase of transcript, per Million mapped reads (RPKM) is
+#' a normalized unit of transcript expression.)
 #'
-#' @param input_file GTEX median expression file
+#' Can take a GTEX median expression file as an input or use the default (v6)
+#'
+#' @param input_file GTEX median expression file, if left as NULL
+#' \code{\link{get_tissue}} will use the default file
 #' @param tissue Tissue to filter for. See tissue_options for options
 #'
 #' @return Dataframe containing expressed genes
-#' @keywords internal
-#' @noRd
+#' @export
+#' @examples
+#'
+#' lung_tissue <- get_tissue(tissue = "lung")
+#'
+#' lung_tissue
 get_tissue <- function(input_file = NULL, tissue) {
     if (is.null(input_file)) {
         gtex_url <- "https://storage.googleapis.com/gtex_analysis_v6p/rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_median_rpkm.gct.gz"
         gtex_path <- ODER:::.file_cache(gtex_url)
         gtex_data <- data.table::fread(gtex_path)
+    } else {
+        gtex_data <- data.table::fread(input_file)
     }
 
     data <- gtex_data %>% dplyr::mutate(Name = stringr::str_split_fixed(Name, "\\.", n = 2)[, 1])
@@ -91,7 +104,9 @@ get_tissue <- function(input_file = NULL, tissue) {
 
 #' Get the expressed genes
 #'
-#' Get the expressed genes for a specific tissue
+#' Takes in a gtf file and a dataframe with expressed genes from a specific
+#' tissue. Filters the gtf file for genes and keeps those that are present in the
+#' tissue dataframe passed in.
 #'
 #' @param gtf_path gtf file path
 #' @param species character string containing the species to filter for,
@@ -100,8 +115,25 @@ get_tissue <- function(input_file = NULL, tissue) {
 #' tissue
 #'
 #' @return GRanges with the expressed genes for a specific tissue
-#' @keywords internal
-#' @noRd
+#' @export
+#' @examples
+#' \dontshow{
+#' gtf_url <- paste0(
+#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#' )
+#' # .file_cache is an internal function to download a bigwig file from a link
+#' # if the file has been downloaded recently, it will be retrieved from a cache
+#' gtf_path <- ODER:::.file_cache(gtf_url)
+#' }
+#' lung_tissue <- get_tissue(tissue = "lung")
+#'
+#' lung_exp_genes <- get_expressed_genes(
+#'     gtf_path = gtf_path,
+#'     tissue_df = lung_tissue
+#' )
+#'
+#' lung_exp_genes
 get_expressed_genes <- function(gtf_path, species = "Homo_sapiens", tissue_df) {
     gtf <- rtracklayer::import(gtf_path)
     gtf <- GenomeInfoDb::keepStandardChromosomes(gtf, species = species, pruning.mode = "coarse")
@@ -117,20 +149,67 @@ get_expressed_genes <- function(gtf_path, species = "Homo_sapiens", tissue_df) {
 
 #' Get the expressed genes
 #'
-#' Get the expressed genes for a specific tissue
+#' Adds the overall nearest gene and the nearest expressed gene to the annotated
+#' expressed regions as metadata columns. Takes in annotated ers produced by
+#' \code{\link{annotatERs}}, expressed genes from \code{\link{get_expressed_genes}}
+#' and a gtf file.
 #'
 #' @param gtf_path gtf file path
 #' @param annot_ers annotated ERs, should have an mcols column called "annotation"
-#' @param tissue_df dataframe containing the expressed genes for a particular
-#' tissue
+#' @param exp_genes GRanges containing the expressed genes of a particular tissue
 #'
 #' @return GRanges with the expressed genes for a specific tissue
-#' @keywords internal
-#' @noRd
+#' @export
+#' @examples
+#'
+#' lung_tissue <- get_tissue(tissue = "lung")
+#' \dontshow{
+#' url <- recount::download_study(
+#'     project = "SRP012682",
+#'     type = "samples",
+#'     download = FALSE
+#' ) # .file_cache is an internal function to download a bigwig file from a link
+#' # if the file has been downloaded recently, it will be retrieved from a cache
+#'
+#' bw_path <- ODER:::.file_cache(url[1])
+#' gtf_url <- paste0(
+#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#' )
+#' gtf_path <- ODER:::.file_cache(gtf_url)
+#'
+#' opt_ers <- ODER(
+#'     bw_paths = bw_path, auc_raw = auc_example,
+#'     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
+#'     genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
+#'     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+#'     exons_no_overlap = NULL, bw_chr = "chr"
+#' )
+#'
+#' junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
+#' }
+#'
+#'
+#' annot_ers <- annotatERs(
+#'     opt_ers = opt_ers[["opt_ers"]], junc_data = junctions,
+#'     gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
+#' )
+#'
+#' lung_tissue <- get_tissue(tissue = "lung")
+#'
+#' lung_exp_genes <- get_expressed_genes(
+#'     gtf_path = gtf_path,
+#'     tissue_df = lung_tissue
+#' )
+#'
+#' full_annot_ers <- get_nearest_expressed_genes(
+#'     annot_ers = annot_ers,
+#'     exp_genes = lung_exp_genes, gtf_path = gtf_path
+#' )
 get_nearest_expressed_genes <- function(annot_ers, exp_genes, gtf_path) {
     gtf <- rtracklayer::import(gtf_path)
     gtf <- GenomeInfoDb::keepStandardChromosomes(gtf, species = "Homo_sapiens", pruning.mode = "coarse")
-    seqlevelsStyle(gtf) <- "UCSC" # add chr to seqnames
+    GenomeInfoDb::seqlevelsStyle(gtf) <- "UCSC" # add chr to seqnames
     genesgtf <- gtf[S4Vectors::mcols(gtf)[["type"]] == "gene"]
 
     annot_ers <- annot_ers[S4Vectors::mcols(annot_ers)[["annotation"]] %in% c("intron", "intergenic")]
