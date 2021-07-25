@@ -57,6 +57,7 @@ combination of MCC and MRG.
 (MCCs) and max region gaps (MRGs) from the coverage.
 }
 \examples{
+library("magrittr")
 gtex_metadata <- recount::all_metadata("gtex")
 gtex_metadata <- gtex_metadata \%>\%
     as.data.frame() \%>\%

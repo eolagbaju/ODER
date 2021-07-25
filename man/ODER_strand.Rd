@@ -23,6 +23,24 @@ ODER_strand(
 )
 }
 \arguments{
+\item{bw_pos}{positive strand bigwig file}
+
+\item{bw_neg}{negative strand bigwig file}
+
+\item{auc_raw_pos}{vector containing AUCs(Area Under Coverage) matching the order
+of bigwig paths.}
+
+\item{auc_raw_neg}{vector containing AUCs(Area Under Coverage) matching the order
+of bigwig paths.}
+
+\item{auc_tar_pos}{total AUC to normalise all samples to. E.g. 40e6 * 100
+would be the estimated total auc for sample sequenced to 40 million reads
+of 100bp in length.}
+
+\item{auc_tar_neg}{total AUC to normalise all samples to. E.g. 40e6 * 100
+would be the estimated total auc for sample sequenced to 40 million reads
+of 100bp in length.}
+
 \item{chrs}{chromosomes to obtain mean coverage for, default is "" giving
 every chromosome. Can take UCSC format(chrs = "chr1")
 or just the chromosome i.e. chrs = c(1,X)}
@@ -57,7 +75,6 @@ list containing optimised ERs, optimal pair of MCC/MRGs and
 Generates the optimum expressed regions
 }
 \examples{
-\dontshow{
 library("magrittr")
 gtex_metadata <- recount::all_metadata("gtex")
 gtex_metadata <- gtex_metadata \%>\%
@@ -69,7 +86,7 @@ gtf_url <- paste0(
     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 )
 gtf_path <- ODER:::.file_cache(gtf_url)
-}
+
 url <- recount::download_study(
     project = "SRP012682",
     type = "samples",
@@ -81,10 +98,9 @@ bw_minus <- ODER:::.file_cache(url[84])
 auc_target <- 40e6 * 100
 opt_ers <- ODER_strand(
     bw_pos = bw_plus, bw_neg = bw_minus,
-    auc_raw_pos = gtex_metadata[["auc"]][58],
-    auc_raw_neg = gtex_metadata[["auc"]][84],
-    auc_tar_pos = auc_target, auc_tar_neg = auc_target,
-    chrs = "", genome = "hg38", mccs = c(5,10), mrgs = c(10,20), gtf = NULL, ucsc_chr = TRUE,
+    auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
+    auc_tar_pos = auc_target, auc_tar_neg = auc_target, chrs = "", genome = "hg38",
+    mccs = c(5, 10), mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE,
     ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
 )
 

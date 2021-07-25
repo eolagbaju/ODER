@@ -63,7 +63,7 @@ library("magrittr")
 gtex_metadata <- recount::all_metadata("gtex")
 #> Setting options('download.file.method.GEOquery'='auto')
 #> Setting options('GEOquery.inmemory.gpl'=FALSE)
-#> 2021-07-22 11:04:06 downloading the metadata to /tmp/Rtmp1Rh8Ny/metadata_clean_gtex.Rdata
+#> 2021-07-23 22:08:26 downloading the metadata to /tmp/RtmpxcnhA1/metadata_clean_gtex.Rdata
 gtex_metadata <- gtex_metadata %>%
     as.data.frame() %>%
     dplyr::filter(project == "SRP012682")
@@ -79,6 +79,8 @@ gtf_path <- ODER:::.file_cache(gtf_url)
 
 # getting the optimally defined ERs by finding the combination of Mean Coverage Cut-off and Max Region Gap that gives the smallest exon delta
 
+# MCC - Mean Cutoff Coverage - this is the minimum read depth that a read needs to have to be considered expressed
+# MRG - Max Region Gap - this is the maximum number of base pairs between reads that fall below the MCC before you would not include it as part of the expressed region
 opt_ers <- ODER(
     bw_paths = bw_path, auc_raw = gtex_metadata[["auc"]][1], # auc_example,
     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
@@ -113,15 +115,15 @@ opt_ers <- ODER(
 #> The following object is masked from 'package:base':
 #> 
 #>     expand.grid
-#> [1] "2021-07-22 11:04:19 - Obtaining mean coverage across 1 samples"
-#> [1] "2021-07-22 11:04:19 - chr21"
-#> [1] "2021-07-22 11:04:21 - chr22"
-#> [1] "2021-07-22 11:04:21 - Generating ERs for chr21"
-#> [1] "2021-07-22 11:04:28 - Generating ERs for chr22"
-#> [1] "2021-07-22 11:04:33 - Loading in GTF..."
-#> [1] "2021-07-22 11:05:21 - Obtaining non-overlapping exons"
-#> [1] "2021-07-22 11:05:23 - Calculating delta for ERs..."
-#> [1] "2021-07-22 11:05:25 - Obtaining optimal set of ERs..."
+#> [1] "2021-07-23 22:08:41 - Obtaining mean coverage across 1 samples"
+#> [1] "2021-07-23 22:08:41 - chr21"
+#> [1] "2021-07-23 22:08:43 - chr22"
+#> [1] "2021-07-23 22:08:44 - Generating ERs for chr21"
+#> [1] "2021-07-23 22:08:51 - Generating ERs for chr22"
+#> [1] "2021-07-23 22:08:56 - Loading in GTF..."
+#> [1] "2021-07-23 22:09:44 - Obtaining non-overlapping exons"
+#> [1] "2021-07-23 22:09:46 - Calculating delta for ERs..."
+#> [1] "2021-07-23 22:09:48 - Obtaining optimal set of ERs..."
 
 # for stranded bigwig files:
 
@@ -186,20 +188,20 @@ exon boundaries.
 
 <img src="man/figures/README-plot_example-1.png" width="100%" />
 
-    #> [1] "2021-07-22 11:05:27 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-    #> [1] "2021-07-22 11:05:27 - Importing gtf/gff3 as a TxDb..."
+    #> [1] "2021-07-23 22:09:50 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+    #> [1] "2021-07-23 22:09:50 - Importing gtf/gff3 as a TxDb..."
     #> Import genomic features from the file as a GRanges object ... OK
     #> Prepare the 'metadata' data frame ... OK
     #> Make the TxDb object ...
     #> Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
     #>   stop_codon. This information was ignored.
     #> OK
-    #> [1] "2021-07-22 11:07:01 - Getting junction annotation using overlapping exons..."
-    #> [1] "2021-07-22 11:07:02 - Tidying junction annotation..."
-    #> [1] "2021-07-22 11:07:02 - Deriving junction categories..."
-    #> [1] "2021-07-22 11:07:03 - done!"
-    #> [1] "2021-07-22 11:07:03 - Finding junctions overlapping ers..."
-    #> [1] "2021-07-22 11:08:00 - Generating a genomic state..."
+    #> [1] "2021-07-23 22:11:22 - Getting junction annotation using overlapping exons..."
+    #> [1] "2021-07-23 22:11:22 - Tidying junction annotation..."
+    #> [1] "2021-07-23 22:11:22 - Deriving junction categories..."
+    #> [1] "2021-07-23 22:11:24 - done!"
+    #> [1] "2021-07-23 22:11:24 - Finding junctions overlapping ers..."
+    #> [1] "2021-07-23 22:12:20 - Generating a genomic state..."
     #> Import genomic features from the file as a GRanges object ... OK
     #> Prepare the 'metadata' data frame ... OK
     #> Make the TxDb object ...
@@ -210,12 +212,12 @@ exon boundaries.
     #>   stop_codon. This information was ignored.
     #> extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens
     #> 'select()' returned 1:1 mapping between keys and columns
-    #> [1] "2021-07-22 11:10:17 - Annotating the Expressed regions..."
-    #> 2021-07-22 11:10:17 annotateRegions: counting
-    #> 2021-07-22 11:10:17 annotateRegions: annotating
-    #> [1] "2021-07-22 11:11:03 - done!"
+    #> [1] "2021-07-23 22:14:36 - Annotating the Expressed regions..."
+    #> 2021-07-23 22:14:36 annotateRegions: counting
+    #> 2021-07-23 22:14:36 annotateRegions: annotating
+    #> [1] "2021-07-23 22:15:22 - done!"
 
-    #> [1] "2021-07-22 11:12:32 - Refining the Expressed regions..."
+    #> [1] "2021-07-23 22:16:50 - Refining the Expressed regions..."
     #> GRanges object with 2 ranges and 7 metadata columns:
     #>       seqnames          ranges strand |                     grl           genes
     #>          <Rle>       <IRanges>  <Rle> |           <GRangesList> <CharacterList>

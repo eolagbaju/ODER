@@ -122,6 +122,7 @@ get_ers <- function(coverage, mccs, mrgs) {
 #' @export
 #'
 #' @examples
+#' library("magrittr")
 #' gtex_metadata <- recount::all_metadata("gtex")
 #' gtex_metadata <- gtex_metadata %>%
 #'     as.data.frame() %>%
@@ -163,8 +164,8 @@ get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_tar_pos
         names(ers_combi) <- names(ers_plus)
         for (j in 1:length(ers_plus[[i]])) {
             names(ers_combi[[i]]) <- names(ers_plus[[j]])
-            strand(ers_plus[[i]][[j]]) <- "+"
-            strand(ers_minus[[i]][[j]]) <- "-"
+            BiocGenerics::strand(ers_plus[[i]][[j]]) <- "+"
+            BiocGenerics::strand(ers_minus[[i]][[j]]) <- "-"
             ers_combi[[i]][[j]] <- c(ers_plus[[i]][[j]], ers_minus[[i]][[j]])
             GenomeInfoDb::sortSeqlevels(ers_combi[[i]][[j]])
             BiocGenerics::sort(ers_combi[[i]][[j]])

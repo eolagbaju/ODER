@@ -71,8 +71,8 @@ gtf_path <- ODER:::.file_cache(gtf_url)
 
 # getting the optimally defined ERs by finding the combination of Mean Coverage Cut-off and Max Region Gap that gives the smallest exon delta
 
-#MCC - Mean Cutoff Coverage - this is the minimum read depth that a read needs to have to be considered expressed
-#MRG - Max Region Gap - this is the maximum number of base pairs between reads that fall below the MCC before you would not include it as part of the expressed region
+# MCC - Mean Cutoff Coverage - this is the minimum read depth that a read needs to have to be considered expressed
+# MRG - Max Region Gap - this is the maximum number of base pairs between reads that fall below the MCC before you would not include it as part of the expressed region
 opt_ers <- ODER(
     bw_paths = bw_path, auc_raw = gtex_metadata[["auc"]][1], # auc_example,
     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
@@ -83,15 +83,15 @@ opt_ers <- ODER(
 
 # for stranded bigwig files:
 
-bw_plus <- ODER:::.file_cache(url[58])
-bw_minus <- ODER:::.file_cache(url[84])
-opt_strand_ers <- ODER_strand(
-    bw_pos = bw_plus, bw_neg = bw_minus,
-    auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
-    auc_tar_pos = 40e6 * 100, auc_tar_neg = 40e6 * 100, chrs = c("chr21", "chr22"),
-    genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30), gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = FALSE,
-    exons_no_overlap = NULL, bw_chr = "chr"
-)
+# bw_plus <- ODER:::.file_cache(url[58])
+# bw_minus <- ODER:::.file_cache(url[84])
+# opt_strand_ers <- ODER_strand(
+#     bw_pos = bw_plus, bw_neg = bw_minus,
+#     auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
+#     auc_tar_pos = 40e6 * 100, auc_tar_neg = 40e6 * 100, chrs = c("chr21", "chr22"),
+#     genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30), gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = FALSE,
+#     exons_no_overlap = NULL, bw_chr = "chr"
+# )
 
 opt_ers
 # opt_strand_ers
@@ -115,7 +115,7 @@ annot_ers <- annotatERs(
 )
 
 # To check the types of tissue you can filter for:
-#print(tissue_options)
+# print(tissue_options)
 
 annot_ers <- add_expressed_genes(tissue = "lung", gtf_path = gtf_path, annot_ers = annot_ers)
 ```

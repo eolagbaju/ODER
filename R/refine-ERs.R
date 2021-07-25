@@ -1,7 +1,12 @@
 #' Refines the ERs start and end points
 #'
-#' Uses the junctions in the metadata to modify the starts and ends of the
-#' Expressed regions
+#' Uses the junctions added by \code{\link{annotatERs}} to modify the starts and
+#' ends of the expressed regions. When a junction intersects an expressed region
+#' depending on whether it is the start or end or both the regions corresponding
+#' starts and ends will be modified.
+#'
+#' As junctions mark intron boundaries, the expressed region will be changed to
+#' either being one less or more than the junction end.
 #'
 #' @param annot_ers ERs that have been annotated (result of annotatER)
 #'

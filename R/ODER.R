@@ -41,7 +41,7 @@ ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
     gtf = NULL, ucsc_chr, ignore.strand,
     exons_no_overlap = NULL,
     bw_chr = "chr") {
-    if (is.null(gtf) && is.null(opt_ers)) stop("One of gtf OR opt_gr must be provided.")
+    if (is.null(gtf)) stop("gtf must be provided.")
 
     coverage <- get_coverage(
         bw_paths = bw_paths, auc_raw = auc_raw, auc_target = auc_target,
@@ -72,13 +72,13 @@ ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
 #' @inheritParams get_ers
 #' @inheritParams get_exons
 #' @inheritParams get_coverage
+#' @inheritParams get_strand_ers
 #'
 #' @return list containing optimised ERs, optimal pair of MCC/MRGs and
 #' \code{delta_df}
 #' @export
 #'
 #' @examples
-#' \dontshow{
 #' library("magrittr")
 #' gtex_metadata <- recount::all_metadata("gtex")
 #' gtex_metadata <- gtex_metadata %>%
@@ -90,7 +90,7 @@ ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
 #'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 #' )
 #' gtf_path <- ODER:::.file_cache(gtf_url)
-#' }
+#'
 #' url <- recount::download_study(
 #'     project = "SRP012682",
 #'     type = "samples",
@@ -102,17 +102,16 @@ ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
 #' auc_target <- 40e6 * 100
 #' opt_ers <- ODER_strand(
 #'     bw_pos = bw_plus, bw_neg = bw_minus,
-#'     auc_raw_pos = gtex_metadata[["auc"]][58],
-#'     auc_raw_neg = gtex_metadata[["auc"]][84],
-#'     auc_tar_pos = auc_target, auc_tar_neg = auc_target,
-#'     chrs = "", genome = "hg38", mccs = c(5,10), mrgs = c(10,20), gtf =  gtf_path, ucsc_chr = TRUE,
+#'     auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
+#'     auc_tar_pos = auc_target, auc_tar_neg = auc_target, chrs = "", genome = "hg38",
+#'     mccs = c(5, 10), mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE,
 #'     ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
 #' )
 #'
 #' opt_ers
 ODER_strand <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_tar_pos, auc_tar_neg, chrs = "", genome = "hg38",
     mccs, mrgs, gtf = NULL, ucsc_chr, ignore.strand, exons_no_overlap = NULL, bw_chr = "chr") {
-    if (is.null(gtf) && is.null(opt_ers)) stop("One of gtf OR opt_gr must be provided.")
+    if (is.null(gtf)) stop("gtf must be provided.")
 
     stranded_ers <- get_strand_ers(
         bw_pos = bw_pos, bw_neg = bw_neg, auc_raw_pos = auc_raw_pos,
