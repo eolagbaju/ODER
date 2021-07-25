@@ -160,7 +160,7 @@ output. If NULL then the bw_paths will be used for the colData</p></td>
     <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span>
 <span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/all_metadata.html'>all_metadata</a></span><span class='op'>(</span><span class='st'>"gtex"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>2021-07-08 14:52:46 downloading the metadata to /tmp/Rtmpp9CuIH/metadata_clean_gtex.Rdata</span></div><div class='input'><span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='va'>gtex_metadata</span> <span class='op'>%&gt;%</span>
+</div><div class='output co'>#&gt; <span class='message'>2021-07-25 16:08:46 downloading the metadata to /tmp/RtmpS2hLAz/metadata_clean_gtex.Rdata</span></div><div class='input'><span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='va'>gtex_metadata</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span>
 
@@ -184,15 +184,15 @@ output. If NULL then the bw_paths will be used for the colData</p></td>
     gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>, ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>,
     exons_no_overlap <span class='op'>=</span> <span class='cn'>NULL</span>, bw_chr <span class='op'>=</span> <span class='st'>"chr"</span>
 <span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-07-08 14:52:48 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-07-08 14:52:48 - chr21"
-#&gt; [1] "2021-07-08 14:52:49 - chr22"
-#&gt; [1] "2021-07-08 14:52:49 - Generating ERs for chr21"
-#&gt; [1] "2021-07-08 14:52:51 - Generating ERs for chr22"
-#&gt; [1] "2021-07-08 14:52:54 - Loading in GTF..."
-#&gt; [1] "2021-07-08 14:53:28 - Obtaining non-overlapping exons"
-#&gt; [1] "2021-07-08 14:53:31 - Calculating delta for ERs..."
-#&gt; [1] "2021-07-08 14:53:32 - Obtaining optimal set of ERs..."</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-07-25 16:08:48 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-07-25 16:08:48 - chr21"
+#&gt; [1] "2021-07-25 16:08:48 - chr22"
+#&gt; [1] "2021-07-25 16:08:48 - Generating ERs for chr21"
+#&gt; [1] "2021-07-25 16:08:50 - Generating ERs for chr22"
+#&gt; [1] "2021-07-25 16:08:52 - Loading in GTF..."
+#&gt; [1] "2021-07-25 16:09:22 - Obtaining non-overlapping exons"
+#&gt; [1] "2021-07-25 16:09:24 - Calculating delta for ERs..."
+#&gt; [1] "2021-07-25 16:09:25 - Obtaining optimal set of ERs..."</div><div class='input'>
 <span class='va'>opt_ers2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='fu'><a href='ODER.html'>ODER</a></span><span class='op'>(</span>
     bw_paths <span class='op'>=</span> <span class='va'>bw_path</span>, auc_raw <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>91</span><span class='op'>]</span>,
     auc_target <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>, chrs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>,
@@ -200,37 +200,37 @@ output. If NULL then the bw_paths will be used for the colData</p></td>
     gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>, ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>,
     exons_no_overlap <span class='op'>=</span> <span class='cn'>NULL</span>, bw_chr <span class='op'>=</span> <span class='st'>"chr"</span>
 <span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-07-08 14:53:32 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-07-08 14:53:32 - chr21"
-#&gt; [1] "2021-07-08 14:53:33 - chr22"
-#&gt; [1] "2021-07-08 14:53:33 - Generating ERs for chr21"
-#&gt; [1] "2021-07-08 14:53:35 - Generating ERs for chr22"
-#&gt; [1] "2021-07-08 14:53:38 - Loading in GTF..."
-#&gt; [1] "2021-07-08 14:54:12 - Obtaining non-overlapping exons"
-#&gt; [1] "2021-07-08 14:54:14 - Calculating delta for ERs..."
-#&gt; [1] "2021-07-08 14:54:15 - Obtaining optimal set of ERs..."</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-07-25 16:09:25 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-07-25 16:09:25 - chr21"
+#&gt; [1] "2021-07-25 16:09:25 - chr22"
+#&gt; [1] "2021-07-25 16:09:26 - Generating ERs for chr21"
+#&gt; [1] "2021-07-25 16:09:29 - Generating ERs for chr22"
+#&gt; [1] "2021-07-25 16:09:31 - Loading in GTF..."
+#&gt; [1] "2021-07-25 16:10:00 - Obtaining non-overlapping exons"
+#&gt; [1] "2021-07-25 16:10:02 - Calculating delta for ERs..."
+#&gt; [1] "2021-07-25 16:10:03 - Obtaining optimal set of ERs..."</div><div class='input'>
 <span class='va'>test_juncs</span> <span class='op'>&lt;-</span> <span class='fu'>SummarizedExperiment</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/SummarizedExperiment/man/RangedSummarizedExperiment-class.html'>rowRanges</a></span><span class='op'>(</span><span class='fu'>dasper</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/dasper/man/junctions_example.html'>junctions_example</a></span><span class='op'>)</span>
 <span class='va'>aers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='fu'><a href='annotatERs.html'>annotatERs</a></span><span class='op'>(</span><span class='va'>opt_ers</span><span class='op'>[[</span><span class='st'>"opt_ers"</span><span class='op'>]</span><span class='op'>]</span>,
     junc_data <span class='op'>=</span> <span class='va'>test_juncs</span>,
     gtf_path <span class='op'>=</span> <span class='va'>gtf_path</span>, ensembl <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-07-08 14:54:15 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#&gt; [1] "2021-07-08 14:54:15 - Importing gtf/gff3 as a TxDb..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; [1] "2021-07-08 14:55:33 - Getting junction annotation using overlapping exons..."
-#&gt; [1] "2021-07-08 14:55:34 - Tidying junction annotation..."
-#&gt; [1] "2021-07-08 14:55:35 - Deriving junction categories..."
-#&gt; [1] "2021-07-08 14:55:39 - done!"
-#&gt; [1] "2021-07-08 14:55:39 - Finding junctions overlapping ers..."
-#&gt; [1] "2021-07-08 14:56:02 - Generating a genomic state..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='output co'>#&gt; [1] "2021-07-08 15:02:18 - Annotating the Expressed regions..."</div><div class='output co'>#&gt; <span class='message'>2021-07-08 15:02:19 annotateRegions: counting</span></div><div class='output co'>#&gt; <span class='message'>2021-07-08 15:02:21 annotateRegions: annotating</span></div><div class='output co'>#&gt; [1] "2021-07-08 15:03:03 - done!"</div><div class='input'><span class='va'>aers2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='fu'><a href='annotatERs.html'>annotatERs</a></span><span class='op'>(</span><span class='va'>opt_ers2</span><span class='op'>[[</span><span class='st'>"opt_ers"</span><span class='op'>]</span><span class='op'>]</span>,
+</div><div class='output co'>#&gt; [1] "2021-07-25 16:10:04 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+#&gt; [1] "2021-07-25 16:10:04 - Importing gtf/gff3 as a TxDb..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; [1] "2021-07-25 16:11:11 - Getting junction annotation using overlapping exons..."
+#&gt; [1] "2021-07-25 16:11:13 - Tidying junction annotation..."
+#&gt; [1] "2021-07-25 16:11:13 - Deriving junction categories..."
+#&gt; [1] "2021-07-25 16:11:16 - done!"
+#&gt; [1] "2021-07-25 16:11:16 - Finding junctions overlapping ers..."
+#&gt; [1] "2021-07-25 16:11:38 - Generating a genomic state..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='output co'>#&gt; [1] "2021-07-25 16:17:11 - Annotating the Expressed regions..."</div><div class='output co'>#&gt; <span class='message'>2021-07-25 16:17:12 annotateRegions: counting</span></div><div class='output co'>#&gt; <span class='message'>2021-07-25 16:17:14 annotateRegions: annotating</span></div><div class='output co'>#&gt; [1] "2021-07-25 16:17:51 - done!"</div><div class='input'><span class='va'>aers2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='fu'><a href='annotatERs.html'>annotatERs</a></span><span class='op'>(</span><span class='va'>opt_ers2</span><span class='op'>[[</span><span class='st'>"opt_ers"</span><span class='op'>]</span><span class='op'>]</span>,
     junc_data <span class='op'>=</span> <span class='va'>test_juncs</span>,
     gtf_path <span class='op'>=</span> <span class='va'>gtf_path</span>, ensembl <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-07-08 15:03:03 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#&gt; [1] "2021-07-08 15:03:03 - Importing gtf/gff3 as a TxDb..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; [1] "2021-07-08 15:04:20 - Getting junction annotation using overlapping exons..."
-#&gt; [1] "2021-07-08 15:04:22 - Tidying junction annotation..."
-#&gt; [1] "2021-07-08 15:04:22 - Deriving junction categories..."
-#&gt; [1] "2021-07-08 15:04:26 - done!"
-#&gt; [1] "2021-07-08 15:04:26 - Finding junctions overlapping ers..."
-#&gt; [1] "2021-07-08 15:04:47 - Generating a genomic state..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='output co'>#&gt; [1] "2021-07-08 15:11:00 - Annotating the Expressed regions..."</div><div class='output co'>#&gt; <span class='message'>2021-07-08 15:11:00 annotateRegions: counting</span></div><div class='output co'>#&gt; <span class='message'>2021-07-08 15:11:01 annotateRegions: annotating</span></div><div class='output co'>#&gt; [1] "2021-07-08 15:11:41 - done!"</div><div class='input'><span class='co'># }</span>
+</div><div class='output co'>#&gt; [1] "2021-07-25 16:17:51 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+#&gt; [1] "2021-07-25 16:17:51 - Importing gtf/gff3 as a TxDb..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; [1] "2021-07-25 16:18:58 - Getting junction annotation using overlapping exons..."
+#&gt; [1] "2021-07-25 16:18:59 - Tidying junction annotation..."
+#&gt; [1] "2021-07-25 16:18:59 - Deriving junction categories..."
+#&gt; [1] "2021-07-25 16:19:03 - done!"
+#&gt; [1] "2021-07-25 16:19:03 - Finding junctions overlapping ers..."
+#&gt; [1] "2021-07-25 16:19:24 - Generating a genomic state..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='output co'>#&gt; [1] "2021-07-25 16:24:49 - Annotating the Expressed regions..."</div><div class='output co'>#&gt; <span class='message'>2021-07-25 16:24:50 annotateRegions: counting</span></div><div class='output co'>#&gt; <span class='message'>2021-07-25 16:24:50 annotateRegions: annotating</span></div><div class='output co'>#&gt; [1] "2021-07-25 16:25:26 - done!"</div><div class='input'><span class='co'># }</span>
 <span class='va'>example_bw_paths</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>bw_path</span>, <span class='va'>bw_path2</span><span class='op'>)</span>
 <span class='va'>annot_ersl</span> <span class='op'>&lt;-</span> <span class='fu'>GenomicRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicRanges/man/GRangesList-class.html'>GRangesList</a></span><span class='op'>(</span><span class='va'>aers</span>, <span class='va'>aers2</span><span class='op'>)</span>
 
@@ -242,7 +242,7 @@ output. If NULL then the bw_paths will be used for the colData</p></td>
 #&gt; assays(1): ''
 #&gt; rownames: NULL
 #&gt; rowData names(0):
-#&gt; colnames(2): BFC4 BFC5
+#&gt; colnames(2): BFC4 BFC6
 #&gt; colData names(1): bw_paths</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -180,14 +180,14 @@ of ERs.</p>
     ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,
     ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-07-08 15:11:50 - Loading in GTF..."
-#&gt; [1] "2021-07-08 15:12:22 - Obtaining non-overlapping exons"</div><div class='input'><span class='co'># }</span>
+</div><div class='output co'>#&gt; [1] "2021-07-25 16:25:36 - Loading in GTF..."
+#&gt; [1] "2021-07-25 16:26:04 - Obtaining non-overlapping exons"</div><div class='input'><span class='co'># }</span>
 <span class='va'>eg_ers_delta</span> <span class='op'>&lt;-</span> <span class='fu'>get_ers_delta</span><span class='op'>(</span>
     ers <span class='op'>=</span> <span class='va'>ers_example</span>, <span class='co'># ers_example is from the package data folder</span>
     opt_exons <span class='op'>=</span> <span class='va'>eg_opt_exons</span>,
     delta_fun <span class='op'>=</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='va'>.delta</span>
 <span class='op'>)</span> <span class='co'># .delta is ODER's default, you can pass in your own if you have one</span>
-</div><div class='output co'>#&gt; [1] "2021-07-08 15:12:24 - Calculating delta for ERs..."</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-07-25 16:26:05 - Calculating delta for ERs..."</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_ers_delta</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 7</span><span>
 #&gt;     mcc   mrg     sum  mean median n_eq_0 propor_eq_0
