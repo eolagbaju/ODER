@@ -42,3 +42,25 @@
 #' @source See example.R in data-raw
 #'
 "ers_delta_example"
+#' Junction data of chromosomes 21 and 22 from a lung tissue sample
+#'
+#' These junctions were sampled from a local junction file.
+#'
+#' @format A dataframe with the junction ID, chromosome, start and ends, strand,
+#' number of samples, acceptor and donor
+#'
+#' @source GTEx
+#'
+"lung_junc_21_22"
+#' The different tissues that can be filtered on for gene expression
+#'
+#' These options were derived from the contents of the GTEx analysis gene median
+#' RPKM file.
+#'
+#' @format A character vector with all of the tissue options available to filter
+#' on. These are to be used in conjunction with the
+#' \code{\link{add_expressed_genes}} function.
+#'
+#' @source See tissues.R in data-raw
+#'
+"tissue_options"
