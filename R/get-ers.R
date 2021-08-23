@@ -102,10 +102,7 @@ get_ers <- function(coverage, mccs, mrgs) {
 #'   of bigwig paths.
 #' @param auc_raw_neg vector containing AUCs(Area Under Coverage) matching the order
 #'   of bigwig paths.
-#' @param auc_tar_pos total AUC to normalise all samples to. E.g. 40e6 * 100
-#'   would be the estimated total auc for sample sequenced to 40 million reads
-#'   of 100bp in length.
-#' @param auc_tar_neg total AUC to normalise all samples to. E.g. 40e6 * 100
+#' @param auc_target total AUC to normalise all samples to. E.g. 40e6 * 100
 #'   would be the estimated total auc for sample sequenced to 40 million reads
 #'   of 100bp in length.
 #' @param chrs chromosomes to obtain mean coverage for, default is "" giving
@@ -139,16 +136,16 @@ get_ers <- function(coverage, mccs, mrgs) {
 #' bw_minus <- ODER:::.file_cache(url[84])
 #'
 #' stranded_ers <- get_strand_ers(
-#'     bw_pos = bw_plus, bw_neg = bw_minus,
+#'     bw_pos = bw_plus, bw_neg = bw_minus, 
 #'     auc_raw_pos = gtex_metadata[["auc"]][58],
-#'     auc_raw_neg = gtex_metadata[["auc"]][84], auc_tar_pos = 40e6 * 100,
-#'     auc_tar_neg = 40e6 * 100, chrs = "chr21", mccs = c(5, 10), mrgs = c(10, 20)
+#'     auc_raw_neg = gtex_metadata[["auc"]][84], auc_target = 40e6 * 100,
+#'     chrs = "chr21", mccs = c(5, 10), mrgs = c(10, 20)
 #' )
 #'
 #' stranded_ers
-get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_tar_pos, auc_tar_neg, chrs, mccs, mrgs, bw_chr = "chr") {
-    plus_coverage <- get_coverage(bw_paths = bw_pos, auc_raw = auc_raw_pos, auc_target = auc_tar_pos, chrs = chrs, bw_chr = bw_chr)
-    minus_coverage <- get_coverage(bw_paths = bw_neg, auc_raw = auc_raw_neg, auc_target = auc_tar_neg, chrs = chrs, bw_chr = bw_chr)
+get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target, chrs, mccs, mrgs, bw_chr = "chr") {
+    plus_coverage <- get_coverage(bw_paths = bw_pos, auc_raw = auc_raw_pos, auc_target = auc_target, chrs = chrs, bw_chr = bw_chr)
+    minus_coverage <- get_coverage(bw_paths = bw_neg, auc_raw = auc_raw_neg, auc_target = auc_target, chrs = chrs, bw_chr = bw_chr)
 
     ers_plus <- get_ers(coverage = plus_coverage, mccs = mccs, mrgs = mrgs)
     ers_minus <- get_ers(coverage = minus_coverage, mccs = mccs, mrgs = mrgs)

@@ -1,4 +1,7 @@
 #' Generates the optimum expressed regions
+#' 
+#' Returns the optimum definition of the expressed regions by finding the ideal 
+#' MCC (Mean Coverage Cutoff) and MRG (Max Region Gap)
 #'
 #' @param exons_no_overlap Optimum set of exons to help calculate deltas
 #' @inheritParams get_coverage
@@ -39,7 +42,7 @@
 ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
     mccs, mrgs,
     gtf = NULL, ucsc_chr, ignore.strand,
-    exons_no_overlap = NULL,
+    exons_no_overlap = NULL, biotype = "Non-overlapping",
     bw_chr = "chr") {
     if (is.null(gtf)) stop("gtf must be provided.")
 
@@ -51,10 +54,8 @@ ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
     ers <- get_ers(coverage = coverage, mccs = mccs, mrgs = mrgs)
 
     if (!is.null(gtf)) {
-        exons_no_overlap <- get_exons(
-            gtf = gtf,
-            ucsc_chr = ucsc_chr,
-            ignore.strand = ignore.strand
+        exons_no_overlap <- get_exons( gtf = gtf, ucsc_chr = ucsc_chr,
+            ignore.strand = ignore.strand, biotype = biotype
         )
     }
 
@@ -99,24 +100,23 @@ ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
 #' bw_plus <- ODER:::.file_cache(url[58])
 #' bw_minus <- ODER:::.file_cache(url[84])
 #'
-#' auc_target <- 40e6 * 100
 #' opt_ers <- ODER_strand(
 #'     bw_pos = bw_plus, bw_neg = bw_minus,
 #'     auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
-#'     auc_tar_pos = auc_target, auc_tar_neg = auc_target, chrs = "", genome = "hg38",
+#'     auc_target = 40e6 * 100, chrs = "", genome = "hg38",
 #'     mccs = c(5, 10), mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE,
 #'     ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
 #' )
 #'
 #' opt_ers
-ODER_strand <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_tar_pos, auc_tar_neg, chrs = "", genome = "hg38",
+ODER_strand <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target, chrs = "", genome = "hg38",
     mccs, mrgs, gtf = NULL, ucsc_chr, ignore.strand, exons_no_overlap = NULL, bw_chr = "chr") {
     if (is.null(gtf)) stop("gtf must be provided.")
 
     stranded_ers <- get_strand_ers(
         bw_pos = bw_pos, bw_neg = bw_neg, auc_raw_pos = auc_raw_pos,
-        auc_raw_neg = auc_raw_neg, auc_tar_pos = auc_tar_pos,
-        auc_tar_neg = auc_tar_neg, chrs = chrs, mccs = mccs, mrgs = mrgs
+        auc_target = auc_target, auc_tar_neg = auc_tar_neg, chrs = chrs,
+        mccs = mccs, mrgs = mrgs
     )
 
 
