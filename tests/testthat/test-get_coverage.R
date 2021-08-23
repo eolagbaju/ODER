@@ -16,8 +16,8 @@ bw_minus <- ODER:::.file_cache(url[84])
 
 test_strand_ers <- get_strand_ers(
     bw_pos = bw_plus, bw_neg = bw_minus, auc_raw_pos = gtex_metadata[["auc"]][58],
-    auc_raw_neg = gtex_metadata[["auc"]][84], auc_tar_pos = 40e6 * 100,
-    auc_tar_neg = 40e6 * 100, chrs = "chr21", mccs = c(5, 10), mrgs = c(10, 20), bw_chr = "chr"
+    auc_raw_neg = gtex_metadata[["auc"]][84], auc_target = 40e6 * 100,
+    chrs = "chr21", mccs = c(5, 10), mrgs = c(10, 20), bw_chr = "chr"
 )
 
 test_that("get_chr_info works", {

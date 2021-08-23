@@ -23,10 +23,10 @@ opt_lung_ers <- suppressWarnings(ODER(
     exons_no_overlap = NULL, bw_chr = "chr"
 ))
 
-annot_lung_ers <- annotatERs(
+annot_lung_ers <- suppressWarnings(annotatERs(
     opt_ers = opt_lung_ers[["opt_ers"]], junc_data = lung_junc_21_22,
     gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
-)
+))
 
 liver_tissue <- get_tissue(tissue = "liver")
 lung_tissue <- get_tissue(tissue = "lung")
@@ -51,4 +51,5 @@ test_that("get_expressed_genes works", {
 test_that("get_nearest_expressed_genes works", {
     expect_equal(S4Vectors::mcols(full_annot_lung_ers)[["genes"]][[1]], S4Vectors::mcols(full_annot_lung_ers)[["nearest_gene_v94_name"]][[1]])
     expect_equal(S4Vectors::mcols(full_annot_lung_ers)[["genes"]][[6640]], S4Vectors::mcols(full_annot_lung_ers)[["nearest_expressed_gene_v94_name"]][[6640]])
+    expect_equal(S4Vectors::mcols(full_annot_lung_ers)[["nearest_expressed_gene_v94_name"]][[6640]],"ENSG00000184319")
 })
