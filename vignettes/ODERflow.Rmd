@@ -68,9 +68,12 @@ BiocManager::valid()
 
 ## Required knowledge
 
-`r Biocpkg("ODER")` is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with RNA-seq data (EDIT!). That is, packages like `r Biocpkg("SummarizedExperiment")` (EDIT!).
+The expected input of `r Biocpkg("ODER")` is coverage in the form of BigWig files.
 
-If you are asking yourself the question "Where do I start using Bioconductor?" you might be interested in [this blog post](http://lcolladotor.github.io/2014/10/16/startbioc/#.VkOKbq6rRuU).
+`r Biocpkg("ODER")` is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with RNA-seq data. The `r Biocpkg("GenomicRanges")` package is heavily used in `r Biocpkg("ODER")` while other packages like `r Biocpkg("SummarizedExperiment")` and `r Biocpkg("GenomeInfoDb")` also being featured so previous experience with these packages will help in the comprehension and use of `r Biocpkg("ODER")`.
+
+If you are asking yourself the question "Where do I start using Bioconductor?" you might be interested in [this blog post](http://lcolladotor.github.io/2014/10/16/startbioc/#.VkOKbq6rRuU). If you find the structure of a `r Biocpkg("SummarizedExperiment")` unclear, you might consider checking out [this manual](http://master.bioconductor.org/help/course-materials/2019/BSS2019/04_Practical_CoreApproachesInBioconductor.html).
+
 
 
 ## Asking for help
@@ -88,54 +91,155 @@ We hope that `r Biocpkg("ODER")` will be useful for your research. Please use th
 
 # Quick start to using to `ODER`
 
-```{r "start", message=FALSE}
-library("ODER")
-```
+ODER consists of 4 main functions, some of which consist of several smaller helper functions. These functions are
 
-```{r loadData}
-library(magrittr)
+1. **ODER** - Returns the optimum definition of the expressed regions by finding the ideal MCC (Mean Coverage Cutoff) and MRG (Max Region Gap)
+2. **annotatER** - Annotates the expressed regions with overlapping junctions and the nearest expressed genes
+3. **refine_ers** - Uses the junctions to further refine the starts and the ends of the expressed regions
+4. **get_count_matrix** - Scores the coverage of the expressed regions
+
+```{r 'install_dev', eval = FALSE}
+BiocManager::install("eolagbaju/ODER")
+```
+## Example
+
+This is a basic example to show how you can use ODER, for reproducibility everything used in this vignette can either be found online or is contained in ODER. First, we need to download the data and information needed to run ODER:
+
+```{r setup, eval = requireNamespace('ODER')}
+#library("ODER")
+library("magrittr")
+# loading in RNA seq data to run ODER on
 gtex_metadata <- recount::all_metadata("gtex")
-# gtex_metadata[["bigwig_file"]][grepl("fibroblast",gtex_metadata[["bigwig_file"]])]
-# dplyr::filter(gtex_metadata, bigwig_file %in% "fibroblast")
 gtex_metadata <- gtex_metadata %>%
     as.data.frame() %>%
     dplyr::filter(project == "SRP012682")
-
-# obtain path to example bw on recount2
 url <- recount::download_study(
     project = "SRP012682",
     type = "samples",
     download = FALSE
 )
-
-# grep("fibroblast",url)
-# bw_path <- ODER:::.file_cache(url[1])
-# bw_path <- ODER:::.file_cache(url[58])
-# 84  91   98  106  141  217  245  253  280  301  306  310  318  328  330  375  396  488  522  547  561  588  599
-bw_path <- ODER:::.file_cache(url[58])
+# .file_cache is an internal function to download a bigwig file from a link if the file has been downloaded recently, it will be retrieved from a cache
+bw_path <- ODER:::.file_cache(url[1])
+gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+gtf_path <- ODER:::.file_cache(gtf_url)
 ```
 
-```{r generateERs}
+To get the optimum set of ERs from a BigWig file we can use the ODER function, for stranded BigWigs there is the ODER_strand function:
+
+```{r ODER}
+# Getting the optimally defined ERs by finding the combination of Mean Coverage Cut-off and Max Region Gap that gives the smallest exon delta
+
+# MCC - Mean Cutoff Coverage - this is the minimum read depth that a read needs to have to be considered expressed
+
+# MRG - Max Region Gap - this is the maximum number of base pairs between reads that fall below the MCC before you would not include it as part of the expressed region
+
+opt_ers <- ODER(
+    bw_paths = bw_path, auc_raw = gtex_metadata[["auc"]][1], 
+    auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
+    genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),
+    gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+    exons_no_overlap = NULL, bw_chr = "chr"
+)
+
+# for stranded bigwig files:
+
+# bw_pos <- ODER:::.file_cache(url[58])
+# bw_neg <- ODER:::.file_cache(url[84])
+# opt_strand_ers <- ODER_strand(
+#     bw_pos = bw_plus, bw_neg = bw_minus,
+#     auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
+#     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
+#     genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30), 
+#     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
+# )
+
+opt_ers
+# opt_strand_ers
+```
+
+Once we have the opt_ers, we can generate a plot to see how the various MCCs and MRGs would look. The median exon delta represents the overall accuracy of all ER definitions, whereas the number of ERs with exon delta equal to 0 indicates the extent to which ER definitions precisely match overlapping exon boundaries.
+
+```{r plot_example}
+# visualise the spread of mccs and mrgs
+plot_ers(opt_ers[["deltas"]], opt_ers[["opt_mcc_mrg"]])
+```
+
+To find the overlapping junctions and find the nearest expressed genes we can use annotatERs. The junctions used should be the same tissue type as the ERs from the BigWig passed into ODER, in this case we are looking at lung tissue data.
+
+```{r annotatER_example}
+
+
+# annotating the optimally defined ers with overlapping junctions
+
+annot_ers <- annotatERs(
+    opt_ers = opt_ers[["opt_ers"]], junc_data = lung_junc_21_22,
+    gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
+)
+
+# To check the types of tissue you can filter for:
+# print(tissue_options)
+
+annot_ers <- add_expressed_genes(tissue = "lung", gtf_path = gtf_path, annot_ers = annot_ers)
+```
+
+We can use refine_ers to modify the starts and ends of the expressed regions by using refine_ers on the annotated regions.
+
+```{r refineER_example}
+# modify the starts and ends of the ERs using the junction data
+
+refined_ers <- refine_ERs(annot_ers)
+
+refined_ers
+```
+
+Generate an ER count matrix with get_count_matrix, if cols is left blank the function will auto-generate colData for the Ranged Summarized Experiment output.
+
+
+```{r get_count_matrix_example}
+# Generate a count matrix for the annotated ERs
+
+run <- gtex_metadata[["run"]][[1]]
+col_info <- as.data.frame(run)
+
+er_count_matrix <- get_count_matrix(bw_paths = bw_path, annot_ers = annot_ers, cols = col_info)
+
+er_count_matrix
+```
+
+# Comprehensive usage guide
+
+In this section, we will run through the smaller functions that make up each of the big wrapper functions, ODER and annotatER, in detail. This can be helpful for users that want to understand or modify the intermediates of the `ODER` pipeline or are only interested in executing a specific step. If you want to follow along and run this code in your R session, make sure you have followed the instructions in the section [setup](#setup).
+
+## Getting the coverage and Expressed Regions (ODER)
+
+First we need to load in the coverage of the RNA seq data from a BigWig file using `get_coverage`, the output of this will be a `GRanges` object which we will generate all the possible ERs from the various MCCs and MRGs that you want to test by passing the `GRanges` into `get_ers`.
+
+```{r ERs}
 
 # getting the mean coverage of the expressed regions
 coverage <- get_coverage(
     bw_paths = bw_path,
-    # auc_raw = gtex_metadata[["auc"]][1],
-    # auc_raw = gtex_metadata[["auc"]][58],
-    auc_raw = gtex_metadata[["auc"]][58],
+    auc_raw = gtex_metadata[["auc"]][1],
     auc_target = 40e6 * 100, # target 40 million coverage with 100 bp length reads
     chrs = c("chr21", "chr22")
 ) # defaults to chr1-22, chrX, chrY, chrM if chrs = ""
 
-coverage
-
 ers <- get_ers(coverage = coverage, mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30))
+
+ers
 ```
 
+## Gold-Standard/Well Defined Exons (ODER)
+
+To find the ideal MCC and MRG we need Gold-Standard/Well Defined Exons to compare it to and we get this by passing a gtf file into `get_exons`. By default the function will filter the gtf file to return non-overlapping exons but there is the option to filter for:
+1. 3' UTR
+2. 5' UTR
+3. Internal
+4. lncRNA
+5. ncRN
+6. pseudogene
+
 ```{r non_overlapping_exons}
-# download the gtf file from ensembl
-gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-gtf_path <- ODER:::.file_cache(gtf_url)
 
 exons_no_overlap <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE)
 # threeprime <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Three Prime")
@@ -145,6 +249,9 @@ exons_no_overlap <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = T
 # ncrna <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "ncRNA")
 # pseudogene <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Pseudogene")
 ```
+## Exon deltas (ODER)
+
+To determine the best combination of MCC and MRG, we see which ER has the smallest absolute difference between the ER definition and the corresponding exon boundaries (exon delta). To get the exon deltas for the various ERs, we pass the ERs and the gold-standard exons into `get_ers_delta`.
 
 ```{r get_er_deltas}
 # get the ers_delta
@@ -154,32 +261,47 @@ ers_delta
 # delta_fun <- your_delta_function
 ```
 
+## Optimum ERs (ODER)
+
+Once we have the ers_delta we can get the optimum ERs by seeing which one has the combination of the smallest median exon delta (represents the overall accuracy of all ER definitions) and the least number of ERs with exon delta equal to 0 (indicates the extent to which ER definitions precisely match overlapping exon boundaries).
+
+Passing our ERs and the ERs delta into `get_opt_ers` will give us the optimum ERs, the ideal MCC and MRG and the various deltas. 
+
 ```{r get_opt_ers}
 # get the opt_ers
 opt_ers <- get_opt_ers(ers = ers, ers_delta = ers_delta)
 ```
 
-```{r plot_ers, eval=TRUE}
-# visualise the spread of mccs and mrgs
-opt_plots <- plot_ers(ers_delta = ers_delta, opt_mcc_mrg = opt_ers[["opt_mcc_mrg"]])
+## Select the junctions (annotatER)
 
-opt_plots
-```
+Once we have the opt_ers, we want to further improve them by finding overlapping junctions. `ODER` contains a small extract of lung junctions from GTEx which is used below. The junctions used in `get_junctions` should be from the same tissues as your ERs. 
 
-```{r get_junctions, echo=FALSE}
-# load(file = "/data/recount/GTEx_SRP012682/gtex_split_read_table_annotated_rda/lung_split_read_table_annotated.rda")
-#
-# lung_junc <- gtex_split_read_table_annotated_only_junc_coverage
-
-junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
+```{r get_junctions}
+junctions <- lung_junc_21_22
 GenomeInfoDb::seqlevelsStyle(junctions) <- "NCBI"
 
 ann_opt_ers <- get_junctions(opt_ers = opt_ers[["opt_ers"]], junc_data = junctions, gtf_path = gtf_path)
+```
+
+## Generate a Genomic State (annotatER)
+
+We then convert a gtf file or a Txdb into a genomic state so that we can compare it with our expressed regions and use it as a reference point for the annotation.
+
+```{r gen_gstate, echo=FALSE}
+
 genomic_state <- generate_genomic_state(
     gtf = gtf_path,
     chrs_to_keep = c("21", "22"),
     ensembl = TRUE,
 )
+```
+
+## Using the genomic state to annotate the ERs (annotatER)
+
+Once we have our genomic state, we can use it to annotate each of the expressed regions as either an exon, intron or intergenic.
+
+```{r annotateRegions, echo=FALSE}
+
 annot_ers <- derfinder::annotateRegions(
     regions = ann_opt_ers, genomicState = genomic_state$fullGenome,
     maxgap = -1L, minoverlap = 1L
@@ -191,28 +313,10 @@ GenomicRanges::mcols(ann_opt_ers)$og_index <- annot_table[["ER_index"]]
 ann_opt_ers
 ```
 
-```{r gen_gstate, echo=FALSE}
+## Refining the ERs (annotatER)
 
-genomic_state <- generate_genomic_state(
-    gtf = gtf_path,
-    chrs_to_keep = c("21", "22"),
-    ensembl = TRUE,
-)
-```
+Once we have the ERs annotated and the overlapping junctions we are able to use those junctions to get a better definition of the ERs boundaries. As we are looking to discover novel exons, we filter for ERs that were annotated as intronic or intergenic and because we want well defined boundaries we only look at ERs that overlap with a maximum of two junctions and if it is two junctions, that those junctions themselves do not overlap.
 
-```{r annotate_junctions, echo=FALSE}
-
-# load(file = "/data/recount/GTEx_SRP012682/gtex_split_read_table_annotated_rda/lung_split_read_table_annotated.rda")
-#
-# lung_junc <- gtex_split_read_table_annotated_only_junc_coverage
-
-junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
-GenomeInfoDb::seqlevelsStyle(junctions) <- "NCBI"
-annot_ers <- annotatERs(
-    opt_ers = opt_ers[["opt_ers"]], junc_data = junctions,
-    gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
-)
-```
 
 ```{r refine_ERs, echo=FALSE}
 

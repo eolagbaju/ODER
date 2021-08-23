@@ -22,13 +22,13 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/eolagbaju/ODER/branch/master/graph/badge.svg)](https://codecov.io/gh/eolagbaju/ODER?branch=master)
 <!-- badges: end -->
 
-The goal of `ODER` is to well define the expressed regions from RNA-squencing experiments so that they can be confidently identified as pre-existing annotated exons or unannotated novel exons. ODER does this by allowing the user to vary two features -the MCC(Mean Coverage Cutoff) and MRG (Max Region Gap) - to generate various expressed regions and identifying the combination of MCC and MRG that most accurately defines the expressed region(s) by comparing it to a "gold standard" set of exons. This is done by calculating the exon delta (the absolute difference between the ER definition and the corresponding exon boundaries).
+The goal of `ODER` is **O**ptimising the **D**efinition of **E**xpressed **R**egions, which the package does by well defining the expressed regions from RNA-squencing experiments so that they can be confidently identified as pre-existing annotated exons or unannotated novel exons. ODER allows the user to vary two features -the MCC(Mean Coverage Cutoff) and MRG (Max Region Gap) - to generate various expressed regions and identifying the combination of MCC and MRG that most accurately defines the expressed region(s) by comparing it to a "gold standard" set of exons. This is done by calculating the exon delta (the absolute difference between the ER definition and the corresponding exon boundaries).
 
 The optimally defined Expressed regions will be stored in the GenomicRanges GRanges class and ODER has several functions that will operate on these optimal ERs such as:
-*plotting the various exon deltas across MCCs and MRGs
-*annotating the ERs with junction data
-*refining annotated ERs using the junction data
-*generate a count matrix
+1. plotting the various exon deltas across MCCs and MRGs
+2. annotating the ERs with junction data
+3. refining annotated ERs using the junction data
+4. generate a count matrix
 
 ## Installation instructions
 
@@ -104,7 +104,7 @@ plot_ers(opt_ers[["deltas"]], opt_ers[["opt_mcc_mrg"]])
 ```
 
 
-```{r annotatER_example, echo = FALSE}
+```{r annotatER_example}
 
 
 # annotating the optimally defined ers with overlapping junctions
@@ -120,7 +120,7 @@ annot_ers <- annotatERs(
 annot_ers <- add_expressed_genes(tissue = "lung", gtf_path = gtf_path, annot_ers = annot_ers)
 ```
 
-```{r refineER_example, echo = FALSE}
+```{r refineER_example}
 # modify the starts and ends of the ERs using the junction data
 
 refined_ers <- refine_ERs(annot_ers)
@@ -128,7 +128,7 @@ refined_ers <- refine_ERs(annot_ers)
 refined_ers
 ```
 
-```{r get_count_matrix_example, echo = FALSE}
+```{r get_count_matrix_example}
 # Generate a count matrix for the annotated ERs
 
 run <- gtex_metadata[["run"]][[1]]
