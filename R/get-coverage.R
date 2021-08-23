@@ -1,13 +1,14 @@
 #' Generating the mean coverage of the expressed regions
 #'
 #' \code{get_coverage} returns the mean coverage of the RNA sequencing data
-#' passed in. The data should be passed in via the file path to a Bigwig file.
+#' passed in. The data should be passed in via the file path(s) to a Bigwig file/
+#' Bigwig files
 #'
 #' @param bw_paths paths to bigwig files with the RNA-seq data that you want the
 #'   coverage of.
 #' @param auc_raw vector containing AUCs(Area Under Coverage) matching the order
 #'   of bigwig paths.
-#' @param auc_target total AUC to normalise all samples to. E.g. 40e6 * 100
+#' @param auc_target total AUC to normalise all samples to e.g. 40e6 * 100
 #'   would be the estimated total auc for sample sequenced to 40 million reads
 #'   of 100bp in length.
 #' @param chrs chromosomes to obtain mean coverage for, default is "" giving

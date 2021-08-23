@@ -4,7 +4,7 @@
 #' Looks at junctions passed in to find any overlaps and adds them in along with
 #' other information as metadata columns. Then uses a gtf file or a Txdb passed
 #' in to generate a genomic state and then labels each ER as to whether they are
-#' exonic, intronic, intergenic on none.
+#' exonic, intronic, intergenic on none
 #'
 #'
 #' @inheritParams get_junctions
@@ -103,20 +103,18 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, txdb = NULL,
 #'
 #' The junctions will be added to the ERs passed in as a metadata column, a
 #' GRangeslist with each GRanges element of the list corresponding to it's
-#' associated ER. Any ERs that do not have an overlapping junction will have an
-#' empty GRanges. The respective genes that each ER could be associated with will
-#' also be passed in as a metadata column, a character list.
+#' associated ER. If there are no overlaps, the GRangeslist will be empty.
+#' Any ERs that do not have an overlapping junction will have an empty GRanges. 
+#' The respective genes that each ER could be associated with will also be passed 
+#' in as a metadata column, a character list
 #'
 #' Each Granges of the GRangeslist will have the metadata columns of "in_ref",
 #' "gene_id_start", "tx_name_start", "exon_name_start", "strand_start",
 #' "exon_width_start","gene_id_end", "tx_name_end", "exon_name_end", "strand_end",
 #' "exon_width_end", "gene_id_junction", "strand_junction", "type" and "er_index
-#'  add the columns I'm adding
+#'  added by dasper's junction_annot. 
 #'
-#' @seealso dasper::junction...
-#'
-#' add more detail to description i.e. columns added in mcols by junction_annot
-#' , gene id er etc. also talk about the empty granges for no overlaps
+#' @seealso dasper::junction_annot
 #'
 #' @param opt_ers optimally defined ERs (the product of the ODER function)
 #' @param junc_data junction data that should match the ERs passed into opt_ers
@@ -221,7 +219,7 @@ get_junctions <- function(opt_ers, junc_data, gtf_path) {
 #' Generating a genomic state object from Txdb or gtf
 #'
 #' \code{generate_genomic_state} takes txdb object or a gtf file and makes a
-#' genomic state
+#' genomic state to be used in the annotation of the expressed regions 
 #'
 #' @param txdb txdb object, if one is not entered a gtf file needs to be
 #' @param chrs_to_keep chromosomes to keep in genomic state (in NCBI format i.e.
@@ -286,7 +284,8 @@ generate_genomic_state <- function(gtf = NULL, txdb = NULL,
 
 #' Converting count table output of derfinder to region annotation
 #'
-#' \code{convert_annot_count_table_to_region_annot} takes as input the derfinder output and converts to useful region annotation - "intron", "exon", "intergenic"... etc
+#' \code{convert_annot_count_table_to_region_annot} takes as input the derfinder
+#'  output and converts to useful region annotation - "intron", "exon", "intergenic"... etc
 #'
 #' @param count_table count table output from \code{\link{derfinder::annotateRegions}}
 #'

@@ -46,5 +46,6 @@ utils::globalVariables(c(
     "first.X.lncrna_id",
     "first.X.ncrna_id",
     "first.X.pseudoGene_id",
-    "Name"
+    "Name",
+    "tissue_options"
 ))

@@ -1,4 +1,6 @@
 #' Generate the count matrix
+#' 
+#' Scores the mean coverage of the expressed regions as a count matrix
 #'
 #' @param bw_paths Vector containing the bigwig file paths to read in
 #' @param annot_ers GRangesList containing the annotated ERs (product of annotatERs())
