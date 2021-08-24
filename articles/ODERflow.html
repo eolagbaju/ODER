@@ -165,7 +165,7 @@
 <span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="fu">recount</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/recount/man/all_metadata.html">all_metadata</a></span><span class="op">(</span><span class="st">"gtex"</span><span class="op">)</span>
 <span class="co">#&gt; Setting options('download.file.method.GEOquery'='auto')</span>
 <span class="co">#&gt; Setting options('GEOquery.inmemory.gpl'=FALSE)</span>
-<span class="co">#&gt; 2021-08-24 18:01:36 downloading the metadata to /tmp/RtmpSKoSeR/metadata_clean_gtex.Rdata</span>
+<span class="co">#&gt; 2021-08-24 22:48:27 downloading the metadata to /tmp/RtmpLUV9nZ/metadata_clean_gtex.Rdata</span>
 <span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="va">gtex_metadata</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">project</span> <span class="op">==</span> <span class="st">"SRP012682"</span><span class="op">)</span>
@@ -220,15 +220,15 @@
 <span class="co">#&gt; The following object is masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     expand.grid</span>
-<span class="co">#&gt; [1] "2021-08-24 18:01:41 - Obtaining mean coverage across 1 samples"</span>
-<span class="co">#&gt; [1] "2021-08-24 18:01:41 - chr21"</span>
-<span class="co">#&gt; [1] "2021-08-24 18:01:42 - chr22"</span>
-<span class="co">#&gt; [1] "2021-08-24 18:01:43 - Generating ERs for chr21"</span>
-<span class="co">#&gt; [1] "2021-08-24 18:01:49 - Generating ERs for chr22"</span>
-<span class="co">#&gt; [1] "2021-08-24 18:01:54 - Loading in GTF..."</span>
-<span class="co">#&gt; [1] "2021-08-24 18:02:37 - Obtaining non-overlapping exons"</span>
-<span class="co">#&gt; [1] "2021-08-24 18:02:39 - Calculating delta for ERs..."</span>
-<span class="co">#&gt; [1] "2021-08-24 18:02:42 - Obtaining optimal set of ERs..."</span>
+<span class="co">#&gt; [1] "2021-08-24 22:48:32 - Obtaining mean coverage across 1 samples"</span>
+<span class="co">#&gt; [1] "2021-08-24 22:48:32 - chr21"</span>
+<span class="co">#&gt; [1] "2021-08-24 22:48:33 - chr22"</span>
+<span class="co">#&gt; [1] "2021-08-24 22:48:34 - Generating ERs for chr21"</span>
+<span class="co">#&gt; [1] "2021-08-24 22:48:41 - Generating ERs for chr22"</span>
+<span class="co">#&gt; [1] "2021-08-24 22:48:46 - Loading in GTF..."</span>
+<span class="co">#&gt; [1] "2021-08-24 22:49:36 - Obtaining non-overlapping exons"</span>
+<span class="co">#&gt; [1] "2021-08-24 22:49:38 - Calculating delta for ERs..."</span>
+<span class="co">#&gt; [1] "2021-08-24 22:49:42 - Obtaining optimal set of ERs..."</span>
 
 <span class="co"># for stranded bigwig files:</span>
 
@@ -299,20 +299,20 @@
     opt_ers <span class="op">=</span> <span class="va">opt_ers</span><span class="op">[[</span><span class="st">"opt_ers"</span><span class="op">]</span><span class="op">]</span>, junc_data <span class="op">=</span> <span class="va">lung_junc_21_22</span>,
     gtf_path <span class="op">=</span> <span class="va">gtf_path</span>, chrs_to_keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"21"</span>, <span class="st">"22"</span><span class="op">)</span>, ensembl <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
-<span class="co">#&gt; [1] "2021-08-24 18:02:44 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span>
-<span class="co">#&gt; [1] "2021-08-24 18:02:44 - Importing gtf/gff3 as a TxDb..."</span>
+<span class="co">#&gt; [1] "2021-08-24 22:49:44 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span>
+<span class="co">#&gt; [1] "2021-08-24 22:49:44 - Importing gtf/gff3 as a TxDb..."</span>
 <span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span>
 <span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span>
 <span class="co">#&gt; Make the TxDb object ...</span>
 <span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span>
 <span class="co">#&gt;   stop_codon. This information was ignored.</span>
 <span class="co">#&gt; OK</span>
-<span class="co">#&gt; [1] "2021-08-24 18:04:08 - Getting junction annotation using overlapping exons..."</span>
-<span class="co">#&gt; [1] "2021-08-24 18:04:09 - Tidying junction annotation..."</span>
-<span class="co">#&gt; [1] "2021-08-24 18:04:09 - Deriving junction categories..."</span>
-<span class="co">#&gt; [1] "2021-08-24 18:04:10 - done!"</span>
-<span class="co">#&gt; [1] "2021-08-24 18:04:10 - Finding junctions overlapping ers..."</span>
-<span class="co">#&gt; [1] "2021-08-24 18:04:58 - Generating a genomic state..."</span>
+<span class="co">#&gt; [1] "2021-08-24 22:51:15 - Getting junction annotation using overlapping exons..."</span>
+<span class="co">#&gt; [1] "2021-08-24 22:51:16 - Tidying junction annotation..."</span>
+<span class="co">#&gt; [1] "2021-08-24 22:51:16 - Deriving junction categories..."</span>
+<span class="co">#&gt; [1] "2021-08-24 22:51:17 - done!"</span>
+<span class="co">#&gt; [1] "2021-08-24 22:51:18 - Finding junctions overlapping ers..."</span>
+<span class="co">#&gt; [1] "2021-08-24 22:52:19 - Generating a genomic state..."</span>
 <span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span>
 <span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span>
 <span class="co">#&gt; Make the TxDb object ...</span>
@@ -323,10 +323,10 @@
 <span class="co">#&gt;   stop_codon. This information was ignored.</span>
 <span class="co">#&gt; extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span>
 <span class="co">#&gt; 'select()' returned 1:1 mapping between keys and columns</span>
-<span class="co">#&gt; [1] "2021-08-24 18:06:56 - Annotating the Expressed regions..."</span>
-<span class="co">#&gt; 2021-08-24 18:06:56 annotateRegions: counting</span>
-<span class="co">#&gt; 2021-08-24 18:06:57 annotateRegions: annotating</span>
-<span class="co">#&gt; [1] "2021-08-24 18:07:36 - done!"</span>
+<span class="co">#&gt; [1] "2021-08-24 22:54:33 - Annotating the Expressed regions..."</span>
+<span class="co">#&gt; 2021-08-24 22:54:33 annotateRegions: counting</span>
+<span class="co">#&gt; 2021-08-24 22:54:34 annotateRegions: annotating</span>
+<span class="co">#&gt; [1] "2021-08-24 22:55:19 - done!"</span>
 
 <span class="co"># To check the types of tissue you can filter for:</span>
 <span class="co"># print(tissue_options)</span>
@@ -337,7 +337,7 @@
 <code class="sourceCode R"><span class="co"># modify the starts and ends of the ERs using the junction data</span>
 
 <span class="va">refined_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/refine_ERs.html">refine_ERs</a></span><span class="op">(</span><span class="va">annot_ers</span><span class="op">)</span>
-<span class="co">#&gt; [1] "2021-08-24 18:08:49 - Refining the Expressed regions..."</span>
+<span class="co">#&gt; [1] "2021-08-24 22:56:47 - Refining the Expressed regions..."</span>
 
 <span class="va">refined_ers</span>
 <span class="co">#&gt; GRanges object with 2 ranges and 7 metadata columns:</span>
@@ -363,7 +363,7 @@
 <span class="va">col_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">run</span><span class="op">)</span>
 
 <span class="va">er_count_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_count_matrix.html">get_count_matrix</a></span><span class="op">(</span>bw_paths <span class="op">=</span> <span class="va">bw_path</span>, annot_ers <span class="op">=</span> <span class="va">annot_ers</span>, cols <span class="op">=</span> <span class="va">col_info</span><span class="op">)</span>
-<span class="co">#&gt; The latest megadepth version is 1.1.0c</span>
+<span class="co">#&gt; The latest megadepth version is 1.1.1</span>
 <span class="co">#&gt; megadepth has been installed to /github/home/bin</span>
 <span class="co">#&gt; Warning in is.na(.x): is.na() applied to non-(list or vector) of type 'S4'</span>
 
@@ -395,13 +395,13 @@
     auc_target <span class="op">=</span> <span class="fl">40e6</span> <span class="op">*</span> <span class="fl">100</span>, <span class="co"># target 40 million coverage with 100 bp length reads</span>
     chrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chr21"</span>, <span class="st">"chr22"</span><span class="op">)</span>
 <span class="op">)</span> <span class="co"># defaults to chr1-22, chrX, chrY, chrM if chrs = ""</span>
-<span class="co">#&gt; [1] "2021-08-24 18:11:40 - Obtaining mean coverage across 1 samples"</span>
-<span class="co">#&gt; [1] "2021-08-24 18:11:40 - chr21"</span>
-<span class="co">#&gt; [1] "2021-08-24 18:11:40 - chr22"</span>
+<span class="co">#&gt; [1] "2021-08-24 23:00:17 - Obtaining mean coverage across 1 samples"</span>
+<span class="co">#&gt; [1] "2021-08-24 23:00:17 - chr21"</span>
+<span class="co">#&gt; [1] "2021-08-24 23:00:18 - chr22"</span>
 
 <span class="va">ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_ers.html">get_ers</a></span><span class="op">(</span>coverage <span class="op">=</span> <span class="va">coverage</span>, mccs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>, mrgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "2021-08-24 18:11:41 - Generating ERs for chr21"</span>
-<span class="co">#&gt; [1] "2021-08-24 18:11:42 - Generating ERs for chr22"</span>
+<span class="co">#&gt; [1] "2021-08-24 23:00:18 - Generating ERs for chr21"</span>
+<span class="co">#&gt; [1] "2021-08-24 23:00:20 - Generating ERs for chr22"</span>
 
 <span class="va">ers</span>
 <span class="co">#&gt; $mcc_2</span>
@@ -690,8 +690,8 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">exons_no_overlap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_exons.html">get_exons</a></span><span class="op">(</span>gtf <span class="op">=</span> <span class="va">gtf_path</span>, ucsc_chr <span class="op">=</span> <span class="cn">TRUE</span>, ignore.strand <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] "2021-08-24 18:11:45 - Loading in GTF..."</span>
-<span class="co">#&gt; [1] "2021-08-24 18:12:20 - Obtaining non-overlapping exons"</span>
+<span class="co">#&gt; [1] "2021-08-24 23:00:23 - Loading in GTF..."</span>
+<span class="co">#&gt; [1] "2021-08-24 23:01:03 - Obtaining non-overlapping exons"</span>
 <span class="co"># threeprime &lt;- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Three Prime")</span>
 <span class="co"># fiveprime &lt;- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Five Prime")</span>
 <span class="co"># internal &lt;- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Internal")</span>
@@ -706,7 +706,7 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># get the ers_delta</span>
 <span class="va">ers_delta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_ers_delta.html">get_ers_delta</a></span><span class="op">(</span>ers <span class="op">=</span> <span class="va">ers</span>, opt_exons <span class="op">=</span> <span class="va">exons_no_overlap</span><span class="op">)</span>
-<span class="co">#&gt; [1] "2021-08-24 18:12:23 - Calculating delta for ERs..."</span>
+<span class="co">#&gt; [1] "2021-08-24 23:01:07 - Calculating delta for ERs..."</span>
 <span class="va">ers_delta</span>
 <span class="co">#&gt; # A tibble: 15 x 7</span>
 <span class="co">#&gt;      mcc   mrg     sum  mean median n_eq_0 propor_eq_0</span>
@@ -737,7 +737,7 @@
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># get the opt_ers</span>
 <span class="va">opt_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_opt_ers.html">get_opt_ers</a></span><span class="op">(</span>ers <span class="op">=</span> <span class="va">ers</span>, ers_delta <span class="op">=</span> <span class="va">ers_delta</span><span class="op">)</span>
-<span class="co">#&gt; [1] "2021-08-24 18:12:25 - Obtaining optimal set of ERs..."</span></code></pre></div>
+<span class="co">#&gt; [1] "2021-08-24 23:01:10 - Obtaining optimal set of ERs..."</span></code></pre></div>
 </div>
 <div id="select-the-junctions-annotater" class="section level2">
 <h2 class="hasAnchor">
@@ -747,25 +747,25 @@
 <code class="sourceCode R"><span class="va">junctions</span> <span class="op">&lt;-</span> <span class="va">lung_junc_21_22</span>
 
 <span class="va">ann_opt_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_junctions.html">get_junctions</a></span><span class="op">(</span>opt_ers <span class="op">=</span> <span class="va">opt_ers</span><span class="op">[[</span><span class="st">"opt_ers"</span><span class="op">]</span><span class="op">]</span>, junc_data <span class="op">=</span> <span class="va">junctions</span>, gtf_path <span class="op">=</span> <span class="va">gtf_path</span><span class="op">)</span>
-<span class="co">#&gt; [1] "2021-08-24 18:12:26 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span>
-<span class="co">#&gt; [1] "2021-08-24 18:12:26 - Importing gtf/gff3 as a TxDb..."</span>
+<span class="co">#&gt; [1] "2021-08-24 23:01:10 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span>
+<span class="co">#&gt; [1] "2021-08-24 23:01:10 - Importing gtf/gff3 as a TxDb..."</span>
 <span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span>
 <span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span>
 <span class="co">#&gt; Make the TxDb object ...</span>
 <span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span>
 <span class="co">#&gt;   stop_codon. This information was ignored.</span>
 <span class="co">#&gt; OK</span>
-<span class="co">#&gt; [1] "2021-08-24 18:13:45 - Getting junction annotation using overlapping exons..."</span>
-<span class="co">#&gt; [1] "2021-08-24 18:13:46 - Tidying junction annotation..."</span>
-<span class="co">#&gt; [1] "2021-08-24 18:13:46 - Deriving junction categories..."</span>
-<span class="co">#&gt; [1] "2021-08-24 18:13:47 - done!"</span>
-<span class="co">#&gt; [1] "2021-08-24 18:13:47 - Finding junctions overlapping ers..."</span></code></pre></div>
+<span class="co">#&gt; [1] "2021-08-24 23:02:39 - Getting junction annotation using overlapping exons..."</span>
+<span class="co">#&gt; [1] "2021-08-24 23:02:40 - Tidying junction annotation..."</span>
+<span class="co">#&gt; [1] "2021-08-24 23:02:40 - Deriving junction categories..."</span>
+<span class="co">#&gt; [1] "2021-08-24 23:02:41 - done!"</span>
+<span class="co">#&gt; [1] "2021-08-24 23:02:41 - Finding junctions overlapping ers..."</span></code></pre></div>
 </div>
 <div id="generate-a-genomic-state-annotater" class="section level2">
 <h2 class="hasAnchor">
 <a href="#generate-a-genomic-state-annotater" class="anchor"></a>Generate a Genomic State (annotatER)</h2>
 <p>We then convert a gtf file or a Txdb into a genomic state so that we can compare it with our expressed regions and use it as a reference point for the annotation.</p>
-<pre><code>#&gt; [1] "2021-08-24 18:14:36 - Generating a genomic state..."
+<pre><code>#&gt; [1] "2021-08-24 23:03:48 - Generating a genomic state..."
 #&gt; Import genomic features from the file as a GRanges object ... OK
 #&gt; Prepare the 'metadata' data frame ... OK
 #&gt; Make the TxDb object ...
@@ -781,8 +781,8 @@
 <h2 class="hasAnchor">
 <a href="#using-the-genomic-state-to-annotate-the-ers-annotater" class="anchor"></a>Using the genomic state to annotate the ERs (annotatER)</h2>
 <p>Once we have our genomic state, we can use it to annotate each of the expressed regions as either an exon, intron or intergenic.</p>
-<pre><code>#&gt; 2021-08-24 18:16:29 annotateRegions: counting
-#&gt; 2021-08-24 18:16:29 annotateRegions: annotating
+<pre><code>#&gt; 2021-08-24 23:06:04 annotateRegions: counting
+#&gt; 2021-08-24 23:06:05 annotateRegions: annotating
 #&gt; GRanges object with 14662 ranges and 4 metadata columns:
 #&gt;           seqnames            ranges strand |           grl           genes
 #&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;GRangesList&gt; &lt;CharacterList&gt;
@@ -833,9 +833,9 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/">"knitr"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html">knit</a></span><span class="op">(</span><span class="st">"ODER.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code>#&gt; [1] "2021-08-24 18:19:22 UTC"</code></pre>
+<pre><code>#&gt; [1] "2021-08-24 23:09:59 UTC"</code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code>#&gt; Time difference of 18.006 mins</code></pre>
+<pre><code>#&gt; Time difference of 21.814 mins</code></pre>
 <p><code>R</code> session information.</p>
 <pre><code>#&gt; ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt;  setting  value                       

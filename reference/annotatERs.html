@@ -209,30 +209,30 @@ ensembl, the default is true</p></td>
     gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>, ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>,
     exons_no_overlap <span class='op'>=</span> <span class='cn'>NULL</span>, bw_chr <span class='op'>=</span> <span class='st'>"chr"</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-08-24 17:15:46 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-08-24 17:15:46 - chr21"
-#&gt; [1] "2021-08-24 17:15:47 - chr22"
-#&gt; [1] "2021-08-24 17:15:47 - Generating ERs for chr21"
-#&gt; [1] "2021-08-24 17:15:48 - Generating ERs for chr22"
-#&gt; [1] "2021-08-24 17:15:48 - Loading in GTF..."
-#&gt; [1] "2021-08-24 17:16:20 - Obtaining non-overlapping exons"
-#&gt; [1] "2021-08-24 17:16:22 - Calculating delta for ERs..."
-#&gt; [1] "2021-08-24 17:16:22 - Obtaining optimal set of ERs..."</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-08-24 21:59:02 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-08-24 21:59:02 - chr21"
+#&gt; [1] "2021-08-24 21:59:02 - chr22"
+#&gt; [1] "2021-08-24 21:59:03 - Generating ERs for chr21"
+#&gt; [1] "2021-08-24 21:59:04 - Generating ERs for chr22"
+#&gt; [1] "2021-08-24 21:59:05 - Loading in GTF..."
+#&gt; [1] "2021-08-24 21:59:39 - Obtaining non-overlapping exons"
+#&gt; [1] "2021-08-24 21:59:41 - Calculating delta for ERs..."
+#&gt; [1] "2021-08-24 21:59:41 - Obtaining optimal set of ERs..."</div><div class='input'>
 <span class='va'>junctions</span> <span class='op'>&lt;-</span> <span class='fu'>SummarizedExperiment</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/SummarizedExperiment/man/RangedSummarizedExperiment-class.html'>rowRanges</a></span><span class='op'>(</span><span class='fu'>dasper</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/dasper/man/junctions_example.html'>junctions_example</a></span><span class='op'>)</span>
 <span class='va'>annot_ers</span> <span class='op'>&lt;-</span> <span class='fu'>annotatERs</span><span class='op'>(</span>
     opt_ers <span class='op'>=</span> <span class='va'>opt_ers</span><span class='op'>[[</span><span class='st'>"opt_ers"</span><span class='op'>]</span><span class='op'>]</span>, junc_data <span class='op'>=</span> <span class='va'>junctions</span>,
     gtf_path <span class='op'>=</span> <span class='va'>gtf_path</span>, chrs_to_keep <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"21"</span>, <span class='st'>"22"</span><span class='op'>)</span>, ensembl <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-08-24 17:16:22 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#&gt; [1] "2021-08-24 17:16:22 - Importing gtf/gff3 as a TxDb..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
-#&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; [1] "2021-08-24 17:17:41 - Getting junction annotation using overlapping exons..."
-#&gt; [1] "2021-08-24 17:17:43 - Tidying junction annotation..."
-#&gt; [1] "2021-08-24 17:17:43 - Deriving junction categories..."
-#&gt; [1] "2021-08-24 17:17:47 - done!"
-#&gt; [1] "2021-08-24 17:17:47 - Finding junctions overlapping ers..."
-#&gt; [1] "2021-08-24 17:19:14 - Generating a genomic state..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
+</div><div class='output co'>#&gt; [1] "2021-08-24 21:59:41 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+#&gt; [1] "2021-08-24 21:59:41 - Importing gtf/gff3 as a TxDb..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
+#&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; [1] "2021-08-24 22:00:58 - Getting junction annotation using overlapping exons..."
+#&gt; [1] "2021-08-24 22:01:00 - Tidying junction annotation..."
+#&gt; [1] "2021-08-24 22:01:00 - Deriving junction categories..."
+#&gt; [1] "2021-08-24 22:01:05 - done!"
+#&gt; [1] "2021-08-24 22:01:05 - Finding junctions overlapping ers..."
+#&gt; [1] "2021-08-24 22:02:37 - Generating a genomic state..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
 #&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
-#&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='output co'>#&gt; [1] "2021-08-24 17:21:06 - Annotating the Expressed regions..."</div><div class='output co'>#&gt; <span class='message'>2021-08-24 17:21:06 annotateRegions: counting</span></div><div class='output co'>#&gt; <span class='message'>2021-08-24 17:21:06 annotateRegions: annotating</span></div><div class='output co'>#&gt; [1] "2021-08-24 17:22:02 - done!"</div><div class='input'>
+#&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='output co'>#&gt; [1] "2021-08-24 22:04:31 - Annotating the Expressed regions..."</div><div class='output co'>#&gt; <span class='message'>2021-08-24 22:04:31 annotateRegions: counting</span></div><div class='output co'>#&gt; <span class='message'>2021-08-24 22:04:31 annotateRegions: annotating</span></div><div class='output co'>#&gt; [1] "2021-08-24 22:05:28 - done!"</div><div class='input'>
 <span class='va'>annot_ers</span>
 </div><div class='output co'>#&gt; GRanges object with 15977 ranges and 5 metadata columns:
 #&gt;           seqnames            ranges strand |
