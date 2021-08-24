@@ -28,7 +28,7 @@ a genomic state
 }
 \description{
 \code{generate_genomic_state} takes txdb object or a gtf file and makes a
-genomic state
+genomic state to be used in the annotation of the expressed regions
 }
 \examples{
 \dontshow{

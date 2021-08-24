@@ -81,8 +81,7 @@ chr_formatting <- function(chr, chr_format) {
     } else if (chr_format == "nochr") { # MT for mitochondrial
         if (grepl("M", chr)) {
             return("MT")
-        }
-        else {
+        } else {
             mod_chr <- stringr::str_replace(chr, "chr", "")
             return(mod_chr)
         }
@@ -200,11 +199,9 @@ inbetween <- function(value, rstart, rend) {
         return(TRUE)
     } else if (value == rstart) {
         return(TRUE)
-    }
-    else if (value == rend) {
+    } else if (value == rend) {
         return(TRUE)
-    }
-    else {
+    } else {
         return(FALSE)
     }
 }

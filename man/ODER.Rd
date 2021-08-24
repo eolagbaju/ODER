@@ -16,6 +16,7 @@ ODER(
   ucsc_chr,
   ignore.strand,
   exons_no_overlap = NULL,
+  biotype = "Non-overlapping",
   bw_chr = "chr"
 )
 }
@@ -26,7 +27,7 @@ coverage of.}
 \item{auc_raw}{vector containing AUCs(Area Under Coverage) matching the order
 of bigwig paths.}
 
-\item{auc_target}{total AUC to normalise all samples to. E.g. 40e6 * 100
+\item{auc_target}{total AUC to normalise all samples to e.g. 40e6 * 100
 would be the estimated total auc for sample sequenced to 40 million reads
 of 100bp in length.}
 
@@ -52,6 +53,12 @@ if set to TRUE and seqnames already have "chr", it will not add another.}
 
 \item{exons_no_overlap}{Optimum set of exons to help calculate deltas}
 
+\item{biotype}{Filters the GTF file passed in to what would be considered the
+"Gold Standard" exons. The Default is "Non-overlapping" but the options are:
+"Non-overlapping" (exons that don't intersect each other),
+"Three Prime" (3' UTR), "Five Prime" (5' UTR), "Internal" (Internal coding),
+"lncRNA" (Long Non-Coding RNA), "ncRNA" (Non-Coding RNA) and "Pseudogene"}
+
 \item{bw_chr}{specifies whether the bigwig files has the chromosomes labelled
 with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 "chr" or "nochr" with "chr" being the default.}
@@ -61,7 +68,8 @@ list containing optimised ERs, optimal pair of MCC/MRGs and
 \code{delta_df}
 }
 \description{
-Generates the optimum expressed regions
+Returns the optimum definition of the expressed regions by finding the ideal
+MCC (Mean Coverage Cutoff) and MRG (Max Region Gap)
 }
 \examples{
 \dontshow{

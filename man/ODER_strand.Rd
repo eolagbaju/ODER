@@ -9,8 +9,7 @@ ODER_strand(
   bw_neg,
   auc_raw_pos,
   auc_raw_neg,
-  auc_tar_pos,
-  auc_tar_neg,
+  auc_target,
   chrs = "",
   genome = "hg38",
   mccs,
@@ -33,11 +32,7 @@ of bigwig paths.}
 \item{auc_raw_neg}{vector containing AUCs(Area Under Coverage) matching the order
 of bigwig paths.}
 
-\item{auc_tar_pos}{total AUC to normalise all samples to. E.g. 40e6 * 100
-would be the estimated total auc for sample sequenced to 40 million reads
-of 100bp in length.}
-
-\item{auc_tar_neg}{total AUC to normalise all samples to. E.g. 40e6 * 100
+\item{auc_target}{total AUC to normalise all samples to e.g. 40e6 * 100
 would be the estimated total auc for sample sequenced to 40 million reads
 of 100bp in length.}
 
@@ -95,11 +90,10 @@ url <- recount::download_study(
 bw_plus <- ODER:::.file_cache(url[58])
 bw_minus <- ODER:::.file_cache(url[84])
 
-auc_target <- 40e6 * 100
 opt_ers <- ODER_strand(
     bw_pos = bw_plus, bw_neg = bw_minus,
     auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
-    auc_tar_pos = auc_target, auc_tar_neg = auc_target, chrs = "", genome = "hg38",
+    auc_target = 40e6 * 100, chrs = "", genome = "hg38",
     mccs = c(5, 10), mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE,
     ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
 )

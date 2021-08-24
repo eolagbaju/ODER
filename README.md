@@ -14,10 +14,11 @@ status](http://www.bioconductor.org/shields/build/release/bioc/ODER.svg)](https:
 coverage](https://codecov.io/gh/eolagbaju/ODER/branch/master/graph/badge.svg)](https://codecov.io/gh/eolagbaju/ODER?branch=master)
 <!-- badges: end -->
 
-The goal of `ODER` is to well define the expressed regions from
-RNA-squencing experiments so that they can be confidently identified as
-pre-existing annotated exons or unannotated novel exons. ODER does this
-by allowing the user to vary two features -the MCC(Mean Coverage Cutoff)
+The goal of `ODER` is **O**ptimising the **D**efinition of **E**xpressed
+**R**egions, which the package does by well defining the expressed
+regions from RNA-squencing experiments so that they can be confidently
+identified as pre-existing annotated exons or unannotated novel exons.
+ODER allows the user to vary two features -the MCC(Mean Coverage Cutoff)
 and MRG (Max Region Gap) - to generate various expressed regions and
 identifying the combination of MCC and MRG that most accurately defines
 the expressed region(s) by comparing it to a “gold standard” set of
@@ -27,9 +28,10 @@ boundaries).
 
 The optimally defined Expressed regions will be stored in the
 GenomicRanges GRanges class and ODER has several functions that will
-operate on these optimal ERs such as: *plotting the various exon deltas
-across MCCs and MRGs *annotating the ERs with junction data *refining
-annotated ERs using the junction data *generate a count matrix
+operate on these optimal ERs such as: 1. plotting the various exon
+deltas across MCCs and MRGs 2. annotating the ERs with junction data 3.
+refining annotated ERs using the junction data 4. generate a count
+matrix
 
 ## Installation instructions
 
@@ -63,7 +65,7 @@ library("magrittr")
 gtex_metadata <- recount::all_metadata("gtex")
 #> Setting options('download.file.method.GEOquery'='auto')
 #> Setting options('GEOquery.inmemory.gpl'=FALSE)
-#> 2021-07-23 22:08:26 downloading the metadata to /tmp/RtmpxcnhA1/metadata_clean_gtex.Rdata
+#> 2021-08-23 16:39:48 downloading the metadata to /tmp/RtmpA4OSGq/metadata_clean_gtex.Rdata
 gtex_metadata <- gtex_metadata %>%
     as.data.frame() %>%
     dplyr::filter(project == "SRP012682")
@@ -115,15 +117,15 @@ opt_ers <- ODER(
 #> The following object is masked from 'package:base':
 #> 
 #>     expand.grid
-#> [1] "2021-07-23 22:08:41 - Obtaining mean coverage across 1 samples"
-#> [1] "2021-07-23 22:08:41 - chr21"
-#> [1] "2021-07-23 22:08:43 - chr22"
-#> [1] "2021-07-23 22:08:44 - Generating ERs for chr21"
-#> [1] "2021-07-23 22:08:51 - Generating ERs for chr22"
-#> [1] "2021-07-23 22:08:56 - Loading in GTF..."
-#> [1] "2021-07-23 22:09:44 - Obtaining non-overlapping exons"
-#> [1] "2021-07-23 22:09:46 - Calculating delta for ERs..."
-#> [1] "2021-07-23 22:09:48 - Obtaining optimal set of ERs..."
+#> [1] "2021-08-23 16:40:01 - Obtaining mean coverage across 1 samples"
+#> [1] "2021-08-23 16:40:01 - chr21"
+#> [1] "2021-08-23 16:40:03 - chr22"
+#> [1] "2021-08-23 16:40:03 - Generating ERs for chr21"
+#> [1] "2021-08-23 16:40:10 - Generating ERs for chr22"
+#> [1] "2021-08-23 16:40:14 - Loading in GTF..."
+#> [1] "2021-08-23 16:41:03 - Obtaining non-overlapping exons"
+#> [1] "2021-08-23 16:41:05 - Calculating delta for ERs..."
+#> [1] "2021-08-23 16:41:08 - Obtaining optimal set of ERs..."
 
 # for stranded bigwig files:
 
@@ -160,7 +162,7 @@ opt_ers
 #> [1] "mcc_10" "mrg_30"
 #> 
 #> $deltas
-#> # A tibble: 15 x 7
+#> # A tibble: 15 × 7
 #>      mcc   mrg     sum  mean median n_eq_0 propor_eq_0
 #>    <dbl> <dbl>   <int> <dbl>  <dbl>  <int>       <dbl>
 #>  1     2    10 2613404  929.   178.    324       0.115
@@ -188,63 +190,95 @@ exon boundaries.
 
 <img src="man/figures/README-plot_example-1.png" width="100%" />
 
-    #> [1] "2021-07-23 22:09:50 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-    #> [1] "2021-07-23 22:09:50 - Importing gtf/gff3 as a TxDb..."
-    #> Import genomic features from the file as a GRanges object ... OK
-    #> Prepare the 'metadata' data frame ... OK
-    #> Make the TxDb object ...
-    #> Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
-    #>   stop_codon. This information was ignored.
-    #> OK
-    #> [1] "2021-07-23 22:11:22 - Getting junction annotation using overlapping exons..."
-    #> [1] "2021-07-23 22:11:22 - Tidying junction annotation..."
-    #> [1] "2021-07-23 22:11:22 - Deriving junction categories..."
-    #> [1] "2021-07-23 22:11:24 - done!"
-    #> [1] "2021-07-23 22:11:24 - Finding junctions overlapping ers..."
-    #> [1] "2021-07-23 22:12:20 - Generating a genomic state..."
-    #> Import genomic features from the file as a GRanges object ... OK
-    #> Prepare the 'metadata' data frame ... OK
-    #> Make the TxDb object ...
-    #> Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
-    #>   stop_codon. This information was ignored.
-    #> OK
-    #> Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
-    #>   stop_codon. This information was ignored.
-    #> extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens
-    #> 'select()' returned 1:1 mapping between keys and columns
-    #> [1] "2021-07-23 22:14:36 - Annotating the Expressed regions..."
-    #> 2021-07-23 22:14:36 annotateRegions: counting
-    #> 2021-07-23 22:14:36 annotateRegions: annotating
-    #> [1] "2021-07-23 22:15:22 - done!"
+``` r
 
-    #> [1] "2021-07-23 22:16:50 - Refining the Expressed regions..."
-    #> GRanges object with 2 ranges and 7 metadata columns:
-    #>       seqnames          ranges strand |                     grl           genes
-    #>          <Rle>       <IRanges>  <Rle> |           <GRangesList> <CharacterList>
-    #>   [1]    chr21 5093713-5093743      * | chr21:5093712-5093744:+ ENSG00000280071
-    #>   [2]    chr21 5162182-5162248      * | chr21:5162249-5162287:+ ENSG00000280433
-    #>        annotation  og_index       gene_source nearest_gene_v94_name
-    #>       <character> <integer>       <character>           <character>
-    #>   [1]      intron        15 nearest gtf genes       ENSG00000280071
-    #>   [2]      intron        71 nearest gtf genes       ENSG00000280433
-    #>       nearest_expressed_gene_v94_name
-    #>                           <character>
-    #>   [1]                 ENSG00000264462
-    #>   [2]                 ENSG00000264462
-    #>   -------
-    #>   seqinfo: 2 sequences from an unspecified genome; no seqlengths
 
-    #> The latest megadepth version is 1.1.0c
-    #> megadepth has been installed to /home/rstudio/bin
-    #> Warning in is.na(.x): is.na() applied to non-(list or vector) of type 'S4'
-    #> class: RangedSummarizedExperiment 
-    #> dim: 6641 1 
-    #> metadata(0):
-    #> assays(1): ''
-    #> rownames: NULL
-    #> rowData names(0):
-    #> colnames: NULL
-    #> colData names(1): run
+# annotating the optimally defined ers with overlapping junctions
+
+annot_ers <- annotatERs(
+    opt_ers = opt_ers[["opt_ers"]], junc_data = lung_junc_21_22,
+    gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
+)
+#> [1] "2021-08-23 16:41:09 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+#> [1] "2021-08-23 16:41:09 - Importing gtf/gff3 as a TxDb..."
+#> Import genomic features from the file as a GRanges object ... OK
+#> Prepare the 'metadata' data frame ... OK
+#> Make the TxDb object ...
+#> Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
+#>   stop_codon. This information was ignored.
+#> OK
+#> [1] "2021-08-23 16:42:42 - Getting junction annotation using overlapping exons..."
+#> [1] "2021-08-23 16:42:43 - Tidying junction annotation..."
+#> [1] "2021-08-23 16:42:43 - Deriving junction categories..."
+#> [1] "2021-08-23 16:42:44 - done!"
+#> [1] "2021-08-23 16:42:44 - Finding junctions overlapping ers..."
+#> [1] "2021-08-23 16:43:39 - Generating a genomic state..."
+#> Import genomic features from the file as a GRanges object ... OK
+#> Prepare the 'metadata' data frame ... OK
+#> Make the TxDb object ...
+#> Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
+#>   stop_codon. This information was ignored.
+#> OK
+#> Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
+#>   stop_codon. This information was ignored.
+#> extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens
+#> 'select()' returned 1:1 mapping between keys and columns
+#> [1] "2021-08-23 16:45:57 - Annotating the Expressed regions..."
+#> 2021-08-23 16:45:57 annotateRegions: counting
+#> 2021-08-23 16:45:58 annotateRegions: annotating
+#> [1] "2021-08-23 16:46:44 - done!"
+
+# To check the types of tissue you can filter for:
+# print(tissue_options)
+
+annot_ers <- add_expressed_genes(tissue = "lung", gtf_path = gtf_path, annot_ers = annot_ers)
+```
+
+``` r
+# modify the starts and ends of the ERs using the junction data
+
+refined_ers <- refine_ERs(annot_ers)
+#> [1] "2021-08-23 16:48:11 - Refining the Expressed regions..."
+
+refined_ers
+#> GRanges object with 2 ranges and 7 metadata columns:
+#>       seqnames          ranges strand |                     grl           genes
+#>          <Rle>       <IRanges>  <Rle> |           <GRangesList> <CharacterList>
+#>   [1]    chr21 5093713-5093743      * | chr21:5093712-5093744:+ ENSG00000280071
+#>   [2]    chr21 5162182-5162248      * | chr21:5162249-5162287:+ ENSG00000280433
+#>        annotation  og_index       gene_source nearest_gene_v94_name
+#>       <character> <integer>       <character>           <character>
+#>   [1]      intron        15 nearest gtf genes       ENSG00000280071
+#>   [2]      intron        71 nearest gtf genes       ENSG00000280433
+#>       nearest_expressed_gene_v94_name
+#>                           <character>
+#>   [1]                 ENSG00000264462
+#>   [2]                 ENSG00000264462
+#>   -------
+#>   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+
+``` r
+# Generate a count matrix for the annotated ERs
+
+run <- gtex_metadata[["run"]][[1]]
+col_info <- as.data.frame(run)
+
+er_count_matrix <- get_count_matrix(bw_paths = bw_path, annot_ers = annot_ers, cols = col_info)
+#> The latest megadepth version is 1.1.0c
+#> megadepth has been installed to /home/rstudio/bin
+#> Warning in is.na(.x): is.na() applied to non-(list or vector) of type 'S4'
+
+er_count_matrix
+#> class: RangedSummarizedExperiment 
+#> dim: 6641 1 
+#> metadata(0):
+#> assays(1): ''
+#> rownames: NULL
+#> rowData names(0):
+#> colnames: NULL
+#> colData names(1): run
+```
 
 In that case, don’t forget to commit and push the resulting figure
 files, so they display on GitHub\!

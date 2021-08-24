@@ -1,5 +1,5 @@
 #' Plot Expressed regions
-#' 
+#'
 #' Plots the median deltas and the number of ERs with a delta of 0 against the
 #' MCCs on two separate graphs with a line for each of the various MRGs.
 #'

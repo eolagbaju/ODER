@@ -9,7 +9,7 @@ A dataframe with the junction ID, chromosome, start and ends, strand,
 number of samples, acceptor and donor
 }
 \source{
-N/A
+GTEx
 }
 \usage{
 lung_junc_21_22

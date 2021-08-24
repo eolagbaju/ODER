@@ -20,7 +20,7 @@ coverage of.}
 \item{auc_raw}{vector containing AUCs(Area Under Coverage) matching the order
 of bigwig paths.}
 
-\item{auc_target}{total AUC to normalise all samples to. E.g. 40e6 * 100
+\item{auc_target}{total AUC to normalise all samples to e.g. 40e6 * 100
 would be the estimated total auc for sample sequenced to 40 million reads
 of 100bp in length.}
 
@@ -39,7 +39,8 @@ a list of Rles detailing the mean coverage per chromosome passed in.
 }
 \description{
 \code{get_coverage} returns the mean coverage of the RNA sequencing data
-passed in. The data should be passed in via the file path to a Bigwig file.
+passed in. The data should be passed in via the file path(s) to a Bigwig file/
+Bigwig files
 }
 \examples{
 \dontshow{

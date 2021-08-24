@@ -51,5 +51,5 @@ test_that("get_expressed_genes works", {
 test_that("get_nearest_expressed_genes works", {
     expect_equal(S4Vectors::mcols(full_annot_lung_ers)[["genes"]][[1]], S4Vectors::mcols(full_annot_lung_ers)[["nearest_gene_v94_name"]][[1]])
     expect_equal(S4Vectors::mcols(full_annot_lung_ers)[["genes"]][[6640]], S4Vectors::mcols(full_annot_lung_ers)[["nearest_expressed_gene_v94_name"]][[6640]])
-    expect_equal(S4Vectors::mcols(full_annot_lung_ers)[["nearest_expressed_gene_v94_name"]][[6640]],"ENSG00000184319")
+    expect_equal(S4Vectors::mcols(full_annot_lung_ers)[["nearest_expressed_gene_v94_name"]][[6640]], "ENSG00000184319")
 })

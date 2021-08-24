@@ -36,7 +36,7 @@ annotated ERs
 Looks at junctions passed in to find any overlaps and adds them in along with
 other information as metadata columns. Then uses a gtf file or a Txdb passed
 in to generate a genomic state and then labels each ER as to whether they are
-exonic, intronic, intergenic on none.
+exonic, intronic, intergenic on none
 }
 \examples{
 \dontshow{

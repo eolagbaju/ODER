@@ -19,16 +19,17 @@ optimally defined ers annotated with junction and gene information
 \description{
 The junctions will be added to the ERs passed in as a metadata column, a
 GRangeslist with each GRanges element of the list corresponding to it's
-associated ER. Any ERs that do not have an overlapping junction will have an
-empty GRanges. The respective genes that each ER could be associated with will
-also be passed in as a metadata column, a character list.
+associated ER. If there are no overlaps, the GRangeslist will be empty.
+Any ERs that do not have an overlapping junction will have an empty GRanges.
+The respective genes that each ER could be associated with will also be passed
+in as a metadata column, a character list
 }
 \details{
 Each Granges of the GRangeslist will have the metadata columns of "in_ref",
 "gene_id_start", "tx_name_start", "exon_name_start", "strand_start",
 "exon_width_start","gene_id_end", "tx_name_end", "exon_name_end", "strand_end",
 "exon_width_end", "gene_id_junction", "strand_junction", "type" and "er_index
-add the columns I'm adding
+added by dasper's junction_annot.
 }
 \examples{
 \dontshow{
@@ -70,8 +71,5 @@ example_er_juncs <- get_junctions(
 print(example_er_juncs)
 }
 \seealso{
-dasper::junction...
-
-add more detail to description i.e. columns added in mcols by junction_annot
-, gene id er etc. also talk about the empty granges for no overlaps
+dasper::junction_annot
 }

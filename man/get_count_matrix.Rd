@@ -18,7 +18,7 @@ output. If NULL then the bw_paths will be used for the colData}
 A Ranged Summarized Experiment containing the gene counts as an assay
 }
 \description{
-Generate the count matrix
+Scores the mean coverage of the expressed regions as a count matrix
 }
 \examples{
 \dontshow{

@@ -1,6 +1,6 @@
 #' Generates the optimum expressed regions
-#' 
-#' Returns the optimum definition of the expressed regions by finding the ideal 
+#'
+#' Returns the optimum definition of the expressed regions by finding the ideal
 #' MCC (Mean Coverage Cutoff) and MRG (Max Region Gap)
 #'
 #' @param exons_no_overlap Optimum set of exons to help calculate deltas
@@ -54,7 +54,8 @@ ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
     ers <- get_ers(coverage = coverage, mccs = mccs, mrgs = mrgs)
 
     if (!is.null(gtf)) {
-        exons_no_overlap <- get_exons( gtf = gtf, ucsc_chr = ucsc_chr,
+        exons_no_overlap <- get_exons(
+            gtf = gtf, ucsc_chr = ucsc_chr,
             ignore.strand = ignore.strand, biotype = biotype
         )
     }

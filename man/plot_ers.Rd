@@ -16,7 +16,8 @@ of ERs.}
 Plot of MCC against median delta and number of ERS with a delta of 0
 }
 \description{
-Plot Expressed regions
+Plots the median deltas and the number of ERs with a delta of 0 against the
+MCCs on two separate graphs with a line for each of the various MRGs.
 }
 \examples{
 # ers_delta_example is from the package data folder
