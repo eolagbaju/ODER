@@ -116,8 +116,7 @@ ODER_strand <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target, ch
 
     stranded_ers <- get_strand_ers(
         bw_pos = bw_pos, bw_neg = bw_neg, auc_raw_pos = auc_raw_pos,
-        auc_target = auc_target, auc_tar_neg = auc_tar_neg, chrs = chrs,
-        mccs = mccs, mrgs = mrgs
+        auc_target = auc_target, chrs = chrs, mccs = mccs, mrgs = mrgs
     )
 
 
