@@ -32,13 +32,13 @@ Suggests:
     BiocStyle,
     covr,
     knitr,
+    IRanges,
+    recount,
     RefManageR,
     rmarkdown,
     sessioninfo,
-    testthat (>= 3.0.0),
-    recount,
-    IRanges,
-    SummarizedExperiment
+    SummarizedExperiment,
+    testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Imports: 
