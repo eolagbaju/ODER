@@ -115,7 +115,7 @@ ODER_strand <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target, ch
     if (is.null(gtf)) stop("gtf must be provided.")
 
     stranded_ers <- get_strand_ers(
-        bw_pos = bw_pos, bw_neg = bw_neg, auc_raw_pos = auc_raw_pos,
+        bw_pos = bw_pos, bw_neg = bw_neg, auc_raw_pos = auc_raw_pos, auc_raw_neg = auc_raw_neg,
         auc_target = auc_target, chrs = chrs, mccs = mccs, mrgs = mrgs
     )
 
