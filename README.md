@@ -65,7 +65,7 @@ library("magrittr")
 gtex_metadata <- recount::all_metadata("gtex")
 #> Setting options('download.file.method.GEOquery'='auto')
 #> Setting options('GEOquery.inmemory.gpl'=FALSE)
-#> 2021-08-24 12:32:39 downloading the metadata to /tmp/Rtmpwh9YWs/metadata_clean_gtex.Rdata
+#> 2021-08-24 13:36:29 downloading the metadata to /tmp/RtmpVThMOm/metadata_clean_gtex.Rdata
 gtex_metadata <- gtex_metadata %>%
     as.data.frame() %>%
     dplyr::filter(project == "SRP012682")
@@ -117,15 +117,15 @@ opt_ers <- ODER(
 #> The following object is masked from 'package:base':
 #> 
 #>     expand.grid
-#> [1] "2021-08-24 12:32:52 - Obtaining mean coverage across 1 samples"
-#> [1] "2021-08-24 12:32:52 - chr21"
-#> [1] "2021-08-24 12:32:53 - chr22"
-#> [1] "2021-08-24 12:32:54 - Generating ERs for chr21"
-#> [1] "2021-08-24 12:33:01 - Generating ERs for chr22"
-#> [1] "2021-08-24 12:33:06 - Loading in GTF..."
-#> [1] "2021-08-24 12:33:53 - Obtaining non-overlapping exons"
-#> [1] "2021-08-24 12:33:55 - Calculating delta for ERs..."
-#> [1] "2021-08-24 12:33:58 - Obtaining optimal set of ERs..."
+#> [1] "2021-08-24 13:36:42 - Obtaining mean coverage across 1 samples"
+#> [1] "2021-08-24 13:36:42 - chr21"
+#> [1] "2021-08-24 13:36:44 - chr22"
+#> [1] "2021-08-24 13:36:44 - Generating ERs for chr21"
+#> [1] "2021-08-24 13:36:51 - Generating ERs for chr22"
+#> [1] "2021-08-24 13:36:56 - Loading in GTF..."
+#> [1] "2021-08-24 13:37:43 - Obtaining non-overlapping exons"
+#> [1] "2021-08-24 13:37:45 - Calculating delta for ERs..."
+#> [1] "2021-08-24 13:37:48 - Obtaining optimal set of ERs..."
 
 # for stranded bigwig files:
 
@@ -199,20 +199,20 @@ annot_ers <- annotatERs(
     opt_ers = opt_ers[["opt_ers"]], junc_data = lung_junc_21_22,
     gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
 )
-#> [1] "2021-08-24 12:33:59 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#> [1] "2021-08-24 12:33:59 - Importing gtf/gff3 as a TxDb..."
+#> [1] "2021-08-24 13:37:50 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+#> [1] "2021-08-24 13:37:50 - Importing gtf/gff3 as a TxDb..."
 #> Import genomic features from the file as a GRanges object ... OK
 #> Prepare the 'metadata' data frame ... OK
 #> Make the TxDb object ...
 #> Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
 #>   stop_codon. This information was ignored.
 #> OK
-#> [1] "2021-08-24 12:35:32 - Getting junction annotation using overlapping exons..."
-#> [1] "2021-08-24 12:35:33 - Tidying junction annotation..."
-#> [1] "2021-08-24 12:35:33 - Deriving junction categories..."
-#> [1] "2021-08-24 12:35:35 - done!"
-#> [1] "2021-08-24 12:35:35 - Finding junctions overlapping ers..."
-#> [1] "2021-08-24 12:36:31 - Generating a genomic state..."
+#> [1] "2021-08-24 13:39:21 - Getting junction annotation using overlapping exons..."
+#> [1] "2021-08-24 13:39:22 - Tidying junction annotation..."
+#> [1] "2021-08-24 13:39:22 - Deriving junction categories..."
+#> [1] "2021-08-24 13:39:24 - done!"
+#> [1] "2021-08-24 13:39:24 - Finding junctions overlapping ers..."
+#> [1] "2021-08-24 13:40:19 - Generating a genomic state..."
 #> Import genomic features from the file as a GRanges object ... OK
 #> Prepare the 'metadata' data frame ... OK
 #> Make the TxDb object ...
@@ -223,10 +223,10 @@ annot_ers <- annotatERs(
 #>   stop_codon. This information was ignored.
 #> extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens
 #> 'select()' returned 1:1 mapping between keys and columns
-#> [1] "2021-08-24 12:38:48 - Annotating the Expressed regions..."
-#> 2021-08-24 12:38:48 annotateRegions: counting
-#> 2021-08-24 12:38:48 annotateRegions: annotating
-#> [1] "2021-08-24 12:39:33 - done!"
+#> [1] "2021-08-24 13:42:35 - Annotating the Expressed regions..."
+#> 2021-08-24 13:42:35 annotateRegions: counting
+#> 2021-08-24 13:42:35 annotateRegions: annotating
+#> [1] "2021-08-24 13:43:21 - done!"
 
 # To check the types of tissue you can filter for:
 # print(tissue_options)
@@ -238,7 +238,7 @@ annot_ers <- add_expressed_genes(tissue = "lung", gtf_path = gtf_path, annot_ers
 # modify the starts and ends of the ERs using the junction data
 
 refined_ers <- refine_ERs(annot_ers)
-#> [1] "2021-08-24 12:41:00 - Refining the Expressed regions..."
+#> [1] "2021-08-24 13:44:47 - Refining the Expressed regions..."
 
 refined_ers
 #> GRanges object with 2 ranges and 7 metadata columns:
