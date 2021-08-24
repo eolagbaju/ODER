@@ -1,19 +1,18 @@
-#' Generating the mean coverage of the expressed regions
+#' Obtain the mean coverage across multiple BigWig files
 #'
-#' \code{get_coverage} returns the mean coverage of the RNA sequencing data
-#' passed in. The data should be passed in via the file path(s) to a Bigwig file/
-#' Bigwig files
+#' \code{get_coverage} returns the mean coverage of the BigWig files passed in.
+#' Internally, this operates through `derfinder::loadCoverage`.
 #'
 #' @param bw_paths paths to bigwig files with the RNA-seq data that you want the
 #'   coverage of.
 #' @param auc_raw vector containing AUCs(Area Under Coverage) matching the order
 #'   of bigwig paths.
-#' @param auc_target total AUC to normalise all samples to e.g. 40e6 * 100
-#'   would be the estimated total auc for sample sequenced to 40 million reads
-#'   of 100bp in length.
+#' @param auc_target total AUC to normalise all samples to e.g. 40e6 * 100 would
+#'   be the estimated total auc for sample sequenced to 40 million reads of
+#'   100bp in length.
 #' @param chrs chromosomes to obtain mean coverage for, default is "" giving
-#'   every chromosome. Can take UCSC format(chrs = "chr1")
-#'   or just the chromosome i.e. chrs = c(1,X)
+#'   every chromosome. Can take UCSC format(chrs = "chr1") or just the
+#'   chromosome i.e. chrs = c(1,X)
 #' @param genome the UCSC genome you want to use, the default is hg38.
 #' @param bw_chr specifies whether the bigwig files has the chromosomes labelled
 #'   with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either

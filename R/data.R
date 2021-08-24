@@ -1,6 +1,6 @@
 #' An example AUC value
 #'
-#' An AUC(Area Under Coverage) value for a user to try out the package and to
+#' An Area Under Coverage (AUC) value for a user to try out the package and to
 #' pass in for tests. From the GTEX data set and project SRP012682, the actual
 #' value is 11872688252.
 #'
@@ -9,9 +9,9 @@
 #' @source See example.R in data-raw
 #'
 "auc_example"
-#' An example coverage
+#' An example object containing coverage
 #'
-#' An example coverage generated for a user to try out the package and
+#' Coverage generated for a user to try out the package and
 #' to pass in for tests. Coverage of chromosomes 21 and 22 from the project
 #' SRP012682.
 #'
