@@ -42,9 +42,10 @@
 <meta property="og:title" content="Get junctions that overlap the optimally defined ERs — get_junctions" />
 <meta property="og:description" content="The junctions will be added to the ERs passed in as a metadata column, a
 GRangeslist with each GRanges element of the list corresponding to it's
-associated ER. Any ERs that do not have an overlapping junction will have an
-empty GRanges. The respective genes that each ER could be associated with will
-also be passed in as a metadata column, a character list." />
+associated ER. If there are no overlaps, the GRangeslist will be empty.
+Any ERs that do not have an overlapping junction will have an empty GRanges.
+The respective genes that each ER could be associated with will also be passed
+in as a metadata column, a character list" />
 
 
 
@@ -135,9 +136,10 @@ also be passed in as a metadata column, a character list." />
     <div class="ref-description">
     <p>The junctions will be added to the ERs passed in as a metadata column, a
 GRangeslist with each GRanges element of the list corresponding to it's
-associated ER. Any ERs that do not have an overlapping junction will have an
-empty GRanges. The respective genes that each ER could be associated with will
-also be passed in as a metadata column, a character list.</p>
+associated ER. If there are no overlaps, the GRangeslist will be empty.
+Any ERs that do not have an overlapping junction will have an empty GRanges.
+The respective genes that each ER could be associated with will also be passed
+in as a metadata column, a character list</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_junctions</span><span class='op'>(</span><span class='va'>opt_ers</span>, <span class='va'>junc_data</span>, <span class='va'>gtf_path</span><span class='op'>)</span></pre>
@@ -168,12 +170,10 @@ also be passed in as a metadata column, a character list.</p>
 "gene_id_start", "tx_name_start", "exon_name_start", "strand_start",
 "exon_width_start","gene_id_end", "tx_name_end", "exon_name_end", "strand_end",
 "exon_width_end", "gene_id_junction", "strand_junction", "type" and "er_index
-add the columns I'm adding</p>
+added by dasper's junction_annot.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>dasper::junction...</p>
-<p>add more detail to description i.e. columns added in mcols by junction_annot
-, gene id er etc. also talk about the empty granges for no overlaps</p></div>
+    <div class='dont-index'><p>dasper::junction_annot</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
@@ -211,13 +211,13 @@ add the columns I'm adding</p>
     junc_data <span class='op'>=</span> <span class='va'>example_junctions</span>,
     gtf_path <span class='op'>=</span> <span class='va'>gtf_path</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-07-25 16:27:06 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#&gt; [1] "2021-07-25 16:27:06 - Importing gtf/gff3 as a TxDb..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
-#&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; [1] "2021-07-25 16:28:20 - Getting junction annotation using overlapping exons..."
-#&gt; [1] "2021-07-25 16:28:22 - Tidying junction annotation..."
-#&gt; [1] "2021-07-25 16:28:22 - Deriving junction categories..."
-#&gt; [1] "2021-07-25 16:28:25 - done!"
-#&gt; [1] "2021-07-25 16:28:25 - Finding junctions overlapping ers..."</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-08-24 17:45:42 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+#&gt; [1] "2021-08-24 17:45:42 - Importing gtf/gff3 as a TxDb..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
+#&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; [1] "2021-08-24 17:47:03 - Getting junction annotation using overlapping exons..."
+#&gt; [1] "2021-08-24 17:47:04 - Tidying junction annotation..."
+#&gt; [1] "2021-08-24 17:47:05 - Deriving junction categories..."
+#&gt; [1] "2021-08-24 17:47:08 - done!"
+#&gt; [1] "2021-08-24 17:47:08 - Finding junctions overlapping ers..."</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>example_er_juncs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; GRanges object with 11 ranges and 4 metadata columns:
 #&gt;     seqnames            ranges strand |     score        GC

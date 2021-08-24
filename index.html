@@ -89,8 +89,8 @@
 <a href="#oder" class="anchor"></a>ODER</h1></div>
 <!-- badges: start -->
 
-<p>The goal of <code>ODER</code> is to well define the expressed regions from RNA-squencing experiments so that they can be confidently identified as pre-existing annotated exons or unannotated novel exons. ODER does this by allowing the user to vary two features -the MCC(Mean Coverage Cutoff) and MRG (Max Region Gap) - to generate various expressed regions and identifying the combination of MCC and MRG that most accurately defines the expressed region(s) by comparing it to a “gold standard” set of exons. This is done by calculating the exon delta (the absolute difference between the ER definition and the corresponding exon boundaries).</p>
-<p>The optimally defined Expressed regions will be stored in the GenomicRanges GRanges class and ODER has several functions that will operate on these optimal ERs such as: <em>plotting the various exon deltas across MCCs and MRGs </em>annotating the ERs with junction data <em>refining annotated ERs using the junction data </em>generate a count matrix</p>
+<p>The goal of <code>ODER</code> is <strong>O</strong>ptimising the <strong>D</strong>efinition of <strong>E</strong>xpressed <strong>R</strong>egions, which the package does by well defining the expressed regions from RNA-squencing experiments so that they can be confidently identified as pre-existing annotated exons or unannotated novel exons. ODER allows the user to vary two features -the MCC(Mean Coverage Cutoff) and MRG (Max Region Gap) - to generate various expressed regions and identifying the combination of MCC and MRG that most accurately defines the expressed region(s) by comparing it to a “gold standard” set of exons. This is done by calculating the exon delta (the absolute difference between the ER definition and the corresponding exon boundaries).</p>
+<p>The optimally defined Expressed regions will be stored in the GenomicRanges GRanges class and ODER has several functions that will operate on these optimal ERs such as: 1. plotting the various exon deltas across MCCs and MRGs 2. annotating the ERs with junction data 3. refining annotated ERs using the junction data 4. generate a count matrix</p>
 <div id="installation-instructions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation-instructions" class="anchor"></a>Installation instructions</h2>
@@ -116,7 +116,7 @@
 <span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="fu">recount</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/recount/man/all_metadata.html">all_metadata</a></span><span class="op">(</span><span class="st">"gtex"</span><span class="op">)</span>
 <span class="co">#&gt; Setting options('download.file.method.GEOquery'='auto')</span>
 <span class="co">#&gt; Setting options('GEOquery.inmemory.gpl'=FALSE)</span>
-<span class="co">#&gt; 2021-07-23 22:08:26 downloading the metadata to /tmp/RtmpxcnhA1/metadata_clean_gtex.Rdata</span>
+<span class="co">#&gt; 2021-08-24 13:36:29 downloading the metadata to /tmp/RtmpVThMOm/metadata_clean_gtex.Rdata</span>
 <span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="va">gtex_metadata</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">project</span> <span class="op">==</span> <span class="st">"SRP012682"</span><span class="op">)</span>
@@ -168,15 +168,15 @@
 <span class="co">#&gt; The following object is masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     expand.grid</span>
-<span class="co">#&gt; [1] "2021-07-23 22:08:41 - Obtaining mean coverage across 1 samples"</span>
-<span class="co">#&gt; [1] "2021-07-23 22:08:41 - chr21"</span>
-<span class="co">#&gt; [1] "2021-07-23 22:08:43 - chr22"</span>
-<span class="co">#&gt; [1] "2021-07-23 22:08:44 - Generating ERs for chr21"</span>
-<span class="co">#&gt; [1] "2021-07-23 22:08:51 - Generating ERs for chr22"</span>
-<span class="co">#&gt; [1] "2021-07-23 22:08:56 - Loading in GTF..."</span>
-<span class="co">#&gt; [1] "2021-07-23 22:09:44 - Obtaining non-overlapping exons"</span>
-<span class="co">#&gt; [1] "2021-07-23 22:09:46 - Calculating delta for ERs..."</span>
-<span class="co">#&gt; [1] "2021-07-23 22:09:48 - Obtaining optimal set of ERs..."</span>
+<span class="co">#&gt; [1] "2021-08-24 13:36:42 - Obtaining mean coverage across 1 samples"</span>
+<span class="co">#&gt; [1] "2021-08-24 13:36:42 - chr21"</span>
+<span class="co">#&gt; [1] "2021-08-24 13:36:44 - chr22"</span>
+<span class="co">#&gt; [1] "2021-08-24 13:36:44 - Generating ERs for chr21"</span>
+<span class="co">#&gt; [1] "2021-08-24 13:36:51 - Generating ERs for chr22"</span>
+<span class="co">#&gt; [1] "2021-08-24 13:36:56 - Loading in GTF..."</span>
+<span class="co">#&gt; [1] "2021-08-24 13:37:43 - Obtaining non-overlapping exons"</span>
+<span class="co">#&gt; [1] "2021-08-24 13:37:45 - Calculating delta for ERs..."</span>
+<span class="co">#&gt; [1] "2021-08-24 13:37:48 - Obtaining optimal set of ERs..."</span>
 
 <span class="co"># for stranded bigwig files:</span>
 
@@ -234,70 +234,97 @@
 <span class="co"># opt_strand_ers</span></code></pre></div>
 <p>The median exon delta represents the overall accuracy of all ER definitions, whereas the number of ERs with exon delta equal to 0 indicates the extent to which ER definitions precisely match overlapping exon boundaries.</p>
 <p><img src="reference/figures/README-plot_example-1.png" width="100%"></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-07-23 22:09:50 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-07-23 22:09:50 - Importing gtf/gff3 as a TxDb..."</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Make the TxDb object ...</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   stop_codon. This information was ignored.</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; OK</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-07-23 22:11:22 - Getting junction annotation using overlapping exons..."</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-07-23 22:11:22 - Tidying junction annotation..."</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-07-23 22:11:22 - Deriving junction categories..."</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-07-23 22:11:24 - done!"</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-07-23 22:11:24 - Finding junctions overlapping ers..."</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-07-23 22:12:20 - Generating a genomic state..."</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Make the TxDb object ...</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   stop_codon. This information was ignored.</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; OK</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   stop_codon. This information was ignored.</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 'select()' returned 1:1 mapping between keys and columns</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-07-23 22:14:36 - Annotating the Expressed regions..."</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021-07-23 22:14:36 annotateRegions: counting</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021-07-23 22:14:36 annotateRegions: annotating</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-07-23 22:15:22 - done!"</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2021-07-23 22:16:50 - Refining the Expressed regions..."</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GRanges object with 2 ranges and 7 metadata columns:</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       seqnames          ranges strand |                     grl           genes</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; |           &lt;GRangesList&gt; &lt;CharacterList&gt;</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1]    chr21 5093713-5093743      * | chr21:5093712-5093744:+ ENSG00000280071</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [2]    chr21 5162182-5162248      * | chr21:5162249-5162287:+ ENSG00000280433</span></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        annotation  og_index       gene_source nearest_gene_v94_name</span></span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       &lt;character&gt; &lt;integer&gt;       &lt;character&gt;           &lt;character&gt;</span></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1]      intron        15 nearest gtf genes       ENSG00000280071</span></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [2]      intron        71 nearest gtf genes       ENSG00000280433</span></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       nearest_expressed_gene_v94_name</span></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                           &lt;character&gt;</span></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1]                 ENSG00000264462</span></span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [2]                 ENSG00000264462</span></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   -------</span></span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The latest megadepth version is 1.1.0c</span></span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; megadepth has been installed to /home/rstudio/bin</span></span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in is.na(.x): is.na() applied to non-(list or vector) of type 'S4'</span></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; class: RangedSummarizedExperiment </span></span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; dim: 6641 1 </span></span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metadata(0):</span></span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; assays(1): ''</span></span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; rownames: NULL</span></span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; rowData names(0):</span></span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; colnames: NULL</span></span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; colData names(1): run</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+
+<span class="co"># annotating the optimally defined ers with overlapping junctions</span>
+
+<span class="va">annot_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/annotatERs.html">annotatERs</a></span><span class="op">(</span>
+    opt_ers <span class="op">=</span> <span class="va">opt_ers</span><span class="op">[[</span><span class="st">"opt_ers"</span><span class="op">]</span><span class="op">]</span>, junc_data <span class="op">=</span> <span class="va">lung_junc_21_22</span>,
+    gtf_path <span class="op">=</span> <span class="va">gtf_path</span>, chrs_to_keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"21"</span>, <span class="st">"22"</span><span class="op">)</span>, ensembl <span class="op">=</span> <span class="cn">TRUE</span>
+<span class="op">)</span>
+<span class="co">#&gt; [1] "2021-08-24 13:37:50 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span>
+<span class="co">#&gt; [1] "2021-08-24 13:37:50 - Importing gtf/gff3 as a TxDb..."</span>
+<span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span>
+<span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span>
+<span class="co">#&gt; Make the TxDb object ...</span>
+<span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span>
+<span class="co">#&gt;   stop_codon. This information was ignored.</span>
+<span class="co">#&gt; OK</span>
+<span class="co">#&gt; [1] "2021-08-24 13:39:21 - Getting junction annotation using overlapping exons..."</span>
+<span class="co">#&gt; [1] "2021-08-24 13:39:22 - Tidying junction annotation..."</span>
+<span class="co">#&gt; [1] "2021-08-24 13:39:22 - Deriving junction categories..."</span>
+<span class="co">#&gt; [1] "2021-08-24 13:39:24 - done!"</span>
+<span class="co">#&gt; [1] "2021-08-24 13:39:24 - Finding junctions overlapping ers..."</span>
+<span class="co">#&gt; [1] "2021-08-24 13:40:19 - Generating a genomic state..."</span>
+<span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span>
+<span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span>
+<span class="co">#&gt; Make the TxDb object ...</span>
+<span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span>
+<span class="co">#&gt;   stop_codon. This information was ignored.</span>
+<span class="co">#&gt; OK</span>
+<span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span>
+<span class="co">#&gt;   stop_codon. This information was ignored.</span>
+<span class="co">#&gt; extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span>
+<span class="co">#&gt; 'select()' returned 1:1 mapping between keys and columns</span>
+<span class="co">#&gt; [1] "2021-08-24 13:42:35 - Annotating the Expressed regions..."</span>
+<span class="co">#&gt; 2021-08-24 13:42:35 annotateRegions: counting</span>
+<span class="co">#&gt; 2021-08-24 13:42:35 annotateRegions: annotating</span>
+<span class="co">#&gt; [1] "2021-08-24 13:43:21 - done!"</span>
+
+<span class="co"># To check the types of tissue you can filter for:</span>
+<span class="co"># print(tissue_options)</span>
+
+<span class="va">annot_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/add_expressed_genes.html">add_expressed_genes</a></span><span class="op">(</span>tissue <span class="op">=</span> <span class="st">"lung"</span>, gtf_path <span class="op">=</span> <span class="va">gtf_path</span>, annot_ers <span class="op">=</span> <span class="va">annot_ers</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># modify the starts and ends of the ERs using the junction data</span>
+
+<span class="va">refined_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/refine_ERs.html">refine_ERs</a></span><span class="op">(</span><span class="va">annot_ers</span><span class="op">)</span>
+<span class="co">#&gt; [1] "2021-08-24 13:44:47 - Refining the Expressed regions..."</span>
+
+<span class="va">refined_ers</span>
+<span class="co">#&gt; GRanges object with 2 ranges and 7 metadata columns:</span>
+<span class="co">#&gt;       seqnames          ranges strand |                     grl           genes</span>
+<span class="co">#&gt;          &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; |           &lt;GRangesList&gt; &lt;CharacterList&gt;</span>
+<span class="co">#&gt;   [1]    chr21 5093713-5093743      * | chr21:5093712-5093744:+ ENSG00000280071</span>
+<span class="co">#&gt;   [2]    chr21 5162182-5162248      * | chr21:5162249-5162287:+ ENSG00000280433</span>
+<span class="co">#&gt;        annotation  og_index       gene_source nearest_gene_v94_name</span>
+<span class="co">#&gt;       &lt;character&gt; &lt;integer&gt;       &lt;character&gt;           &lt;character&gt;</span>
+<span class="co">#&gt;   [1]      intron        15 nearest gtf genes       ENSG00000280071</span>
+<span class="co">#&gt;   [2]      intron        71 nearest gtf genes       ENSG00000280433</span>
+<span class="co">#&gt;       nearest_expressed_gene_v94_name</span>
+<span class="co">#&gt;                           &lt;character&gt;</span>
+<span class="co">#&gt;   [1]                 ENSG00000264462</span>
+<span class="co">#&gt;   [2]                 ENSG00000264462</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Generate a count matrix for the annotated ERs</span>
+
+<span class="va">run</span> <span class="op">&lt;-</span> <span class="va">gtex_metadata</span><span class="op">[[</span><span class="st">"run"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<span class="va">col_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">run</span><span class="op">)</span>
+
+<span class="va">er_count_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_count_matrix.html">get_count_matrix</a></span><span class="op">(</span>bw_paths <span class="op">=</span> <span class="va">bw_path</span>, annot_ers <span class="op">=</span> <span class="va">annot_ers</span>, cols <span class="op">=</span> <span class="va">col_info</span><span class="op">)</span>
+<span class="co">#&gt; The latest megadepth version is 1.1.0c</span>
+<span class="co">#&gt; megadepth has been installed to /home/rstudio/bin</span>
+<span class="co">#&gt; Warning in is.na(.x): is.na() applied to non-(list or vector) of type 'S4'</span>
+
+<span class="va">er_count_matrix</span>
+<span class="co">#&gt; class: RangedSummarizedExperiment </span>
+<span class="co">#&gt; dim: 6641 1 </span>
+<span class="co">#&gt; metadata(0):</span>
+<span class="co">#&gt; assays(1): ''</span>
+<span class="co">#&gt; rownames: NULL</span>
+<span class="co">#&gt; rowData names(0):</span>
+<span class="co">#&gt; colnames: NULL</span>
+<span class="co">#&gt; colData names(1): run</span></code></pre></div>
 <p>In that case, don’t forget to commit and push the resulting figure files, so they display on GitHub!</p>
 </div>
 <div id="citation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
 <p>Below is the citation output from using <code><a href="https://rdrr.io/r/utils/citation.html">citation('ODER')</a></code> in R. Please run this yourself to check for any updates on how to cite <strong>ODER</strong>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># print(citation('ODER'), bibtex = TRUE)</span></code></pre></div>
 <p>Please note that the <code>ODER</code> was only made possible thanks to many other R and bioinformatics software authors, which are cited either in the vignettes and/or the paper(s) describing this package.</p>
 </div>

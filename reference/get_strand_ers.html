@@ -139,8 +139,7 @@
   <span class='va'>bw_neg</span>,
   <span class='va'>auc_raw_pos</span>,
   <span class='va'>auc_raw_neg</span>,
-  <span class='va'>auc_tar_pos</span>,
-  <span class='va'>auc_tar_neg</span>,
+  <span class='va'>auc_target</span>,
   <span class='va'>chrs</span>,
   <span class='va'>mccs</span>,
   <span class='va'>mrgs</span>,
@@ -169,13 +168,7 @@ of bigwig paths.</p></td>
 of bigwig paths.</p></td>
     </tr>
     <tr>
-      <th>auc_tar_pos</th>
-      <td><p>total AUC to normalise all samples to. E.g. 40e6 * 100
-would be the estimated total auc for sample sequenced to 40 million reads
-of 100bp in length.</p></td>
-    </tr>
-    <tr>
-      <th>auc_tar_neg</th>
+      <th>auc_target</th>
       <td><p>total AUC to normalise all samples to. E.g. 40e6 * 100
 would be the estimated total auc for sample sequenced to 40 million reads
 of 100bp in length.</p></td>
@@ -210,7 +203,7 @@ combination of MCC and MRG.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://magrittr.tidyverse.org'>"magrittr"</a></span><span class='op'>)</span>
 <span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/all_metadata.html'>all_metadata</a></span><span class='op'>(</span><span class='st'>"gtex"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>2021-07-25 16:35:12 downloading the metadata to /tmp/RtmpS2hLAz/metadata_clean_gtex.Rdata</span></div><div class='input'><span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='va'>gtex_metadata</span> <span class='op'>%&gt;%</span>
+</div><div class='output co'>#&gt; <span class='message'>2021-08-24 17:54:53 downloading the metadata to /tmp/RtmpKiYpcx/metadata_clean_gtex.Rdata</span></div><div class='input'><span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='va'>gtex_metadata</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span>
 
@@ -227,15 +220,15 @@ combination of MCC and MRG.</p>
 <span class='va'>stranded_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_strand_ers</span><span class='op'>(</span>
     bw_pos <span class='op'>=</span> <span class='va'>bw_plus</span>, bw_neg <span class='op'>=</span> <span class='va'>bw_minus</span>,
     auc_raw_pos <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span>,
-    auc_raw_neg <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span>, auc_tar_pos <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>,
-    auc_tar_neg <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>, chrs <span class='op'>=</span> <span class='st'>"chr21"</span>, mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span>
+    auc_raw_neg <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span>, auc_target <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>,
+    chrs <span class='op'>=</span> <span class='st'>"chr21"</span>, mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-07-25 16:35:14 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-07-25 16:35:14 - chr21"
-#&gt; [1] "2021-07-25 16:35:14 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-07-25 16:35:14 - chr21"
-#&gt; [1] "2021-07-25 16:35:14 - Generating ERs for chr21"
-#&gt; [1] "2021-07-25 16:35:15 - Generating ERs for chr21"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-08-24 17:54:54 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-08-24 17:54:54 - chr21"
+#&gt; [1] "2021-08-24 17:54:55 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-08-24 17:54:55 - chr21"
+#&gt; [1] "2021-08-24 17:54:55 - Generating ERs for chr21"
+#&gt; [1] "2021-08-24 17:54:56 - Generating ERs for chr21"</div><div class='input'>
 <span class='va'>stranded_ers</span>
 </div><div class='output co'>#&gt; $mcc_5
 #&gt; $mcc_5$mrg_10

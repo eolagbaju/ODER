@@ -137,8 +137,7 @@
   <span class='va'>bw_neg</span>,
   <span class='va'>auc_raw_pos</span>,
   <span class='va'>auc_raw_neg</span>,
-  <span class='va'>auc_tar_pos</span>,
-  <span class='va'>auc_tar_neg</span>,
+  <span class='va'>auc_target</span>,
   chrs <span class='op'>=</span> <span class='st'>""</span>,
   genome <span class='op'>=</span> <span class='st'>"hg38"</span>,
   <span class='va'>mccs</span>,
@@ -172,14 +171,8 @@ of bigwig paths.</p></td>
 of bigwig paths.</p></td>
     </tr>
     <tr>
-      <th>auc_tar_pos</th>
-      <td><p>total AUC to normalise all samples to. E.g. 40e6 * 100
-would be the estimated total auc for sample sequenced to 40 million reads
-of 100bp in length.</p></td>
-    </tr>
-    <tr>
-      <th>auc_tar_neg</th>
-      <td><p>total AUC to normalise all samples to. E.g. 40e6 * 100
+      <th>auc_target</th>
+      <td><p>total AUC to normalise all samples to e.g. 40e6 * 100
 would be the estimated total auc for sample sequenced to 40 million reads
 of 100bp in length.</p></td>
     </tr>
@@ -237,7 +230,7 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://magrittr.tidyverse.org'>"magrittr"</a></span><span class='op'>)</span>
 <span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/all_metadata.html'>all_metadata</a></span><span class='op'>(</span><span class='st'>"gtex"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>2021-07-25 15:52:20 downloading the metadata to /tmp/RtmpS2hLAz/metadata_clean_gtex.Rdata</span></div><div class='input'><span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='va'>gtex_metadata</span> <span class='op'>%&gt;%</span>
+</div><div class='output co'>#&gt; <span class='message'>2021-08-24 17:05:39 downloading the metadata to /tmp/RtmpKiYpcx/metadata_clean_gtex.Rdata</span></div><div class='input'><span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='va'>gtex_metadata</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span>
 
@@ -255,120 +248,119 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 <span class='va'>bw_plus</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>url</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span><span class='op'>)</span>
 <span class='va'>bw_minus</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>url</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span><span class='op'>)</span>
 
-<span class='va'>auc_target</span> <span class='op'>&lt;-</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>
 <span class='va'>opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>ODER_strand</span><span class='op'>(</span>
     bw_pos <span class='op'>=</span> <span class='va'>bw_plus</span>, bw_neg <span class='op'>=</span> <span class='va'>bw_minus</span>,
     auc_raw_pos <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span>, auc_raw_neg <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span>,
-    auc_tar_pos <span class='op'>=</span> <span class='va'>auc_target</span>, auc_tar_neg <span class='op'>=</span> <span class='va'>auc_target</span>, chrs <span class='op'>=</span> <span class='st'>""</span>, genome <span class='op'>=</span> <span class='st'>"hg38"</span>,
+    auc_target <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>, chrs <span class='op'>=</span> <span class='st'>""</span>, genome <span class='op'>=</span> <span class='st'>"hg38"</span>,
     mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span>, gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,
     ignore.strand <span class='op'>=</span> <span class='cn'>FALSE</span>, exons_no_overlap <span class='op'>=</span> <span class='cn'>NULL</span>, bw_chr <span class='op'>=</span> <span class='st'>"chr"</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-07-25 15:52:22 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-07-25 15:52:22 - chr1"
-#&gt; [1] "2021-07-25 15:52:24 - chr2"
-#&gt; [1] "2021-07-25 15:52:26 - chr3"
-#&gt; [1] "2021-07-25 15:52:28 - chr4"
-#&gt; [1] "2021-07-25 15:52:28 - chr5"
-#&gt; [1] "2021-07-25 15:52:29 - chr6"
-#&gt; [1] "2021-07-25 15:52:30 - chr7"
-#&gt; [1] "2021-07-25 15:52:31 - chr8"
-#&gt; [1] "2021-07-25 15:52:32 - chr9"
-#&gt; [1] "2021-07-25 15:52:33 - chr10"
-#&gt; [1] "2021-07-25 15:52:33 - chr11"
-#&gt; [1] "2021-07-25 15:52:35 - chr12"
-#&gt; [1] "2021-07-25 15:52:36 - chr13"
-#&gt; [1] "2021-07-25 15:52:36 - chr14"
-#&gt; [1] "2021-07-25 15:52:37 - chr15"
-#&gt; [1] "2021-07-25 15:52:37 - chr16"
-#&gt; [1] "2021-07-25 15:52:38 - chr17"
-#&gt; [1] "2021-07-25 15:52:39 - chr18"
-#&gt; [1] "2021-07-25 15:52:40 - chr19"
-#&gt; [1] "2021-07-25 15:52:41 - chr20"
-#&gt; [1] "2021-07-25 15:52:41 - chr21"
-#&gt; [1] "2021-07-25 15:52:41 - chr22"
-#&gt; [1] "2021-07-25 15:52:42 - chrX"
-#&gt; [1] "2021-07-25 15:52:43 - chrY"
-#&gt; [1] "2021-07-25 15:52:43 - chrM"
-#&gt; [1] "2021-07-25 15:52:43 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-07-25 15:52:43 - chr1"
-#&gt; [1] "2021-07-25 15:52:45 - chr2"
-#&gt; [1] "2021-07-25 15:52:46 - chr3"
-#&gt; [1] "2021-07-25 15:52:48 - chr4"
-#&gt; [1] "2021-07-25 15:52:49 - chr5"
-#&gt; [1] "2021-07-25 15:52:50 - chr6"
-#&gt; [1] "2021-07-25 15:52:50 - chr7"
-#&gt; [1] "2021-07-25 15:52:51 - chr8"
-#&gt; [1] "2021-07-25 15:52:52 - chr9"
-#&gt; [1] "2021-07-25 15:52:53 - chr10"
-#&gt; [1] "2021-07-25 15:52:54 - chr11"
-#&gt; [1] "2021-07-25 15:52:55 - chr12"
-#&gt; [1] "2021-07-25 15:52:57 - chr13"
-#&gt; [1] "2021-07-25 15:52:57 - chr14"
-#&gt; [1] "2021-07-25 15:52:58 - chr15"
-#&gt; [1] "2021-07-25 15:52:58 - chr16"
-#&gt; [1] "2021-07-25 15:52:59 - chr17"
-#&gt; [1] "2021-07-25 15:53:01 - chr18"
-#&gt; [1] "2021-07-25 15:53:01 - chr19"
-#&gt; [1] "2021-07-25 15:53:02 - chr20"
-#&gt; [1] "2021-07-25 15:53:03 - chr21"
-#&gt; [1] "2021-07-25 15:53:03 - chr22"
-#&gt; [1] "2021-07-25 15:53:03 - chrX"
-#&gt; [1] "2021-07-25 15:53:04 - chrY"
-#&gt; [1] "2021-07-25 15:53:04 - chrM"
-#&gt; [1] "2021-07-25 15:53:04 - Generating ERs for chr1"
-#&gt; [1] "2021-07-25 15:53:09 - Generating ERs for chr2"
-#&gt; [1] "2021-07-25 15:53:13 - Generating ERs for chr3"
-#&gt; [1] "2021-07-25 15:53:15 - Generating ERs for chr4"
-#&gt; [1] "2021-07-25 15:53:17 - Generating ERs for chr5"
-#&gt; [1] "2021-07-25 15:53:19 - Generating ERs for chr6"
-#&gt; [1] "2021-07-25 15:53:20 - Generating ERs for chr7"
-#&gt; [1] "2021-07-25 15:53:22 - Generating ERs for chr8"
-#&gt; [1] "2021-07-25 15:53:24 - Generating ERs for chr9"
-#&gt; [1] "2021-07-25 15:53:25 - Generating ERs for chr10"
-#&gt; [1] "2021-07-25 15:53:27 - Generating ERs for chr11"
-#&gt; [1] "2021-07-25 15:53:28 - Generating ERs for chr12"
-#&gt; [1] "2021-07-25 15:53:30 - Generating ERs for chr13"
-#&gt; [1] "2021-07-25 15:53:31 - Generating ERs for chr14"
-#&gt; [1] "2021-07-25 15:53:32 - Generating ERs for chr15"
-#&gt; [1] "2021-07-25 15:53:34 - Generating ERs for chr16"
-#&gt; [1] "2021-07-25 15:53:35 - Generating ERs for chr17"
-#&gt; [1] "2021-07-25 15:53:37 - Generating ERs for chr18"
-#&gt; [1] "2021-07-25 15:53:37 - Generating ERs for chr19"
-#&gt; [1] "2021-07-25 15:53:39 - Generating ERs for chr20"
-#&gt; [1] "2021-07-25 15:53:40 - Generating ERs for chr21"
-#&gt; [1] "2021-07-25 15:53:41 - Generating ERs for chr22"
-#&gt; [1] "2021-07-25 15:53:41 - Generating ERs for chrX"
-#&gt; [1] "2021-07-25 15:53:43 - Generating ERs for chrY"
-#&gt; [1] "2021-07-25 15:53:43 - Generating ERs for chrM"
-#&gt; [1] "2021-07-25 15:53:44 - Generating ERs for chr1"
-#&gt; [1] "2021-07-25 15:53:46 - Generating ERs for chr2"
-#&gt; [1] "2021-07-25 15:53:50 - Generating ERs for chr3"
-#&gt; [1] "2021-07-25 15:53:52 - Generating ERs for chr4"
-#&gt; [1] "2021-07-25 15:53:54 - Generating ERs for chr5"
-#&gt; [1] "2021-07-25 15:53:55 - Generating ERs for chr6"
-#&gt; [1] "2021-07-25 15:53:57 - Generating ERs for chr7"
-#&gt; [1] "2021-07-25 15:53:59 - Generating ERs for chr8"
-#&gt; [1] "2021-07-25 15:54:00 - Generating ERs for chr9"
-#&gt; [1] "2021-07-25 15:54:02 - Generating ERs for chr10"
-#&gt; [1] "2021-07-25 15:54:03 - Generating ERs for chr11"
-#&gt; [1] "2021-07-25 15:54:04 - Generating ERs for chr12"
-#&gt; [1] "2021-07-25 15:54:07 - Generating ERs for chr13"
-#&gt; [1] "2021-07-25 15:54:08 - Generating ERs for chr14"
-#&gt; [1] "2021-07-25 15:54:09 - Generating ERs for chr15"
-#&gt; [1] "2021-07-25 15:54:10 - Generating ERs for chr16"
-#&gt; [1] "2021-07-25 15:54:11 - Generating ERs for chr17"
-#&gt; [1] "2021-07-25 15:54:12 - Generating ERs for chr18"
-#&gt; [1] "2021-07-25 15:54:13 - Generating ERs for chr19"
-#&gt; [1] "2021-07-25 15:54:14 - Generating ERs for chr20"
-#&gt; [1] "2021-07-25 15:54:15 - Generating ERs for chr21"
-#&gt; [1] "2021-07-25 15:54:15 - Generating ERs for chr22"
-#&gt; [1] "2021-07-25 15:54:16 - Generating ERs for chrX"
-#&gt; [1] "2021-07-25 15:54:17 - Generating ERs for chrY"
-#&gt; [1] "2021-07-25 15:54:18 - Generating ERs for chrM"
-#&gt; [1] "2021-07-25 15:54:19 - Loading in GTF..."
-#&gt; [1] "2021-07-25 15:54:48 - Obtaining non-overlapping exons"
-#&gt; [1] "2021-07-25 15:54:49 - Calculating delta for ERs..."
-#&gt; [1] "2021-07-25 15:54:56 - Obtaining optimal set of ERs..."</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-08-24 17:05:41 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-08-24 17:05:41 - chr1"
+#&gt; [1] "2021-08-24 17:05:44 - chr2"
+#&gt; [1] "2021-08-24 17:05:46 - chr3"
+#&gt; [1] "2021-08-24 17:05:48 - chr4"
+#&gt; [1] "2021-08-24 17:05:49 - chr5"
+#&gt; [1] "2021-08-24 17:05:50 - chr6"
+#&gt; [1] "2021-08-24 17:05:51 - chr7"
+#&gt; [1] "2021-08-24 17:05:52 - chr8"
+#&gt; [1] "2021-08-24 17:05:53 - chr9"
+#&gt; [1] "2021-08-24 17:05:53 - chr10"
+#&gt; [1] "2021-08-24 17:05:54 - chr11"
+#&gt; [1] "2021-08-24 17:05:56 - chr12"
+#&gt; [1] "2021-08-24 17:05:57 - chr13"
+#&gt; [1] "2021-08-24 17:05:57 - chr14"
+#&gt; [1] "2021-08-24 17:05:58 - chr15"
+#&gt; [1] "2021-08-24 17:05:59 - chr16"
+#&gt; [1] "2021-08-24 17:06:00 - chr17"
+#&gt; [1] "2021-08-24 17:06:01 - chr18"
+#&gt; [1] "2021-08-24 17:06:01 - chr19"
+#&gt; [1] "2021-08-24 17:06:03 - chr20"
+#&gt; [1] "2021-08-24 17:06:03 - chr21"
+#&gt; [1] "2021-08-24 17:06:04 - chr22"
+#&gt; [1] "2021-08-24 17:06:04 - chrX"
+#&gt; [1] "2021-08-24 17:06:05 - chrY"
+#&gt; [1] "2021-08-24 17:06:05 - chrM"
+#&gt; [1] "2021-08-24 17:06:05 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-08-24 17:06:05 - chr1"
+#&gt; [1] "2021-08-24 17:06:07 - chr2"
+#&gt; [1] "2021-08-24 17:06:09 - chr3"
+#&gt; [1] "2021-08-24 17:06:11 - chr4"
+#&gt; [1] "2021-08-24 17:06:12 - chr5"
+#&gt; [1] "2021-08-24 17:06:13 - chr6"
+#&gt; [1] "2021-08-24 17:06:14 - chr7"
+#&gt; [1] "2021-08-24 17:06:15 - chr8"
+#&gt; [1] "2021-08-24 17:06:16 - chr9"
+#&gt; [1] "2021-08-24 17:06:17 - chr10"
+#&gt; [1] "2021-08-24 17:06:17 - chr11"
+#&gt; [1] "2021-08-24 17:06:19 - chr12"
+#&gt; [1] "2021-08-24 17:06:21 - chr13"
+#&gt; [1] "2021-08-24 17:06:21 - chr14"
+#&gt; [1] "2021-08-24 17:06:22 - chr15"
+#&gt; [1] "2021-08-24 17:06:22 - chr16"
+#&gt; [1] "2021-08-24 17:06:23 - chr17"
+#&gt; [1] "2021-08-24 17:06:25 - chr18"
+#&gt; [1] "2021-08-24 17:06:26 - chr19"
+#&gt; [1] "2021-08-24 17:06:27 - chr20"
+#&gt; [1] "2021-08-24 17:06:27 - chr21"
+#&gt; [1] "2021-08-24 17:06:28 - chr22"
+#&gt; [1] "2021-08-24 17:06:28 - chrX"
+#&gt; [1] "2021-08-24 17:06:29 - chrY"
+#&gt; [1] "2021-08-24 17:06:29 - chrM"
+#&gt; [1] "2021-08-24 17:06:29 - Generating ERs for chr1"
+#&gt; [1] "2021-08-24 17:06:34 - Generating ERs for chr2"
+#&gt; [1] "2021-08-24 17:06:39 - Generating ERs for chr3"
+#&gt; [1] "2021-08-24 17:06:41 - Generating ERs for chr4"
+#&gt; [1] "2021-08-24 17:06:43 - Generating ERs for chr5"
+#&gt; [1] "2021-08-24 17:06:45 - Generating ERs for chr6"
+#&gt; [1] "2021-08-24 17:06:47 - Generating ERs for chr7"
+#&gt; [1] "2021-08-24 17:06:49 - Generating ERs for chr8"
+#&gt; [1] "2021-08-24 17:06:51 - Generating ERs for chr9"
+#&gt; [1] "2021-08-24 17:06:52 - Generating ERs for chr10"
+#&gt; [1] "2021-08-24 17:06:54 - Generating ERs for chr11"
+#&gt; [1] "2021-08-24 17:06:56 - Generating ERs for chr12"
+#&gt; [1] "2021-08-24 17:06:57 - Generating ERs for chr13"
+#&gt; [1] "2021-08-24 17:06:58 - Generating ERs for chr14"
+#&gt; [1] "2021-08-24 17:07:00 - Generating ERs for chr15"
+#&gt; [1] "2021-08-24 17:07:02 - Generating ERs for chr16"
+#&gt; [1] "2021-08-24 17:07:03 - Generating ERs for chr17"
+#&gt; [1] "2021-08-24 17:07:05 - Generating ERs for chr18"
+#&gt; [1] "2021-08-24 17:07:05 - Generating ERs for chr19"
+#&gt; [1] "2021-08-24 17:07:08 - Generating ERs for chr20"
+#&gt; [1] "2021-08-24 17:07:09 - Generating ERs for chr21"
+#&gt; [1] "2021-08-24 17:07:09 - Generating ERs for chr22"
+#&gt; [1] "2021-08-24 17:07:10 - Generating ERs for chrX"
+#&gt; [1] "2021-08-24 17:07:11 - Generating ERs for chrY"
+#&gt; [1] "2021-08-24 17:07:12 - Generating ERs for chrM"
+#&gt; [1] "2021-08-24 17:07:13 - Generating ERs for chr1"
+#&gt; [1] "2021-08-24 17:07:16 - Generating ERs for chr2"
+#&gt; [1] "2021-08-24 17:07:19 - Generating ERs for chr3"
+#&gt; [1] "2021-08-24 17:07:21 - Generating ERs for chr4"
+#&gt; [1] "2021-08-24 17:07:24 - Generating ERs for chr5"
+#&gt; [1] "2021-08-24 17:07:26 - Generating ERs for chr6"
+#&gt; [1] "2021-08-24 17:07:27 - Generating ERs for chr7"
+#&gt; [1] "2021-08-24 17:07:30 - Generating ERs for chr8"
+#&gt; [1] "2021-08-24 17:07:31 - Generating ERs for chr9"
+#&gt; [1] "2021-08-24 17:07:32 - Generating ERs for chr10"
+#&gt; [1] "2021-08-24 17:07:34 - Generating ERs for chr11"
+#&gt; [1] "2021-08-24 17:07:35 - Generating ERs for chr12"
+#&gt; [1] "2021-08-24 17:07:38 - Generating ERs for chr13"
+#&gt; [1] "2021-08-24 17:07:39 - Generating ERs for chr14"
+#&gt; [1] "2021-08-24 17:07:40 - Generating ERs for chr15"
+#&gt; [1] "2021-08-24 17:07:41 - Generating ERs for chr16"
+#&gt; [1] "2021-08-24 17:07:42 - Generating ERs for chr17"
+#&gt; [1] "2021-08-24 17:07:44 - Generating ERs for chr18"
+#&gt; [1] "2021-08-24 17:07:45 - Generating ERs for chr19"
+#&gt; [1] "2021-08-24 17:07:46 - Generating ERs for chr20"
+#&gt; [1] "2021-08-24 17:07:47 - Generating ERs for chr21"
+#&gt; [1] "2021-08-24 17:07:48 - Generating ERs for chr22"
+#&gt; [1] "2021-08-24 17:07:48 - Generating ERs for chrX"
+#&gt; [1] "2021-08-24 17:07:50 - Generating ERs for chrY"
+#&gt; [1] "2021-08-24 17:07:50 - Generating ERs for chrM"
+#&gt; [1] "2021-08-24 17:07:52 - Loading in GTF..."
+#&gt; [1] "2021-08-24 17:08:24 - Obtaining non-overlapping exons"
+#&gt; [1] "2021-08-24 17:08:26 - Calculating delta for ERs..."
+#&gt; [1] "2021-08-24 17:08:34 - Obtaining optimal set of ERs..."</div><div class='input'>
 <span class='va'>opt_ers</span>
 </div><div class='output co'>#&gt; $opt_ers
 #&gt; GRanges object with 345380 ranges and 0 metadata columns:

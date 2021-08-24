@@ -88,7 +88,7 @@
       UCL<br><a class="author_email" href="mailto:#"></a><a href="mailto:e.olagbaju@ucl.ac.uk" class="email">e.olagbaju@ucl.ac.uk</a>
       </address>
                   
-            <h4 class="date">25 July 2021</h4>
+            <h4 class="date">24 August 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/eolagbaju/ODER/blob/master/vignettes/ODERflow.Rmd"><code>vignettes/ODERflow.Rmd</code></a></small>
       <div class="hidden name"><code>ODERflow.Rmd</code></div>
@@ -118,8 +118,9 @@
 <div id="required-knowledge" class="section level2">
 <h2 class="hasAnchor">
 <a href="#required-knowledge" class="anchor"></a>Required knowledge</h2>
-<p><em><a href="https://bioconductor.org/packages/3.12/ODER">ODER</a></em> is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with RNA-seq data (EDIT!). That is, packages like <em><a href="https://bioconductor.org/packages/3.12/SummarizedExperiment">SummarizedExperiment</a></em> (EDIT!).</p>
-<p>If you are asking yourself the question “Where do I start using Bioconductor?” you might be interested in <a href="http://lcolladotor.github.io/2014/10/16/startbioc/#.VkOKbq6rRuU">this blog post</a>.</p>
+<p>The expected input of <em><a href="https://bioconductor.org/packages/3.12/ODER">ODER</a></em> is coverage in the form of BigWig files.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/ODER">ODER</a></em> is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with RNA-seq data. The <em><a href="https://bioconductor.org/packages/3.12/GenomicRanges">GenomicRanges</a></em> package is heavily used in <em><a href="https://bioconductor.org/packages/3.12/ODER">ODER</a></em> while other packages like <em><a href="https://bioconductor.org/packages/3.12/SummarizedExperiment">SummarizedExperiment</a></em> and <em><a href="https://bioconductor.org/packages/3.12/GenomeInfoDb">GenomeInfoDb</a></em> also being featured so previous experience with these packages will help in the comprehension and use of <em><a href="https://bioconductor.org/packages/3.12/ODER">ODER</a></em>.</p>
+<p>If you are asking yourself the question “Where do I start using Bioconductor?” you might be interested in <a href="http://lcolladotor.github.io/2014/10/16/startbioc/#.VkOKbq6rRuU">this blog post</a>. If you find the structure of a <em><a href="https://bioconductor.org/packages/3.12/SummarizedExperiment">SummarizedExperiment</a></em> unclear, you might consider checking out <a href="http://master.bioconductor.org/help/course-materials/2019/BSS2019/04_Practical_CoreApproachesInBioconductor.html">this manual</a>.</p>
 </div>
 <div id="asking-for-help" class="section level2">
 <h2 class="hasAnchor">
@@ -140,43 +141,58 @@
 <h1 class="hasAnchor">
 <a href="#quick-start-to-using-to-oder" class="anchor"></a>Quick start to using to <code>ODER</code>
 </h1>
+<p>ODER consists of 4 main functions, some of which consist of several smaller helper functions. These functions are</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>ODER</strong> - Returns the optimum definition of the expressed regions by finding the ideal MCC (Mean Coverage Cutoff) and MRG (Max Region Gap)</li>
+<li>
+<strong>annotatER</strong> - Annotates the expressed regions with overlapping junctions and the nearest expressed genes</li>
+<li>
+<strong>refine_ers</strong> - Uses the junctions to further refine the starts and the ends of the expressed regions</li>
+<li>
+<strong>get_count_matrix</strong> - Scores the coverage of the expressed regions</li>
+</ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/eolagbaju/ODER">"ODER"</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"eolagbaju/ODER"</span><span class="op">)</span></code></pre></div>
+<div id="example" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example" class="anchor"></a>Example</h2>
+<p>This is a basic example to show how you can use ODER, for reproducibility everything used in this vignette can either be found online or is contained in ODER. First, we need to download the data and information needed to run ODER:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/eolagbaju/ODER">"ODER"</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://magrittr.tidyverse.org">"magrittr"</a></span><span class="op">)</span>
+<span class="co"># loading in RNA seq data to run ODER on</span>
 <span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="fu">recount</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/recount/man/all_metadata.html">all_metadata</a></span><span class="op">(</span><span class="st">"gtex"</span><span class="op">)</span>
 <span class="co">#&gt; Setting options('download.file.method.GEOquery'='auto')</span>
 <span class="co">#&gt; Setting options('GEOquery.inmemory.gpl'=FALSE)</span>
-<span class="co">#&gt; 2021-07-25 16:41:05 downloading the metadata to /tmp/RtmpzTYNsT/metadata_clean_gtex.Rdata</span>
-<span class="co"># gtex_metadata[["bigwig_file"]][grepl("fibroblast",gtex_metadata[["bigwig_file"]])]</span>
-<span class="co"># dplyr::filter(gtex_metadata, bigwig_file %in% "fibroblast")</span>
+<span class="co">#&gt; 2021-08-24 18:01:36 downloading the metadata to /tmp/RtmpSKoSeR/metadata_clean_gtex.Rdata</span>
 <span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="va">gtex_metadata</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">project</span> <span class="op">==</span> <span class="st">"SRP012682"</span><span class="op">)</span>
-
-<span class="co"># obtain path to example bw on recount2</span>
 <span class="va">url</span> <span class="op">&lt;-</span> <span class="fu">recount</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/recount/man/download_study.html">download_study</a></span><span class="op">(</span>
     project <span class="op">=</span> <span class="st">"SRP012682"</span>,
     type <span class="op">=</span> <span class="st">"samples"</span>,
     download <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span>
-
-<span class="co"># grep("fibroblast",url)</span>
-<span class="co"># bw_path &lt;- ODER:::.file_cache(url[1])</span>
-<span class="co"># bw_path &lt;- ODER:::.file_cache(url[58])</span>
-<span class="co"># 84  91   98  106  141  217  245  253  280  301  306  310  318  328  330  375  396  488  522  547  561  588  599</span>
-<span class="va">bw_path</span> <span class="op">&lt;-</span> <span class="fu">ODER</span><span class="fu">:::</span><span class="fu">.file_cache</span><span class="op">(</span><span class="va">url</span><span class="op">[</span><span class="fl">58</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<span class="co"># .file_cache is an internal function to download a bigwig file from a link if the file has been downloaded recently, it will be retrieved from a cache</span>
+<span class="va">bw_path</span> <span class="op">&lt;-</span> <span class="fu">ODER</span><span class="fu">:::</span><span class="fu">.file_cache</span><span class="op">(</span><span class="va">url</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
+<span class="va">gtf_url</span> <span class="op">&lt;-</span> <span class="st">"http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
+<span class="va">gtf_path</span> <span class="op">&lt;-</span> <span class="fu">ODER</span><span class="fu">:::</span><span class="fu">.file_cache</span><span class="op">(</span><span class="va">gtf_url</span><span class="op">)</span></code></pre></div>
+<p>To get the optimum set of ERs from a BigWig file we can use the ODER function, for stranded BigWigs there is the ODER_strand function:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># getting the mean coverage of the expressed regions</span>
-<span class="va">coverage</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_coverage.html">get_coverage</a></span><span class="op">(</span>
-    bw_paths <span class="op">=</span> <span class="va">bw_path</span>,
-    <span class="co"># auc_raw = gtex_metadata[["auc"]][1],</span>
-    <span class="co"># auc_raw = gtex_metadata[["auc"]][58],</span>
-    auc_raw <span class="op">=</span> <span class="va">gtex_metadata</span><span class="op">[[</span><span class="st">"auc"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">58</span><span class="op">]</span>,
-    auc_target <span class="op">=</span> <span class="fl">40e6</span> <span class="op">*</span> <span class="fl">100</span>, <span class="co"># target 40 million coverage with 100 bp length reads</span>
-    chrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chr21"</span>, <span class="st">"chr22"</span><span class="op">)</span>
-<span class="op">)</span> <span class="co"># defaults to chr1-22, chrX, chrY, chrM if chrs = ""</span>
+<code class="sourceCode R"><span class="co"># Getting the optimally defined ERs by finding the combination of Mean Coverage Cut-off and Max Region Gap that gives the smallest exon delta</span>
+
+<span class="co"># MCC - Mean Cutoff Coverage - this is the minimum read depth that a read needs to have to be considered expressed</span>
+
+<span class="co"># MRG - Max Region Gap - this is the maximum number of base pairs between reads that fall below the MCC before you would not include it as part of the expressed region</span>
+
+<span class="va">opt_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ODER.html">ODER</a></span><span class="op">(</span>
+    bw_paths <span class="op">=</span> <span class="va">bw_path</span>, auc_raw <span class="op">=</span> <span class="va">gtex_metadata</span><span class="op">[[</span><span class="st">"auc"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
+    auc_target <span class="op">=</span> <span class="fl">40e6</span> <span class="op">*</span> <span class="fl">100</span>, chrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chr21"</span>, <span class="st">"chr22"</span><span class="op">)</span>,
+    genome <span class="op">=</span> <span class="st">"hg38"</span>, mccs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>, mrgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span>,
+    gtf <span class="op">=</span> <span class="va">gtf_path</span>, ucsc_chr <span class="op">=</span> <span class="cn">TRUE</span>, ignore.strand <span class="op">=</span> <span class="cn">TRUE</span>,
+    exons_no_overlap <span class="op">=</span> <span class="cn">NULL</span>, bw_chr <span class="op">=</span> <span class="st">"chr"</span>
+<span class="op">)</span>
 <span class="co">#&gt; Loading required package: BiocGenerics</span>
 <span class="co">#&gt; Loading required package: parallel</span>
 <span class="co">#&gt; </span>
@@ -204,145 +220,552 @@
 <span class="co">#&gt; The following object is masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     expand.grid</span>
-<span class="co">#&gt; [1] "2021-07-25 16:41:09 - Obtaining mean coverage across 1 samples"</span>
-<span class="co">#&gt; [1] "2021-07-25 16:41:09 - chr21"</span>
-<span class="co">#&gt; [1] "2021-07-25 16:41:10 - chr22"</span>
+<span class="co">#&gt; [1] "2021-08-24 18:01:41 - Obtaining mean coverage across 1 samples"</span>
+<span class="co">#&gt; [1] "2021-08-24 18:01:41 - chr21"</span>
+<span class="co">#&gt; [1] "2021-08-24 18:01:42 - chr22"</span>
+<span class="co">#&gt; [1] "2021-08-24 18:01:43 - Generating ERs for chr21"</span>
+<span class="co">#&gt; [1] "2021-08-24 18:01:49 - Generating ERs for chr22"</span>
+<span class="co">#&gt; [1] "2021-08-24 18:01:54 - Loading in GTF..."</span>
+<span class="co">#&gt; [1] "2021-08-24 18:02:37 - Obtaining non-overlapping exons"</span>
+<span class="co">#&gt; [1] "2021-08-24 18:02:39 - Calculating delta for ERs..."</span>
+<span class="co">#&gt; [1] "2021-08-24 18:02:42 - Obtaining optimal set of ERs..."</span>
 
-<span class="va">coverage</span>
-<span class="co">#&gt; $chr21</span>
-<span class="co">#&gt; $chr21$meanCoverage</span>
-<span class="co">#&gt; numeric-Rle of length 46709983 with 426536 runs</span>
-<span class="co">#&gt;   Lengths:  5028182       44     2361       76 ...     2506       75    10642</span>
-<span class="co">#&gt;   Values : 0.000000 0.512328 0.000000 0.512328 ... 0.000000 0.512328 0.000000</span>
+<span class="co"># for stranded bigwig files:</span>
+
+<span class="co"># bw_pos &lt;- ODER:::.file_cache(url[58])</span>
+<span class="co"># bw_neg &lt;- ODER:::.file_cache(url[84])</span>
+<span class="co"># opt_strand_ers &lt;- ODER_strand(</span>
+<span class="co">#     bw_pos = bw_plus, bw_neg = bw_minus,</span>
+<span class="co">#     auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],</span>
+<span class="co">#     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),</span>
+<span class="co">#     genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),</span>
+<span class="co">#     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"</span>
+<span class="co"># )</span>
+
+<span class="va">opt_ers</span>
+<span class="co">#&gt; $opt_ers</span>
+<span class="co">#&gt; GRanges object with 14662 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5032176-5032217      *</span>
+<span class="co">#&gt;       [2]    chr21   5033408-5033425      *</span>
+<span class="co">#&gt;       [3]    chr21   5034717-5034756      *</span>
+<span class="co">#&gt;       [4]    chr21   5035188-5035189      *</span>
+<span class="co">#&gt;       [5]    chr21   5036577-5036581      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [14658]    chr22 50798779-50798835      *</span>
+<span class="co">#&gt;   [14659]    chr22 50798884-50799149      *</span>
+<span class="co">#&gt;   [14660]    chr22 50799209-50799284      *</span>
+<span class="co">#&gt;   [14661]    chr22 50799669-50799744      *</span>
+<span class="co">#&gt;   [14662]    chr22 50800460-50800587      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
 <span class="co">#&gt; </span>
+<span class="co">#&gt; $opt_mcc_mrg</span>
+<span class="co">#&gt; [1] "mcc_10" "mrg_30"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $chr22</span>
-<span class="co">#&gt; $chr22$meanCoverage</span>
-<span class="co">#&gt; numeric-Rle of length 50818468 with 772188 runs</span>
-<span class="co">#&gt;   Lengths: 10522454       56    13697       74 ...       26       19    13643</span>
-<span class="co">#&gt;   Values : 0.000000 0.512328 0.000000 0.512328 ... 1.024656 0.512328 0.000000</span>
+<span class="co">#&gt; $deltas</span>
+<span class="co">#&gt; # A tibble: 15 x 7</span>
+<span class="co">#&gt;      mcc   mrg     sum  mean median n_eq_0 propor_eq_0</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;   &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;int&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt;  1     2    10 2613404  929.   178.    324       0.115</span>
+<span class="co">#&gt;  2     2    20 2347085  887.   172     324       0.122</span>
+<span class="co">#&gt;  3     2    30 2136347  857.   164     331       0.133</span>
+<span class="co">#&gt;  4     4    10 2314874  950.   157     329       0.135</span>
+<span class="co">#&gt;  5     4    20 2067967  910.   151     339       0.149</span>
+<span class="co">#&gt;  6     4    30 1878983  873.   147     344       0.160</span>
+<span class="co">#&gt;  7     6    10 2084841  971.   146     321       0.149</span>
+<span class="co">#&gt;  8     6    20 1790136  900.   132     329       0.165</span>
+<span class="co">#&gt;  9     6    30 1553676  833.   124     337       0.181</span>
+<span class="co">#&gt; 10     8    10 1929926  985.   142     329       0.168</span>
+<span class="co">#&gt; 11     8    20 1651370  922.   126     339       0.189</span>
+<span class="co">#&gt; 12     8    30 1417918  842.   116     351       0.209</span>
+<span class="co">#&gt; 13    10    10 1771837 1009.   139     316       0.180</span>
+<span class="co">#&gt; 14    10    20 1457726  911.   118     323       0.202</span>
+<span class="co">#&gt; 15    10    30 1323807  876.   112.    336       0.222</span>
+<span class="co"># opt_strand_ers</span></code></pre></div>
+<p>Once we have the opt_ers, we can generate a plot to see how the various MCCs and MRGs would look. The median exon delta represents the overall accuracy of all ER definitions, whereas the number of ERs with exon delta equal to 0 indicates the extent to which ER definitions precisely match overlapping exon boundaries.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># visualise the spread of mccs and mrgs</span>
+<span class="fu"><a href="../reference/plot_ers.html">plot_ers</a></span><span class="op">(</span><span class="va">opt_ers</span><span class="op">[[</span><span class="st">"deltas"</span><span class="op">]</span><span class="op">]</span>, <span class="va">opt_ers</span><span class="op">[[</span><span class="st">"opt_mcc_mrg"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<p><img src="ODERflow_files/figure-html/plot_example-1.png" width="700"></p>
+<p>To find the overlapping junctions and find the nearest expressed genes we can use annotatERs. The junctions used should be the same tissue type as the ERs from the BigWig passed into ODER, in this case we are looking at lung tissue data.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+
+<span class="co"># annotating the optimally defined ers with overlapping junctions</span>
+
+<span class="va">annot_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/annotatERs.html">annotatERs</a></span><span class="op">(</span>
+    opt_ers <span class="op">=</span> <span class="va">opt_ers</span><span class="op">[[</span><span class="st">"opt_ers"</span><span class="op">]</span><span class="op">]</span>, junc_data <span class="op">=</span> <span class="va">lung_junc_21_22</span>,
+    gtf_path <span class="op">=</span> <span class="va">gtf_path</span>, chrs_to_keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"21"</span>, <span class="st">"22"</span><span class="op">)</span>, ensembl <span class="op">=</span> <span class="cn">TRUE</span>
+<span class="op">)</span>
+<span class="co">#&gt; [1] "2021-08-24 18:02:44 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span>
+<span class="co">#&gt; [1] "2021-08-24 18:02:44 - Importing gtf/gff3 as a TxDb..."</span>
+<span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span>
+<span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span>
+<span class="co">#&gt; Make the TxDb object ...</span>
+<span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span>
+<span class="co">#&gt;   stop_codon. This information was ignored.</span>
+<span class="co">#&gt; OK</span>
+<span class="co">#&gt; [1] "2021-08-24 18:04:08 - Getting junction annotation using overlapping exons..."</span>
+<span class="co">#&gt; [1] "2021-08-24 18:04:09 - Tidying junction annotation..."</span>
+<span class="co">#&gt; [1] "2021-08-24 18:04:09 - Deriving junction categories..."</span>
+<span class="co">#&gt; [1] "2021-08-24 18:04:10 - done!"</span>
+<span class="co">#&gt; [1] "2021-08-24 18:04:10 - Finding junctions overlapping ers..."</span>
+<span class="co">#&gt; [1] "2021-08-24 18:04:58 - Generating a genomic state..."</span>
+<span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span>
+<span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span>
+<span class="co">#&gt; Make the TxDb object ...</span>
+<span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span>
+<span class="co">#&gt;   stop_codon. This information was ignored.</span>
+<span class="co">#&gt; OK</span>
+<span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span>
+<span class="co">#&gt;   stop_codon. This information was ignored.</span>
+<span class="co">#&gt; extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span>
+<span class="co">#&gt; 'select()' returned 1:1 mapping between keys and columns</span>
+<span class="co">#&gt; [1] "2021-08-24 18:06:56 - Annotating the Expressed regions..."</span>
+<span class="co">#&gt; 2021-08-24 18:06:56 annotateRegions: counting</span>
+<span class="co">#&gt; 2021-08-24 18:06:57 annotateRegions: annotating</span>
+<span class="co">#&gt; [1] "2021-08-24 18:07:36 - done!"</span>
+
+<span class="co"># To check the types of tissue you can filter for:</span>
+<span class="co"># print(tissue_options)</span>
+
+<span class="va">annot_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_expressed_genes.html">add_expressed_genes</a></span><span class="op">(</span>tissue <span class="op">=</span> <span class="st">"lung"</span>, gtf_path <span class="op">=</span> <span class="va">gtf_path</span>, annot_ers <span class="op">=</span> <span class="va">annot_ers</span><span class="op">)</span></code></pre></div>
+<p>We can use refine_ers to modify the starts and ends of the expressed regions by using refine_ers on the annotated regions.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># modify the starts and ends of the ERs using the junction data</span>
+
+<span class="va">refined_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/refine_ERs.html">refine_ERs</a></span><span class="op">(</span><span class="va">annot_ers</span><span class="op">)</span>
+<span class="co">#&gt; [1] "2021-08-24 18:08:49 - Refining the Expressed regions..."</span>
+
+<span class="va">refined_ers</span>
+<span class="co">#&gt; GRanges object with 2 ranges and 7 metadata columns:</span>
+<span class="co">#&gt;       seqnames          ranges strand |                     grl           genes</span>
+<span class="co">#&gt;          &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; |           &lt;GRangesList&gt; &lt;CharacterList&gt;</span>
+<span class="co">#&gt;   [1]    chr21 5093713-5093743      * | chr21:5093712-5093744:+ ENSG00000280071</span>
+<span class="co">#&gt;   [2]    chr21 5162182-5162248      * | chr21:5162249-5162287:+ ENSG00000280433</span>
+<span class="co">#&gt;        annotation  og_index       gene_source nearest_gene_v94_name</span>
+<span class="co">#&gt;       &lt;character&gt; &lt;integer&gt;       &lt;character&gt;           &lt;character&gt;</span>
+<span class="co">#&gt;   [1]      intron        15 nearest gtf genes       ENSG00000280071</span>
+<span class="co">#&gt;   [2]      intron        71 nearest gtf genes       ENSG00000280433</span>
+<span class="co">#&gt;       nearest_expressed_gene_v94_name</span>
+<span class="co">#&gt;                           &lt;character&gt;</span>
+<span class="co">#&gt;   [1]                 ENSG00000264462</span>
+<span class="co">#&gt;   [2]                 ENSG00000264462</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span></code></pre></div>
+<p>Generate an ER count matrix with get_count_matrix, if cols is left blank the function will auto-generate colData for the Ranged Summarized Experiment output.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Generate a count matrix for the annotated ERs</span>
+
+<span class="va">run</span> <span class="op">&lt;-</span> <span class="va">gtex_metadata</span><span class="op">[[</span><span class="st">"run"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<span class="va">col_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">run</span><span class="op">)</span>
+
+<span class="va">er_count_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_count_matrix.html">get_count_matrix</a></span><span class="op">(</span>bw_paths <span class="op">=</span> <span class="va">bw_path</span>, annot_ers <span class="op">=</span> <span class="va">annot_ers</span>, cols <span class="op">=</span> <span class="va">col_info</span><span class="op">)</span>
+<span class="co">#&gt; The latest megadepth version is 1.1.0c</span>
+<span class="co">#&gt; megadepth has been installed to /github/home/bin</span>
+<span class="co">#&gt; Warning in is.na(.x): is.na() applied to non-(list or vector) of type 'S4'</span>
+
+<span class="va">er_count_matrix</span>
+<span class="co">#&gt; class: RangedSummarizedExperiment </span>
+<span class="co">#&gt; dim: 6641 1 </span>
+<span class="co">#&gt; metadata(0):</span>
+<span class="co">#&gt; assays(1): ''</span>
+<span class="co">#&gt; rownames: NULL</span>
+<span class="co">#&gt; rowData names(0):</span>
+<span class="co">#&gt; colnames: NULL</span>
+<span class="co">#&gt; colData names(1): run</span></code></pre></div>
+</div>
+</div>
+<div id="comprehensive-usage-guide" class="section level1">
+<h1 class="hasAnchor">
+<a href="#comprehensive-usage-guide" class="anchor"></a>Comprehensive usage guide</h1>
+<p>In this section, we will run through the smaller functions that make up each of the big wrapper functions, ODER and annotatER, in detail. This can be helpful for users that want to understand or modify the intermediates of the <code>ODER</code> pipeline or are only interested in executing a specific step. If you want to follow along and run this code in your R session, make sure you have followed the instructions in the section <a href="#setup">setup</a>.</p>
+<div id="getting-the-coverage-and-expressed-regions-oder" class="section level2">
+<h2 class="hasAnchor">
+<a href="#getting-the-coverage-and-expressed-regions-oder" class="anchor"></a>Getting the coverage and Expressed Regions (ODER)</h2>
+<p>First we need to load in the coverage of the RNA seq data from a BigWig file using <code>get_coverage</code>, the output of this will be a <code>GRanges</code> object which we will generate all the possible ERs from the various MCCs and MRGs that you want to test by passing the <code>GRanges</code> into <code>get_ers</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="co"># getting the mean coverage of the expressed regions</span>
+<span class="va">coverage</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_coverage.html">get_coverage</a></span><span class="op">(</span>
+    bw_paths <span class="op">=</span> <span class="va">bw_path</span>,
+    auc_raw <span class="op">=</span> <span class="va">gtex_metadata</span><span class="op">[[</span><span class="st">"auc"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
+    auc_target <span class="op">=</span> <span class="fl">40e6</span> <span class="op">*</span> <span class="fl">100</span>, <span class="co"># target 40 million coverage with 100 bp length reads</span>
+    chrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chr21"</span>, <span class="st">"chr22"</span><span class="op">)</span>
+<span class="op">)</span> <span class="co"># defaults to chr1-22, chrX, chrY, chrM if chrs = ""</span>
+<span class="co">#&gt; [1] "2021-08-24 18:11:40 - Obtaining mean coverage across 1 samples"</span>
+<span class="co">#&gt; [1] "2021-08-24 18:11:40 - chr21"</span>
+<span class="co">#&gt; [1] "2021-08-24 18:11:40 - chr22"</span>
 
 <span class="va">ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_ers.html">get_ers</a></span><span class="op">(</span>coverage <span class="op">=</span> <span class="va">coverage</span>, mccs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>, mrgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "2021-07-25 16:41:12 - Generating ERs for chr21"</span>
-<span class="co">#&gt; [1] "2021-07-25 16:41:17 - Generating ERs for chr22"</span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># download the gtf file from ensembl</span>
-<span class="va">gtf_url</span> <span class="op">&lt;-</span> <span class="st">"http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
-<span class="va">gtf_path</span> <span class="op">&lt;-</span> <span class="fu">ODER</span><span class="fu">:::</span><span class="fu">.file_cache</span><span class="op">(</span><span class="va">gtf_url</span><span class="op">)</span>
+<span class="co">#&gt; [1] "2021-08-24 18:11:41 - Generating ERs for chr21"</span>
+<span class="co">#&gt; [1] "2021-08-24 18:11:42 - Generating ERs for chr22"</span>
 
+<span class="va">ers</span>
+<span class="co">#&gt; $mcc_2</span>
+<span class="co">#&gt; $mcc_2$mrg_10</span>
+<span class="co">#&gt; GRanges object with 36744 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5017261-5017336      *</span>
+<span class="co">#&gt;       [2]    chr21   5019250-5019325      *</span>
+<span class="co">#&gt;       [3]    chr21   5019449-5019524      *</span>
+<span class="co">#&gt;       [4]    chr21   5019756-5019790      *</span>
+<span class="co">#&gt;       [5]    chr21   5026314-5026389      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [36740]    chr22 50802323-50802429      *</span>
+<span class="co">#&gt;   [36741]    chr22 50802458-50802533      *</span>
+<span class="co">#&gt;   [36742]    chr22 50802557-50802774      *</span>
+<span class="co">#&gt;   [36743]    chr22 50803640-50803715      *</span>
+<span class="co">#&gt;   [36744]    chr22 50804299-50804331      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_2$mrg_20</span>
+<span class="co">#&gt; GRanges object with 34224 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5017261-5017336      *</span>
+<span class="co">#&gt;       [2]    chr21   5019250-5019325      *</span>
+<span class="co">#&gt;       [3]    chr21   5019449-5019524      *</span>
+<span class="co">#&gt;       [4]    chr21   5019756-5019790      *</span>
+<span class="co">#&gt;       [5]    chr21   5026314-5026389      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [34220]    chr22 50802323-50802429      *</span>
+<span class="co">#&gt;   [34221]    chr22 50802458-50802533      *</span>
+<span class="co">#&gt;   [34222]    chr22 50802557-50802774      *</span>
+<span class="co">#&gt;   [34223]    chr22 50803640-50803715      *</span>
+<span class="co">#&gt;   [34224]    chr22 50804299-50804331      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_2$mrg_30</span>
+<span class="co">#&gt; GRanges object with 32059 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5017261-5017336      *</span>
+<span class="co">#&gt;       [2]    chr21   5019250-5019325      *</span>
+<span class="co">#&gt;       [3]    chr21   5019449-5019524      *</span>
+<span class="co">#&gt;       [4]    chr21   5019756-5019790      *</span>
+<span class="co">#&gt;       [5]    chr21   5026314-5026389      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [32055]    chr22 50800974-50801018      *</span>
+<span class="co">#&gt;   [32056]    chr22 50802167-50802206      *</span>
+<span class="co">#&gt;   [32057]    chr22 50802323-50802774      *</span>
+<span class="co">#&gt;   [32058]    chr22 50803640-50803715      *</span>
+<span class="co">#&gt;   [32059]    chr22 50804299-50804331      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_4</span>
+<span class="co">#&gt; $mcc_4$mrg_10</span>
+<span class="co">#&gt; GRanges object with 29274 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5026456-5026531      *</span>
+<span class="co">#&gt;       [2]    chr21   5027367-5027442      *</span>
+<span class="co">#&gt;       [3]    chr21   5027600-5027675      *</span>
+<span class="co">#&gt;       [4]    chr21   5027955-5028030      *</span>
+<span class="co">#&gt;       [5]    chr21           5028056      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [29270]    chr22 50802354-50802398      *</span>
+<span class="co">#&gt;   [29271]    chr22          50802459      *</span>
+<span class="co">#&gt;   [29272]    chr22 50802471-50802532      *</span>
+<span class="co">#&gt;   [29273]    chr22 50802615-50802631      *</span>
+<span class="co">#&gt;   [29274]    chr22 50803671-50803673      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_4$mrg_20</span>
+<span class="co">#&gt; GRanges object with 27070 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5026456-5026531      *</span>
+<span class="co">#&gt;       [2]    chr21   5027367-5027442      *</span>
+<span class="co">#&gt;       [3]    chr21   5027600-5027675      *</span>
+<span class="co">#&gt;       [4]    chr21   5027955-5028030      *</span>
+<span class="co">#&gt;       [5]    chr21           5028056      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [27066]    chr22 50802323-50802326      *</span>
+<span class="co">#&gt;   [27067]    chr22 50802354-50802398      *</span>
+<span class="co">#&gt;   [27068]    chr22 50802459-50802532      *</span>
+<span class="co">#&gt;   [27069]    chr22 50802615-50802631      *</span>
+<span class="co">#&gt;   [27070]    chr22 50803671-50803673      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_4$mrg_30</span>
+<span class="co">#&gt; GRanges object with 25349 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5026456-5026531      *</span>
+<span class="co">#&gt;       [2]    chr21   5027367-5027442      *</span>
+<span class="co">#&gt;       [3]    chr21   5027600-5027675      *</span>
+<span class="co">#&gt;       [4]    chr21   5027955-5028056      *</span>
+<span class="co">#&gt;       [5]    chr21   5032105-5032217      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [25345]    chr22 50800777-50800843      *</span>
+<span class="co">#&gt;   [25346]    chr22 50802323-50802398      *</span>
+<span class="co">#&gt;   [25347]    chr22 50802459-50802532      *</span>
+<span class="co">#&gt;   [25348]    chr22 50802615-50802631      *</span>
+<span class="co">#&gt;   [25349]    chr22 50803671-50803673      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_6</span>
+<span class="co">#&gt; $mcc_6$mrg_10</span>
+<span class="co">#&gt; GRanges object with 24086 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5026472-5026525      *</span>
+<span class="co">#&gt;       [2]    chr21   5027982-5028011      *</span>
+<span class="co">#&gt;       [3]    chr21   5032160-5032217      *</span>
+<span class="co">#&gt;       [4]    chr21   5033408-5033425      *</span>
+<span class="co">#&gt;       [5]    chr21   5033438-5033441      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [24082]    chr22 50798655-50799194      *</span>
+<span class="co">#&gt;   [24083]    chr22 50799209-50799284      *</span>
+<span class="co">#&gt;   [24084]    chr22 50799669-50799744      *</span>
+<span class="co">#&gt;   [24085]    chr22 50799915-50799990      *</span>
+<span class="co">#&gt;   [24086]    chr22 50800460-50800587      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_6$mrg_20</span>
+<span class="co">#&gt; GRanges object with 22111 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5026472-5026525      *</span>
+<span class="co">#&gt;       [2]    chr21   5027982-5028011      *</span>
+<span class="co">#&gt;       [3]    chr21   5032160-5032217      *</span>
+<span class="co">#&gt;       [4]    chr21   5033408-5033441      *</span>
+<span class="co">#&gt;       [5]    chr21   5034712-5034787      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [22107]    chr22 50796305-50796326      *</span>
+<span class="co">#&gt;   [22108]    chr22 50798655-50799284      *</span>
+<span class="co">#&gt;   [22109]    chr22 50799669-50799744      *</span>
+<span class="co">#&gt;   [22110]    chr22 50799915-50799990      *</span>
+<span class="co">#&gt;   [22111]    chr22 50800460-50800587      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_6$mrg_30</span>
+<span class="co">#&gt; GRanges object with 20546 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5026472-5026525      *</span>
+<span class="co">#&gt;       [2]    chr21   5027982-5028011      *</span>
+<span class="co">#&gt;       [3]    chr21   5032160-5032217      *</span>
+<span class="co">#&gt;       [4]    chr21   5033408-5033441      *</span>
+<span class="co">#&gt;       [5]    chr21   5034712-5034787      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [20542]    chr22 50796305-50796326      *</span>
+<span class="co">#&gt;   [20543]    chr22 50798655-50799284      *</span>
+<span class="co">#&gt;   [20544]    chr22 50799669-50799744      *</span>
+<span class="co">#&gt;   [20545]    chr22 50799915-50799990      *</span>
+<span class="co">#&gt;   [20546]    chr22 50800460-50800587      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_8</span>
+<span class="co">#&gt; $mcc_8$mrg_10</span>
+<span class="co">#&gt; GRanges object with 20506 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5027989-5028011      *</span>
+<span class="co">#&gt;       [2]    chr21   5032161-5032217      *</span>
+<span class="co">#&gt;       [3]    chr21   5033408-5033425      *</span>
+<span class="co">#&gt;       [4]    chr21   5034712-5034766      *</span>
+<span class="co">#&gt;       [5]    chr21   5035165-5035225      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [20502]    chr22 50799189-50799190      *</span>
+<span class="co">#&gt;   [20503]    chr22 50799209-50799284      *</span>
+<span class="co">#&gt;   [20504]    chr22 50799669-50799744      *</span>
+<span class="co">#&gt;   [20505]    chr22 50799915-50799990      *</span>
+<span class="co">#&gt;   [20506]    chr22 50800460-50800587      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_8$mrg_20</span>
+<span class="co">#&gt; GRanges object with 18567 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5027989-5028011      *</span>
+<span class="co">#&gt;       [2]    chr21   5032161-5032217      *</span>
+<span class="co">#&gt;       [3]    chr21   5033408-5033425      *</span>
+<span class="co">#&gt;       [4]    chr21   5034712-5034766      *</span>
+<span class="co">#&gt;       [5]    chr21   5035165-5035225      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [18563]    chr22 50798884-50799165      *</span>
+<span class="co">#&gt;   [18564]    chr22 50799189-50799284      *</span>
+<span class="co">#&gt;   [18565]    chr22 50799669-50799744      *</span>
+<span class="co">#&gt;   [18566]    chr22 50799915-50799990      *</span>
+<span class="co">#&gt;   [18567]    chr22 50800460-50800587      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_8$mrg_30</span>
+<span class="co">#&gt; GRanges object with 17170 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5027989-5028011      *</span>
+<span class="co">#&gt;       [2]    chr21   5032161-5032217      *</span>
+<span class="co">#&gt;       [3]    chr21   5033408-5033425      *</span>
+<span class="co">#&gt;       [4]    chr21   5034712-5034766      *</span>
+<span class="co">#&gt;       [5]    chr21   5035165-5035225      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [17166]    chr22 50789065-50789134      *</span>
+<span class="co">#&gt;   [17167]    chr22 50798655-50799284      *</span>
+<span class="co">#&gt;   [17168]    chr22 50799669-50799744      *</span>
+<span class="co">#&gt;   [17169]    chr22 50799915-50799990      *</span>
+<span class="co">#&gt;   [17170]    chr22 50800460-50800587      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_10</span>
+<span class="co">#&gt; $mcc_10$mrg_10</span>
+<span class="co">#&gt; GRanges object with 17761 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5032176-5032217      *</span>
+<span class="co">#&gt;       [2]    chr21   5033408-5033425      *</span>
+<span class="co">#&gt;       [3]    chr21   5034717-5034756      *</span>
+<span class="co">#&gt;       [4]    chr21   5035188-5035189      *</span>
+<span class="co">#&gt;       [5]    chr21   5036577-5036581      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [17757]    chr22 50799209-50799264      *</span>
+<span class="co">#&gt;   [17758]    chr22 50799283-50799284      *</span>
+<span class="co">#&gt;   [17759]    chr22 50799669-50799688      *</span>
+<span class="co">#&gt;   [17760]    chr22 50799717-50799744      *</span>
+<span class="co">#&gt;   [17761]    chr22 50800460-50800587      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_10$mrg_20</span>
+<span class="co">#&gt; GRanges object with 15977 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5032176-5032217      *</span>
+<span class="co">#&gt;       [2]    chr21   5033408-5033425      *</span>
+<span class="co">#&gt;       [3]    chr21   5034717-5034756      *</span>
+<span class="co">#&gt;       [4]    chr21   5035188-5035189      *</span>
+<span class="co">#&gt;       [5]    chr21   5036577-5036581      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [15973]    chr22 50798996-50799149      *</span>
+<span class="co">#&gt;   [15974]    chr22 50799209-50799284      *</span>
+<span class="co">#&gt;   [15975]    chr22 50799669-50799688      *</span>
+<span class="co">#&gt;   [15976]    chr22 50799717-50799744      *</span>
+<span class="co">#&gt;   [15977]    chr22 50800460-50800587      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $mcc_10$mrg_30</span>
+<span class="co">#&gt; GRanges object with 14662 ranges and 0 metadata columns:</span>
+<span class="co">#&gt;           seqnames            ranges strand</span>
+<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class="co">#&gt;       [1]    chr21   5032176-5032217      *</span>
+<span class="co">#&gt;       [2]    chr21   5033408-5033425      *</span>
+<span class="co">#&gt;       [3]    chr21   5034717-5034756      *</span>
+<span class="co">#&gt;       [4]    chr21   5035188-5035189      *</span>
+<span class="co">#&gt;       [5]    chr21   5036577-5036581      *</span>
+<span class="co">#&gt;       ...      ...               ...    ...</span>
+<span class="co">#&gt;   [14658]    chr22 50798779-50798835      *</span>
+<span class="co">#&gt;   [14659]    chr22 50798884-50799149      *</span>
+<span class="co">#&gt;   [14660]    chr22 50799209-50799284      *</span>
+<span class="co">#&gt;   [14661]    chr22 50799669-50799744      *</span>
+<span class="co">#&gt;   [14662]    chr22 50800460-50800587      *</span>
+<span class="co">#&gt;   -------</span>
+<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span></code></pre></div>
+</div>
+<div id="gold-standardwell-defined-exons-oder" class="section level2">
+<h2 class="hasAnchor">
+<a href="#gold-standardwell-defined-exons-oder" class="anchor"></a>Gold-Standard/Well Defined Exons (ODER)</h2>
+<p>To find the ideal MCC and MRG we need Gold-Standard/Well Defined Exons to compare it to and we get this by passing a gtf file into <code>get_exons</code>. By default the function will filter the gtf file to return non-overlapping exons but there is the option to filter for: 1. 3’ UTR 2. 5’ UTR 3. Internal 4. lncRNA 5. ncRN 6. pseudogene</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
 <span class="va">exons_no_overlap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_exons.html">get_exons</a></span><span class="op">(</span>gtf <span class="op">=</span> <span class="va">gtf_path</span>, ucsc_chr <span class="op">=</span> <span class="cn">TRUE</span>, ignore.strand <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] "2021-07-25 16:41:23 - Loading in GTF..."</span>
-<span class="co">#&gt; [1] "2021-07-25 16:42:00 - Obtaining non-overlapping exons"</span>
+<span class="co">#&gt; [1] "2021-08-24 18:11:45 - Loading in GTF..."</span>
+<span class="co">#&gt; [1] "2021-08-24 18:12:20 - Obtaining non-overlapping exons"</span>
 <span class="co"># threeprime &lt;- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Three Prime")</span>
 <span class="co"># fiveprime &lt;- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Five Prime")</span>
 <span class="co"># internal &lt;- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Internal")</span>
 <span class="co"># lncrna &lt;- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "lncRNA")</span>
 <span class="co"># ncrna &lt;- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "ncRNA")</span>
 <span class="co"># pseudogene &lt;- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Pseudogene")</span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+</div>
+<div id="exon-deltas-oder" class="section level2">
+<h2 class="hasAnchor">
+<a href="#exon-deltas-oder" class="anchor"></a>Exon deltas (ODER)</h2>
+<p>To determine the best combination of MCC and MRG, we see which ER has the smallest absolute difference between the ER definition and the corresponding exon boundaries (exon delta). To get the exon deltas for the various ERs, we pass the ERs and the gold-standard exons into <code>get_ers_delta</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># get the ers_delta</span>
 <span class="va">ers_delta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_ers_delta.html">get_ers_delta</a></span><span class="op">(</span>ers <span class="op">=</span> <span class="va">ers</span>, opt_exons <span class="op">=</span> <span class="va">exons_no_overlap</span><span class="op">)</span>
-<span class="co">#&gt; [1] "2021-07-25 16:42:02 - Calculating delta for ERs..."</span>
+<span class="co">#&gt; [1] "2021-08-24 18:12:23 - Calculating delta for ERs..."</span>
 <span class="va">ers_delta</span>
 <span class="co">#&gt; # A tibble: 15 x 7</span>
 <span class="co">#&gt;      mcc   mrg     sum  mean median n_eq_0 propor_eq_0</span>
 <span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;   &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;int&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt;  1     2    10 1795593  821.  143      454       0.208</span>
-<span class="co">#&gt;  2     2    20 1483558  746.  115      462       0.232</span>
-<span class="co">#&gt;  3     2    30 1326145  707.   96      464       0.247</span>
-<span class="co">#&gt;  4     4    10  981652  605.   72      515       0.318</span>
-<span class="co">#&gt;  5     4    20  778372  524.   39.5    518       0.349</span>
-<span class="co">#&gt;  6     4    30  710388  502.   22      521       0.368</span>
-<span class="co">#&gt;  7     6    10  784577  577.   36.5    501       0.368</span>
-<span class="co">#&gt;  8     6    20  628186  503.    6      512       0.410</span>
-<span class="co">#&gt;  9     6    30  536145  446.    3      518       0.431</span>
-<span class="co">#&gt; 10     8    10  594114  524.    4      498       0.439</span>
-<span class="co">#&gt; 11     8    20  416518  396.    1      505       0.480</span>
-<span class="co">#&gt; 12     8    30  391314  381.    1      508       0.495</span>
-<span class="co">#&gt; 13    10    10  558258  539.    2      472       0.456</span>
-<span class="co">#&gt; 14    10    20  411740  428.    1      476       0.495</span>
-<span class="co">#&gt; 15    10    30  366415  391.    0      479       0.511</span>
+<span class="co">#&gt;  1     2    10 2613404  929.   178.    324       0.115</span>
+<span class="co">#&gt;  2     2    20 2347085  887.   172     324       0.122</span>
+<span class="co">#&gt;  3     2    30 2136347  857.   164     331       0.133</span>
+<span class="co">#&gt;  4     4    10 2314874  950.   157     329       0.135</span>
+<span class="co">#&gt;  5     4    20 2067967  910.   151     339       0.149</span>
+<span class="co">#&gt;  6     4    30 1878983  873.   147     344       0.160</span>
+<span class="co">#&gt;  7     6    10 2084841  971.   146     321       0.149</span>
+<span class="co">#&gt;  8     6    20 1790136  900.   132     329       0.165</span>
+<span class="co">#&gt;  9     6    30 1553676  833.   124     337       0.181</span>
+<span class="co">#&gt; 10     8    10 1929926  985.   142     329       0.168</span>
+<span class="co">#&gt; 11     8    20 1651370  922.   126     339       0.189</span>
+<span class="co">#&gt; 12     8    30 1417918  842.   116     351       0.209</span>
+<span class="co">#&gt; 13    10    10 1771837 1009.   139     316       0.180</span>
+<span class="co">#&gt; 14    10    20 1457726  911.   118     323       0.202</span>
+<span class="co">#&gt; 15    10    30 1323807  876.   112.    336       0.222</span>
 <span class="co"># if you have your own delta function you can enter it as an argument i.e.</span>
 <span class="co"># delta_fun &lt;- your_delta_function</span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+</div>
+<div id="optimum-ers-oder" class="section level2">
+<h2 class="hasAnchor">
+<a href="#optimum-ers-oder" class="anchor"></a>Optimum ERs (ODER)</h2>
+<p>Once we have the ers_delta we can get the optimum ERs by seeing which one has the combination of the smallest median exon delta (represents the overall accuracy of all ER definitions) and the least number of ERs with exon delta equal to 0 (indicates the extent to which ER definitions precisely match overlapping exon boundaries).</p>
+<p>Passing our ERs and the ERs delta into <code>get_opt_ers</code> will give us the optimum ERs, the ideal MCC and MRG and the various deltas.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># get the opt_ers</span>
 <span class="va">opt_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_opt_ers.html">get_opt_ers</a></span><span class="op">(</span>ers <span class="op">=</span> <span class="va">ers</span>, ers_delta <span class="op">=</span> <span class="va">ers_delta</span><span class="op">)</span>
-<span class="co">#&gt; [1] "2021-07-25 16:42:04 - Obtaining optimal set of ERs..."</span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># visualise the spread of mccs and mrgs</span>
-<span class="va">opt_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_ers.html">plot_ers</a></span><span class="op">(</span>ers_delta <span class="op">=</span> <span class="va">ers_delta</span>, opt_mcc_mrg <span class="op">=</span> <span class="va">opt_ers</span><span class="op">[[</span><span class="st">"opt_mcc_mrg"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="co">#&gt; [1] "2021-08-24 18:12:25 - Obtaining optimal set of ERs..."</span></code></pre></div>
+</div>
+<div id="select-the-junctions-annotater" class="section level2">
+<h2 class="hasAnchor">
+<a href="#select-the-junctions-annotater" class="anchor"></a>Select the junctions (annotatER)</h2>
+<p>Once we have the opt_ers, we want to further improve them by finding overlapping junctions. <code>ODER</code> contains a small extract of lung junctions from GTEx which is used below. The junctions used in <code>get_junctions</code> should be from the same tissues as your ERs.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">junctions</span> <span class="op">&lt;-</span> <span class="va">lung_junc_21_22</span>
 
-<span class="va">opt_plots</span></code></pre></div>
-<p><img src="ODERflow_files/figure-html/plot_ers-1.png" width="700"></p>
-<pre><code>#&gt; [1] "2021-07-25 16:42:05 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#&gt; [1] "2021-07-25 16:42:05 - Importing gtf/gff3 as a TxDb..."
-#&gt; Import genomic features from the file as a GRanges object ... OK
-#&gt; Prepare the 'metadata' data frame ... OK
-#&gt; Make the TxDb object ...
-#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
-#&gt;   stop_codon. This information was ignored.
-#&gt; OK
-#&gt; [1] "2021-07-25 16:43:20 - Getting junction annotation using overlapping exons..."
-#&gt; [1] "2021-07-25 16:43:22 - Tidying junction annotation..."
-#&gt; [1] "2021-07-25 16:43:23 - Deriving junction categories..."
-#&gt; [1] "2021-07-25 16:43:26 - done!"
-#&gt; [1] "2021-07-25 16:43:26 - Finding junctions overlapping ers..."
-#&gt; [1] "2021-07-25 16:43:56 - Generating a genomic state..."
-#&gt; Import genomic features from the file as a GRanges object ... OK
-#&gt; Prepare the 'metadata' data frame ... OK
-#&gt; Make the TxDb object ...
-#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
-#&gt;   stop_codon. This information was ignored.
-#&gt; OK
-#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
-#&gt;   stop_codon. This information was ignored.
-#&gt; extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens
-#&gt; 'select()' returned 1:1 mapping between keys and columns
-#&gt; 2021-07-25 16:45:38 annotateRegions: counting
-#&gt; 2021-07-25 16:45:38 annotateRegions: annotating
-#&gt; GRanges object with 5603 ranges and 4 metadata columns:
-#&gt;          seqnames            ranges strand |
-#&gt;             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; |
-#&gt;      [1]    chr21   5116356-5117231      * |
-#&gt;      [2]    chr21   5117368-5117396      * |
-#&gt;      [3]    chr21   5118691-5118847      * |
-#&gt;      [4]    chr21   5120950-5120951      * |
-#&gt;      [5]    chr21   5121718-5121803      * |
-#&gt;      ...      ...               ...    ... .
-#&gt;   [5599]    chr22          50799218      * |
-#&gt;   [5600]    chr22 50799806-50799859      * |
-#&gt;   [5601]    chr22 50800110-50800180      * |
-#&gt;   [5602]    chr22 50800439-50800575      * |
-#&gt;   [5603]    chr22 50800678-50800681      * |
-#&gt;                                                                                        grl
-#&gt;                                                                              &lt;GRangesList&gt;
-#&gt;      [1]       chr21:5026423-5323718:+,chr21:5075464-5140960:+,chr21:5105364-5142531:-,...
-#&gt;      [2]       chr21:5026423-5323718:+,chr21:5075464-5140960:+,chr21:5105364-5142531:-,...
-#&gt;      [3]       chr21:5026423-5323718:+,chr21:5075464-5140960:+,chr21:5105364-5142531:-,...
-#&gt;      [4]       chr21:5026423-5323718:+,chr21:5075464-5140960:+,chr21:5105364-5142531:-,...
-#&gt;      [5]       chr21:5026423-5323718:+,chr21:5075464-5140960:+,chr21:5105364-5142531:-,...
-#&gt;      ...                                                                               ...
-#&gt;   [5599]     chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-
-#&gt;   [5600] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...
-#&gt;   [5601] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...
-#&gt;   [5602] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...
-#&gt;   [5603] chr22:50363416-50804892:-,chr22:50460674-50807396:+,chr22:50770378-50805745:-,...
-#&gt;                                                    genes  annotation  og_index
-#&gt;                                          &lt;CharacterList&gt; &lt;character&gt; &lt;integer&gt;
-#&gt;      [1] ENSG00000275464,ENSG00000280071,ENSG00000276612        exon         1
-#&gt;      [2] ENSG00000275464,ENSG00000280071,ENSG00000276612      intron         2
-#&gt;      [3] ENSG00000275464,ENSG00000280071,ENSG00000276612        exon         3
-#&gt;      [4] ENSG00000275464,ENSG00000280071,ENSG00000276612        exon         4
-#&gt;      [5] ENSG00000275464,ENSG00000280071,ENSG00000276612        exon         5
-#&gt;      ...                                             ...         ...       ...
-#&gt;   [5599]                                                        exon      5599
-#&gt;   [5600]                                                        exon      5600
-#&gt;   [5601]                                                        exon      5601
-#&gt;   [5602]                                                        exon      5602
-#&gt;   [5603]                                                        exon      5603
-#&gt;   -------
-#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
-<pre><code>#&gt; [1] "2021-07-25 16:45:39 - Generating a genomic state..."
+<span class="va">ann_opt_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_junctions.html">get_junctions</a></span><span class="op">(</span>opt_ers <span class="op">=</span> <span class="va">opt_ers</span><span class="op">[[</span><span class="st">"opt_ers"</span><span class="op">]</span><span class="op">]</span>, junc_data <span class="op">=</span> <span class="va">junctions</span>, gtf_path <span class="op">=</span> <span class="va">gtf_path</span><span class="op">)</span>
+<span class="co">#&gt; [1] "2021-08-24 18:12:26 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span>
+<span class="co">#&gt; [1] "2021-08-24 18:12:26 - Importing gtf/gff3 as a TxDb..."</span>
+<span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span>
+<span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span>
+<span class="co">#&gt; Make the TxDb object ...</span>
+<span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span>
+<span class="co">#&gt;   stop_codon. This information was ignored.</span>
+<span class="co">#&gt; OK</span>
+<span class="co">#&gt; [1] "2021-08-24 18:13:45 - Getting junction annotation using overlapping exons..."</span>
+<span class="co">#&gt; [1] "2021-08-24 18:13:46 - Tidying junction annotation..."</span>
+<span class="co">#&gt; [1] "2021-08-24 18:13:46 - Deriving junction categories..."</span>
+<span class="co">#&gt; [1] "2021-08-24 18:13:47 - done!"</span>
+<span class="co">#&gt; [1] "2021-08-24 18:13:47 - Finding junctions overlapping ers..."</span></code></pre></div>
+</div>
+<div id="generate-a-genomic-state-annotater" class="section level2">
+<h2 class="hasAnchor">
+<a href="#generate-a-genomic-state-annotater" class="anchor"></a>Generate a Genomic State (annotatER)</h2>
+<p>We then convert a gtf file or a Txdb into a genomic state so that we can compare it with our expressed regions and use it as a reference point for the annotation.</p>
+<pre><code>#&gt; [1] "2021-08-24 18:14:36 - Generating a genomic state..."
 #&gt; Import genomic features from the file as a GRanges object ... OK
 #&gt; Prepare the 'metadata' data frame ... OK
 #&gt; Make the TxDb object ...
@@ -353,41 +776,55 @@
 #&gt;   stop_codon. This information was ignored.
 #&gt; extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens
 #&gt; 'select()' returned 1:1 mapping between keys and columns</code></pre>
-<pre><code>#&gt; [1] "2021-07-25 16:47:18 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#&gt; [1] "2021-07-25 16:47:18 - Importing gtf/gff3 as a TxDb..."
-#&gt; Import genomic features from the file as a GRanges object ... OK
-#&gt; Prepare the 'metadata' data frame ... OK
-#&gt; Make the TxDb object ...
-#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
-#&gt;   stop_codon. This information was ignored.
-#&gt; OK
-#&gt; [1] "2021-07-25 16:48:30 - Getting junction annotation using overlapping exons..."
-#&gt; [1] "2021-07-25 16:48:32 - Tidying junction annotation..."
-#&gt; [1] "2021-07-25 16:48:32 - Deriving junction categories..."
-#&gt; [1] "2021-07-25 16:48:36 - done!"
-#&gt; [1] "2021-07-25 16:48:36 - Finding junctions overlapping ers..."
-#&gt; [1] "2021-07-25 16:48:59 - Generating a genomic state..."
-#&gt; Import genomic features from the file as a GRanges object ... OK
-#&gt; Prepare the 'metadata' data frame ... OK
-#&gt; Make the TxDb object ...
-#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
-#&gt;   stop_codon. This information was ignored.
-#&gt; OK
-#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type
-#&gt;   stop_codon. This information was ignored.
-#&gt; extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens
-#&gt; 'select()' returned 1:1 mapping between keys and columns
-#&gt; [1] "2021-07-25 16:50:43 - Annotating the Expressed regions..."
-#&gt; 2021-07-25 16:50:43 annotateRegions: counting
-#&gt; 2021-07-25 16:50:43 annotateRegions: annotating
-#&gt; [1] "2021-07-25 16:51:20 - done!"</code></pre>
+</div>
+<div id="using-the-genomic-state-to-annotate-the-ers-annotater" class="section level2">
+<h2 class="hasAnchor">
+<a href="#using-the-genomic-state-to-annotate-the-ers-annotater" class="anchor"></a>Using the genomic state to annotate the ERs (annotatER)</h2>
+<p>Once we have our genomic state, we can use it to annotate each of the expressed regions as either an exon, intron or intergenic.</p>
+<pre><code>#&gt; 2021-08-24 18:16:29 annotateRegions: counting
+#&gt; 2021-08-24 18:16:29 annotateRegions: annotating
+#&gt; GRanges object with 14662 ranges and 4 metadata columns:
+#&gt;           seqnames            ranges strand |           grl           genes
+#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;GRangesList&gt; &lt;CharacterList&gt;
+#&gt;       [1]    chr21   5032176-5032217      * |                              
+#&gt;       [2]    chr21   5033408-5033425      * |                              
+#&gt;       [3]    chr21   5034717-5034756      * |                              
+#&gt;       [4]    chr21   5035188-5035189      * |                              
+#&gt;       [5]    chr21   5036577-5036581      * |                              
+#&gt;       ...      ...               ...    ... .           ...             ...
+#&gt;   [14658]    chr22 50798779-50798835      * |                              
+#&gt;   [14659]    chr22 50798884-50799149      * |                              
+#&gt;   [14660]    chr22 50799209-50799284      * |                              
+#&gt;   [14661]    chr22 50799669-50799744      * |                              
+#&gt;   [14662]    chr22 50800460-50800587      * |                              
+#&gt;            annotation  og_index
+#&gt;           &lt;character&gt; &lt;integer&gt;
+#&gt;       [1]        exon         1
+#&gt;       [2]        exon         2
+#&gt;       [3]        exon         3
+#&gt;       [4]        exon         4
+#&gt;       [5]        exon         5
+#&gt;       ...         ...       ...
+#&gt;   [14658]        exon     14658
+#&gt;   [14659]        exon     14659
+#&gt;   [14660]        exon     14660
+#&gt;   [14661]        exon     14661
+#&gt;   [14662]        exon     14662
+#&gt;   -------
+#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+</div>
+<div id="refining-the-ers-annotater" class="section level2">
+<h2 class="hasAnchor">
+<a href="#refining-the-ers-annotater" class="anchor"></a>Refining the ERs (annotatER)</h2>
+<p>Once we have the ERs annotated and the overlapping junctions we are able to use those junctions to get a better definition of the ERs boundaries. As we are looking to discover novel exons, we filter for ERs that were annotated as intronic or intergenic and because we want well defined boundaries we only look at ERs that overlap with a maximum of two junctions and if it is two junctions, that those junctions themselves do not overlap.</p>
+</div>
 </div>
 <div id="reproducibility" class="section level1">
 <h1 class="hasAnchor">
 <a href="#reproducibility" class="anchor"></a>Reproducibility</h1>
 <p>This package was developed using <em><a href="https://bioconductor.org/packages/3.12/biocthis">biocthis</a></em>.</p>
 <p>Code for creating the vignette</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Create the vignette</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rstudio/rmarkdown">"rmarkdown"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/rmarkdown/man/render.html">render</a></span><span class="op">(</span><span class="st">"ODER.Rmd"</span>, <span class="st">"BiocStyle::html_document"</span><span class="op">)</span><span class="op">)</span>
@@ -396,9 +833,9 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/">"knitr"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html">knit</a></span><span class="op">(</span><span class="st">"ODER.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code>#&gt; [1] "2021-07-25 16:51:20 UTC"</code></pre>
+<pre><code>#&gt; [1] "2021-08-24 18:19:22 UTC"</code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code>#&gt; Time difference of 10.489 mins</code></pre>
+<pre><code>#&gt; Time difference of 18.006 mins</code></pre>
 <p><code>R</code> session information.</p>
 <pre><code>#&gt; ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt;  setting  value                       
@@ -410,7 +847,7 @@
 #&gt;  collate  en_US.UTF-8                 
 #&gt;  ctype    en_US.UTF-8                 
 #&gt;  tz       Etc/UTC                     
-#&gt;  date     2021-07-25                  
+#&gt;  date     2021-08-24                  
 #&gt; 
 #&gt; ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt;  package              * version  date       lib source        
@@ -445,6 +882,7 @@
 #&gt;  checkmate              2.0.0    2020-02-06 [1] RSPM (R 4.0.3)
 #&gt;  cli                    2.3.0    2021-01-31 [2] RSPM (R 4.0.3)
 #&gt;  cluster                2.1.1    2021-02-14 [3] RSPM (R 4.0.3)
+#&gt;  cmdfun                 1.0.2    2020-10-10 [1] RSPM (R 4.0.2)
 #&gt;  codetools              0.2-18   2020-11-04 [3] RSPM (R 4.0.3)
 #&gt;  colorspace             2.0-0    2020-11-11 [1] RSPM (R 4.0.3)
 #&gt;  cowplot                1.1.1    2020-12-30 [1] RSPM (R 4.0.3)
@@ -458,6 +896,7 @@
 #&gt;  derfinder              1.24.2   2020-12-18 [1] Bioconductor  
 #&gt;  derfinderHelper        1.24.1   2020-12-18 [1] Bioconductor  
 #&gt;  desc                   1.2.0    2018-05-01 [2] RSPM (R 4.0.3)
+#&gt;  diffobj                0.3.3    2021-01-07 [2] RSPM (R 4.0.3)
 #&gt;  digest                 0.6.27   2020-10-24 [2] RSPM (R 4.0.3)
 #&gt;  doRNG                  1.8.2    2020-01-27 [1] RSPM (R 4.0.3)
 #&gt;  downloader             0.4      2015-07-09 [1] RSPM (R 4.0.3)
@@ -475,7 +914,7 @@
 #&gt;  fs                     1.5.0    2020-07-31 [2] RSPM (R 4.0.3)
 #&gt;  generics               0.1.0    2020-10-31 [1] RSPM (R 4.0.3)
 #&gt;  GenomeInfoDb         * 1.26.7   2021-04-08 [1] Bioconductor  
-#&gt;  GenomeInfoDbData       1.2.4    2021-07-25 [1] Bioconductor  
+#&gt;  GenomeInfoDbData       1.2.4    2021-08-24 [1] Bioconductor  
 #&gt;  GenomicAlignments      1.26.0   2020-10-27 [1] Bioconductor  
 #&gt;  GenomicFeatures        1.42.3   2021-04-01 [1] Bioconductor  
 #&gt;  GenomicFiles           1.26.0   2020-10-27 [1] Bioconductor  
@@ -512,21 +951,26 @@
 #&gt;  Matrix                 1.3-2    2021-01-06 [3] RSPM (R 4.0.3)
 #&gt;  MatrixGenerics         1.2.1    2021-01-30 [1] Bioconductor  
 #&gt;  matrixStats            0.58.0   2021-01-29 [1] RSPM (R 4.0.3)
+#&gt;  megadepth              1.0.3    2021-02-03 [1] Bioconductor  
 #&gt;  memoise                2.0.0    2021-01-26 [2] RSPM (R 4.0.3)
 #&gt;  munsell                0.5.0    2018-06-12 [1] RSPM (R 4.0.3)
 #&gt;  nnet                   7.3-15   2021-01-24 [3] RSPM (R 4.0.3)
-#&gt;  ODER                 * 0.99.8   2021-07-25 [1] Bioconductor  
+#&gt;  ODER                 * 0.99.8   2021-08-24 [1] Bioconductor  
 #&gt;  openssl                1.4.3    2020-09-18 [2] RSPM (R 4.0.3)
 #&gt;  openxlsx               4.2.3    2020-10-27 [1] RSPM (R 4.0.3)
 #&gt;  pillar                 1.4.7    2020-11-20 [2] RSPM (R 4.0.3)
 #&gt;  pkgconfig              2.0.3    2019-09-22 [2] RSPM (R 4.0.3)
 #&gt;  pkgdown                1.6.1    2020-09-12 [1] RSPM (R 4.0.2)
+#&gt;  pkgload                1.1.0    2020-05-29 [2] RSPM (R 4.0.3)
 #&gt;  plyr                   1.8.6    2020-03-03 [1] RSPM (R 4.0.3)
 #&gt;  png                    0.1-7    2013-12-03 [1] RSPM (R 4.0.3)
 #&gt;  prettyunits            1.1.1    2020-01-24 [2] RSPM (R 4.0.3)
 #&gt;  progress               1.2.2    2019-05-16 [1] RSPM (R 4.0.3)
 #&gt;  purrr                  0.3.4    2020-04-17 [2] RSPM (R 4.0.3)
 #&gt;  qvalue                 2.22.0   2020-10-27 [1] Bioconductor  
+#&gt;  R.methodsS3            1.8.1    2020-08-26 [1] RSPM (R 4.0.3)
+#&gt;  R.oo                   1.24.0   2020-08-26 [1] RSPM (R 4.0.3)
+#&gt;  R.utils                2.10.1   2020-08-26 [1] RSPM (R 4.0.3)
 #&gt;  R6                     2.5.0    2020-10-28 [2] RSPM (R 4.0.3)
 #&gt;  ragg                   1.1.0    2021-02-15 [1] RSPM (R 4.0.3)
 #&gt;  rappdirs               0.3.3    2021-01-31 [2] RSPM (R 4.0.3)
@@ -537,6 +981,7 @@
 #&gt;  readxl                 1.3.1    2019-03-13 [1] RSPM (R 4.0.3)
 #&gt;  recount                1.16.1   2020-12-18 [1] Bioconductor  
 #&gt;  RefManageR           * 1.3.0    2020-11-13 [1] RSPM (R 4.0.3)
+#&gt;  rematch2               2.1.2    2020-05-01 [2] RSPM (R 4.0.3)
 #&gt;  rentrez                1.2.3    2020-11-10 [1] RSPM (R 4.0.3)
 #&gt;  reshape2               1.4.4    2020-04-09 [1] RSPM (R 4.0.3)
 #&gt;  reticulate             1.18     2020-10-25 [1] RSPM (R 4.0.3)
@@ -559,6 +1004,7 @@
 #&gt;  SummarizedExperiment   1.20.0   2020-10-27 [1] Bioconductor  
 #&gt;  survival               3.2-7    2020-09-28 [3] CRAN (R 4.0.3)
 #&gt;  systemfonts            1.0.1    2021-02-09 [1] RSPM (R 4.0.3)
+#&gt;  testthat               3.0.2    2021-02-14 [2] RSPM (R 4.0.3)
 #&gt;  textshaping            0.3.0    2021-02-10 [1] RSPM (R 4.0.3)
 #&gt;  tibble                 3.0.6    2021-01-29 [2] RSPM (R 4.0.3)
 #&gt;  tidyr                  1.1.2    2020-08-27 [1] RSPM (R 4.0.3)
@@ -566,6 +1012,7 @@
 #&gt;  utf8                   1.1.4    2018-05-24 [2] RSPM (R 4.0.3)
 #&gt;  VariantAnnotation      1.36.0   2020-10-27 [1] Bioconductor  
 #&gt;  vctrs                  0.3.6    2020-12-17 [2] RSPM (R 4.0.3)
+#&gt;  waldo                  0.2.4    2021-02-11 [2] RSPM (R 4.0.3)
 #&gt;  withr                  2.4.1    2021-01-26 [2] RSPM (R 4.0.3)
 #&gt;  xfun                   0.21     2021-02-10 [2] RSPM (R 4.0.3)
 #&gt;  XML                    3.99-0.5 2020-07-23 [1] RSPM (R 4.0.3)
