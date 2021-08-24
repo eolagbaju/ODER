@@ -18,9 +18,11 @@ Authors@R:
            email = "siddharth.sethi@astx.com"))
 Description: The aim of ODER is to identify previously unannotated expressed 
     regions (ERs) using RNA-sequencing data. For this purpose, ODER defines and 
-    optimises the definition of ERs, then connected these ERs to genes. In this 
-    way, ODER improves gene annotation which can enable user's to better 
-    interpret disease associated genetic variation.
+    optimises the definition of ERs, then connected these ERs to genes using 
+    junction data. In this way, ODER improves gene annotation. Gene annotation 
+    is a staple input of many bioinformatic pipelines and a more complete gene 
+    annotation can enable more accurate interpretation of disease associated 
+    variants. 
 License: Artistic-2.0
 URL: https://github.com/eolagbaju/ODER
 BugReports: https://support.bioconductor.org/t/ODER
