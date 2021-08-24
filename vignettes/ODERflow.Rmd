@@ -106,7 +106,7 @@ BiocManager::install("eolagbaju/ODER")
 This is a basic example to show how you can use ODER, for reproducibility everything used in this vignette can either be found online or is contained in ODER. First, we need to download the data and information needed to run ODER:
 
 ```{r load_data, eval = requireNamespace('ODER')}
-# library("ODER")
+library("ODER")
 library("magrittr")
 # loading in RNA seq data to run ODER on
 gtex_metadata <- recount::all_metadata("gtex")
@@ -278,7 +278,6 @@ Once we have the opt_ers, we want to further improve them by finding overlapping
 
 ```{r get_junctions}
 junctions <- lung_junc_21_22
-GenomeInfoDb::seqlevelsStyle(junctions) <- "NCBI"
 
 ann_opt_ers <- get_junctions(opt_ers = opt_ers[["opt_ers"]], junc_data = junctions, gtf_path = gtf_path)
 ```
@@ -320,7 +319,7 @@ Once we have the ERs annotated and the overlapping junctions we are able to use 
 
 ```{r refine_ERs, echo=FALSE}
 
-annot_ers <- annot_ers[S4Vectors::mcols(annot_ers)[["annotation"]] %in% c("intron", "intergenic")]
+annot_ers <- ann_opt_ers[S4Vectors::mcols(ann_opt_ers)[["annotation"]] %in% c("intron", "intergenic")]
 annot_ers <- annot_ers[lengths(S4Vectors::mcols(annot_ers)[["grl"]]) == 2 |
     lengths(S4Vectors::mcols(annot_ers)[["grl"]]) == 1]
 
