@@ -9,44 +9,55 @@
 #'
 #' @inheritParams get_junctions
 #' @inheritParams generate_genomic_state
-#'
+#' @param genom_state a genomic state object
 #' @return annotated ERs
 #' @export
 #'
 #' @examples
 #' \dontshow{
-#' url <- recount::download_study(
-#'     project = "SRP012682",
-#'     type = "samples",
-#'     download = FALSE
-#' ) # .file_cache is an internal function to download a bigwig file from a link
-#' # if the file has been downloaded recently, it will be retrieved from a cache
-#'
-#' bw_path <- ODER:::.file_cache(url[1])
-#' gtf_url <- paste0(
-#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#' )
-#' gtf_path <- ODER:::.file_cache(gtf_url)
+#' if (!exists("rec_url")) {
+#'     rec_url <- recount::download_study(
+#'         project = "SRP012682",
+#'         type = "samples",
+#'         download = FALSE
+#'     ) # .file_cache downloads a bigwig file from a link
+#'     # if the file has been downloaded recently, it will be retrieved from a cache
 #' }
-#'
-#' opt_ers <- ODER(
-#'     bw_paths = bw_path, auc_raw = auc_example,
-#'     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-#'     genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
-#'     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-#'     exons_no_overlap = NULL, bw_chr = "chr"
-#' )
-#'
+#' bw_path <- .file_cache(rec_url[1])
+#' if (!exists("gtf_path")) {
+#'     gtf_url <- paste0(
+#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#'     )
+#'     gtf_path <- .file_cache(gtf_url)
+#' }
+#' }
+#' if (!exists("opt_ers1")) {
+#'     opt_ers1 <- ODER(
+#'         bw_paths = bw_path, auc_raw = auc_example,
+#'         auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
+#'         genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
+#'         gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+#'         exons_no_overlap = NULL, bw_chr = "chr"
+#'     )
+#' }
+#' if (!exists("genom_state")) {
+#'     genom_state <- generate_genomic_state(
+#'         gtf = gtf_path,
+#'         chrs_to_keep = c("1", "2", "X"), ensembl = TRUE
+#'     )
+#' }
 #' junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
-#' annot_ers <- annotatERs(
-#'     opt_ers = opt_ers[["opt_ers"]], junc_data = junctions,
-#'     gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
-#' )
-#'
-#' annot_ers
-annotatERs <- function(opt_ers, junc_data, gtf_path, txdb = NULL,
-    chrs_to_keep = c(1:22, "X", "Y", "MT"),
+#' if (!exists("annot_ers1")) {
+#'     annot_ers1 <- annotatERs(
+#'         opt_ers = head(opt_ers1[["opt_ers"]], 100), junc_data = junctions,
+#'         gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE,
+#'         genom_state = genom_state
+#'     )
+#' }
+#' annot_ers1
+annotatERs <- function(opt_ers, junc_data, gtf_path, # txdb = NULL,
+    chrs_to_keep = c(1:22, "X", "Y", "MT"), genom_state,
     ensembl = TRUE) {
     ann_opt_ers <- get_junctions(
         opt_ers = opt_ers, junc_data = junc_data,
@@ -54,11 +65,11 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, txdb = NULL,
     )
 
 
-    genom_state <- generate_genomic_state(
-        gtf = gtf_path, txdb = txdb,
-        chrs_to_keep = informatting2(chrs_to_keep),
-        ensembl = ensembl
-    )
+    # genom_state <- generate_genomic_state(
+    #     gtf = gtf_path, txdb = txdb,
+    #     chrs_to_keep = informatting2(chrs_to_keep),
+    #     ensembl = ensembl
+    # )
     print(stringr::str_c(Sys.time(), " - Annotating the Expressed regions..."))
     annot_ers <- derfinder::annotateRegions(
         regions = ann_opt_ers,
@@ -125,15 +136,16 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, txdb = NULL,
 #'
 #' @examples
 #' \dontshow{
-#' gtf_url <- paste0(
-#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#' )
-#' # .file_cache is an internal function to download a bigwig file from a link
-#' # if the file has been downloaded recently, it will be retrieved from a cache
-#' gtf_path <- ODER:::.file_cache(gtf_url)
+#' if (!exists("gtf_path")) {
+#'     gtf_url <- paste0(
+#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#'     )
+#'     # .file_cache is an internal function to download a bigwig file from a link
+#'     # if the file has been downloaded recently, it will be retrieved from a cache
+#'     gtf_path <- .file_cache(gtf_url)
 #' }
-#'
+#' }
 #' example_ers <- GenomicRanges::GRanges(
 #'     seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(10, 1)),
 #'     ranges = IRanges::IRanges(
@@ -218,8 +230,9 @@ get_junctions <- function(opt_ers, junc_data, gtf_path) {
 
 #' Generating a genomic state object from Txdb or gtf
 #'
-#' \code{generate_genomic_state} takes txdb object or a gtf file and makes a
-#' genomic state to be used in the annotation of the expressed regions
+#' \code{generate_genomic_state} takes txdb object ([TxDb-class][GenomicFeatures::TxDb-class])
+#'  or a gtf file and makes a genomic state to be used in the annotation of the
+#'  expressed regions
 #'
 #' @param txdb txdb object, if one is not entered a gtf file needs to be
 #' @param chrs_to_keep chromosomes to keep in genomic state (in NCBI format i.e.
@@ -235,13 +248,15 @@ get_junctions <- function(opt_ers, junc_data, gtf_path) {
 #'
 #' @examples
 #' \dontshow{
-#' gtf_url <- paste0(
-#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#' )
-#' # .file_cache is an internal function to download a bigwig file from a link
-#' # if the file has been downloaded recently, it will be retrieved from a cache
-#' gtf_path <- ODER:::.file_cache(gtf_url)
+#' if (!exists("gtf_path")) {
+#'     gtf_url <- paste0(
+#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#'     )
+#'     # .file_cache is an internal function to download a bigwig file from a link
+#'     # if the file has been downloaded recently, it will be retrieved from a cache
+#'     gtf_path <- .file_cache(gtf_url)
+#' }
 #' }
 #' genom_state <- generate_genomic_state(
 #'     gtf = gtf_path,

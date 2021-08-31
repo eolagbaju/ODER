@@ -27,18 +27,21 @@ ensembl, the default is true}
 a genomic state
 }
 \description{
-\code{generate_genomic_state} takes txdb object or a gtf file and makes a
-genomic state to be used in the annotation of the expressed regions
+\code{generate_genomic_state} takes txdb object (\link[GenomicFeatures:TxDb-class]{TxDb-class})
+or a gtf file and makes a genomic state to be used in the annotation of the
+expressed regions
 }
 \examples{
 \dontshow{
-gtf_url <- paste0(
-    "http://ftp.ensembl.org/pub/release-103/gtf/",
-    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-)
-# .file_cache is an internal function to download a bigwig file from a link
-# if the file has been downloaded recently, it will be retrieved from a cache
-gtf_path <- ODER:::.file_cache(gtf_url)
+if (!exists("gtf_path")) {
+    gtf_url <- paste0(
+        "http://ftp.ensembl.org/pub/release-103/gtf/",
+        "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+    )
+    # .file_cache is an internal function to download a bigwig file from a link
+    # if the file has been downloaded recently, it will be retrieved from a cache
+    gtf_path <- .file_cache(gtf_url)
+}
 }
 genom_state <- generate_genomic_state(
     gtf = gtf_path,

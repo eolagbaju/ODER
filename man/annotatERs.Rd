@@ -9,8 +9,8 @@ annotatERs(
   opt_ers,
   junc_data,
   gtf_path,
-  txdb = NULL,
   chrs_to_keep = c(1:22, "X", "Y", "MT"),
+  genom_state,
   ensembl = TRUE
 )
 }
@@ -21,10 +21,10 @@ annotatERs(
 
 \item{gtf_path}{a gtf file with exon data}
 
-\item{txdb}{txdb object, if one is not entered a gtf file needs to be}
-
 \item{chrs_to_keep}{chromosomes to keep in genomic state (in NCBI format i.e.
 1,2,3...22,X,Y,MT)}
+
+\item{genom_state}{a genomic state object}
 
 \item{ensembl}{logical variable to say whether the gtf file entered is from
 ensembl, the default is true}
@@ -40,34 +40,45 @@ exonic, intronic, intergenic on none
 }
 \examples{
 \dontshow{
-url <- recount::download_study(
-    project = "SRP012682",
-    type = "samples",
-    download = FALSE
-) # .file_cache is an internal function to download a bigwig file from a link
-# if the file has been downloaded recently, it will be retrieved from a cache
-
-bw_path <- ODER:::.file_cache(url[1])
-gtf_url <- paste0(
-    "http://ftp.ensembl.org/pub/release-103/gtf/",
-    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-)
-gtf_path <- ODER:::.file_cache(gtf_url)
+if (!exists("rec_url")) {
+    rec_url <- recount::download_study(
+        project = "SRP012682",
+        type = "samples",
+        download = FALSE
+    ) # .file_cache downloads a bigwig file from a link
+    # if the file has been downloaded recently, it will be retrieved from a cache
 }
-
-opt_ers <- ODER(
-    bw_paths = bw_path, auc_raw = auc_example,
-    auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-    genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
-    gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-    exons_no_overlap = NULL, bw_chr = "chr"
-)
-
+bw_path <- .file_cache(rec_url[1])
+if (!exists("gtf_path")) {
+    gtf_url <- paste0(
+        "http://ftp.ensembl.org/pub/release-103/gtf/",
+        "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+    )
+    gtf_path <- .file_cache(gtf_url)
+}
+}
+if (!exists("opt_ers1")) {
+    opt_ers1 <- ODER(
+        bw_paths = bw_path, auc_raw = auc_example,
+        auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
+        genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
+        gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+        exons_no_overlap = NULL, bw_chr = "chr"
+    )
+}
+if (!exists("genom_state")) {
+    genom_state <- generate_genomic_state(
+        gtf = gtf_path,
+        chrs_to_keep = c("1", "2", "X"), ensembl = TRUE
+    )
+}
 junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
-annot_ers <- annotatERs(
-    opt_ers = opt_ers[["opt_ers"]], junc_data = junctions,
-    gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
-)
-
-annot_ers
+if (!exists("annot_ers1")) {
+    annot_ers1 <- annotatERs(
+        opt_ers = head(opt_ers1[["opt_ers"]], 100), junc_data = junctions,
+        gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE,
+        genom_state = genom_state
+    )
+}
+annot_ers1
 }
