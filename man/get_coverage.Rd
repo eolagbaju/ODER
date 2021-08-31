@@ -2,7 +2,7 @@
 % Please edit documentation in R/get-coverage.R
 \name{get_coverage}
 \alias{get_coverage}
-\title{Generating the mean coverage of the expressed regions}
+\title{Obtain the mean coverage across multiple BigWig files}
 \usage{
 get_coverage(
   bw_paths,
@@ -20,13 +20,13 @@ coverage of.}
 \item{auc_raw}{vector containing AUCs(Area Under Coverage) matching the order
 of bigwig paths.}
 
-\item{auc_target}{total AUC to normalise all samples to e.g. 40e6 * 100
-would be the estimated total auc for sample sequenced to 40 million reads
-of 100bp in length.}
+\item{auc_target}{total AUC to normalise all samples to e.g. 40e6 * 100 would
+be the estimated total auc for sample sequenced to 40 million reads of
+100bp in length.}
 
 \item{chrs}{chromosomes to obtain mean coverage for, default is "" giving
-every chromosome. Can take UCSC format(chrs = "chr1")
-or just the chromosome i.e. chrs = c(1,X)}
+every chromosome. Can take UCSC format(chrs = "chr1") or just the
+chromosome i.e. chrs = c(1,X)}
 
 \item{genome}{the UCSC genome you want to use, the default is hg38.}
 
@@ -38,9 +38,8 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 a list of Rles detailing the mean coverage per chromosome passed in.
 }
 \description{
-\code{get_coverage} returns the mean coverage of the RNA sequencing data
-passed in. The data should be passed in via the file path(s) to a Bigwig file/
-Bigwig files
+\code{get_coverage} returns the mean coverage of the BigWig files passed in.
+Internally, this operates through \code{derfinder::loadCoverage}.
 }
 \examples{
 \dontshow{

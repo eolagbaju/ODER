@@ -5,7 +5,7 @@
 #' info as metadata columns. Then, uses a `gtf` file or a `Txdb` passed in to
 #' generate a genomic state used to label each ER as to whether they are exonic,
 #' intronic, intergenic or none.
-#' 
+#'
 #' @inheritParams get_junctions
 #' @inheritParams generate_genomic_state
 #' @param genom_state a genomic state object
@@ -223,14 +223,11 @@ get_junctions <- function(opt_ers, junc_data, gtf_path) {
 
 #' Generating a genomic state object from Txdb or gtf
 #'
-<<<<<<< HEAD
 #' \code{generate_genomic_state} takes txdb object ([TxDb-class][GenomicFeatures::TxDb-class])
 #'  or a gtf file and makes a genomic state to be used in the annotation of the
 #'  expressed regions
-=======
 #' \code{generate_genomic_state} takes Txdb object or a gtf file and makes a
 #' genomic state to be used in the annotation of the expressed regions
->>>>>>> d1452c67638704ee0b51a1cd5dbd3dcff3593cf9
 #'
 #' @param txdb txdb object, if one is not entered a gtf file needs to be
 #' @param chrs_to_keep chromosomes to keep in genomic state (in NCBI format i.e.

@@ -3,7 +3,7 @@
 \docType{data}
 \name{coverage_example}
 \alias{coverage_example}
-\title{An example coverage}
+\title{An example object containing coverage}
 \format{
 A list of length 2 containing 2 Rles for chromosomes 21 and 22 respectively
 }
@@ -14,7 +14,7 @@ See example.R in data-raw
 coverage_example
 }
 \description{
-An example coverage generated for a user to try out the package and
+Coverage generated for a user to try out the package and
 to pass in for tests. Coverage of chromosomes 21 and 22 from the project
 SRP012682.
 }

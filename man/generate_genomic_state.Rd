@@ -30,6 +30,8 @@ a genomic state
 \code{generate_genomic_state} takes txdb object (\link[GenomicFeatures:TxDb-class]{TxDb-class})
 or a gtf file and makes a genomic state to be used in the annotation of the
 expressed regions
+\code{generate_genomic_state} takes Txdb object or a gtf file and makes a
+genomic state to be used in the annotation of the expressed regions
 }
 \examples{
 \dontshow{

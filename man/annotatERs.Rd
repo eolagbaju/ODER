@@ -2,8 +2,8 @@
 % Please edit documentation in R/annotatER.R
 \name{annotatERs}
 \alias{annotatERs}
-\title{Finds overlapping junctions and annotates ERs as exonic, intronic, intergenic,
-some combination or none of those}
+\title{Connects ERs to genes using junction data, then classifies ERs into "exonic",
+"intronic", "intergenic", or a combination of these categories}
 \usage{
 annotatERs(
   opt_ers,
@@ -33,10 +33,10 @@ ensembl, the default is true}
 annotated ERs
 }
 \description{
-Looks at junctions passed in to find any overlaps and adds them in along with
-other information as metadata columns. Then uses a gtf file or a Txdb passed
-in to generate a genomic state and then labels each ER as to whether they are
-exonic, intronic, intergenic on none
+Finds the overlap between junctions and ERs, then adds gene info and junction
+info as metadata columns. Then, uses a \code{gtf} file or a \code{Txdb} passed in to
+generate a genomic state used to label each ER as to whether they are exonic,
+intronic, intergenic or none.
 }
 \examples{
 \dontshow{

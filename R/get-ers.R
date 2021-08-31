@@ -15,7 +15,7 @@
 #' @examples
 #' # coverage_example is from the package data folder
 #' eg_ers <- get_ers(coverage = coverage_example, mccs = c(5, 10), mrgs = c(10, 20))
-#' 
+#'
 #' print(eg_ers)
 get_ers <- function(coverage, mccs, mrgs) {
     if (missing(coverage)) {

@@ -7,7 +7,8 @@
 get_ers(coverage, mccs, mrgs)
 }
 \arguments{
-\item{coverage}{the coverage of the bigwig files passed into \code{\link{get_coverage}}.}
+\item{coverage}{the coverage of the bigwig files passed into
+\code{\link{get_coverage}}.}
 
 \item{mccs}{mean coverage cut-offs to apply.}
 

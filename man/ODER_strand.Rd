@@ -32,13 +32,13 @@ of bigwig paths.}
 \item{auc_raw_neg}{vector containing AUCs(Area Under Coverage) matching the order
 of bigwig paths.}
 
-\item{auc_target}{total AUC to normalise all samples to e.g. 40e6 * 100
-would be the estimated total auc for sample sequenced to 40 million reads
-of 100bp in length.}
+\item{auc_target}{total AUC to normalise all samples to e.g. 40e6 * 100 would
+be the estimated total auc for sample sequenced to 40 million reads of
+100bp in length.}
 
 \item{chrs}{chromosomes to obtain mean coverage for, default is "" giving
-every chromosome. Can take UCSC format(chrs = "chr1")
-or just the chromosome i.e. chrs = c(1,X)}
+every chromosome. Can take UCSC format(chrs = "chr1") or just the
+chromosome i.e. chrs = c(1,X)}
 
 \item{genome}{the UCSC genome you want to use, the default is hg38.}
 
