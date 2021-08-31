@@ -24,15 +24,18 @@
 #'
 #' @examples
 #' \dontshow{
-#' url <- recount::download_study(
-#'     project = "SRP012682",
-#'     type = "samples",
-#'     download = FALSE
-#' ) # .file_cache is an internal function to download a bigwig file from a link
-#' # if the file has been downloaded recently, it will be retrieved from a cache
+#' if (!exists("rec_url")) {
+#'     rec_url <- recount::download_study(
+#'         project = "SRP012682",
+#'         type = "samples",
+#'         download = FALSE
+#'     ) # .file_cache is an internal function to download a bigwig file from a link
+#'     # if the file has been downloaded recently, it will be retrieved from a cache
 #'
-#' bw_path <- ODER:::.file_cache(url[1])
+#'     bw_path <- .file_cache(rec_url[1])
 #' }
+#' }
+#'
 #' eg_coverage <- get_coverage(
 #'     bw_paths = bw_path,
 #'     auc_raw = 11872688252,

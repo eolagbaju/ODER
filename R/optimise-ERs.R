@@ -22,21 +22,25 @@
 #'
 #' @examples
 #' \dontshow{
-#' gtf_url <- paste0(
-#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#' )
-#' # .file_cache is an internal function to download a bigwig file from a link
-#' # if the file has been downloaded recently, it will be retrieved from a cache
-#' gtf_path <- ODER:::.file_cache(gtf_url)
+#' if (!exists("gtf_path")) {
+#'     gtf_url <- paste0(
+#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#'     )
+#'     # .file_cache is an internal function to download a bigwig file from a link
+#'     # if the file has been downloaded recently, it will be retrieved from a cache
+#'     gtf_path <- .file_cache(gtf_url)
 #' }
-#' eg_exons_no_overlap <- get_exons(
-#'     gtf = gtf_path,
-#'     ucsc_chr = TRUE,
-#'     ignore.strand = TRUE
-#' )
+#' }
+#' if (!exists("eg_opt_exons")) {
+#'     eg_opt_exons <- get_exons(
+#'         gtf = gtf_path,
+#'         ucsc_chr = TRUE,
+#'         ignore.strand = TRUE
+#'     )
+#' }
 #'
-#' print(eg_exons_no_overlap)
+#' print(eg_opt_exons)
 get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overlapping") {
     if (is.character(gtf)) {
         if (!xor(
@@ -520,26 +524,30 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
 #'
 #' @examples
 #' \dontshow{
-#' gtf_url <- paste0(
-#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#' )
-#' # .file_cache is an internal function to download a bigwig file from a link
-#' # if the file has been downloaded recently, it will be retrieved from a cache
-#' gtf_path <- ODER:::.file_cache(gtf_url)
-#'
-#' eg_opt_exons <- get_exons(
-#'     gtf = gtf_path,
-#'     ucsc_chr = TRUE,
-#'     ignore.strand = TRUE
-#' )
+#' if (!exists("gtf_path")) {
+#'     gtf_url <- paste0(
+#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#'     )
+#'     # .file_cache is an internal function to download a bigwig file from a link
+#'     # if the file has been downloaded recently, it will be retrieved from a cache
+#'     gtf_path <- .file_cache(gtf_url)
 #' }
-#' eg_ers_delta <- get_ers_delta(
-#'     ers = ers_example, # ers_example is from the package data folder
-#'     opt_exons = eg_opt_exons,
-#'     delta_fun = ODER:::.delta
-#' ) # .delta is ODER's default, you can pass in your own if you have one
-#'
+#' if (!exists("eg_opt_exons")) {
+#'     eg_opt_exons <- get_exons(
+#'         gtf = gtf_path,
+#'         ucsc_chr = TRUE,
+#'         ignore.strand = TRUE
+#'     )
+#' }
+#' }
+#' if (!exists("eg_ers_delta")) {
+#'     eg_ers_delta <- get_ers_delta(
+#'         ers = ers_example, # ers_example is from the package data folder
+#'         opt_exons = eg_opt_exons,
+#'         delta_fun = ODER:::.delta
+#'     ) # .delta is ODER's default, you can pass in your own if you have one
+#' }
 #' print(eg_ers_delta)
 get_ers_delta <- function(ers, opt_exons, delta_fun = ODER:::.delta) {
     if (missing(ers)) {
@@ -605,25 +613,30 @@ get_ers_delta <- function(ers, opt_exons, delta_fun = ODER:::.delta) {
 #' @export
 #' @examples
 #' \dontshow{
-#' gtf_url <- paste0(
-#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#' )
-#' gtf_path <- ODER:::.file_cache(gtf_url)
-#' exons_no_overlap <- get_exons(
-#'     gtf = gtf_path,
-#'     ucsc_chr = TRUE,
-#'     ignore.strand = TRUE
-#' )
-#'
-#' ers_delta <- get_ers_delta(
-#'     ers = ers_example, # ers_example is from the package data folder
-#'     opt_exons = exons_no_overlap
-#' )
+#' if (!exists("gtf_path")) {
+#'     gtf_url <- paste0(
+#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#'     )
+#'     gtf_path <- .file_cache(gtf_url)
+#' }
+#' if (!exists("eg_opt_exons")) {
+#'     eg_opt_exons <- get_exons(
+#'         gtf = gtf_path,
+#'         ucsc_chr = TRUE,
+#'         ignore.strand = TRUE
+#'     )
+#' }
+#' if (!exists("eg_ers_delta")) {
+#'     eg_ers_delta <- get_ers_delta(
+#'         ers = ers_example, # ers_example is from the package data folder
+#'         opt_exons = eg_opt_exons
+#'     )
+#' }
 #' }
 #' opt_ers <- get_opt_ers(
 #'     ers = ers_example,
-#'     ers_delta = ers_delta
+#'     ers_delta = eg_ers_delta
 #' )
 #' opt_ers
 get_opt_ers <- function(ers, ers_delta) {

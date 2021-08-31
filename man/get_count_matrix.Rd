@@ -23,52 +23,68 @@ Scores the mean coverage of the expressed regions as a count matrix
 \examples{
 \dontshow{
 library(magrittr)
-gtex_metadata <- recount::all_metadata("gtex")
-gtex_metadata <- gtex_metadata \%>\%
-    as.data.frame() \%>\%
-    dplyr::filter(project == "SRP012682")
+if (!exists("gtex_metadata")) {
+    gtex_metadata <- recount::all_metadata("gtex")
+    gtex_metadata <- gtex_metadata \%>\%
+        as.data.frame() \%>\%
+        dplyr::filter(project == "SRP012682")
+}
+if (!exists("gtf_path")) {
+    gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+    gtf_path <- .file_cache(gtf_url)
+}
+if (!exists("rec_url")) {
+    rec_url <- recount::download_study(
+        project = "SRP012682",
+        type = "samples",
+        download = FALSE
+    ) # .file_cache is an internal function to download a bigwig file from a link
+    # if the file has been downloaded recently, it will be retrieved from a cache
+}
+bw_path <- .file_cache(rec_url[1])
+bw_path2 <- .file_cache(rec_url[6])
 
-gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-gtf_path <- ODER:::.file_cache(gtf_url)
+if (!exists("opt_ers1")) {
+    opt_ers1 <- ODER(
+        bw_paths = bw_path, auc_raw = auc_example,
+        auc_target = 40e6 * 100, chrs = c("chr21"),
+        genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
+        gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+        exons_no_overlap = NULL, bw_chr = "chr"
+    )
+}
+if (!exists("opt_ers6")) {
+    opt_ers6 <- ODER(
+        bw_paths = bw_path2, auc_raw = gtex_metadata[["auc"]][6],
+        auc_target = 40e6 * 100, chrs = c("chr21"),
+        genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
+        gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+        exons_no_overlap = NULL, bw_chr = "chr"
+    )
+}
+test_juncs <- lung_junc_21_22
 
-url <- recount::download_study(
-    project = "SRP012682",
-    type = "samples",
-    download = FALSE
-) # .file_cache is an internal function to download a bigwig file from a link
-# if the file has been downloaded recently, it will be retrieved from a cache
-
-bw_path <- ODER:::.file_cache(url[84])
-bw_path2 <- ODER:::.file_cache(url[91])
-
-opt_ers <- suppressWarnings(ODER(
-    bw_paths = bw_path, auc_raw = gtex_metadata[["auc"]][84],
-    auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-    genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),
-    gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-    exons_no_overlap = NULL, bw_chr = "chr"
-))
-
-opt_ers2 <- suppressWarnings(ODER(
-    bw_paths = bw_path, auc_raw = gtex_metadata[["auc"]][91],
-    auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-    genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),
-    gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-    exons_no_overlap = NULL, bw_chr = "chr"
-))
-
-test_juncs <- SummarizedExperiment::rowRanges(dasper::junctions_example)
-aers <- suppressWarnings(annotatERs(opt_ers[["opt_ers"]],
-    junc_data = test_juncs,
-    gtf_path = gtf_path, ensembl = TRUE
-))
-aers2 <- suppressWarnings(annotatERs(opt_ers2[["opt_ers"]],
-    junc_data = test_juncs,
-    gtf_path = gtf_path, ensembl = TRUE
-))
+if (!exists("genom_state")) {
+    genom_state <- generate_genomic_state(
+        gtf = gtf_path,
+        chrs_to_keep = c("21"), ensembl = TRUE
+    )
+}
+if (!exists("aers1fcm")) {
+    aers1fcm <- suppressWarnings(annotatERs(head(opt_ers1[["opt_ers"]], 500),
+        junc_data = test_juncs,
+        gtf_path = gtf_path, ensembl = TRUE, genom_state = genom_state
+    ))
+}
+if (!exists("aers6fcm")) {
+    aers6fcm <- suppressWarnings(annotatERs(head(opt_ers6[["opt_ers"]], 500),
+        junc_data = test_juncs, genom_state = genom_state,
+        gtf_path = gtf_path, ensembl = TRUE
+    ))
+}
 }
 example_bw_paths <- c(bw_path, bw_path2)
-annot_ersl <- GenomicRanges::GRangesList(aers, aers2)
+annot_ersl <- GenomicRanges::GRangesList(aers1fcm, aers6fcm)
 
 example_cm <- get_count_matrix(bw_paths = example_bw_paths, annot_ers = annot_ersl)
 example_cm

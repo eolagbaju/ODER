@@ -13,38 +13,50 @@
 #' @export
 #' @examples
 #' \dontshow{
-#' url <- recount::download_study(
-#'     project = "SRP012682",
-#'     type = "samples",
-#'     download = FALSE
-#' ) # .file_cache is an internal function to download a bigwig file from a link
-#' # if the file has been downloaded recently, it will be retrieved from a cache
-#'
-#' bw_path <- ODER:::.file_cache(url[1])
-#' gtf_url <- paste0(
-#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#' )
-#' gtf_path <- ODER:::.file_cache(gtf_url)
+#' if (!exists("rec_url")) {
+#'     rec_url <- recount::download_study(
+#'         project = "SRP012682",
+#'         type = "samples",
+#'         download = FALSE
+#'     ) # .file_cache is an internal function to download a bigwig file from a link
+#'     # if the file has been downloaded recently, it will be retrieved from a cache
+#' }
+#' bw_path <- .file_cache(rec_url[1])
+#' if (!exists("gtf_path")) {
+#'     gtf_url <- paste0(
+#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#'     )
+#'     gtf_path <- .file_cache(gtf_url)
+#' }
 #' }
 #'
-#' opt_ers <- ODER(
-#'     bw_paths = bw_path, auc_raw = auc_example,
-#'     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-#'     genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
-#'     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-#'     exons_no_overlap = NULL, bw_chr = "chr"
-#' )
-#'
+#' if (!exists("opt_ers1")) {
+#'     opt_ers1 <- ODER(
+#'         bw_paths = bw_path, auc_raw = auc_example,
+#'         auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
+#'         genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
+#'         gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+#'         exons_no_overlap = NULL, bw_chr = "chr"
+#'     )
+#' }
 #' junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
-#' annot_ers <- annotatERs(
-#'     opt_ers = opt_ers[["opt_ers"]], junc_data = junctions,
-#'     gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
-#' )
-#'
+#' if (!exists("genom_state")) {
+#'     genom_state <- generate_genomic_state(
+#'         gtf = gtf_path,
+#'         chrs_to_keep = c("1", "2", "X"), ensembl = TRUE
+#'     )
+#' }
+#' if (!exists("annot_ers1")) {
+#'     annot_ers1 <- annotatERs(
+#'         opt_ers = head(opt_ers1[["opt_ers"]], 100), junc_data = junctions,
+#'         gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE,
+#'         genom_state = genom_state
+#'     )
+#' }
 #' annot_ers <- add_expressed_genes(
 #'     tissue = "lung", gtf_path = gtf_path,
-#'     annot_ers = annot_ers
+#'     annot_ers = annot_ers1
 #' )
 add_expressed_genes <- function(input_file = NULL, tissue, gtf_path,
     species = "Homo_sapiens", annot_ers) {
@@ -82,7 +94,7 @@ add_expressed_genes <- function(input_file = NULL, tissue, gtf_path,
 get_tissue <- function(input_file = NULL, tissue) {
     if (is.null(input_file)) {
         gtex_url <- "https://storage.googleapis.com/gtex_analysis_v6p/rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_median_rpkm.gct.gz"
-        gtex_path <- ODER:::.file_cache(gtex_url)
+        gtex_path <- .file_cache(gtex_url)
         gtex_data <- data.table::fread(gtex_path)
     } else {
         gtex_data <- data.table::fread(input_file)
@@ -118,13 +130,15 @@ get_tissue <- function(input_file = NULL, tissue) {
 #' @export
 #' @examples
 #' \dontshow{
-#' gtf_url <- paste0(
-#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#' )
-#' # .file_cache is an internal function to download a bigwig file from a link
-#' # if the file has been downloaded recently, it will be retrieved from a cache
-#' gtf_path <- ODER:::.file_cache(gtf_url)
+#' if (!exists("gtf_path")) {
+#'     gtf_url <- paste0(
+#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#'     )
+#'     # .file_cache is an internal function to download a bigwig file from a link
+#'     # if the file has been downloaded recently, it will be retrieved from a cache
+#'     gtf_path <- .file_cache(gtf_url)
+#' }
 #' }
 #' lung_tissue <- get_tissue(tissue = "lung")
 #'
@@ -164,46 +178,56 @@ get_expressed_genes <- function(gtf_path, species = "Homo_sapiens", tissue_df) {
 #'
 #' lung_tissue <- get_tissue(tissue = "lung")
 #' \dontshow{
-#' url <- recount::download_study(
-#'     project = "SRP012682",
-#'     type = "samples",
-#'     download = FALSE
-#' ) # .file_cache is an internal function to download a bigwig file from a link
-#' # if the file has been downloaded recently, it will be retrieved from a cache
-#'
-#' bw_path <- ODER:::.file_cache(url[1])
-#' gtf_url <- paste0(
-#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#' )
-#' gtf_path <- ODER:::.file_cache(gtf_url)
-#'
-#' opt_ers <- ODER(
-#'     bw_paths = bw_path, auc_raw = auc_example,
-#'     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-#'     genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
-#'     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-#'     exons_no_overlap = NULL, bw_chr = "chr"
-#' )
-#'
+#' if (!exists("rec_url")) {
+#'     rec_url <- recount::download_study(
+#'         project = "SRP012682",
+#'         type = "samples",
+#'         download = FALSE
+#'     ) # .file_cache is an internal function to download a bigwig file from a link
+#'     # if the file has been downloaded recently, it will be retrieved from a cache
+#' }
+#' bw_path <- .file_cache(rec_url[1])
+#' if (!exists("gtf_path")) {
+#'     gtf_url <- paste0(
+#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
+#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+#'     )
+#'     gtf_path <- .file_cache(gtf_url)
+#' }
+#' if (!exists("opt_ers1")) {
+#'     opt_ers1 <- ODER(
+#'         bw_paths = bw_path, auc_raw = auc_example,
+#'         auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
+#'         genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
+#'         gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+#'         exons_no_overlap = NULL, bw_chr = "chr"
+#'     )
+#' }
 #' junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
 #' }
-#'
-#'
-#' annot_ers <- annotatERs(
-#'     opt_ers = opt_ers[["opt_ers"]], junc_data = junctions,
-#'     gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
-#' )
-#'
+#' if (!exists("genom_state")) {
+#'     genom_state <- generate_genomic_state(
+#'         gtf = gtf_path,
+#'         chrs_to_keep = c("1", "2", "X"), ensembl = TRUE
+#'     )
+#' }
+#' if (!exists("annot_ers1")) {
+#'     annot_ers1 <- annotatERs(
+#'         opt_ers = head(opt_ers1[["opt_ers"]], 100), junc_data = junctions,
+#'         gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE,
+#'         genom_state = genom_state
+#'     )
+#' }
 #' lung_tissue <- get_tissue(tissue = "lung")
 #'
-#' lung_exp_genes <- get_expressed_genes(
-#'     gtf_path = gtf_path,
-#'     tissue_df = lung_tissue
-#' )
-#'
+#' if (!exists("lung_exp_genes")) {
+#'     lung_exp_genes <- get_expressed_genes(
+#'         gtf_path = gtf_path,
+#'         tissue_df = lung_tissue
+#'     )
+#' }
 #' full_annot_ers <- get_nearest_expressed_genes(
-#'     annot_ers = annot_ers,
+#'     annot_ers = annot_ers1,
 #'     exp_genes = lung_exp_genes, gtf_path = gtf_path
 #' )
 get_nearest_expressed_genes <- function(annot_ers, exp_genes, gtf_path) {

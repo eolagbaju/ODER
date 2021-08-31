@@ -135,7 +135,7 @@ To get the optimum set of ERs from a BigWig file we can use the ODER function, f
 
 opt_ers <- ODER(
     bw_paths = bw_path, auc_raw = gtex_metadata[["auc"]][1],
-    auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
+    auc_target = 40e6 * 100, chrs = c("chr21"),
     genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),
     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
     exons_no_overlap = NULL, bw_chr = "chr"
@@ -159,6 +159,8 @@ opt_ers
 
 Once we have the opt_ers, we can generate a plot to see how the various MCCs and MRGs would look. The median exon delta represents the overall accuracy of all ER definitions, whereas the number of ERs with exon delta equal to 0 indicates the extent to which ER definitions precisely match overlapping exon boundaries.
 
+The median exon delta represents the overall accuracy of all ER definitions, whereas the number of ERs with exon delta equal to 0 indicates the extent to which ER definitions precisely match overlapping exon boundaries.
+
 ```{r plot_example}
 # visualise the spread of mccs and mrgs
 plot_ers(opt_ers[["deltas"]], opt_ers[["opt_mcc_mrg"]])
@@ -171,15 +173,23 @@ To find the overlapping junctions and find the nearest expressed genes we can us
 
 # annotating the optimally defined ers with overlapping junctions
 
+genomic_state <- generate_genomic_state(
+    gtf = gtf_path,
+    chrs_to_keep = c("21"),
+    ensembl = TRUE,
+)
+
 annot_ers <- annotatERs(
-    opt_ers = opt_ers[["opt_ers"]], junc_data = lung_junc_21_22,
-    gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
+    opt_ers = head(opt_ers[["opt_ers"]], 100), junc_data = lung_junc_21_22,
+    gtf_path = gtf_path, chrs_to_keep = c("21"), ensembl = TRUE, genom_state = genomic_state
 )
 
 # To check the types of tissue you can filter for:
 # print(tissue_options)
 
 annot_ers <- add_expressed_genes(tissue = "lung", gtf_path = gtf_path, annot_ers = annot_ers)
+
+annot_ers
 ```
 
 We can use refine_ers to modify the starts and ends of the expressed regions by using refine_ers on the annotated regions.
@@ -221,7 +231,7 @@ coverage <- get_coverage(
     bw_paths = bw_path,
     auc_raw = gtex_metadata[["auc"]][1],
     auc_target = 40e6 * 100, # target 40 million coverage with 100 bp length reads
-    chrs = c("chr21", "chr22")
+    chrs = c("chr22")
 ) # defaults to chr1-22, chrX, chrY, chrM if chrs = ""
 
 ers <- get_ers(coverage = coverage, mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30))
@@ -279,7 +289,8 @@ Once we have the opt_ers, we want to further improve them by finding overlapping
 ```{r get_junctions}
 junctions <- lung_junc_21_22
 
-ann_opt_ers <- get_junctions(opt_ers = opt_ers[["opt_ers"]], junc_data = junctions, gtf_path = gtf_path)
+# ann_opt_ers <- get_junctions(opt_ers = opt_ers[["opt_ers"]], junc_data = junctions, gtf_path = gtf_path)
+ann_opt_ers <- get_junctions(opt_ers = head(opt_ers[["opt_ers"]], 100), junc_data = junctions, gtf_path = gtf_path)
 ```
 
 ## Generate a Genomic State (annotatER)
@@ -288,11 +299,11 @@ We then convert a gtf file or a Txdb into a genomic state so that we can compare
 
 ```{r gen_gstate, echo=FALSE}
 
-genomic_state <- generate_genomic_state(
-    gtf = gtf_path,
-    chrs_to_keep = c("21", "22"),
-    ensembl = TRUE,
-)
+# genomic_state <- generate_genomic_state(
+#     gtf = gtf_path,
+#     chrs_to_keep = c("22"),
+#     ensembl = TRUE,
+# )
 ```
 
 ## Using the genomic state to annotate the ERs (annotatER)

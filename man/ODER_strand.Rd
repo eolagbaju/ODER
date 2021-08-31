@@ -71,29 +71,33 @@ Generates the optimum expressed regions
 }
 \examples{
 library("magrittr")
-gtex_metadata <- recount::all_metadata("gtex")
-gtex_metadata <- gtex_metadata \%>\%
-    as.data.frame() \%>\%
-    dplyr::filter(project == "SRP012682")
-
-gtf_url <- paste0(
-    "http://ftp.ensembl.org/pub/release-103/gtf/",
-    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-)
-gtf_path <- ODER:::.file_cache(gtf_url)
-
-url <- recount::download_study(
-    project = "SRP012682",
-    type = "samples",
-    download = FALSE
-)
-bw_plus <- ODER:::.file_cache(url[58])
-bw_minus <- ODER:::.file_cache(url[84])
+if (!exists("gtex_metadata")) {
+    gtex_metadata <- recount::all_metadata("gtex")
+    gtex_metadata <- gtex_metadata \%>\%
+        as.data.frame() \%>\%
+        dplyr::filter(project == "SRP012682")
+}
+if (!exists("gtf_path")) {
+    gtf_url <- paste0(
+        "http://ftp.ensembl.org/pub/release-103/gtf/",
+        "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+    )
+    gtf_path <- ODER:::.file_cache(gtf_url)
+}
+if (!exists("rec_url")) {
+    rec_url <- recount::download_study(
+        project = "SRP012682",
+        type = "samples",
+        download = FALSE
+    )
+}
+bw_plus <- .file_cache(rec_url[58])
+bw_minus <- .file_cache(rec_url[84])
 
 opt_ers <- ODER_strand(
     bw_pos = bw_plus, bw_neg = bw_minus,
     auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
-    auc_target = 40e6 * 100, chrs = "", genome = "hg38",
+    auc_target = 40e6 * 100, chrs = c("chr21", "chr22"), genome = "hg38",
     mccs = c(5, 10), mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE,
     ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
 )

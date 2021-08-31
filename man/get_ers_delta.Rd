@@ -29,25 +29,29 @@ the ensembl database.
 }
 \examples{
 \dontshow{
-gtf_url <- paste0(
-    "http://ftp.ensembl.org/pub/release-103/gtf/",
-    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-)
-# .file_cache is an internal function to download a bigwig file from a link
-# if the file has been downloaded recently, it will be retrieved from a cache
-gtf_path <- ODER:::.file_cache(gtf_url)
-
-eg_opt_exons <- get_exons(
-    gtf = gtf_path,
-    ucsc_chr = TRUE,
-    ignore.strand = TRUE
-)
+if (!exists("gtf_path")) {
+    gtf_url <- paste0(
+        "http://ftp.ensembl.org/pub/release-103/gtf/",
+        "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+    )
+    # .file_cache is an internal function to download a bigwig file from a link
+    # if the file has been downloaded recently, it will be retrieved from a cache
+    gtf_path <- .file_cache(gtf_url)
 }
-eg_ers_delta <- get_ers_delta(
-    ers = ers_example, # ers_example is from the package data folder
-    opt_exons = eg_opt_exons,
-    delta_fun = ODER:::.delta
-) # .delta is ODER's default, you can pass in your own if you have one
-
+if (!exists("eg_opt_exons")) {
+    eg_opt_exons <- get_exons(
+        gtf = gtf_path,
+        ucsc_chr = TRUE,
+        ignore.strand = TRUE
+    )
+}
+}
+if (!exists("eg_ers_delta")) {
+    eg_ers_delta <- get_ers_delta(
+        ers = ers_example, # ers_example is from the package data folder
+        opt_exons = eg_opt_exons,
+        delta_fun = ODER:::.delta
+    ) # .delta is ODER's default, you can pass in your own if you have one
+}
 print(eg_ers_delta)
 }

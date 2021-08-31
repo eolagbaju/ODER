@@ -53,20 +53,22 @@ combination of MCC and MRG.
 }
 \examples{
 library("magrittr")
-gtex_metadata <- recount::all_metadata("gtex")
-gtex_metadata <- gtex_metadata \%>\%
-    as.data.frame() \%>\%
-    dplyr::filter(project == "SRP012682")
-
-url <- recount::download_study(
-    project = "SRP012682",
-    type = "samples",
-    download = FALSE
-) # .file_cache is an internal function to download a bigwig file from a link
-# if the file has been downloaded recently, it will be retrieved from a cache
-
-bw_plus <- ODER:::.file_cache(url[58])
-bw_minus <- ODER:::.file_cache(url[84])
+if (!exists("gtex_metadata")) {
+    gtex_metadata <- recount::all_metadata("gtex")
+    gtex_metadata <- gtex_metadata \%>\%
+        as.data.frame() \%>\%
+        dplyr::filter(project == "SRP012682")
+}
+if (!exists("rec_url")) {
+    rec_url <- recount::download_study(
+        project = "SRP012682",
+        type = "samples",
+        download = FALSE
+    ) # .file_cache is an internal function to download a bigwig file from a link
+    # if the file has been downloaded recently, it will be retrieved from a cache
+}
+bw_plus <- .file_cache(rec_url[58])
+bw_minus <- .file_cache(rec_url[84])
 
 stranded_ers <- get_strand_ers(
     bw_pos = bw_plus, bw_neg = bw_minus,

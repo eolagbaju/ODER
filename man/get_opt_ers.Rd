@@ -24,25 +24,30 @@ regions.
 }
 \examples{
 \dontshow{
-gtf_url <- paste0(
-    "http://ftp.ensembl.org/pub/release-103/gtf/",
-    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-)
-gtf_path <- ODER:::.file_cache(gtf_url)
-exons_no_overlap <- get_exons(
-    gtf = gtf_path,
-    ucsc_chr = TRUE,
-    ignore.strand = TRUE
-)
-
-ers_delta <- get_ers_delta(
-    ers = ers_example, # ers_example is from the package data folder
-    opt_exons = exons_no_overlap
-)
+if (!exists("gtf_path")) {
+    gtf_url <- paste0(
+        "http://ftp.ensembl.org/pub/release-103/gtf/",
+        "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+    )
+    gtf_path <- .file_cache(gtf_url)
+}
+if (!exists("eg_opt_exons")) {
+    eg_opt_exons <- get_exons(
+        gtf = gtf_path,
+        ucsc_chr = TRUE,
+        ignore.strand = TRUE
+    )
+}
+if (!exists("eg_ers_delta")) {
+    eg_ers_delta <- get_ers_delta(
+        ers = ers_example, # ers_example is from the package data folder
+        opt_exons = eg_opt_exons
+    )
+}
 }
 opt_ers <- get_opt_ers(
     ers = ers_example,
-    ers_delta = ers_delta
+    ers_delta = eg_ers_delta
 )
 opt_ers
 }

@@ -25,13 +25,15 @@ tissue dataframe passed in.
 }
 \examples{
 \dontshow{
-gtf_url <- paste0(
-    "http://ftp.ensembl.org/pub/release-103/gtf/",
-    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-)
-# .file_cache is an internal function to download a bigwig file from a link
-# if the file has been downloaded recently, it will be retrieved from a cache
-gtf_path <- ODER:::.file_cache(gtf_url)
+if (!exists("gtf_path")) {
+    gtf_url <- paste0(
+        "http://ftp.ensembl.org/pub/release-103/gtf/",
+        "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+    )
+    # .file_cache is an internal function to download a bigwig file from a link
+    # if the file has been downloaded recently, it will be retrieved from a cache
+    gtf_path <- .file_cache(gtf_url)
+}
 }
 lung_tissue <- get_tissue(tissue = "lung")
 
