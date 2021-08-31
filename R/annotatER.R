@@ -1,12 +1,11 @@
-#' Finds overlapping junctions and annotates ERs as exonic, intronic, intergenic,
-#' some combination or none of those
+#' Connects ERs to genes using junction data, then classifies ERs into "exonic",
+#' "intronic", "intergenic", or a combination of these categories
 #'
-#' Looks at junctions passed in to find any overlaps and adds them in along with
-#' other information as metadata columns. Then uses a gtf file or a Txdb passed
-#' in to generate a genomic state and then labels each ER as to whether they are
-#' exonic, intronic, intergenic on none
-#'
-#'
+#' Finds the overlap between junctions and ERs, then adds gene info and junction
+#' info as metadata columns. Then, uses a `gtf` file or a `Txdb` passed in to
+#' generate a genomic state used to label each ER as to whether they are exonic,
+#' intronic, intergenic or none.
+#' 
 #' @inheritParams get_junctions
 #' @inheritParams generate_genomic_state
 #' @param genom_state a genomic state object
@@ -113,17 +112,11 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, # txdb = NULL,
 #' Get junctions that overlap the optimally defined ERs
 #'
 #' The junctions will be added to the ERs passed in as a metadata column, a
-#' GRangeslist with each GRanges element of the list corresponding to it's
-#' associated ER. If there are no overlaps, the GRangeslist will be empty.
-#' Any ERs that do not have an overlapping junction will have an empty GRanges.
-#' The respective genes that each ER could be associated with will also be passed
-#' in as a metadata column, a character list
-#'
-#' Each Granges of the GRangeslist will have the metadata columns of "in_ref",
-#' "gene_id_start", "tx_name_start", "exon_name_start", "strand_start",
-#' "exon_width_start","gene_id_end", "tx_name_end", "exon_name_end", "strand_end",
-#' "exon_width_end", "gene_id_junction", "strand_junction", "type" and "er_index
-#'  added by dasper's junction_annot.
+#' `GRangeslist` with each GRanges element of the list corresponding to it's
+#' associated ER. If there are no overlaps, the `GRangeslist` will be empty. Any
+#' ERs that do not have an overlapping junction will have an empty GRanges. The
+#' respective genes that each ER could be associated with will also be passed in
+#' as a metadata column, a character list.
 #'
 #' @seealso dasper::junction_annot
 #'
@@ -230,9 +223,14 @@ get_junctions <- function(opt_ers, junc_data, gtf_path) {
 
 #' Generating a genomic state object from Txdb or gtf
 #'
+<<<<<<< HEAD
 #' \code{generate_genomic_state} takes txdb object ([TxDb-class][GenomicFeatures::TxDb-class])
 #'  or a gtf file and makes a genomic state to be used in the annotation of the
 #'  expressed regions
+=======
+#' \code{generate_genomic_state} takes Txdb object or a gtf file and makes a
+#' genomic state to be used in the annotation of the expressed regions
+>>>>>>> d1452c67638704ee0b51a1cd5dbd3dcff3593cf9
 #'
 #' @param txdb txdb object, if one is not entered a gtf file needs to be
 #' @param chrs_to_keep chromosomes to keep in genomic state (in NCBI format i.e.
@@ -300,9 +298,11 @@ generate_genomic_state <- function(gtf = NULL, txdb = NULL,
 #' Converting count table output of derfinder to region annotation
 #'
 #' \code{convert_annot_count_table_to_region_annot} takes as input the derfinder
-#'  output and converts to useful region annotation - "intron", "exon", "intergenic"... etc
+#' output and converts to useful region annotation - "intron", "exon",
+#' "intergenic"... etc
 #'
-#' @param count_table count table output from \code{\link{derfinder::annotateRegions}}
+#' @param count_table count table output from
+#'   \code{\link{derfinder::annotateRegions}}
 #'
 #' @return df with the notation "intron", "exon", "intergenic"
 #'

@@ -3,7 +3,8 @@
 #' \code{ge_ERs} defines ERs across an inputted range of mean coverage cut-offs
 #' (MCCs) and max region gaps (MRGs) from the coverage.
 #'
-#' @param coverage the coverage of the bigwig files passed into \code{\link{get_coverage}}.
+#' @param coverage the coverage of the bigwig files passed into
+#'   \code{\link{get_coverage}}.
 #' @param mccs mean coverage cut-offs to apply.
 #' @param mrgs max region gaps to apply.
 #'
@@ -14,7 +15,7 @@
 #' @examples
 #' # coverage_example is from the package data folder
 #' eg_ers <- get_ers(coverage = coverage_example, mccs = c(5, 10), mrgs = c(10, 20))
-#'
+#' 
 #' print(eg_ers)
 get_ers <- function(coverage, mccs, mrgs) {
     if (missing(coverage)) {

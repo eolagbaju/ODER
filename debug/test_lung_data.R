@@ -27,6 +27,8 @@ opt_ers <- ODER(
 
 load(file = "/data/recount/GTEx_SRP012682/gtex_split_read_table_annotated_rda/lung_split_read_table_annotated.rda")
 lung_junc <- gtex_split_read_table_annotated_only_junc_coverage
+lung_junc_21_22 <- dplyr::filter(lung_junc,chr == 21 | chr == 22)
+save(lung_junc_21_22, file = "lung_junc_example.RData")
 
 aers <- annotatERs(opt_ers[["opt_ers"]], junc_data = lung_junc,
                    gtf_path = gtf_path, ensembl = TRUE)
@@ -135,3 +137,12 @@ mcmat2 <- as.matrix(mcols(mean_coverage2)[["score"]])
 
 # mcmat <- as.matrix(mcols(mean_coverage)[["score"]])
 # #se1 <- SummarizedExperiment::SummarizedExperiment(assays = mcmat, rowRanges = aers, metadata = mcols(aers))
+
+
+# gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+# gtf_path <- ODER:::.file_cache(gtf_url)
+#https://storage.googleapis.com/gtex_analysis_v6p/rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_median_rpkm.gct.gz
+gtex_url <- "https://storage.googleapis.com/gtex_analysis_v6p/rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_median_rpkm.gct.gz"
+gtex_path <- ODER:::.file_cache(gtex_url)
+library(data.table)
+dt = fread(gtex_path)

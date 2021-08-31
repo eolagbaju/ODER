@@ -16,10 +16,13 @@ Authors@R:
            person(given = "Siddharth",family = "Sethi",
            role = c("ctb"),
            email = "siddharth.sethi@astx.com"))
-Description: The aim of ODER is to help with identifying previously unannotated
-    expressed regions using RNA-sequencing data.  ODER enhances gene annotation
-    which can improve the interpretation/ prioritisation of disease related
-    variants.
+Description: The aim of ODER is to identify previously unannotated expressed 
+    regions (ERs) using RNA-sequencing data. For this purpose, ODER defines and 
+    optimises the definition of ERs, then connected these ERs to genes using 
+    junction data. In this way, ODER improves gene annotation. Gene annotation 
+    is a staple input of many bioinformatic pipelines and a more complete gene 
+    annotation can enable more accurate interpretation of disease associated 
+    variants. 
 License: Artistic-2.0
 URL: https://github.com/eolagbaju/ODER
 BugReports: https://support.bioconductor.org/t/ODER
@@ -32,28 +35,28 @@ Suggests:
     BiocStyle,
     covr,
     knitr,
+    IRanges,
+    recount,
     RefManageR,
     rmarkdown,
     sessioninfo,
-    testthat (>= 3.0.0),
-    recount,
-    IRanges,
-    SummarizedExperiment
+    SummarizedExperiment,
+    testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Imports: 
-    stringr,
+    BiocFileCache,
+    dasper,
+    derfinder,
     dplyr,
     GenomeInfoDb,
-    magrittr,
-    BiocFileCache,
     GenomicRanges,
-    S4Vectors,
-    derfinder,
-    rtracklayer,
     ggplot2,
     ggpubr,
     ggrepel,
-    dasper
+    magrittr,
+    rtracklayer,
+    S4Vectors,
+    stringr,
 Depends: 
     R (>= 2.10)
