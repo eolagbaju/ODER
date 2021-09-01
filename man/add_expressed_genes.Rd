@@ -12,19 +12,6 @@ add_expressed_genes(
   annot_ers
 )
 }
-\arguments{
-\item{input_file}{GTEX median expression file, if left as NULL
-\code{\link{get_tissue}} will use the default file}
-
-\item{tissue}{Tissue to filter for. See tissue_options for options}
-
-\item{gtf_path}{gtf file path}
-
-\item{species}{character string containing the species to filter for,
-Homo sapiens is the default}
-
-\item{annot_ers}{annotated ERs, should have an mcols column called "annotation"}
-}
 \value{
 Granges with annotated ERs and details of their nearest expressed
 genes

@@ -119,9 +119,9 @@ url <- recount::download_study(
     download = FALSE
 )
 # .file_cache is an internal function to download a bigwig file from a link if the file has been downloaded recently, it will be retrieved from a cache
-bw_path <- ODER:::.file_cache(url[1])
+bw_path <- .file_cache(url[1])
 gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-gtf_path <- ODER:::.file_cache(gtf_url)
+gtf_path <- .file_cache(gtf_url)
 ```
 
 To get the optimum set of ERs from a BigWig file we can use the ODER function, for stranded BigWigs there is the ODER_strand function:
@@ -210,6 +210,8 @@ Generate an ER count matrix with get_count_matrix, if cols is left blank the fun
 
 run <- gtex_metadata[["run"]][[1]]
 col_info <- as.data.frame(run)
+
+megadepth::install_megadepth()
 
 er_count_matrix <- get_count_matrix(bw_paths = bw_path, annot_ers = annot_ers, cols = col_info)
 

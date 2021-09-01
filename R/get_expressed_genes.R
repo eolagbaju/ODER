@@ -85,12 +85,8 @@ add_expressed_genes <- function(input_file = NULL, tissue, gtf_path,
 #' @param tissue Tissue to filter for. See tissue_options for options
 #'
 #' @return Dataframe containing expressed genes
-#' @export
-#' @examples
-#'
-#' lung_tissue <- get_tissue(tissue = "lung")
-#'
-#' lung_tissue
+#' @keywords internal
+#' @noRd
 get_tissue <- function(input_file = NULL, tissue) {
     if (is.null(input_file)) {
         gtex_url <- "https://storage.googleapis.com/gtex_analysis_v6p/rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_median_rpkm.gct.gz"
@@ -127,27 +123,8 @@ get_tissue <- function(input_file = NULL, tissue) {
 #' tissue
 #'
 #' @return GRanges with the expressed genes for a specific tissue
-#' @export
-#' @examples
-#' \dontshow{
-#' if (!exists("gtf_path")) {
-#'     gtf_url <- paste0(
-#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#'     )
-#'     # .file_cache is an internal function to download a bigwig file from a link
-#'     # if the file has been downloaded recently, it will be retrieved from a cache
-#'     gtf_path <- .file_cache(gtf_url)
-#' }
-#' }
-#' lung_tissue <- get_tissue(tissue = "lung")
-#'
-#' lung_exp_genes <- get_expressed_genes(
-#'     gtf_path = gtf_path,
-#'     tissue_df = lung_tissue
-#' )
-#'
-#' lung_exp_genes
+#' @keywords internal
+#' @noRd
 get_expressed_genes <- function(gtf_path, species = "Homo_sapiens", tissue_df) {
     gtf <- rtracklayer::import(gtf_path)
     gtf <- GenomeInfoDb::keepStandardChromosomes(gtf, species = species, pruning.mode = "coarse")
@@ -173,70 +150,15 @@ get_expressed_genes <- function(gtf_path, species = "Homo_sapiens", tissue_df) {
 #' @param exp_genes GRanges containing the expressed genes of a particular tissue
 #'
 #' @return GRanges with the expressed genes for a specific tissue
-#' @export
-#' @examples
-#'
-#' lung_tissue <- get_tissue(tissue = "lung")
-#' \dontshow{
-#' if (!exists("rec_url")) {
-#'     rec_url <- recount::download_study(
-#'         project = "SRP012682",
-#'         type = "samples",
-#'         download = FALSE
-#'     ) # .file_cache is an internal function to download a bigwig file from a link
-#'     # if the file has been downloaded recently, it will be retrieved from a cache
-#' }
-#' bw_path <- .file_cache(rec_url[1])
-#' if (!exists("gtf_path")) {
-#'     gtf_url <- paste0(
-#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#'     )
-#'     gtf_path <- .file_cache(gtf_url)
-#' }
-#' if (!exists("opt_ers1")) {
-#'     opt_ers1 <- ODER(
-#'         bw_paths = bw_path, auc_raw = auc_example,
-#'         auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-#'         genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
-#'         gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-#'         exons_no_overlap = NULL, bw_chr = "chr"
-#'     )
-#' }
-#' junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
-#' }
-#' if (!exists("genom_state")) {
-#'     genom_state <- generate_genomic_state(
-#'         gtf = gtf_path,
-#'         chrs_to_keep = c("1", "2", "X"), ensembl = TRUE
-#'     )
-#' }
-#' if (!exists("annot_ers1")) {
-#'     annot_ers1 <- annotatERs(
-#'         opt_ers = head(opt_ers1[["opt_ers"]], 100), junc_data = junctions,
-#'         gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE,
-#'         genom_state = genom_state
-#'     )
-#' }
-#' lung_tissue <- get_tissue(tissue = "lung")
-#'
-#' if (!exists("lung_exp_genes")) {
-#'     lung_exp_genes <- get_expressed_genes(
-#'         gtf_path = gtf_path,
-#'         tissue_df = lung_tissue
-#'     )
-#' }
-#' full_annot_ers <- get_nearest_expressed_genes(
-#'     annot_ers = annot_ers1,
-#'     exp_genes = lung_exp_genes, gtf_path = gtf_path
-#' )
+#' @keywords internal
+#' @noRd
 get_nearest_expressed_genes <- function(annot_ers, exp_genes, gtf_path) {
     gtf <- rtracklayer::import(gtf_path)
     gtf <- GenomeInfoDb::keepStandardChromosomes(gtf, species = "Homo_sapiens", pruning.mode = "coarse")
     GenomeInfoDb::seqlevelsStyle(gtf) <- "UCSC" # add chr to seqnames
     genesgtf <- gtf[S4Vectors::mcols(gtf)[["type"]] == "gene"]
 
-    annot_ers <- annot_ers[S4Vectors::mcols(annot_ers)[["annotation"]] %in% c("intron", "intergenic")]
+    # annot_ers <- annot_ers[S4Vectors::mcols(annot_ers)[["annotation"]] %in% c("intron", "intergenic")]
 
     nearest_hit <- GenomicRanges::nearest(annot_ers, genesgtf, select = c("arbitrary"), ignore.strand = FALSE)
     S4Vectors::mcols(annot_ers)[["nearest_gene_v94_name"]] <- S4Vectors::mcols(genesgtf[nearest_hit])[["gene_id"]]
