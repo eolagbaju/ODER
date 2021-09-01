@@ -23,16 +23,7 @@ nearest expressed gene will be added to the metadata columns of the annotated
 ERs.
 }
 \examples{
-\dontshow{
-if (!exists("rec_url")) {
-    rec_url <- recount::download_study(
-        project = "SRP012682",
-        type = "samples",
-        download = FALSE
-    ) # .file_cache is an internal function to download a bigwig file from a link
-    # if the file has been downloaded recently, it will be retrieved from a cache
-}
-bw_path <- .file_cache(rec_url[1])
+
 if (!exists("gtf_path")) {
     gtf_url <- paste0(
         "http://ftp.ensembl.org/pub/release-103/gtf/",
@@ -40,35 +31,19 @@ if (!exists("gtf_path")) {
     )
     gtf_path <- .file_cache(gtf_url)
 }
-}
 
-if (!exists("opt_ers1")) {
-    opt_ers1 <- ODER(
-        bw_paths = bw_path, auc_raw = auc_example,
-        auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-        genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
-        gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-        exons_no_overlap = NULL, bw_chr = "chr"
+ex_opt_ers <- GenomicRanges::GRanges(
+    seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(2, 2)),
+    ranges = IRanges::IRanges(
+        start = c(5116369, 5118691, 5125879, 5128214),
+        end = c(5117231, 5118847, 5125988, 5128403)
     )
-}
-junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
-if (!exists("genom_state")) {
-    genom_state <- generate_genomic_state(
-        gtf = gtf_path,
-        chrs_to_keep = c("21", "22"), ensembl = TRUE
-    )
-}
-if (!exists("annot_ers1")) {
-    annot_ers1 <- annotatERs(
-        opt_ers = head(opt_ers1[["opt_ers"]], 100), junc_data = junctions,
-        gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE,
-        genom_state = genom_state
-    )
-}
-annot_ers <- add_expressed_genes(
-    tissue = "lung", gtf_path = gtf_path,
-    annot_ers = annot_ers1
 )
 
-annot_ers
+ex_opt_ers_w_exp_genes <- add_expressed_genes(
+    tissue = "lung", gtf_path = gtf_path,
+    annot_ers = ex_opt_ers
+)
+
+ex_opt_ers_w_exp_genes
 }

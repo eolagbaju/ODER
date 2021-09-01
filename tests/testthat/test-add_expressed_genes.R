@@ -1,56 +1,12 @@
 if (!exists("gtf_path")) {
-    gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-    gtf_path <- ODER:::.file_cache(gtf_url)
-}
-if (!exists("gtex_metadata")) {
-    gtex_metadata <- recount::all_metadata("gtex")
-    gtex_metadata <- gtex_metadata %>%
-        as.data.frame() %>%
-        dplyr::filter(project == "SRP012682")
-}
-# obtain path to example bw on recount2
-if (!exists("rec_url")) {
-    rec_url <- recount::download_study(
-        project = "SRP012682",
-        type = "samples",
-        download = FALSE
+    gtf_url <- paste0(
+        "http://ftp.ensembl.org/pub/release-103/gtf/",
+        "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
     )
-}
-bw_lung <- ODER:::.file_cache(rec_url[1])
-if (!exists("test_opt_ers1")) {
-    test_opt_ers1 <- suppressWarnings(ODER(
-        bw_paths = bw_liver, auc_raw = gtex_metadata[["auc"]][1],
-        auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-        genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),
-        gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-        exons_no_overlap = NULL, bw_chr = "chr"
-    ))
+    gtf_path <- .file_cache(gtf_url)
 }
 
-if (!exists("test_gstate")) {
-    test_gstate <- suppressWarnings(generate_genomic_state(
-        gtf = gtf_path,
-        chrs_to_keep = c("21", "22"),
-        ensembl = TRUE
-    ))
-}
-
-if (!exists("test_annot_opters1")) {
-    test_annot_opters1 <- suppressWarnings(annotatERs(
-        opt_ers = test_opt_ers1[["opt_ers"]], junc_data = lung_junc_21_22,
-        gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE,
-        genom_state = test_gstate
-    ))
-}
-
-# ex_opt_ers <- GenomicRanges::GRanges( # this is created to not overlap
-#     seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(2, 2)),
-#     ranges = IRanges::IRanges(
-#         start = c(5038740, 5039015, 50775478, 50776911),
-#         end = c(5038775, 5039090, 50775492, 50776986)
-#     )
-# )
-ex_opt_ers <- GenomicRanges::GRanges( # this is created to not overlap
+ex_opt_ers <- GenomicRanges::GRanges(
     seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(2, 2)),
     ranges = IRanges::IRanges(
         start = c(5116369, 5118691, 5125879, 5128214),
@@ -58,17 +14,12 @@ ex_opt_ers <- GenomicRanges::GRanges( # this is created to not overlap
     )
 )
 
-
 liver_tissue <- ODER:::get_tissue(tissue = "liver")
-lung_tissue <- ODER:::get_tissue(tissue = "lung")
 stomach_tissue <- ODER:::get_tissue(tissue = "stomach")
 
 livexpr_genes <- ODER:::get_expressed_genes(gtf_path = gtf_path, tissue_df = liver_tissue)
-lungexpr_genes <- ODER:::get_expressed_genes(gtf_path = gtf_path, tissue_df = lung_tissue)
 
-full_annot_lung_ers <- ODER:::get_nearest_expressed_genes(annot_ers = ex_opt_ers, exp_genes = lungexpr_genes, gtf_path = gtf_path)
-# full_annot_lung_ers <- get_nearest_expressed_genes(annot_ers = test_annot_opters1, exp_genes = lungexpr_genes, gtf_path = gtf_path)
-
+full_annot_liver_ers <- ODER:::get_nearest_expressed_genes(annot_ers = ex_opt_ers, exp_genes = livexpr_genes, gtf_path = gtf_path)
 
 
 test_that("get_tissue works", {
@@ -78,12 +29,17 @@ test_that("get_tissue works", {
 
 test_that("get_expressed_genes works", {
     expect_true(methods::is(livexpr_genes, "GenomicRanges"))
-    expect_true(all(grepl(pattern = "chr", x = seqnames(livexpr_genes))))
+    expect_true(all(grepl(pattern = "chr", x = GenomicRanges::seqnames(livexpr_genes))))
     expect_true("gene_id" %in% colnames(S4Vectors::mcols(livexpr_genes)))
 })
 
 test_that("get_nearest_expressed_genes works", {
-    expect_equal(S4Vectors::mcols(full_annot_lung_ers)[["genes"]][[1]], S4Vectors::mcols(full_annot_lung_ers)[["nearest_gene_v94_name"]][[1]])
-    expect_equal(S4Vectors::mcols(full_annot_lung_ers)[["genes"]][[6640]], S4Vectors::mcols(full_annot_lung_ers)[["nearest_expressed_gene_v94_name"]][[6640]])
-    expect_equal(S4Vectors::mcols(full_annot_lung_ers)[["nearest_expressed_gene_v94_name"]][[6640]], "ENSG00000184319")
+    expect_equal(
+        S4Vectors::mcols(full_annot_liver_ers)[["nearest_gene_v94_name"]],
+        c("ENSG00000276612", "ENSG00000276612", "ENSG00000277248", "ENSG00000277248")
+    )
+    expect_equal(
+        S4Vectors::mcols(full_annot_liver_ers)[["nearest_expressed_gene_v94_name"]],
+        c("ENSG00000264462", "ENSG00000264462", "ENSG00000225480", "ENSG00000225480")
+    )
 })
