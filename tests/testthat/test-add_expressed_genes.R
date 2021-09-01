@@ -26,10 +26,20 @@ if (!exists("test_opt_ers1")) {
         exons_no_overlap = NULL, bw_chr = "chr"
     ))
 }
+
+if (!exists("test_gstate")) {
+    test_gstate <- suppressWarnings(generate_genomic_state(
+        gtf = gtf_path,
+        chrs_to_keep = c("21", "22"),
+        ensembl = TRUE
+    ))
+}
+
 if (!exists("test_annot_opters1")) {
     test_annot_opters1 <- suppressWarnings(annotatERs(
         opt_ers = test_opt_ers1[["opt_ers"]], junc_data = lung_junc_21_22,
-        gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE
+        gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE,
+        genom_state = test_gstate
     ))
 }
 liver_tissue <- get_tissue(tissue = "liver")

@@ -74,20 +74,22 @@ test_gene <- unique(unlist(GenomicRanges::mcols(
     GenomicRanges::mcols(test_er_aj[1])[["grl"]][[1]]
 )[["gene_id_junction"]]))
 
-test_gstate <- suppressWarnings(generate_genomic_state(
-    gtf = gtf_path,
-    chrs_to_keep = c("21", "22"),
-    ensembl = TRUE
-))
+if (!exists("test_gstate")) {
+    test_gstate <- suppressWarnings(generate_genomic_state(
+        gtf = gtf_path,
+        chrs_to_keep = c("21", "22"),
+        ensembl = TRUE
+    ))
+}
 
 test_annot_ers <- suppressWarnings(annotatERs(
     opt_ers = test_grs, junc_data = test_juncs,
-    gtf_path = gtf_path, chrs_to_keep = c("chr21", "chr22")
+    gtf_path = gtf_path, chrs_to_keep = c("chr21", "chr22"), genom_state = test_gstate
 ))
 if (!exists("test_annot_opters1")) {
     test_annot_opters1 <- suppressWarnings(annotatERs(
         opt_ers = test_opt_ers1[["opt_ers"]], junc_data = test_juncs,
-        gtf_path = gtf_path, chrs_to_keep = c("chr21", "chr22")
+        gtf_path = gtf_path, chrs_to_keep = c("chr21", "chr22"), genom_state = test_gstate
     ))
 }
 

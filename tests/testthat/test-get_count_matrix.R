@@ -45,13 +45,21 @@ if (!exists("test_opt_ers91")) {
 
 test_juncs <- SummarizedExperiment::rowRanges(dasper::junctions_example)
 
+if (!exists("test_gstate")) {
+    test_gstate <- suppressWarnings(generate_genomic_state(
+        gtf = gtf_path,
+        chrs_to_keep = c("21", "22"),
+        ensembl = TRUE
+    ))
+}
+
 aers <- suppressWarnings(annotatERs(test_opt_ers84[["opt_ers"]],
     junc_data = test_juncs,
-    gtf_path = gtf_path, ensembl = TRUE
+    gtf_path = gtf_path, ensembl = TRUE, genom_state = test_gstate
 ))
 aers2 <- suppressWarnings(annotatERs(test_opt_ers91[["opt_ers"]],
     junc_data = test_juncs,
-    gtf_path = gtf_path, ensembl = TRUE
+    gtf_path = gtf_path, ensembl = TRUE, genom_state = test_gstate
 ))
 aersl <- GenomicRanges::GRangesList(aers, aers2)
 
