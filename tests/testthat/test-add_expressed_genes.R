@@ -16,7 +16,7 @@ if (!exists("rec_url")) {
         download = FALSE
     )
 }
-bw_liver <- ODER:::.file_cache(rec_url[1])
+bw_lung <- ODER:::.file_cache(rec_url[1])
 if (!exists("test_opt_ers1")) {
     test_opt_ers1 <- suppressWarnings(ODER(
         bw_paths = bw_liver, auc_raw = gtex_metadata[["auc"]][1],
@@ -42,14 +42,34 @@ if (!exists("test_annot_opters1")) {
         genom_state = test_gstate
     ))
 }
-liver_tissue <- get_tissue(tissue = "liver")
-lung_tissue <- get_tissue(tissue = "lung")
-stomach_tissue <- get_tissue(tissue = "stomach")
 
-livexpr_genes <- get_expressed_genes(gtf_path = gtf_path, tissue_df = liver_tissue)
-lungexpr_genes <- get_expressed_genes(gtf_path = gtf_path, tissue_df = lung_tissue)
+# ex_opt_ers <- GenomicRanges::GRanges( # this is created to not overlap
+#     seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(2, 2)),
+#     ranges = IRanges::IRanges(
+#         start = c(5038740, 5039015, 50775478, 50776911),
+#         end = c(5038775, 5039090, 50775492, 50776986)
+#     )
+# )
+ex_opt_ers <- GenomicRanges::GRanges( # this is created to not overlap
+    seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(2, 2)),
+    ranges = IRanges::IRanges(
+        start = c(5116369, 5118691, 5125879, 5128214),
+        end = c(5117231, 5118847, 5125988, 5128403)
+    )
+)
 
-full_annot_lung_ers <- get_nearest_expressed_genes(annot_ers = test_annot_opters1, exp_genes = lungexpr_genes, gtf_path = gtf_path)
+
+liver_tissue <- ODER:::get_tissue(tissue = "liver")
+lung_tissue <- ODER:::get_tissue(tissue = "lung")
+stomach_tissue <- ODER:::get_tissue(tissue = "stomach")
+
+livexpr_genes <- ODER:::get_expressed_genes(gtf_path = gtf_path, tissue_df = liver_tissue)
+lungexpr_genes <- ODER:::get_expressed_genes(gtf_path = gtf_path, tissue_df = lung_tissue)
+
+full_annot_lung_ers <- ODER:::get_nearest_expressed_genes(annot_ers = ex_opt_ers, exp_genes = lungexpr_genes, gtf_path = gtf_path)
+# full_annot_lung_ers <- get_nearest_expressed_genes(annot_ers = test_annot_opters1, exp_genes = lungexpr_genes, gtf_path = gtf_path)
+
+
 
 test_that("get_tissue works", {
     expect_equal(colnames(liver_tissue)[2], "Liver")

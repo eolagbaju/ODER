@@ -9,7 +9,8 @@
 #' @inheritParams get_expressed_genes
 #' @inheritParams get_nearest_expressed_genes
 #' @return Granges with annotated ERs and details of their nearest expressed
-#' genes
+#'    genes
+#'
 #' @export
 #' @examples
 #' \dontshow{
@@ -44,7 +45,7 @@
 #' if (!exists("genom_state")) {
 #'     genom_state <- generate_genomic_state(
 #'         gtf = gtf_path,
-#'         chrs_to_keep = c("1", "2", "X"), ensembl = TRUE
+#'         chrs_to_keep = c("21", "22"), ensembl = TRUE
 #'     )
 #' }
 #' if (!exists("annot_ers1")) {
@@ -58,6 +59,8 @@
 #'     tissue = "lung", gtf_path = gtf_path,
 #'     annot_ers = annot_ers1
 #' )
+#'
+#' annot_ers
 add_expressed_genes <- function(input_file = NULL, tissue, gtf_path,
     species = "Homo_sapiens", annot_ers) {
     tissue_df <- get_tissue(input_file = input_file, tissue = tissue)

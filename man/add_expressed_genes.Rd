@@ -55,7 +55,7 @@ junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
 if (!exists("genom_state")) {
     genom_state <- generate_genomic_state(
         gtf = gtf_path,
-        chrs_to_keep = c("1", "2", "X"), ensembl = TRUE
+        chrs_to_keep = c("21", "22"), ensembl = TRUE
     )
 }
 if (!exists("annot_ers1")) {
@@ -69,4 +69,6 @@ annot_ers <- add_expressed_genes(
     tissue = "lung", gtf_path = gtf_path,
     annot_ers = annot_ers1
 )
+
+annot_ers
 }
