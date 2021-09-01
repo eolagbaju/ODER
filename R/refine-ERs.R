@@ -15,51 +15,40 @@
 #' @export
 #'
 #' @examples
-#' \dontshow{
-#'
-#' if (!exists("rec_url")) {
-#'     rec_url <- recount::download_study(
-#'         project = "SRP012682",
-#'         type = "samples",
-#'         download = FALSE
-#'     ) # .file_cache is an internal function to download a bigwig file from a link
-#'     # if the file has been downloaded recently, it will be retrieved from a cache
-#' }
-#' bw_path <- .file_cache(rec_url[1])
-#' if (!exists("gtf_path")) {
-#'     gtf_url <- paste0(
-#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#'     )
-#'     gtf_path <- .file_cache(gtf_url)
-#' }
-#' }
-#' if (!exists("opt_ers1")) {
-#'     opt_ers1 <- ODER(
-#'         bw_paths = bw_path, auc_raw = auc_example,
-#'         auc_target = 40e6 * 100, chrs = c("chr21"),
-#'         genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
-#'         gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-#'         exons_no_overlap = NULL, bw_chr = "chr"
-#'     )
-#' }
-#' if (!exists("genom_state")) {
-#'     genom_state <- generate_genomic_state(
-#'         gtf = gtf_path,
-#'         chrs_to_keep = c("21"), ensembl = TRUE
-#'     )
-#' }
-#'
-#' junctions <- lung_junc_21_22
-#' if (!exists("annot_ers1")) {
-#'     annot_ers1 <- annotatERs(
-#'         opt_ers = head(opt_ers1[["opt_ers"]], 100), junc_data = junctions,
-#'         gtf_path = gtf_path, chrs_to_keep = c("21"), ensembl = TRUE,
-#'         genom_state = genom_state
-#'     )
-#' }
-#'
-#' annot_ers <- add_expressed_genes(tissue = "lung", gtf_path = gtf_path, annot_ers = annot_ers1)
+#' # example set of ers to save runtime
+#' ex_annot_ers <- GenomicRanges::GRanges( # this is created to not overlap
+#'     seqnames = S4Vectors::Rle(c("chr21"), c(3)),
+#'     ranges = IRanges::IRanges(
+#'         start = c(5093576, 5097663, 5162182),
+#'         end = c(5093833, 5097762, 5162257)
+#'     ),
+#'     grl = GenomicRanges::GRangesList(
+#'         GenomicRanges::GRangesList(
+#'             GenomicRanges::GRanges(
+#'                 seqnames = S4Vectors::Rle(c("chr21"), c(1)),
+#'                 ranges = IRanges::IRanges(
+#'                     start = c(5093712),
+#'                     end = c(5093744)
+#'                 )
+#'             ),
+#'             GenomicRanges::GRanges(
+#'                 seqnames = S4Vectors::Rle(c("chr21"), c(1)),
+#'                 ranges = IRanges::IRanges(
+#'                     start = c(5097642),
+#'                     end = c(5097669)
+#'                 )
+#'             ),
+#'             GenomicRanges::GRanges(
+#'                 seqnames = S4Vectors::Rle(c("chr21"), c(1)),
+#'                 ranges = IRanges::IRanges(
+#'                     start = c(5162249),
+#'                     end = c(5162287)
+#'                 )
+#'             )
+#'         )
+#'     ),
+#'     annotation = c("intron", "intron", "intron")
+#' )
 #' refined_ers <- refine_ERs(annot_ers)
 #'
 #' refined_ers
