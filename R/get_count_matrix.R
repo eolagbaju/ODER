@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' library(magrittr)
+#' megadepth::install_megadepth()
 #' if (!exists("rec_url")) {
 #'     rec_url <- recount::download_study(
 #'         project = "SRP012682",
@@ -33,20 +33,18 @@
 #' example_cm <- get_count_matrix(bw_paths = c(bw_path, bw_path), annot_ers = ex_opt_ers)
 #' example_cm
 get_count_matrix <- function(bw_paths, annot_ers, cols = NULL) {
-    megadepth::install_megadepth()
-
     if (is.null(cols)) {
-        cols <- as.data.frame(bw_paths)
+        cols <- data.frame(BigWig_paths = bw_paths)
     }
 
-    if (methods::is(annot_ers, "GRanges")) {
+    if (!methods::is(annot_ers, "GRanges")) {
         stop("annot_ers must be Granges")
     }
 
     gene_counts <- matrix(nrow = length(annot_ers), ncol = length(bw_paths))
 
-    fil <- tempfile(stringr::str_c("er.bed"))
-    er_bed <- rtracklayer::export.bed(annot_ers, fil)
+    fil <- tempfile("er.bed")
+    er_bed <- rtracklayer::export.bed(object = annot_ers, con = fil)
 
     for (i in seq_along(bw_paths)) {
         mean_coverage <- megadepth::get_coverage(bigwig_file = bw_paths[i], op = "mean", annotation = er_bed)

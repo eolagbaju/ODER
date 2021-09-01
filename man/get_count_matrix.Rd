@@ -21,7 +21,7 @@ A Ranged Summarized Experiment containing the gene counts as an assay
 Scores the mean coverage of the expressed regions as a count matrix
 }
 \examples{
-library(magrittr)
+megadepth::install_megadepth()
 if (!exists("rec_url")) {
     rec_url <- recount::download_study(
         project = "SRP012682",
