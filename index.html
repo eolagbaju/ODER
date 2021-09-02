@@ -113,221 +113,56 @@
 <a href="#example" class="anchor"></a>Example</h2>
 <p>This is a basic example which shows you how to solve a common problem:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/eolagbaju/ODER">"ODER"</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://magrittr.tidyverse.org">"magrittr"</a></span><span class="op">)</span>
-<span class="co"># loading in RNA seq data to run ODER on</span>
-<span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="fu">recount</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/recount/man/all_metadata.html">all_metadata</a></span><span class="op">(</span><span class="st">"gtex"</span><span class="op">)</span>
-<span class="co">#&gt; Setting options('download.file.method.GEOquery'='auto')</span>
-<span class="co">#&gt; Setting options('GEOquery.inmemory.gpl'=FALSE)</span>
-<span class="co">#&gt; 2021-08-24 13:36:29 downloading the metadata to /tmp/RtmpVThMOm/metadata_clean_gtex.Rdata</span>
-<span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="va">gtex_metadata</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">project</span> <span class="op">==</span> <span class="st">"SRP012682"</span><span class="op">)</span>
-<span class="va">url</span> <span class="op">&lt;-</span> <span class="fu">recount</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/recount/man/download_study.html">download_study</a></span><span class="op">(</span>
-    project <span class="op">=</span> <span class="st">"SRP012682"</span>,
-    type <span class="op">=</span> <span class="st">"samples"</span>,
-    download <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span>
-<span class="co"># .file_cache is an internal function to download a bigwig file from a link if the file has been downloaded recently, it will be retrieved from a cache</span>
-<span class="va">bw_path</span> <span class="op">&lt;-</span> <span class="fu">ODER</span><span class="fu">:::</span><span class="fu">.file_cache</span><span class="op">(</span><span class="va">url</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
-<span class="va">gtf_url</span> <span class="op">&lt;-</span> <span class="st">"http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
-<span class="va">gtf_path</span> <span class="op">&lt;-</span> <span class="fu">ODER</span><span class="fu">:::</span><span class="fu">.file_cache</span><span class="op">(</span><span class="va">gtf_url</span><span class="op">)</span>
-
-<span class="co"># getting the optimally defined ERs by finding the combination of Mean Coverage Cut-off and Max Region Gap that gives the smallest exon delta</span>
-
-<span class="co"># MCC - Mean Cutoff Coverage - this is the minimum read depth that a read needs to have to be considered expressed</span>
-<span class="co"># MRG - Max Region Gap - this is the maximum number of base pairs between reads that fall below the MCC before you would not include it as part of the expressed region</span>
-<span class="va">opt_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ODER.html">ODER</a></span><span class="op">(</span>
-    bw_paths <span class="op">=</span> <span class="va">bw_path</span>, auc_raw <span class="op">=</span> <span class="va">gtex_metadata</span><span class="op">[[</span><span class="st">"auc"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="co"># auc_example,</span>
-    auc_target <span class="op">=</span> <span class="fl">40e6</span> <span class="op">*</span> <span class="fl">100</span>, chrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chr21"</span>, <span class="st">"chr22"</span><span class="op">)</span>,
-    genome <span class="op">=</span> <span class="st">"hg38"</span>, mccs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>, mrgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span>,
-    gtf <span class="op">=</span> <span class="va">gtf_path</span>, ucsc_chr <span class="op">=</span> <span class="cn">TRUE</span>, ignore.strand <span class="op">=</span> <span class="cn">TRUE</span>,
-    exons_no_overlap <span class="op">=</span> <span class="cn">NULL</span>, bw_chr <span class="op">=</span> <span class="st">"chr"</span>
-<span class="op">)</span>
-<span class="co">#&gt; Loading required package: BiocGenerics</span>
-<span class="co">#&gt; Loading required package: parallel</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'BiocGenerics'</span>
-<span class="co">#&gt; The following objects are masked from 'package:parallel':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,</span>
-<span class="co">#&gt;     clusterExport, clusterMap, parApply, parCapply, parLapply,</span>
-<span class="co">#&gt;     parLapplyLB, parRapply, parSapply, parSapplyLB</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     IQR, mad, sd, var, xtabs</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     anyDuplicated, append, as.data.frame, basename, cbind, colnames,</span>
-<span class="co">#&gt;     dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,</span>
-<span class="co">#&gt;     grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,</span>
-<span class="co">#&gt;     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,</span>
-<span class="co">#&gt;     rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,</span>
-<span class="co">#&gt;     union, unique, unsplit, which.max, which.min</span>
-<span class="co">#&gt; Loading required package: S4Vectors</span>
-<span class="co">#&gt; Loading required package: stats4</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'S4Vectors'</span>
-<span class="co">#&gt; The following object is masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     expand.grid</span>
-<span class="co">#&gt; [1] "2021-08-24 13:36:42 - Obtaining mean coverage across 1 samples"</span>
-<span class="co">#&gt; [1] "2021-08-24 13:36:42 - chr21"</span>
-<span class="co">#&gt; [1] "2021-08-24 13:36:44 - chr22"</span>
-<span class="co">#&gt; [1] "2021-08-24 13:36:44 - Generating ERs for chr21"</span>
-<span class="co">#&gt; [1] "2021-08-24 13:36:51 - Generating ERs for chr22"</span>
-<span class="co">#&gt; [1] "2021-08-24 13:36:56 - Loading in GTF..."</span>
-<span class="co">#&gt; [1] "2021-08-24 13:37:43 - Obtaining non-overlapping exons"</span>
-<span class="co">#&gt; [1] "2021-08-24 13:37:45 - Calculating delta for ERs..."</span>
-<span class="co">#&gt; [1] "2021-08-24 13:37:48 - Obtaining optimal set of ERs..."</span>
-
-<span class="co"># for stranded bigwig files:</span>
-
-<span class="co"># bw_plus &lt;- ODER:::.file_cache(url[58])</span>
-<span class="co"># bw_minus &lt;- ODER:::.file_cache(url[84])</span>
-<span class="co"># opt_strand_ers &lt;- ODER_strand(</span>
-<span class="co">#     bw_pos = bw_plus, bw_neg = bw_minus,</span>
-<span class="co">#     auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],</span>
-<span class="co">#     auc_tar_pos = 40e6 * 100, auc_tar_neg = 40e6 * 100, chrs = c("chr21", "chr22"),</span>
-<span class="co">#     genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30), gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = FALSE,</span>
+<code class="sourceCode R"><span class="co"># library("ODER")</span>
+<span class="co"># library("magrittr")</span>
+<span class="co"># # loading in RNA seq data to run ODER on</span>
+<span class="co"># gtex_metadata &lt;- recount::all_metadata("gtex")</span>
+<span class="co"># gtex_metadata &lt;- gtex_metadata %&gt;%</span>
+<span class="co">#     as.data.frame() %&gt;%</span>
+<span class="co">#     dplyr::filter(project == "SRP012682")</span>
+<span class="co"># url &lt;- recount::download_study(</span>
+<span class="co">#     project = "SRP012682",</span>
+<span class="co">#     type = "samples",</span>
+<span class="co">#     download = FALSE</span>
+<span class="co"># )</span>
+<span class="co"># # .file_cache is an internal function to download a bigwig file from a link if the file has been downloaded recently, it will be retrieved from a cache</span>
+<span class="co"># bw_path &lt;- ODER:::.file_cache(url[1])</span>
+<span class="co"># gtf_url &lt;- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
+<span class="co"># gtf_path &lt;- ODER:::.file_cache(gtf_url)</span>
+<span class="co">#</span>
+<span class="co"># # getting the optimally defined ERs by finding the combination of Mean Coverage Cut-off and Max Region Gap that gives the smallest exon delta</span>
+<span class="co">#</span>
+<span class="co"># # MCC - Mean Cutoff Coverage - this is the minimum read depth that a read needs to have to be considered expressed</span>
+<span class="co"># # MRG - Max Region Gap - this is the maximum number of base pairs between reads that fall below the MCC before you would not include it as part of the expressed region</span>
+<span class="co"># opt_ers &lt;- ODER(</span>
+<span class="co">#     bw_paths = bw_path, auc_raw = gtex_metadata[["auc"]][1], # auc_example,</span>
+<span class="co">#     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),</span>
+<span class="co">#     genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),</span>
+<span class="co">#     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,</span>
 <span class="co">#     exons_no_overlap = NULL, bw_chr = "chr"</span>
 <span class="co"># )</span>
-
-<span class="va">opt_ers</span>
-<span class="co">#&gt; $opt_ers</span>
-<span class="co">#&gt; GRanges object with 14662 ranges and 0 metadata columns:</span>
-<span class="co">#&gt;           seqnames            ranges strand</span>
-<span class="co">#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
-<span class="co">#&gt;       [1]    chr21   5032176-5032217      *</span>
-<span class="co">#&gt;       [2]    chr21   5033408-5033425      *</span>
-<span class="co">#&gt;       [3]    chr21   5034717-5034756      *</span>
-<span class="co">#&gt;       [4]    chr21   5035188-5035189      *</span>
-<span class="co">#&gt;       [5]    chr21   5036577-5036581      *</span>
-<span class="co">#&gt;       ...      ...               ...    ...</span>
-<span class="co">#&gt;   [14658]    chr22 50798779-50798835      *</span>
-<span class="co">#&gt;   [14659]    chr22 50798884-50799149      *</span>
-<span class="co">#&gt;   [14660]    chr22 50799209-50799284      *</span>
-<span class="co">#&gt;   [14661]    chr22 50799669-50799744      *</span>
-<span class="co">#&gt;   [14662]    chr22 50800460-50800587      *</span>
-<span class="co">#&gt;   -------</span>
-<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $opt_mcc_mrg</span>
-<span class="co">#&gt; [1] "mcc_10" "mrg_30"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $deltas</span>
-<span class="co">#&gt; # A tibble: 15 x 7</span>
-<span class="co">#&gt;      mcc   mrg     sum  mean median n_eq_0 propor_eq_0</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;   &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;int&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt;  1     2    10 2613404  929.   178.    324       0.115</span>
-<span class="co">#&gt;  2     2    20 2347085  887.   172     324       0.122</span>
-<span class="co">#&gt;  3     2    30 2136347  857.   164     331       0.133</span>
-<span class="co">#&gt;  4     4    10 2314874  950.   157     329       0.135</span>
-<span class="co">#&gt;  5     4    20 2067967  910.   151     339       0.149</span>
-<span class="co">#&gt;  6     4    30 1878983  873.   147     344       0.160</span>
-<span class="co">#&gt;  7     6    10 2084841  971.   146     321       0.149</span>
-<span class="co">#&gt;  8     6    20 1790136  900.   132     329       0.165</span>
-<span class="co">#&gt;  9     6    30 1553676  833.   124     337       0.181</span>
-<span class="co">#&gt; 10     8    10 1929926  985.   142     329       0.168</span>
-<span class="co">#&gt; 11     8    20 1651370  922.   126     339       0.189</span>
-<span class="co">#&gt; 12     8    30 1417918  842.   116     351       0.209</span>
-<span class="co">#&gt; 13    10    10 1771837 1009.   139     316       0.180</span>
-<span class="co">#&gt; 14    10    20 1457726  911.   118     323       0.202</span>
-<span class="co">#&gt; 15    10    30 1323807  876.   112.    336       0.222</span>
-<span class="co"># opt_strand_ers</span></code></pre></div>
-<p>The median exon delta represents the overall accuracy of all ER definitions, whereas the number of ERs with exon delta equal to 0 indicates the extent to which ER definitions precisely match overlapping exon boundaries.</p>
-<p><img src="reference/figures/README-plot_example-1.png" width="100%"></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-
-<span class="co"># annotating the optimally defined ers with overlapping junctions</span>
-
-<span class="va">annot_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/annotatERs.html">annotatERs</a></span><span class="op">(</span>
-    opt_ers <span class="op">=</span> <span class="va">opt_ers</span><span class="op">[[</span><span class="st">"opt_ers"</span><span class="op">]</span><span class="op">]</span>, junc_data <span class="op">=</span> <span class="va">lung_junc_21_22</span>,
-    gtf_path <span class="op">=</span> <span class="va">gtf_path</span>, chrs_to_keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"21"</span>, <span class="st">"22"</span><span class="op">)</span>, ensembl <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-<span class="co">#&gt; [1] "2021-08-24 13:37:50 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span>
-<span class="co">#&gt; [1] "2021-08-24 13:37:50 - Importing gtf/gff3 as a TxDb..."</span>
-<span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span>
-<span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span>
-<span class="co">#&gt; Make the TxDb object ...</span>
-<span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span>
-<span class="co">#&gt;   stop_codon. This information was ignored.</span>
-<span class="co">#&gt; OK</span>
-<span class="co">#&gt; [1] "2021-08-24 13:39:21 - Getting junction annotation using overlapping exons..."</span>
-<span class="co">#&gt; [1] "2021-08-24 13:39:22 - Tidying junction annotation..."</span>
-<span class="co">#&gt; [1] "2021-08-24 13:39:22 - Deriving junction categories..."</span>
-<span class="co">#&gt; [1] "2021-08-24 13:39:24 - done!"</span>
-<span class="co">#&gt; [1] "2021-08-24 13:39:24 - Finding junctions overlapping ers..."</span>
-<span class="co">#&gt; [1] "2021-08-24 13:40:19 - Generating a genomic state..."</span>
-<span class="co">#&gt; Import genomic features from the file as a GRanges object ... OK</span>
-<span class="co">#&gt; Prepare the 'metadata' data frame ... OK</span>
-<span class="co">#&gt; Make the TxDb object ...</span>
-<span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span>
-<span class="co">#&gt;   stop_codon. This information was ignored.</span>
-<span class="co">#&gt; OK</span>
-<span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span>
-<span class="co">#&gt;   stop_codon. This information was ignored.</span>
-<span class="co">#&gt; extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span>
-<span class="co">#&gt; 'select()' returned 1:1 mapping between keys and columns</span>
-<span class="co">#&gt; [1] "2021-08-24 13:42:35 - Annotating the Expressed regions..."</span>
-<span class="co">#&gt; 2021-08-24 13:42:35 annotateRegions: counting</span>
-<span class="co">#&gt; 2021-08-24 13:42:35 annotateRegions: annotating</span>
-<span class="co">#&gt; [1] "2021-08-24 13:43:21 - done!"</span>
-
-<span class="co"># To check the types of tissue you can filter for:</span>
-<span class="co"># print(tissue_options)</span>
-
-<span class="va">annot_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/add_expressed_genes.html">add_expressed_genes</a></span><span class="op">(</span>tissue <span class="op">=</span> <span class="st">"lung"</span>, gtf_path <span class="op">=</span> <span class="va">gtf_path</span>, annot_ers <span class="op">=</span> <span class="va">annot_ers</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># modify the starts and ends of the ERs using the junction data</span>
-
-<span class="va">refined_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/refine_ERs.html">refine_ERs</a></span><span class="op">(</span><span class="va">annot_ers</span><span class="op">)</span>
-<span class="co">#&gt; [1] "2021-08-24 13:44:47 - Refining the Expressed regions..."</span>
-
-<span class="va">refined_ers</span>
-<span class="co">#&gt; GRanges object with 2 ranges and 7 metadata columns:</span>
-<span class="co">#&gt;       seqnames          ranges strand |                     grl           genes</span>
-<span class="co">#&gt;          &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; |           &lt;GRangesList&gt; &lt;CharacterList&gt;</span>
-<span class="co">#&gt;   [1]    chr21 5093713-5093743      * | chr21:5093712-5093744:+ ENSG00000280071</span>
-<span class="co">#&gt;   [2]    chr21 5162182-5162248      * | chr21:5162249-5162287:+ ENSG00000280433</span>
-<span class="co">#&gt;        annotation  og_index       gene_source nearest_gene_v94_name</span>
-<span class="co">#&gt;       &lt;character&gt; &lt;integer&gt;       &lt;character&gt;           &lt;character&gt;</span>
-<span class="co">#&gt;   [1]      intron        15 nearest gtf genes       ENSG00000280071</span>
-<span class="co">#&gt;   [2]      intron        71 nearest gtf genes       ENSG00000280433</span>
-<span class="co">#&gt;       nearest_expressed_gene_v94_name</span>
-<span class="co">#&gt;                           &lt;character&gt;</span>
-<span class="co">#&gt;   [1]                 ENSG00000264462</span>
-<span class="co">#&gt;   [2]                 ENSG00000264462</span>
-<span class="co">#&gt;   -------</span>
-<span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Generate a count matrix for the annotated ERs</span>
-
-<span class="va">run</span> <span class="op">&lt;-</span> <span class="va">gtex_metadata</span><span class="op">[[</span><span class="st">"run"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
-<span class="va">col_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">run</span><span class="op">)</span>
-
-<span class="va">er_count_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_count_matrix.html">get_count_matrix</a></span><span class="op">(</span>bw_paths <span class="op">=</span> <span class="va">bw_path</span>, annot_ers <span class="op">=</span> <span class="va">annot_ers</span>, cols <span class="op">=</span> <span class="va">col_info</span><span class="op">)</span>
-<span class="co">#&gt; The latest megadepth version is 1.1.0c</span>
-<span class="co">#&gt; megadepth has been installed to /home/rstudio/bin</span>
-<span class="co">#&gt; Warning in is.na(.x): is.na() applied to non-(list or vector) of type 'S4'</span>
-
-<span class="va">er_count_matrix</span>
-<span class="co">#&gt; class: RangedSummarizedExperiment </span>
-<span class="co">#&gt; dim: 6641 1 </span>
-<span class="co">#&gt; metadata(0):</span>
-<span class="co">#&gt; assays(1): ''</span>
-<span class="co">#&gt; rownames: NULL</span>
-<span class="co">#&gt; rowData names(0):</span>
-<span class="co">#&gt; colnames: NULL</span>
-<span class="co">#&gt; colData names(1): run</span></code></pre></div>
+<span class="co">#</span>
+<span class="co"># # for stranded bigwig files:</span>
+<span class="co">#</span>
+<span class="co"># # bw_plus &lt;- ODER:::.file_cache(url[58])</span>
+<span class="co"># # bw_minus &lt;- ODER:::.file_cache(url[84])</span>
+<span class="co"># # opt_strand_ers &lt;- ODER_strand(</span>
+<span class="co"># #     bw_pos = bw_plus, bw_neg = bw_minus,</span>
+<span class="co"># #     auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],</span>
+<span class="co"># #     auc_tar_pos = 40e6 * 100, auc_tar_neg = 40e6 * 100, chrs = c("chr21", "chr22"),</span>
+<span class="co"># #     genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30), gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = FALSE,</span>
+<span class="co"># #     exons_no_overlap = NULL, bw_chr = "chr"</span>
+<span class="co"># # )</span>
+<span class="co">#</span>
+<span class="co"># opt_ers</span>
+<span class="co"># # opt_strand_ers</span></code></pre></div>
 <p>In that case, don’t forget to commit and push the resulting figure files, so they display on GitHub!</p>
 </div>
 <div id="citation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
 <p>Below is the citation output from using <code><a href="https://rdrr.io/r/utils/citation.html">citation('ODER')</a></code> in R. Please run this yourself to check for any updates on how to cite <strong>ODER</strong>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># print(citation('ODER'), bibtex = TRUE)</span></code></pre></div>
 <p>Please note that the <code>ODER</code> was only made possible thanks to many other R and bioinformatics software authors, which are cited either in the vignettes and/or the paper(s) describing this package.</p>
 </div>

@@ -157,93 +157,35 @@ output. If NULL then the bw_paths will be used for the colData</p></td>
     <p>A Ranged Summarized Experiment containing the gene counts as an assay</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span>
-<span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/all_metadata.html'>all_metadata</a></span><span class='op'>(</span><span class='st'>"gtex"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>2021-08-24 22:08:06 downloading the metadata to /tmp/RtmpfgXOQD/metadata_clean_gtex.Rdata</span></div><div class='input'><span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='va'>gtex_metadata</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='fu'>megadepth</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/megadepth/man/install_megadepth.html'>install_megadepth</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>The latest megadepth version is 1.1.1</span></div><div class='output co'>#&gt; <span class='message'>megadepth has been installed to /github/home/bin</span></div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"rec_url"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>rec_url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span>
+        project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,
+        type <span class='op'>=</span> <span class='st'>"samples"</span>,
+        download <span class='op'>=</span> <span class='cn'>FALSE</span>
+    <span class='op'>)</span> <span class='co'># .file_cache is an internal function to download a bigwig file from a link</span>
+    <span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span>
+<span class='op'>}</span>
+<span class='va'>bw_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
 
-<span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
-<span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
+<span class='va'>ex_opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>GenomicRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html'>GRanges</a></span><span class='op'>(</span>
+    seqnames <span class='op'>=</span> <span class='fu'>S4Vectors</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Rle-class.html'>Rle</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr1"</span>, <span class='st'>"chr2"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>,
+    ranges <span class='op'>=</span> <span class='fu'>IRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IRanges/man/IRanges-constructor.html'>IRanges</a></span><span class='op'>(</span>
+        start <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>,
+        end <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>500</span>, <span class='fl'>100</span><span class='op'>)</span>
+    <span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='va'>url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span>
-    project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,
-    type <span class='op'>=</span> <span class='st'>"samples"</span>,
-    download <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span> <span class='co'># .file_cache is an internal function to download a bigwig file from a link</span>
-<span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span>
-
-<span class='va'>bw_path</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>url</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>bw_path2</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>url</span><span class='op'>[</span><span class='fl'>91</span><span class='op'>]</span><span class='op'>)</span>
-
-<span class='va'>opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='fu'><a href='ODER.html'>ODER</a></span><span class='op'>(</span>
-    bw_paths <span class='op'>=</span> <span class='va'>bw_path</span>, auc_raw <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span>,
-    auc_target <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>, chrs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>,
-    genome <span class='op'>=</span> <span class='st'>"hg38"</span>, mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>4</span>, <span class='fl'>6</span>, <span class='fl'>8</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>30</span><span class='op'>)</span>,
-    gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>, ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>,
-    exons_no_overlap <span class='op'>=</span> <span class='cn'>NULL</span>, bw_chr <span class='op'>=</span> <span class='st'>"chr"</span>
-<span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-08-24 22:08:08 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-08-24 22:08:08 - chr21"
-#&gt; [1] "2021-08-24 22:08:08 - chr22"
-#&gt; [1] "2021-08-24 22:08:09 - Generating ERs for chr21"
-#&gt; [1] "2021-08-24 22:08:11 - Generating ERs for chr22"
-#&gt; [1] "2021-08-24 22:08:13 - Loading in GTF..."
-#&gt; [1] "2021-08-24 22:08:51 - Obtaining non-overlapping exons"
-#&gt; [1] "2021-08-24 22:08:55 - Calculating delta for ERs..."
-#&gt; [1] "2021-08-24 22:08:57 - Obtaining optimal set of ERs..."</div><div class='input'>
-<span class='va'>opt_ers2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='fu'><a href='ODER.html'>ODER</a></span><span class='op'>(</span>
-    bw_paths <span class='op'>=</span> <span class='va'>bw_path</span>, auc_raw <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>91</span><span class='op'>]</span>,
-    auc_target <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>, chrs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>,
-    genome <span class='op'>=</span> <span class='st'>"hg38"</span>, mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>4</span>, <span class='fl'>6</span>, <span class='fl'>8</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>30</span><span class='op'>)</span>,
-    gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>, ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>,
-    exons_no_overlap <span class='op'>=</span> <span class='cn'>NULL</span>, bw_chr <span class='op'>=</span> <span class='st'>"chr"</span>
-<span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-08-24 22:08:57 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-08-24 22:08:57 - chr21"
-#&gt; [1] "2021-08-24 22:08:57 - chr22"
-#&gt; [1] "2021-08-24 22:08:58 - Generating ERs for chr21"
-#&gt; [1] "2021-08-24 22:09:01 - Generating ERs for chr22"
-#&gt; [1] "2021-08-24 22:09:03 - Loading in GTF..."
-#&gt; [1] "2021-08-24 22:09:40 - Obtaining non-overlapping exons"
-#&gt; [1] "2021-08-24 22:09:42 - Calculating delta for ERs..."
-#&gt; [1] "2021-08-24 22:09:44 - Obtaining optimal set of ERs..."</div><div class='input'>
-<span class='va'>test_juncs</span> <span class='op'>&lt;-</span> <span class='fu'>SummarizedExperiment</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/SummarizedExperiment/man/RangedSummarizedExperiment-class.html'>rowRanges</a></span><span class='op'>(</span><span class='fu'>dasper</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/dasper/man/junctions_example.html'>junctions_example</a></span><span class='op'>)</span>
-<span class='va'>aers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='fu'><a href='annotatERs.html'>annotatERs</a></span><span class='op'>(</span><span class='va'>opt_ers</span><span class='op'>[[</span><span class='st'>"opt_ers"</span><span class='op'>]</span><span class='op'>]</span>,
-    junc_data <span class='op'>=</span> <span class='va'>test_juncs</span>,
-    gtf_path <span class='op'>=</span> <span class='va'>gtf_path</span>, ensembl <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-08-24 22:09:44 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#&gt; [1] "2021-08-24 22:09:44 - Importing gtf/gff3 as a TxDb..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; [1] "2021-08-24 22:11:01 - Getting junction annotation using overlapping exons..."
-#&gt; [1] "2021-08-24 22:11:03 - Tidying junction annotation..."
-#&gt; [1] "2021-08-24 22:11:04 - Deriving junction categories..."
-#&gt; [1] "2021-08-24 22:11:08 - done!"
-#&gt; [1] "2021-08-24 22:11:08 - Finding junctions overlapping ers..."
-#&gt; [1] "2021-08-24 22:11:37 - Generating a genomic state..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='output co'>#&gt; [1] "2021-08-24 22:18:37 - Annotating the Expressed regions..."</div><div class='output co'>#&gt; <span class='message'>2021-08-24 22:18:38 annotateRegions: counting</span></div><div class='output co'>#&gt; <span class='message'>2021-08-24 22:18:39 annotateRegions: annotating</span></div><div class='output co'>#&gt; [1] "2021-08-24 22:19:27 - done!"</div><div class='input'><span class='va'>aers2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='fu'><a href='annotatERs.html'>annotatERs</a></span><span class='op'>(</span><span class='va'>opt_ers2</span><span class='op'>[[</span><span class='st'>"opt_ers"</span><span class='op'>]</span><span class='op'>]</span>,
-    junc_data <span class='op'>=</span> <span class='va'>test_juncs</span>,
-    gtf_path <span class='op'>=</span> <span class='va'>gtf_path</span>, ensembl <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-08-24 22:19:27 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#&gt; [1] "2021-08-24 22:19:27 - Importing gtf/gff3 as a TxDb..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; [1] "2021-08-24 22:20:50 - Getting junction annotation using overlapping exons..."
-#&gt; [1] "2021-08-24 22:20:52 - Tidying junction annotation..."
-#&gt; [1] "2021-08-24 22:20:53 - Deriving junction categories..."
-#&gt; [1] "2021-08-24 22:20:58 - done!"
-#&gt; [1] "2021-08-24 22:20:58 - Finding junctions overlapping ers..."
-#&gt; [1] "2021-08-24 22:21:27 - Generating a genomic state..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='output co'>#&gt; [1] "2021-08-24 22:28:58 - Annotating the Expressed regions..."</div><div class='output co'>#&gt; <span class='message'>2021-08-24 22:28:59 annotateRegions: counting</span></div><div class='output co'>#&gt; <span class='message'>2021-08-24 22:29:00 annotateRegions: annotating</span></div><div class='output co'>#&gt; [1] "2021-08-24 22:29:44 - done!"</div><div class='input'><span class='co'># }</span>
-<span class='va'>example_bw_paths</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>bw_path</span>, <span class='va'>bw_path2</span><span class='op'>)</span>
-<span class='va'>annot_ersl</span> <span class='op'>&lt;-</span> <span class='fu'>GenomicRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicRanges/man/GRangesList-class.html'>GRangesList</a></span><span class='op'>(</span><span class='va'>aers</span>, <span class='va'>aers2</span><span class='op'>)</span>
-
-<span class='va'>example_cm</span> <span class='op'>&lt;-</span> <span class='fu'>get_count_matrix</span><span class='op'>(</span>bw_paths <span class='op'>=</span> <span class='va'>example_bw_paths</span>, annot_ers <span class='op'>=</span> <span class='va'>annot_ersl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The latest megadepth version is 1.1.1</span></div><div class='output co'>#&gt; <span class='message'>megadepth has been installed to /github/home/bin</span></div><div class='output co'>#&gt; <span class='warning'>Warning: is.na() applied to non-(list or vector) of type 'S4'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: is.na() applied to non-(list or vector) of type 'S4'</span></div><div class='input'><span class='va'>example_cm</span>
+<span class='va'>example_cm</span> <span class='op'>&lt;-</span> <span class='fu'>get_count_matrix</span><span class='op'>(</span>bw_paths <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>bw_path</span>, <span class='va'>bw_path</span><span class='op'>)</span>, annot_ers <span class='op'>=</span> <span class='va'>ex_opt_ers</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: is.na() applied to non-(list or vector) of type 'S4'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: is.na() applied to non-(list or vector) of type 'S4'</span></div><div class='input'><span class='va'>example_cm</span>
 </div><div class='output co'>#&gt; class: RangedSummarizedExperiment 
-#&gt; dim: 5716 2 
+#&gt; dim: 5 2 
 #&gt; metadata(0):
 #&gt; assays(1): ''
 #&gt; rownames: NULL
 #&gt; rowData names(0):
-#&gt; colnames(2): BFC5 BFC6
-#&gt; colData names(1): bw_paths</div></pre>
+#&gt; colnames: NULL
+#&gt; colData names(1): BigWig_paths</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

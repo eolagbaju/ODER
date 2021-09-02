@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>An example object containing coverage — coverage_example • ODER</title>
+<title>Cache a file if it is not found locally — .file_cache • ODER</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,10 @@
 
 
 
-<meta property="og:title" content="An example object containing coverage — coverage_example" />
-<meta property="og:description" content="Coverage generated for a user to try out the package and
-to pass in for tests. Coverage of chromosomes 21 and 22 from the project
-SRP012682." />
+<meta property="og:title" content="Cache a file if it is not found locally — .file_cache" />
+<meta property="og:description" content=".file_cache will use BiocFileCache
+will cache the file for faster repeated retrival, if it is not found locally
+(i.e. a URL)." />
 
 
 
@@ -125,27 +125,44 @@ SRP012682." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>An example object containing coverage</h1>
-    <small class="dont-index">Source: <a href='https://github.com/eolagbaju/ODER/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>coverage_example.Rd</code></div>
+    <h1>Cache a file if it is not found locally</h1>
+    <small class="dont-index">Source: <a href='https://github.com/eolagbaju/ODER/blob/master/R/rutils.R'><code>R/rutils.R</code></a></small>
+    <div class="hidden name"><code>dot-file_cache.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Coverage generated for a user to try out the package and
-to pass in for tests. Coverage of chromosomes 21 and 22 from the project
-SRP012682.</p>
+    <p><code>.file_cache</code> will use <a href='https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html'>BiocFileCache</a>
+will cache the file for faster repeated retrival, if it is not found locally
+(i.e. a URL).</p>
     </div>
 
-    <pre class="usage"><span class='va'>coverage_example</span></pre>
+    <pre class="usage"><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>file_path</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>file_path</th>
+      <td><p>a path to file of interest.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of length 2 containing 2 Rles for chromosomes 21 and 22 respectively</p>
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+    <p>file_path of cached file or unchanged file_path if found locally.</p>
 
-    <p>See example.R in data-raw</p>
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"rec_url"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>rec_url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span>
+        project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,
+        type <span class='op'>=</span> <span class='st'>"samples"</span>,
+        download <span class='op'>=</span> <span class='cn'>FALSE</span>
+    <span class='op'>)</span>
+<span class='op'>}</span>
+<span class='va'>eg_bwfile</span> <span class='op'>&lt;-</span> <span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>eg_bwfile</span>
+</div><div class='output co'>#&gt;                                                                            BFC1 
+#&gt; "~/.cache/BiocFileCache/3872c04b639_SRR660824_SRS389722_SRX222703_male_lung.bw" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

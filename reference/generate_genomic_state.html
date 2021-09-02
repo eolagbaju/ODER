@@ -40,7 +40,10 @@
 
 
 <meta property="og:title" content="Generating a genomic state object from Txdb or gtf — generate_genomic_state" />
-<meta property="og:description" content="generate_genomic_state takes txdb object or a gtf file and makes a
+<meta property="og:description" content="generate_genomic_state takes txdb object (TxDb-class)
+or a gtf file and makes a genomic state to be used in the annotation of the
+expressed regions
+generate_genomic_state takes Txdb object or a gtf file and makes a
 genomic state to be used in the annotation of the expressed regions" />
 
 
@@ -130,7 +133,10 @@ genomic state to be used in the annotation of the expressed regions" />
     </div>
 
     <div class="ref-description">
-    <p><code>generate_genomic_state</code> takes txdb object or a gtf file and makes a
+    <p><code>generate_genomic_state</code> takes txdb object (<a href='https://rdrr.io/pkg/GenomicFeatures/man/TxDb-class.html'>TxDb-class</a>)
+or a gtf file and makes a genomic state to be used in the annotation of the
+expressed regions
+<code>generate_genomic_state</code> takes Txdb object or a gtf file and makes a
 genomic state to be used in the annotation of the expressed regions</p>
     </div>
 
@@ -171,19 +177,21 @@ ensembl, the default is true</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
-<span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
-    <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
-    <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
-<span class='op'>)</span>
-<span class='co'># .file_cache is an internal function to download a bigwig file from a link</span>
-<span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span>
-<span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_path"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
+        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
+        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
+    <span class='op'>)</span>
+    <span class='co'># .file_cache is an internal function to download a bigwig file from a link</span>
+    <span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span>
+    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
+<span class='op'>}</span>
 <span class='co'># }</span>
 <span class='va'>genom_state</span> <span class='op'>&lt;-</span> <span class='fu'>generate_genomic_state</span><span class='op'>(</span>
     gtf <span class='op'>=</span> <span class='va'>gtf_path</span>,
     chrs_to_keep <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1"</span>, <span class='st'>"2"</span>, <span class='st'>"X"</span><span class='op'>)</span>, ensembl <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-08-24 22:05:29 - Generating a genomic state..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
+</div><div class='output co'>#&gt; [1] "2021-09-02 13:52:15 - Generating a genomic state..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
 #&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
 #&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div></pre>
   </div>

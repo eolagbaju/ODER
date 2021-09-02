@@ -42,10 +42,10 @@
 <meta property="og:title" content="Get junctions that overlap the optimally defined ERs — get_junctions" />
 <meta property="og:description" content="The junctions will be added to the ERs passed in as a metadata column, a
 GRangeslist with each GRanges element of the list corresponding to it's
-associated ER. If there are no overlaps, the GRangeslist will be empty.
-Any ERs that do not have an overlapping junction will have an empty GRanges.
-The respective genes that each ER could be associated with will also be passed
-in as a metadata column, a character list" />
+associated ER. If there are no overlaps, the GRangeslist will be empty. Any
+ERs that do not have an overlapping junction will have an empty GRanges. The
+respective genes that each ER could be associated with will also be passed in
+as a metadata column, a character list." />
 
 
 
@@ -135,11 +135,11 @@ in as a metadata column, a character list" />
 
     <div class="ref-description">
     <p>The junctions will be added to the ERs passed in as a metadata column, a
-GRangeslist with each GRanges element of the list corresponding to it's
-associated ER. If there are no overlaps, the GRangeslist will be empty.
-Any ERs that do not have an overlapping junction will have an empty GRanges.
-The respective genes that each ER could be associated with will also be passed
-in as a metadata column, a character list</p>
+<code>GRangeslist</code> with each GRanges element of the list corresponding to it's
+associated ER. If there are no overlaps, the <code>GRangeslist</code> will be empty. Any
+ERs that do not have an overlapping junction will have an empty GRanges. The
+respective genes that each ER could be associated with will also be passed in
+as a metadata column, a character list.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_junctions</span><span class='op'>(</span><span class='va'>opt_ers</span>, <span class='va'>junc_data</span>, <span class='va'>gtf_path</span><span class='op'>)</span></pre>
@@ -164,28 +164,22 @@ in as a metadata column, a character list</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>optimally defined ers annotated with junction and gene information</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Each Granges of the GRangeslist will have the metadata columns of "in_ref",
-"gene_id_start", "tx_name_start", "exon_name_start", "strand_start",
-"exon_width_start","gene_id_end", "tx_name_end", "exon_name_end", "strand_end",
-"exon_width_end", "gene_id_junction", "strand_junction", "type" and "er_index
-added by dasper's junction_annot.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>dasper::junction_annot</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
-<span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
-    <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
-    <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
-<span class='op'>)</span>
-<span class='co'># .file_cache is an internal function to download a bigwig file from a link</span>
-<span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span>
-<span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_path"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
+        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
+        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
+    <span class='op'>)</span>
+    <span class='co'># .file_cache is an internal function to download a bigwig file from a link</span>
+    <span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span>
+    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
+<span class='op'>}</span>
 <span class='co'># }</span>
-
 <span class='va'>example_ers</span> <span class='op'>&lt;-</span> <span class='fu'>GenomicRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html'>GRanges</a></span><span class='op'>(</span>
     seqnames <span class='op'>=</span> <span class='fu'>S4Vectors</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Rle-class.html'>Rle</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>,
     ranges <span class='op'>=</span> <span class='fu'>IRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IRanges/man/IRanges-constructor.html'>IRanges</a></span><span class='op'>(</span>
@@ -211,13 +205,13 @@ added by dasper's junction_annot.</p>
     junc_data <span class='op'>=</span> <span class='va'>example_junctions</span>,
     gtf_path <span class='op'>=</span> <span class='va'>gtf_path</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-08-24 22:31:43 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#&gt; [1] "2021-08-24 22:31:43 - Importing gtf/gff3 as a TxDb..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
-#&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; [1] "2021-08-24 22:33:00 - Getting junction annotation using overlapping exons..."
-#&gt; [1] "2021-08-24 22:33:01 - Tidying junction annotation..."
-#&gt; [1] "2021-08-24 22:33:01 - Deriving junction categories..."
-#&gt; [1] "2021-08-24 22:33:06 - done!"
-#&gt; [1] "2021-08-24 22:33:06 - Finding junctions overlapping ers..."</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-09-02 13:56:55 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+#&gt; [1] "2021-09-02 13:56:55 - Importing gtf/gff3 as a TxDb..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
+#&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; [1] "2021-09-02 13:58:25 - Getting junction annotation using overlapping exons..."
+#&gt; [1] "2021-09-02 13:58:27 - Tidying junction annotation..."
+#&gt; [1] "2021-09-02 13:58:28 - Deriving junction categories..."
+#&gt; [1] "2021-09-02 13:58:33 - done!"
+#&gt; [1] "2021-09-02 13:58:33 - Finding junctions overlapping ers..."</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>example_er_juncs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; GRanges object with 11 ranges and 4 metadata columns:
 #&gt;     seqnames            ranges strand |     score        GC

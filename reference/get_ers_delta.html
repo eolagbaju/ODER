@@ -167,28 +167,32 @@ of ERs.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
-<span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
-    <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
-    <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
-<span class='op'>)</span>
-<span class='co'># .file_cache is an internal function to download a bigwig file from a link</span>
-<span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span>
-<span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
-
-<span class='va'>eg_opt_exons</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_exons.html'>get_exons</a></span><span class='op'>(</span>
-    gtf <span class='op'>=</span> <span class='va'>gtf_path</span>,
-    ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,
-    ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-08-24 22:29:53 - Loading in GTF..."
-#&gt; [1] "2021-08-24 22:30:27 - Obtaining non-overlapping exons"</div><div class='input'><span class='co'># }</span>
-<span class='va'>eg_ers_delta</span> <span class='op'>&lt;-</span> <span class='fu'>get_ers_delta</span><span class='op'>(</span>
-    ers <span class='op'>=</span> <span class='va'>ers_example</span>, <span class='co'># ers_example is from the package data folder</span>
-    opt_exons <span class='op'>=</span> <span class='va'>eg_opt_exons</span>,
-    delta_fun <span class='op'>=</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='va'>.delta</span>
-<span class='op'>)</span> <span class='co'># .delta is ODER's default, you can pass in your own if you have one</span>
-</div><div class='output co'>#&gt; [1] "2021-08-24 22:30:29 - Calculating delta for ERs..."</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_ers_delta</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_path"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
+        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
+        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
+    <span class='op'>)</span>
+    <span class='co'># .file_cache is an internal function to download a bigwig file from a link</span>
+    <span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span>
+    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"eg_opt_exons"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>eg_opt_exons</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_exons.html'>get_exons</a></span><span class='op'>(</span>
+        gtf <span class='op'>=</span> <span class='va'>gtf_path</span>,
+        ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,
+        ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>
+    <span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; [1] "2021-09-02 13:55:27 - Loading in GTF..."
+#&gt; [1] "2021-09-02 13:56:08 - Obtaining non-overlapping exons"</div><div class='input'><span class='co'># }</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"eg_ers_delta"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>eg_ers_delta</span> <span class='op'>&lt;-</span> <span class='fu'>get_ers_delta</span><span class='op'>(</span>
+        ers <span class='op'>=</span> <span class='va'>ers_example</span>, <span class='co'># ers_example is from the package data folder</span>
+        opt_exons <span class='op'>=</span> <span class='va'>eg_opt_exons</span>,
+        delta_fun <span class='op'>=</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='va'>.delta</span>
+    <span class='op'>)</span> <span class='co'># .delta is ODER's default, you can pass in your own if you have one</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; [1] "2021-09-02 13:56:10 - Calculating delta for ERs..."</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_ers_delta</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 7</span><span>
 #&gt;     mcc   mrg     sum  mean median n_eq_0 propor_eq_0
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>

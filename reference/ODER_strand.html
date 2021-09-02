@@ -172,15 +172,15 @@ of bigwig paths.</p></td>
     </tr>
     <tr>
       <th>auc_target</th>
-      <td><p>total AUC to normalise all samples to e.g. 40e6 * 100
-would be the estimated total auc for sample sequenced to 40 million reads
-of 100bp in length.</p></td>
+      <td><p>total AUC to normalise all samples to e.g. 40e6 * 100 would
+be the estimated total auc for sample sequenced to 40 million reads of
+100bp in length.</p></td>
     </tr>
     <tr>
       <th>chrs</th>
       <td><p>chromosomes to obtain mean coverage for, default is "" giving
-every chromosome. Can take UCSC format(chrs = "chr1")
-or just the chromosome i.e. chrs = c(1,X)</p></td>
+every chromosome. Can take UCSC format(chrs = "chr1") or just the
+chromosome i.e. chrs = c(1,X)</p></td>
     </tr>
     <tr>
       <th>genome</th>
@@ -229,168 +229,80 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://magrittr.tidyverse.org'>"magrittr"</a></span><span class='op'>)</span>
-<span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/all_metadata.html'>all_metadata</a></span><span class='op'>(</span><span class='st'>"gtex"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>2021-08-24 21:48:46 downloading the metadata to /tmp/RtmpfgXOQD/metadata_clean_gtex.Rdata</span></div><div class='input'><span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='va'>gtex_metadata</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span>
-
-<span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
-    <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
-    <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
-<span class='op'>)</span>
-<span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
-
-<span class='va'>url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span>
-    project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,
-    type <span class='op'>=</span> <span class='st'>"samples"</span>,
-    download <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span>
-<span class='va'>bw_plus</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>url</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>bw_minus</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>url</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtex_metadata"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/all_metadata.html'>all_metadata</a></span><span class='op'>(</span><span class='st'>"gtex"</span><span class='op'>)</span>
+    <span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='va'>gtex_metadata</span> <span class='op'>%&gt;%</span>
+        <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+        <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='message'>2021-09-02 13:45:25 downloading the metadata to /tmp/Rtmpln4bSI/metadata_clean_gtex.Rdata</span></div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_path"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
+        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
+        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
+    <span class='op'>)</span>
+    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"rec_url"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>rec_url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span>
+        project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,
+        type <span class='op'>=</span> <span class='st'>"samples"</span>,
+        download <span class='op'>=</span> <span class='cn'>FALSE</span>
+    <span class='op'>)</span>
+<span class='op'>}</span>
+<span class='va'>bw_plus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>bw_minus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span><span class='op'>)</span>
 
 <span class='va'>opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>ODER_strand</span><span class='op'>(</span>
     bw_pos <span class='op'>=</span> <span class='va'>bw_plus</span>, bw_neg <span class='op'>=</span> <span class='va'>bw_minus</span>,
     auc_raw_pos <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span>, auc_raw_neg <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span>,
-    auc_target <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>, chrs <span class='op'>=</span> <span class='st'>""</span>, genome <span class='op'>=</span> <span class='st'>"hg38"</span>,
+    auc_target <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>, chrs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>, genome <span class='op'>=</span> <span class='st'>"hg38"</span>,
     mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span>, gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,
     ignore.strand <span class='op'>=</span> <span class='cn'>FALSE</span>, exons_no_overlap <span class='op'>=</span> <span class='cn'>NULL</span>, bw_chr <span class='op'>=</span> <span class='st'>"chr"</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-08-24 21:48:48 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-08-24 21:48:48 - chr1"
-#&gt; [1] "2021-08-24 21:48:51 - chr2"
-#&gt; [1] "2021-08-24 21:48:53 - chr3"
-#&gt; [1] "2021-08-24 21:48:54 - chr4"
-#&gt; [1] "2021-08-24 21:48:55 - chr5"
-#&gt; [1] "2021-08-24 21:48:56 - chr6"
-#&gt; [1] "2021-08-24 21:48:57 - chr7"
-#&gt; [1] "2021-08-24 21:48:58 - chr8"
-#&gt; [1] "2021-08-24 21:48:59 - chr9"
-#&gt; [1] "2021-08-24 21:49:00 - chr10"
-#&gt; [1] "2021-08-24 21:49:01 - chr11"
-#&gt; [1] "2021-08-24 21:49:02 - chr12"
-#&gt; [1] "2021-08-24 21:49:03 - chr13"
-#&gt; [1] "2021-08-24 21:49:03 - chr14"
-#&gt; [1] "2021-08-24 21:49:04 - chr15"
-#&gt; [1] "2021-08-24 21:49:04 - chr16"
-#&gt; [1] "2021-08-24 21:49:05 - chr17"
-#&gt; [1] "2021-08-24 21:49:06 - chr18"
-#&gt; [1] "2021-08-24 21:49:07 - chr19"
-#&gt; [1] "2021-08-24 21:49:08 - chr20"
-#&gt; [1] "2021-08-24 21:49:08 - chr21"
-#&gt; [1] "2021-08-24 21:49:09 - chr22"
-#&gt; [1] "2021-08-24 21:49:09 - chrX"
-#&gt; [1] "2021-08-24 21:49:10 - chrY"
-#&gt; [1] "2021-08-24 21:49:10 - chrM"
-#&gt; [1] "2021-08-24 21:49:10 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-08-24 21:49:10 - chr1"
-#&gt; [1] "2021-08-24 21:49:12 - chr2"
-#&gt; [1] "2021-08-24 21:49:13 - chr3"
-#&gt; [1] "2021-08-24 21:49:16 - chr4"
-#&gt; [1] "2021-08-24 21:49:16 - chr5"
-#&gt; [1] "2021-08-24 21:49:17 - chr6"
-#&gt; [1] "2021-08-24 21:49:18 - chr7"
-#&gt; [1] "2021-08-24 21:49:19 - chr8"
-#&gt; [1] "2021-08-24 21:49:20 - chr9"
-#&gt; [1] "2021-08-24 21:49:21 - chr10"
-#&gt; [1] "2021-08-24 21:49:22 - chr11"
-#&gt; [1] "2021-08-24 21:49:23 - chr12"
-#&gt; [1] "2021-08-24 21:49:25 - chr13"
-#&gt; [1] "2021-08-24 21:49:25 - chr14"
-#&gt; [1] "2021-08-24 21:49:26 - chr15"
-#&gt; [1] "2021-08-24 21:49:27 - chr16"
-#&gt; [1] "2021-08-24 21:49:27 - chr17"
-#&gt; [1] "2021-08-24 21:49:29 - chr18"
-#&gt; [1] "2021-08-24 21:49:30 - chr19"
-#&gt; [1] "2021-08-24 21:49:31 - chr20"
-#&gt; [1] "2021-08-24 21:49:31 - chr21"
-#&gt; [1] "2021-08-24 21:49:32 - chr22"
-#&gt; [1] "2021-08-24 21:49:32 - chrX"
-#&gt; [1] "2021-08-24 21:49:33 - chrY"
-#&gt; [1] "2021-08-24 21:49:33 - chrM"
-#&gt; [1] "2021-08-24 21:49:33 - Generating ERs for chr1"
-#&gt; [1] "2021-08-24 21:49:38 - Generating ERs for chr2"
-#&gt; [1] "2021-08-24 21:49:43 - Generating ERs for chr3"
-#&gt; [1] "2021-08-24 21:49:45 - Generating ERs for chr4"
-#&gt; [1] "2021-08-24 21:49:47 - Generating ERs for chr5"
-#&gt; [1] "2021-08-24 21:49:49 - Generating ERs for chr6"
-#&gt; [1] "2021-08-24 21:49:51 - Generating ERs for chr7"
-#&gt; [1] "2021-08-24 21:49:52 - Generating ERs for chr8"
-#&gt; [1] "2021-08-24 21:49:55 - Generating ERs for chr9"
-#&gt; [1] "2021-08-24 21:49:56 - Generating ERs for chr10"
-#&gt; [1] "2021-08-24 21:49:58 - Generating ERs for chr11"
-#&gt; [1] "2021-08-24 21:49:59 - Generating ERs for chr12"
-#&gt; [1] "2021-08-24 21:50:01 - Generating ERs for chr13"
-#&gt; [1] "2021-08-24 21:50:02 - Generating ERs for chr14"
-#&gt; [1] "2021-08-24 21:50:03 - Generating ERs for chr15"
-#&gt; [1] "2021-08-24 21:50:05 - Generating ERs for chr16"
-#&gt; [1] "2021-08-24 21:50:06 - Generating ERs for chr17"
-#&gt; [1] "2021-08-24 21:50:08 - Generating ERs for chr18"
-#&gt; [1] "2021-08-24 21:50:09 - Generating ERs for chr19"
-#&gt; [1] "2021-08-24 21:50:11 - Generating ERs for chr20"
-#&gt; [1] "2021-08-24 21:50:12 - Generating ERs for chr21"
-#&gt; [1] "2021-08-24 21:50:12 - Generating ERs for chr22"
-#&gt; [1] "2021-08-24 21:50:13 - Generating ERs for chrX"
-#&gt; [1] "2021-08-24 21:50:14 - Generating ERs for chrY"
-#&gt; [1] "2021-08-24 21:50:15 - Generating ERs for chrM"
-#&gt; [1] "2021-08-24 21:50:16 - Generating ERs for chr1"
-#&gt; [1] "2021-08-24 21:50:19 - Generating ERs for chr2"
-#&gt; [1] "2021-08-24 21:50:22 - Generating ERs for chr3"
-#&gt; [1] "2021-08-24 21:50:24 - Generating ERs for chr4"
-#&gt; [1] "2021-08-24 21:50:27 - Generating ERs for chr5"
-#&gt; [1] "2021-08-24 21:50:29 - Generating ERs for chr6"
-#&gt; [1] "2021-08-24 21:50:30 - Generating ERs for chr7"
-#&gt; [1] "2021-08-24 21:50:33 - Generating ERs for chr8"
-#&gt; [1] "2021-08-24 21:50:34 - Generating ERs for chr9"
-#&gt; [1] "2021-08-24 21:50:35 - Generating ERs for chr10"
-#&gt; [1] "2021-08-24 21:50:37 - Generating ERs for chr11"
-#&gt; [1] "2021-08-24 21:50:38 - Generating ERs for chr12"
-#&gt; [1] "2021-08-24 21:50:41 - Generating ERs for chr13"
-#&gt; [1] "2021-08-24 21:50:42 - Generating ERs for chr14"
-#&gt; [1] "2021-08-24 21:50:43 - Generating ERs for chr15"
-#&gt; [1] "2021-08-24 21:50:44 - Generating ERs for chr16"
-#&gt; [1] "2021-08-24 21:50:45 - Generating ERs for chr17"
-#&gt; [1] "2021-08-24 21:50:47 - Generating ERs for chr18"
-#&gt; [1] "2021-08-24 21:50:47 - Generating ERs for chr19"
-#&gt; [1] "2021-08-24 21:50:49 - Generating ERs for chr20"
-#&gt; [1] "2021-08-24 21:50:49 - Generating ERs for chr21"
-#&gt; [1] "2021-08-24 21:50:50 - Generating ERs for chr22"
-#&gt; [1] "2021-08-24 21:50:51 - Generating ERs for chrX"
-#&gt; [1] "2021-08-24 21:50:52 - Generating ERs for chrY"
-#&gt; [1] "2021-08-24 21:50:52 - Generating ERs for chrM"
-#&gt; [1] "2021-08-24 21:50:54 - Loading in GTF..."
-#&gt; [1] "2021-08-24 21:51:28 - Obtaining non-overlapping exons"
-#&gt; [1] "2021-08-24 21:51:29 - Calculating delta for ERs..."
-#&gt; [1] "2021-08-24 21:51:39 - Obtaining optimal set of ERs..."</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-09-02 13:45:28 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-09-02 13:45:28 - chr21"
+#&gt; [1] "2021-09-02 13:45:28 - chr22"
+#&gt; [1] "2021-09-02 13:45:29 - Obtaining mean coverage across 1 samples"
+#&gt; [1] "2021-09-02 13:45:29 - chr21"
+#&gt; [1] "2021-09-02 13:45:29 - chr22"
+#&gt; [1] "2021-09-02 13:45:30 - Generating ERs for chr21"
+#&gt; [1] "2021-09-02 13:45:31 - Generating ERs for chr22"
+#&gt; [1] "2021-09-02 13:45:33 - Generating ERs for chr21"
+#&gt; [1] "2021-09-02 13:45:34 - Generating ERs for chr22"
+#&gt; [1] "2021-09-02 13:45:35 - Loading in GTF..."
+#&gt; [1] "2021-09-02 13:46:15 - Obtaining non-overlapping exons"
+#&gt; [1] "2021-09-02 13:46:19 - Calculating delta for ERs..."
+#&gt; [1] "2021-09-02 13:46:19 - Obtaining optimal set of ERs..."</div><div class='input'>
 <span class='va'>opt_ers</span>
 </div><div class='output co'>#&gt; $opt_ers
-#&gt; GRanges object with 345380 ranges and 0 metadata columns:
-#&gt;            seqnames            ranges strand
-#&gt;               &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;        [1]     chr1       14468-14829      +
-#&gt;        [2]     chr1       14970-14976      +
-#&gt;        [3]     chr1       15029-15038      +
-#&gt;        [4]     chr1       15796-15809      +
-#&gt;        [5]     chr1       15934-15947      +
-#&gt;        ...      ...               ...    ...
-#&gt;   [345376]     chrY 10192024-10192091      -
-#&gt;   [345377]     chrY 13286661-13286767      -
-#&gt;   [345378]     chrY 13286878-13286959      -
-#&gt;   [345379]     chrY 13287222-13287350      -
-#&gt;   [345380]     chrM           1-16569      -
+#&gt; GRanges object with 11413 ranges and 0 metadata columns:
+#&gt;           seqnames            ranges strand
+#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
+#&gt;       [1]    chr21   5116356-5117231      +
+#&gt;       [2]    chr21   5117368-5117396      +
+#&gt;       [3]    chr21   5118691-5118847      +
+#&gt;       [4]    chr21   5120950-5120951      +
+#&gt;       [5]    chr21   5121718-5121803      +
+#&gt;       ...      ...               ...    ...
+#&gt;   [11409]    chr22 50785173-50785293      -
+#&gt;   [11410]    chr22 50788988-50789127      -
+#&gt;   [11411]    chr22 50798655-50799149      -
+#&gt;   [11412]    chr22 50800520-50800534      -
+#&gt;   [11413]    chr22 50800556-50800591      -
 #&gt;   -------
-#&gt;   seqinfo: 25 sequences from an unspecified genome; no seqlengths
+#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths
 #&gt; 
 #&gt; $opt_mcc_mrg
 #&gt; [1] "mcc_10" "mrg_20"
 #&gt; 
 #&gt; $deltas
 #&gt; <span style='color: #555555;'># A tibble: 4 x 7</span><span>
-#&gt;     mcc   mrg      sum  mean median n_eq_0 propor_eq_0
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     5    10 42</span><span style='text-decoration: underline;'>342</span><span>549  796.     79  </span><span style='text-decoration: underline;'>19</span><span>014       0.357
-#&gt; </span><span style='color: #555555;'>2</span><span>     5    20 33</span><span style='text-decoration: underline;'>095</span><span>527  686.     39  </span><span style='text-decoration: underline;'>19</span><span>267       0.399
-#&gt; </span><span style='color: #555555;'>3</span><span>    10    10 33</span><span style='text-decoration: underline;'>189</span><span>459  801.     60  </span><span style='text-decoration: underline;'>16</span><span>668       0.402
-#&gt; </span><span style='color: #555555;'>4</span><span>    10    20 25</span><span style='text-decoration: underline;'>021</span><span>958  667.     16  </span><span style='text-decoration: underline;'>16</span><span>897       0.450
+#&gt;     mcc   mrg     sum  mean median n_eq_0 propor_eq_0
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     5    10 1</span><span style='text-decoration: underline;'>361</span><span>873  819.     96    511       0.307
+#&gt; </span><span style='color: #555555;'>2</span><span>     5    20 1</span><span style='text-decoration: underline;'>112</span><span>598  737.     68    515       0.341
+#&gt; </span><span style='color: #555555;'>3</span><span>    10    10  </span><span style='text-decoration: underline;'>907</span><span>214  762.     44    448       0.376
+#&gt; </span><span style='color: #555555;'>4</span><span>    10    20  </span><span style='text-decoration: underline;'>686</span><span>586  633.      9    454       0.418
 #&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
