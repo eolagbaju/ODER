@@ -49,7 +49,7 @@
 #'     ),
 #'     annotation = c("intron", "intron", "intron")
 #' )
-#' refined_ers <- refine_ERs(annot_ers)
+#' refined_ers <- refine_ERs(ex_annot_ers)
 #'
 #' refined_ers
 refine_ERs <- function(annot_ers) {

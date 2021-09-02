@@ -14,15 +14,6 @@
 #'
 #' @examples
 #' \dontshow{
-#' if (!exists("rec_url")) {
-#'     rec_url <- recount::download_study(
-#'         project = "SRP012682",
-#'         type = "samples",
-#'         download = FALSE
-#'     ) # .file_cache downloads a bigwig file from a link
-#'     # if the file has been downloaded recently, it will be retrieved from a cache
-#' }
-#' bw_path <- .file_cache(rec_url[1])
 #' if (!exists("gtf_path")) {
 #'     gtf_url <- paste0(
 #'         "http://ftp.ensembl.org/pub/release-103/gtf/",
@@ -31,25 +22,24 @@
 #'     gtf_path <- .file_cache(gtf_url)
 #' }
 #' }
-#' if (!exists("opt_ers1")) {
-#'     opt_ers1 <- ODER(
-#'         bw_paths = bw_path, auc_raw = auc_example,
-#'         auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-#'         genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
-#'         gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-#'         exons_no_overlap = NULL, bw_chr = "chr"
-#'     )
-#' }
 #' if (!exists("genom_state")) {
 #'     genom_state <- generate_genomic_state(
 #'         gtf = gtf_path,
-#'         chrs_to_keep = c("1", "2", "X"), ensembl = TRUE
+#'         chrs_to_keep = c("21"), ensembl = TRUE
 #'     )
 #' }
+#' ex_opt_ers <- GenomicRanges::GRanges(
+#'     seqnames = S4Vectors::Rle(c("chr21"), c(5)),
+#'     ranges = IRanges::IRanges(
+#'         start = c(5032176, 5033408, 5034717, 5035188, 5036577),
+#'         end = c(5032217, 5033425, 5034756, 5035189, 5036581)
+#'     )
+#' )
+#'
 #' junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
 #' if (!exists("annot_ers1")) {
 #'     annot_ers1 <- annotatERs(
-#'         opt_ers = head(opt_ers1[["opt_ers"]], 100), junc_data = junctions,
+#'         opt_ers = ex_opt_ers, junc_data = junctions,
 #'         gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE,
 #'         genom_state = genom_state
 #'     )
@@ -63,12 +53,6 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, # txdb = NULL,
         gtf_path = gtf_path
     )
 
-
-    # genom_state <- generate_genomic_state(
-    #     gtf = gtf_path, txdb = txdb,
-    #     chrs_to_keep = informatting2(chrs_to_keep),
-    #     ensembl = ensembl
-    # )
     print(stringr::str_c(Sys.time(), " - Annotating the Expressed regions..."))
     annot_ers <- derfinder::annotateRegions(
         regions = ann_opt_ers,
@@ -82,6 +66,28 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, # txdb = NULL,
     ## add missing junction genes
     genesource <- character(length(ann_opt_ers))
     GenomicRanges::mcols(ann_opt_ers)$gene_source <- genesource
+
+    # if all of none of the ers are matched up with a gene, this is run
+    if (all(identical(unique(unlist(GenomicRanges::mcols(ann_opt_ers)$genes)), character(0)))) {
+        gtf_gr <- rtracklayer::import(gtf_path)
+        genes_gr <- gtf_gr[gtf_gr$type == "gene"]
+        GenomeInfoDb::seqlevelsStyle(genes_gr) <- "UCSC"
+        nearest_genes <- GenomicRanges::nearest(ann_opt_ers, genes_gr)
+        missing_genes <- GenomicRanges::mcols(genes_gr[nearest_genes])[["gene_id"]]
+        GenomicRanges::mcols(ann_opt_ers)[["genes"]] <- missing_genes
+        GenomicRanges::mcols(ann_opt_ers[GenomicRanges::mcols(ann_opt_ers)[["og_index"]]])[["genes"]] <- missing_genes
+        GenomicRanges::mcols(ann_opt_ers[GenomicRanges::mcols(ann_opt_ers)[["og_index"]]])[["gene_source"]] <- "nearest gtf genes"
+
+        ngdist <- GenomicRanges::distanceToNearest(ann_opt_ers, genes_gr)
+        overmaxdist <- ngdist[GenomicRanges::mcols(ngdist)[["distance"]] > 10000]
+        if (length(overmaxdist) > 0) {
+            GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["genes"]] <- ""
+            GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["gene_source"]] <- "Too far"
+        }
+        print(stringr::str_c(Sys.time(), " - done!"))
+
+        return(ann_opt_ers)
+    }
     GenomicRanges::mcols(ann_opt_ers[lengths(GenomicRanges::mcols(ann_opt_ers)[["genes"]]) > 0])$gene_source <- "junction(s)"
 
 
@@ -97,9 +103,12 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, # txdb = NULL,
 
     ngdist <- GenomicRanges::distanceToNearest(ann_opt_ers, genes_gr)
     overmaxdist <- ngdist[GenomicRanges::mcols(ngdist)[["distance"]] > 10000]
-    GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["genes"]] <- ""
-    GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["gene_source"]] <- "Too far"
-
+    # GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["genes"]] <- ""
+    # GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["gene_source"]] <- "Too far"
+    if (length(overmaxdist) > 0) {
+        GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["genes"]] <- ""
+        GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["gene_source"]] <- "Too far"
+    }
 
     print(stringr::str_c(Sys.time(), " - done!"))
 

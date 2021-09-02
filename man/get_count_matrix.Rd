@@ -32,7 +32,7 @@ if (!exists("rec_url")) {
 }
 bw_path <- .file_cache(rec_url[1])
 
-ex_opt_ers <- GenomicRanges::GRanges( # this is created to not overlap
+ex_opt_ers <- GenomicRanges::GRanges(
     seqnames = S4Vectors::Rle(c("chr1", "chr2"), c(4, 1)),
     ranges = IRanges::IRanges(
         start = c(1:5),

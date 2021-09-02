@@ -58,7 +58,7 @@ ex_annot_ers <- GenomicRanges::GRanges( # this is created to not overlap
     ),
     annotation = c("intron", "intron", "intron")
 )
-refined_ers <- refine_ERs(annot_ers)
+refined_ers <- refine_ERs(ex_annot_ers)
 
 refined_ers
 }

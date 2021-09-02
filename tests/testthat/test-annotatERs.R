@@ -1,9 +1,3 @@
-if (!exists("gtex_metadata")) {
-    gtex_metadata <- recount::all_metadata("gtex")
-    gtex_metadata <- gtex_metadata %>%
-        as.data.frame() %>%
-        dplyr::filter(project == "SRP012682")
-}
 if (!exists("gtf_path")) {
     gtf_url <- paste0(
         "http://ftp.ensembl.org/pub/release-103/",
@@ -23,16 +17,7 @@ if (!exists("rec_url")) {
         download = FALSE
     )
 }
-test_bw_path <- ODER:::.file_cache(rec_url[1])
-if (!exists("test_opt_ers1")) {
-    test_opt_ers1 <- suppressWarnings(ODER(
-        bw_paths = test_bw_path, auc_raw = gtex_metadata[["auc"]][1],
-        auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-        genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
-        gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-        exons_no_overlap = NULL, bw_chr = "chr"
-    ))
-}
+
 test_grs <- GenomicRanges::GRanges(
     seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(10, 1)),
     ranges = IRanges::IRanges(
@@ -82,16 +67,23 @@ if (!exists("test_gstate")) {
     ))
 }
 
+
 test_annot_ers <- suppressWarnings(annotatERs(
     opt_ers = test_grs, junc_data = test_juncs,
     gtf_path = gtf_path, chrs_to_keep = c("chr21", "chr22"), genom_state = test_gstate
 ))
-if (!exists("test_annot_opters1")) {
-    test_annot_opters1 <- suppressWarnings(annotatERs(
-        opt_ers = test_opt_ers1[["opt_ers"]], junc_data = test_juncs,
-        gtf_path = gtf_path, chrs_to_keep = c("chr21", "chr22"), genom_state = test_gstate
-    ))
-}
+
+test_optgrs2 <- GenomicRanges::GRanges( # this is created to not overlap
+    seqnames = S4Vectors::Rle(c("chr21"), c(6)),
+    ranges = IRanges::IRanges(
+        start = c(5040739, 46665406, 5038740, 46663060, 5032176, 46661574),
+        end = c(5040744, 46665562, 5038775, 46663135, 5032217, 46661583),
+    )
+) # first 2 ranges intergenic, 2 introns, 2exons
+test_annopt_ers <- suppressWarnings(annotatERs(
+    opt_ers = test_optgrs2, junc_data = test_juncs,
+    gtf_path = gtf_path, chrs_to_keep = c("chr21"), genom_state = test_gstate
+))
 
 
 test_that("get_junctions works", {
@@ -129,12 +121,15 @@ test_that("annotatERs works", {
     expect_equal(unname(GenomicRanges::countOverlaps(test_annot_ers[1], S4Vectors::mcols(test_annot_ers[1])[["grl"]][[1]])), 53)
     # test that they have the right annotation
     # check if intergenic overlap with gtf (they shouldnt), see if exons have gene id associated?
-    expect_true(all(GenomicRanges::countOverlaps(test_annot_opters1[S4Vectors::mcols(test_annot_opters1)[["annotation"]] == "intergenic"], exons_gr) == 0))
-    expect_true(all(GenomicRanges::countOverlaps(test_annot_opters1[S4Vectors::mcols(test_annot_opters1)[["annotation"]] == "intergenic"], gtf_grs) == 0))
-    expect_true(all(GenomicRanges::countOverlaps(test_annot_opters1[S4Vectors::mcols(test_annot_opters1)[["annotation"]] == "intron"], exons_gr) == 0))
-    expect_true(all(GenomicRanges::countOverlaps(test_annot_opters1[S4Vectors::mcols(test_annot_opters1)[["annotation"]] == "intron"], gtf_grs) > 0))
-    expect_true(all(GenomicRanges::countOverlaps(test_annot_opters1[S4Vectors::mcols(test_annot_opters1)[["annotation"]] == "exon"], exons_gr) > 0))
-    expect_equal(IRanges::ranges(test_opt_ers1[["opt_ers"]][5479]), IRanges::ranges(test_annot_opters1[5479]))
+
+    expect_true(all(GenomicRanges::countOverlaps(test_annopt_ers[S4Vectors::mcols(test_annopt_ers)[["annotation"]] == "intergenic"], exons_gr) == 0))
+    expect_true(all(GenomicRanges::countOverlaps(test_annopt_ers[S4Vectors::mcols(test_annopt_ers)[["annotation"]] == "intergenic"], gtf_grs) == 0))
+    expect_true(all(GenomicRanges::countOverlaps(test_annopt_ers[S4Vectors::mcols(test_annopt_ers)[["annotation"]] == "intron"], exons_gr) == 0))
+    expect_true(all(GenomicRanges::countOverlaps(test_annopt_ers[S4Vectors::mcols(test_annopt_ers)[["annotation"]] == "intron"], gtf_grs) > 0))
+    expect_true(all(GenomicRanges::countOverlaps(test_annopt_ers[S4Vectors::mcols(test_annopt_ers)[["annotation"]] == "exon"], exons_gr) > 0))
+
+    expect_equal(IRanges::ranges(test_optgrs2[3]), IRanges::ranges(test_annopt_ers[3]))
+
     expect_equal(GenomicRanges::mcols(test_annot_ers)[["genes"]][[4]], "ENSG00000277117")
     expect_equal(GenomicRanges::mcols(test_annot_ers)[["gene_source"]][[4]], "nearest gtf genes")
     expect_true(GenomicRanges::mcols(GenomicRanges::distanceToNearest(test_grs, genes_gr))[4, 1] < 10000)
