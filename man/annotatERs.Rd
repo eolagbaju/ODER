@@ -78,9 +78,9 @@ GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
 if (!exists("annot_ers1")) {
     annot_ers1 <- annotatERs(
         opt_ers = ex_opt_ers, junc_data = junctions,
-        chrs_to_keep = c("21", "22"), ensembl = TRUE,
         gtf = gtf_gr, txdb = ens_txdb, genom_state = genom_state,
     )
 }
+
 annot_ers1
 }
