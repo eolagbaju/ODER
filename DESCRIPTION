@@ -5,7 +5,7 @@ Date: 2021-04-13
 Authors@R: 
     c(person(given = "Emmanuel",family = "Olagbaju",
            role = c("aut", "cre"),
-           email = "e.olagbaju@ucl.ac.uk"),
+           email = "eoolagbaju@gmail.com"),
            person(given = "David",family = "Zhang",
            role = c("ctb"),
            email = "david.zhang.12@ucl.ac.uk",
@@ -41,7 +41,8 @@ Suggests:
     rmarkdown,
     sessioninfo,
     SummarizedExperiment,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    GenomicFeatures
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Imports: 
