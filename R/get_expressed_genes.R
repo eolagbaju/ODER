@@ -5,9 +5,13 @@
 #' nearest expressed gene will be added to the metadata columns of the annotated
 #' ERs.
 #'
-#' @inheritParams get_tissue
-#' @inheritParams get_expressed_genes
-#' @inheritParams get_nearest_expressed_genes
+#' @param input_file GTEX median expression file, if left as NULL
+#' \code{\link{get_tissue}} will use the default file
+#' @param tissue Tissue to filter for. See tissue_options for options
+#' @param gtf gtf file path or gtf GRanges
+#' @param species character string containing the species to filter for,
+#' Homo sapiens is the default
+#' @param annot_ers annotated ERs, should have an mcols column called "annotation"
 #' @return Granges with annotated ERs and details of their nearest expressed
 #'    genes
 #'
@@ -22,6 +26,10 @@
 #'     gtf_path <- .file_cache(gtf_url)
 #' }
 #'
+#' if (!exists("gtf_gr")) {
+#'     gtf_gr <- rtracklayer::import(gtf_path)
+#' }
+#'
 #' ex_opt_ers <- GenomicRanges::GRanges(
 #'     seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(2, 2)),
 #'     ranges = IRanges::IRanges(
@@ -31,18 +39,18 @@
 #' )
 #'
 #' ex_opt_ers_w_exp_genes <- add_expressed_genes(
-#'     tissue = "lung", gtf_path = gtf_path,
+#'     tissue = "lung", gtf = gtf_gr,
 #'     annot_ers = ex_opt_ers
 #' )
 #'
 #' ex_opt_ers_w_exp_genes
-add_expressed_genes <- function(input_file = NULL, tissue, gtf_path,
+add_expressed_genes <- function(input_file = NULL, tissue, gtf,
     species = "Homo_sapiens", annot_ers) {
     tissue_df <- get_tissue(input_file = input_file, tissue = tissue)
 
-    expressed_genes <- get_expressed_genes(gtf_path = gtf_path, species = species, tissue_df = tissue_df)
+    expressed_genes <- get_expressed_genes(gtf = gtf, species = species, tissue_df = tissue_df)
 
-    full_annot_ers <- get_nearest_expressed_genes(annot_ers = annot_ers, exp_genes = expressed_genes, gtf_path = gtf_path)
+    full_annot_ers <- get_nearest_expressed_genes(annot_ers = annot_ers, exp_genes = expressed_genes, gtf = gtf)
 
     return(full_annot_ers)
 }
@@ -94,7 +102,7 @@ get_tissue <- function(input_file = NULL, tissue) {
 #' tissue. Filters the gtf file for genes and keeps those that are present in the
 #' tissue dataframe passed in.
 #'
-#' @param gtf_path gtf file path
+#' @param gtf gtf file path or gtf GRanges
 #' @param species character string containing the species to filter for,
 #' Homo sapiens is the default
 #' @param tissue_df dataframe containing the expressed genes for a particular
@@ -103,8 +111,9 @@ get_tissue <- function(input_file = NULL, tissue) {
 #' @return GRanges with the expressed genes for a specific tissue
 #' @keywords internal
 #' @noRd
-get_expressed_genes <- function(gtf_path, species = "Homo_sapiens", tissue_df) {
-    gtf <- rtracklayer::import(gtf_path)
+get_expressed_genes <- function(gtf, species = "Homo_sapiens", tissue_df) {
+    # gtf <- rtracklayer::import(gtf_path)
+    gtf <- gtf_load(gtf)
     gtf <- GenomeInfoDb::keepStandardChromosomes(gtf, species = species, pruning.mode = "coarse")
     GenomeInfoDb::seqlevelsStyle(gtf) <- "UCSC" # add chr to seqnames
     genesgtf <- gtf[S4Vectors::mcols(gtf)[["type"]] == "gene"]
@@ -123,15 +132,16 @@ get_expressed_genes <- function(gtf_path, species = "Homo_sapiens", tissue_df) {
 #' \code{\link{annotatERs}}, expressed genes from \code{\link{get_expressed_genes}}
 #' and a gtf file.
 #'
-#' @param gtf_path gtf file path
+#' @param gtf gtf file path or gtf GRanges
 #' @param annot_ers annotated ERs, should have an mcols column called "annotation"
 #' @param exp_genes GRanges containing the expressed genes of a particular tissue
 #'
 #' @return GRanges with the expressed genes for a specific tissue
 #' @keywords internal
 #' @noRd
-get_nearest_expressed_genes <- function(annot_ers, exp_genes, gtf_path) {
-    gtf <- rtracklayer::import(gtf_path)
+get_nearest_expressed_genes <- function(annot_ers, exp_genes, gtf) {
+    # gtf <- rtracklayer::import(gtf_path)
+    gtf <- gtf_load(gtf_path)
     gtf <- GenomeInfoDb::keepStandardChromosomes(gtf, species = "Homo_sapiens", pruning.mode = "coarse")
     GenomeInfoDb::seqlevelsStyle(gtf) <- "UCSC" # add chr to seqnames
     genesgtf <- gtf[S4Vectors::mcols(gtf)[["type"]] == "gene"]

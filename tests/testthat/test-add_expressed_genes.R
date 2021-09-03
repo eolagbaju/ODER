@@ -6,6 +6,10 @@ if (!exists("gtf_path")) {
     gtf_path <- .file_cache(gtf_url)
 }
 
+if (!exists("gtf_grs")) {
+    gtf_grs <- rtracklayer::import(gtf_path)
+}
+
 ex_opt_ers <- GenomicRanges::GRanges(
     seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(2, 2)),
     ranges = IRanges::IRanges(
@@ -17,9 +21,9 @@ ex_opt_ers <- GenomicRanges::GRanges(
 liver_tissue <- ODER:::get_tissue(tissue = "liver")
 stomach_tissue <- ODER:::get_tissue(tissue = "stomach")
 
-livexpr_genes <- ODER:::get_expressed_genes(gtf_path = gtf_path, tissue_df = liver_tissue)
+livexpr_genes <- ODER:::get_expressed_genes(gtf = gtf_grs, tissue_df = liver_tissue)
 
-full_annot_liver_ers <- ODER:::get_nearest_expressed_genes(annot_ers = ex_opt_ers, exp_genes = livexpr_genes, gtf_path = gtf_path)
+full_annot_liver_ers <- ODER:::get_nearest_expressed_genes(annot_ers = ex_opt_ers, exp_genes = livexpr_genes, gtf = gtf_grs)
 
 
 test_that("get_tissue works", {

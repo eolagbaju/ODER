@@ -249,3 +249,20 @@ inv_colgrs <- function(x) {
         return(TRUE)
     }
 }
+
+#' Checks for and returns a GTF file in the form of a Genomic Ranges object
+#'
+#' @param a gtf in GRanges form or a gtf file path
+#'
+#' @return gtf genomic ranges
+#' @keywords internal
+#' @noRd
+gtf_load <- function(gtf) {
+    if (methods::is(gtf, "GenomicRanges")) {
+        return(gtf)
+    } else if (is.character(gtf)) {
+        return(rtracklayer::import(gtf))
+    } else {
+        stop("Invalid gtf argument passed in")
+    }
+}

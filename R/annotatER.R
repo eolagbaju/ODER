@@ -7,8 +7,9 @@
 #' intronic, intergenic or none.
 #'
 #' @inheritParams get_junctions
-#' @inheritParams generate_genomic_state
 #' @param genom_state a genomic state object
+#' @param gtf gtf in a GRanges object
+#' @param txdb txdb object to create genomic state
 #' @return annotated ERs
 #' @export
 #'
@@ -20,6 +21,10 @@
 #'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 #'     )
 #'     gtf_path <- .file_cache(gtf_url)
+#' }
+#'
+#' if (!exists("gtf_gr")) {
+#'     gtf_gr <- rtracklayer::import(gtf_path)
 #' }
 #' }
 #' if (!exists("genom_state")) {
@@ -37,23 +42,46 @@
 #' )
 #'
 #' junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
+#'
+#' chrs_to_keep <- c("21", "22")
+#' #### preparing the txdb object
+#' hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
+#' new_info <- hg38_chrominfo$size[match(
+#'     chrs_to_keep,
+#'     GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
+#' )]
+#' names(new_info) <- chrs_to_keep
+#' gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
+#'     chrs_to_keep,
+#'     pruning.mode = "tidy"
+#' )
+#' GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
+#' GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
+#' rtracklayer::genome(gtf_gr_tx) <- "hg38"
+#'
+#' ucsc_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
+#' genom_state <- derfinder::makeGenomicState(txdb = ucsc_txdb)
+#' ens_txdb <- ucsc_txdb
+#' GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
+#' ################### end of genomstate creation
+#'
 #' if (!exists("annot_ers1")) {
 #'     annot_ers1 <- annotatERs(
 #'         opt_ers = ex_opt_ers, junc_data = junctions,
 #'         gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE,
-#'         genom_state = genom_state
+#'         gtf = gtf_gr, txdb = ens_txdb, genom_state = genom_state,
 #'     )
 #' }
 #' annot_ers1
-annotatERs <- function(opt_ers, junc_data, gtf_path, # txdb = NULL,
+annotatERs <- function(opt_ers, junc_data, gtf_path,
     chrs_to_keep = c(1:22, "X", "Y", "MT"), genom_state,
-    ensembl = TRUE) {
+    ensembl = TRUE, gtf = gtf_path, txdb) {
     ann_opt_ers <- get_junctions(
         opt_ers = opt_ers, junc_data = junc_data,
-        gtf_path = gtf_path
+        gtf_path = txdb # gtf_path
     )
-
     print(stringr::str_c(Sys.time(), " - Annotating the Expressed regions..."))
+
     annot_ers <- derfinder::annotateRegions(
         regions = ann_opt_ers,
         genomicState = genom_state[["fullGenome"]],
@@ -66,10 +94,12 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, # txdb = NULL,
     ## add missing junction genes
     genesource <- character(length(ann_opt_ers))
     GenomicRanges::mcols(ann_opt_ers)$gene_source <- genesource
+    ## getting the gtf in to a Granges format
+    gtf_gr <- gtf_load(gtf)
 
     # if all of none of the ers are matched up with a gene, this is run
     if (all(identical(unique(unlist(GenomicRanges::mcols(ann_opt_ers)$genes)), character(0)))) {
-        gtf_gr <- rtracklayer::import(gtf_path)
+        # gtf_gr <- rtracklayer::import(gtf_path)
         genes_gr <- gtf_gr[gtf_gr$type == "gene"]
         GenomeInfoDb::seqlevelsStyle(genes_gr) <- "UCSC"
         nearest_genes <- GenomicRanges::nearest(ann_opt_ers, genes_gr)
@@ -92,7 +122,7 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, # txdb = NULL,
 
 
     ng_ann_opt_ers <- ann_opt_ers[lengths(GenomicRanges::mcols(ann_opt_ers)[["genes"]]) == 0]
-    gtf_gr <- rtracklayer::import(gtf_path)
+    # gtf_gr <- rtracklayer::import(gtf_path)
     genes_gr <- gtf_gr[gtf_gr$type == "gene"]
     GenomeInfoDb::seqlevelsStyle(genes_gr) <- "UCSC"
     nearest_genes <- GenomicRanges::nearest(ng_ann_opt_ers, genes_gr)
@@ -146,6 +176,10 @@ annotatERs <- function(opt_ers, junc_data, gtf_path, # txdb = NULL,
 #'     # .file_cache is an internal function to download a bigwig file from a link
 #'     # if the file has been downloaded recently, it will be retrieved from a cache
 #'     gtf_path <- .file_cache(gtf_url)
+#' }
+#'
+#' if (!exists("gtf_gr")) {
+#'     gtf_gr <- rtracklayer::import(gtf_path)
 #' }
 #' }
 #' example_ers <- GenomicRanges::GRanges(
@@ -229,77 +263,6 @@ get_junctions <- function(opt_ers, junc_data, gtf_path) {
     return(opt_ers)
 }
 
-
-#' Generating a genomic state object from Txdb or gtf
-#'
-#' \code{generate_genomic_state} takes txdb object ([TxDb-class][GenomicFeatures::TxDb-class])
-#'  or a gtf file and makes a genomic state to be used in the annotation of the
-#'  expressed regions
-#' \code{generate_genomic_state} takes Txdb object or a gtf file and makes a
-#' genomic state to be used in the annotation of the expressed regions
-#'
-#' @param txdb txdb object, if one is not entered a gtf file needs to be
-#' @param chrs_to_keep chromosomes to keep in genomic state (in NCBI format i.e.
-#' 1,2,3...22,X,Y,MT)
-#' @param gtf gtf file, will be converted into a txdb and then genomic state, if
-#' no gtf is entered a txdb must be
-#' @param ensembl logical variable to say whether the gtf file entered is from
-#' ensembl, the default is true
-#'
-#' @return a genomic state
-#'
-#' @export
-#'
-#' @examples
-#' \dontshow{
-#' if (!exists("gtf_path")) {
-#'     gtf_url <- paste0(
-#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#'     )
-#'     # .file_cache is an internal function to download a bigwig file from a link
-#'     # if the file has been downloaded recently, it will be retrieved from a cache
-#'     gtf_path <- .file_cache(gtf_url)
-#' }
-#' }
-#' genom_state <- generate_genomic_state(
-#'     gtf = gtf_path,
-#'     chrs_to_keep = c("1", "2", "X"), ensembl = TRUE
-#' )
-generate_genomic_state <- function(gtf = NULL, txdb = NULL,
-    chrs_to_keep = c(1:22, "X", "Y", "MT"),
-    ensembl = TRUE) {
-    if (is.null(gtf) && is.null(txdb)) {
-        stop("Neither a gtf or a txdb was entered")
-    } else if (!(is.null(txdb))) {
-        return(derfinder::makeGenomicState(txdb = txdb))
-    } else if (ensembl) {
-        print(stringr::str_c(Sys.time(), " - Generating a genomic state..."))
-
-        gtf_txdb <- GenomicFeatures::makeTxDbFromGFF(file = gtf, format = "gtf")
-        gtf_txdb <- GenomeInfoDb::keepSeqlevels(gtf_txdb, chrs_to_keep)
-
-        hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
-        new_info <- hg38_chrominfo$size[match(
-            GenomeInfoDb::seqlevels(gtf_txdb),
-            GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
-        )]
-        names(new_info) <- chrs_to_keep
-
-        gtf_gr <- rtracklayer::import(gtf)
-        gtf_gr <- GenomeInfoDb::keepSeqlevels(gtf_gr,
-            chrs_to_keep,
-            pruning.mode = "tidy"
-        )
-        GenomeInfoDb::seqlengths(gtf_gr) <- new_info
-        GenomeInfoDb::seqlevelsStyle(gtf_gr) <- "UCSC"
-        rtracklayer::genome(gtf_gr) <- "hg38"
-
-        pro_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr)
-
-        return(derfinder::makeGenomicState(txdb = pro_txdb))
-    }
-}
 
 #' Converting count table output of derfinder to region annotation
 #'

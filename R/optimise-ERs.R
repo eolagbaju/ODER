@@ -31,10 +31,14 @@
 #'     # if the file has been downloaded recently, it will be retrieved from a cache
 #'     gtf_path <- .file_cache(gtf_url)
 #' }
+#'
+#' if (!exists("gtf_gr")) {
+#'     gtf_gr <- rtracklayer::import(gtf_path)
+#' }
 #' }
 #' if (!exists("eg_opt_exons")) {
 #'     eg_opt_exons <- get_exons(
-#'         gtf = gtf_path,
+#'         gtf = gtf_gr,
 #'         ucsc_chr = TRUE,
 #'         ignore.strand = TRUE
 #'     )

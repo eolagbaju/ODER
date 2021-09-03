@@ -5,7 +5,10 @@ if (!exists("gtf_path")) {
     )
     gtf_path <- ODER:::.file_cache(gtf_url)
 }
-gtf_grs <- rtracklayer::import(gtf_path)
+if (!exists("gtf_grs")) {
+    gtf_grs <- rtracklayer::import(gtf_path)
+}
+gtf_grs_ann <- gtf_grs
 GenomeInfoDb::seqlevelsStyle(gtf_grs) <- "UCSC"
 gtf_grs <- GenomeInfoDb::keepSeqlevels(gtf_grs, c("chr21", "chr22"), pruning.mode = "coarse")
 exons_gr <- gtf_grs[gtf_grs$type == "exon"]
@@ -59,18 +62,33 @@ test_gene <- unique(unlist(GenomicRanges::mcols(
     GenomicRanges::mcols(test_er_aj[1])[["grl"]][[1]]
 )[["gene_id_junction"]]))
 
-if (!exists("test_gstate")) {
-    test_gstate <- suppressWarnings(generate_genomic_state(
-        gtf = gtf_path,
-        chrs_to_keep = c("21", "22"),
-        ensembl = TRUE
-    ))
-}
+chrs_to_keep <- c("21", "22")
+#### preparing the txdb object
+hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
+new_info <- hg38_chrominfo$size[match(
+    chrs_to_keep,
+    GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
+)]
+names(new_info) <- chrs_to_keep
+gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_grs_ann,
+    chrs_to_keep,
+    pruning.mode = "tidy"
+)
+GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
+GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
+rtracklayer::genome(gtf_gr_tx) <- "hg38"
+
+ucsc_txdb <- suppressWarnings(GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx))
+test_gstate <- derfinder::makeGenomicState(txdb = ucsc_txdb)
+ens_txdb <- ucsc_txdb
+GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
+################### end of txdb creation
 
 
 test_annot_ers <- suppressWarnings(annotatERs(
     opt_ers = test_grs, junc_data = test_juncs,
-    gtf_path = gtf_path, chrs_to_keep = c("chr21", "chr22"), genom_state = test_gstate
+    gtf_path = gtf_path, chrs_to_keep = c("chr21", "chr22"), genom_state = test_gstate,
+    gtf = gtf_grs_ann, txdb = ens_txdb
 ))
 
 test_optgrs2 <- GenomicRanges::GRanges( # this is created to not overlap
@@ -82,7 +100,8 @@ test_optgrs2 <- GenomicRanges::GRanges( # this is created to not overlap
 ) # first 2 ranges intergenic, 2 introns, 2exons
 test_annopt_ers <- suppressWarnings(annotatERs(
     opt_ers = test_optgrs2, junc_data = test_juncs,
-    gtf_path = gtf_path, chrs_to_keep = c("chr21"), genom_state = test_gstate
+    gtf_path = gtf_path, chrs_to_keep = c("chr21"), genom_state = test_gstate,
+    gtf = gtf_grs_ann, txdb = ens_txdb
 ))
 
 
@@ -103,13 +122,6 @@ test_that("get_junctions works", {
     # test index that appears later to make sure indexing is consistent
 })
 
-test_that("generate_genomic_state works", {
-    expect_true(methods::is(test_gstate[[1]], "GenomicRanges"))
-    expect_true(methods::is(test_gstate[[2]], "GenomicRanges"))
-    expect_equal(length(test_gstate), 2)
-    expect_equal(unique(seqnames(test_gstate[[1]])), factor(c("chr21", "chr22")))
-    expect_equal(names(test_gstate), c("fullGenome", "codingGenome"))
-})
 
 test_that("annotatERs works", {
     expect_true("exon, intergenic, intron" %in% S4Vectors::mcols(test_annot_ers)[["annotation"]])

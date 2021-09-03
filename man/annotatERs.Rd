@@ -11,7 +11,9 @@ annotatERs(
   gtf_path,
   chrs_to_keep = c(1:22, "X", "Y", "MT"),
   genom_state,
-  ensembl = TRUE
+  ensembl = TRUE,
+  gtf = gtf_path,
+  txdb
 )
 }
 \arguments{
@@ -21,13 +23,11 @@ annotatERs(
 
 \item{gtf_path}{a gtf file with exon data}
 
-\item{chrs_to_keep}{chromosomes to keep in genomic state (in NCBI format i.e.
-1,2,3...22,X,Y,MT)}
-
 \item{genom_state}{a genomic state object}
 
-\item{ensembl}{logical variable to say whether the gtf file entered is from
-ensembl, the default is true}
+\item{gtf}{gtf in a GRanges object}
+
+\item{txdb}{txdb object to create genomic state}
 }
 \value{
 annotated ERs
@@ -47,6 +47,10 @@ if (!exists("gtf_path")) {
     )
     gtf_path <- .file_cache(gtf_url)
 }
+
+if (!exists("gtf_gr")) {
+    gtf_gr <- rtracklayer::import(gtf_path)
+}
 }
 if (!exists("genom_state")) {
     genom_state <- generate_genomic_state(
@@ -63,11 +67,34 @@ ex_opt_ers <- GenomicRanges::GRanges(
 )
 
 junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
+
+chrs_to_keep <- c("21", "22")
+#### preparing the txdb object
+hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
+new_info <- hg38_chrominfo$size[match(
+    chrs_to_keep,
+    GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
+)]
+names(new_info) <- chrs_to_keep
+gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
+    chrs_to_keep,
+    pruning.mode = "tidy"
+)
+GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
+GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
+rtracklayer::genome(gtf_gr_tx) <- "hg38"
+
+ucsc_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
+genom_state <- derfinder::makeGenomicState(txdb = ucsc_txdb)
+ens_txdb <- ucsc_txdb
+GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
+################### end of genomstate creation
+
 if (!exists("annot_ers1")) {
     annot_ers1 <- annotatERs(
         opt_ers = ex_opt_ers, junc_data = junctions,
         gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE,
-        genom_state = genom_state
+        gtf = gtf_gr, txdb = ens_txdb, genom_state = genom_state,
     )
 }
 annot_ers1

@@ -1,12 +1,18 @@
-gtf_url <- paste0(
-    "http://ftp.ensembl.org/pub/release-103/",
-    "gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-)
+if (!exists("gtf_path")) {
+    gtf_url <- paste0(
+        "http://ftp.ensembl.org/pub/release-103/",
+        "gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+    )
+    gtf_path <- ODER:::.file_cache(gtf_url)
+}
 
-gtf_path <- ODER:::.file_cache(gtf_url)
+if (!exists("gtf_grs")) {
+    gtf_grs <- rtracklayer::import(gtf_path)
+}
+
 
 test_exons <- get_exons(
-    gtf = gtf_path,
+    gtf = gtf_grs,
     ucsc_chr = TRUE,
     ignore.strand = TRUE
 )

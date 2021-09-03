@@ -35,6 +35,10 @@ if (!exists("gtf_path")) {
     # if the file has been downloaded recently, it will be retrieved from a cache
     gtf_path <- .file_cache(gtf_url)
 }
+
+if (!exists("gtf_gr")) {
+    gtf_gr <- rtracklayer::import(gtf_path)
+}
 }
 example_ers <- GenomicRanges::GRanges(
     seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(10, 1)),

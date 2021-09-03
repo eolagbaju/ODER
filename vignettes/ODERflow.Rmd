@@ -122,6 +122,8 @@ url <- recount::download_study(
 bw_path <- .file_cache(url[1])
 gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 gtf_path <- .file_cache(gtf_url)
+
+gtf_gr <- rtracklayer::import(gtf_path)
 ```
 
 To get the optimum set of ERs from a BigWig file we can use the ODER function, for stranded BigWigs there is the ODER_strand function:
@@ -173,21 +175,42 @@ To find the overlapping junctions and find the nearest expressed genes we can us
 
 # annotating the optimally defined ers with overlapping junctions
 
-genomic_state <- generate_genomic_state(
-    gtf = gtf_path,
-    chrs_to_keep = c("21"),
-    ensembl = TRUE,
+
+chrs_to_keep <- c("21")
+#### preparing the txdb object
+# gtf_txdb <- GenomicFeatures::makeTxDbFromGFF(file = gtf_path, format = "gtf")
+# gtf_txdb <- GenomeInfoDb::keepSeqlevels(gtf_txdb, chrs_to_keep)
+hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
+new_info <- hg38_chrominfo$size[match(
+    chrs_to_keep, # GenomeInfoDb::seqlevels(gtf_txdb),
+    GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
+)]
+names(new_info) <- chrs_to_keep
+gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
+    chrs_to_keep,
+    pruning.mode = "tidy"
 )
+GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
+GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
+rtracklayer::genome(gtf_gr_tx) <- "hg38"
+
+ucsc_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
+genom_state <- derfinder::makeGenomicState(txdb = ucsc_txdb)
+ens_txdb <- ucsc_txdb
+GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
+################### end of genomstate creation
+
 
 annot_ers <- annotatERs(
     opt_ers = head(opt_ers[["opt_ers"]], 100), junc_data = lung_junc_21_22,
-    gtf_path = gtf_path, chrs_to_keep = c("21"), ensembl = TRUE, genom_state = genomic_state
+    gtf_path = gtf_path, gtf = gtf_gr, chrs_to_keep = chrs_to_keep, ensembl = TRUE, txdb = ens_txdb,
+    genom_state = genom_state
 )
 
 # To check the types of tissue you can filter for:
 # print(tissue_options)
 
-annot_ers <- add_expressed_genes(tissue = "lung", gtf_path = gtf_path, annot_ers = annot_ers)
+annot_ers <- add_expressed_genes(tissue = "lung", gtf = gtf_gr, annot_ers = annot_ers)
 
 annot_ers
 ```

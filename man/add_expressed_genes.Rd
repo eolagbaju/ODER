@@ -7,10 +7,23 @@
 add_expressed_genes(
   input_file = NULL,
   tissue,
-  gtf_path,
+  gtf,
   species = "Homo_sapiens",
   annot_ers
 )
+}
+\arguments{
+\item{input_file}{GTEX median expression file, if left as NULL
+\code{\link{get_tissue}} will use the default file}
+
+\item{tissue}{Tissue to filter for. See tissue_options for options}
+
+\item{gtf}{gtf file path or gtf GRanges}
+
+\item{species}{character string containing the species to filter for,
+Homo sapiens is the default}
+
+\item{annot_ers}{annotated ERs, should have an mcols column called "annotation"}
 }
 \value{
 Granges with annotated ERs and details of their nearest expressed
@@ -32,6 +45,10 @@ if (!exists("gtf_path")) {
     gtf_path <- .file_cache(gtf_url)
 }
 
+if (!exists("gtf_gr")) {
+    gtf_gr <- rtracklayer::import(gtf_path)
+}
+
 ex_opt_ers <- GenomicRanges::GRanges(
     seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(2, 2)),
     ranges = IRanges::IRanges(
@@ -41,7 +58,7 @@ ex_opt_ers <- GenomicRanges::GRanges(
 )
 
 ex_opt_ers_w_exp_genes <- add_expressed_genes(
-    tissue = "lung", gtf_path = gtf_path,
+    tissue = "lung", gtf = gtf_gr,
     annot_ers = ex_opt_ers
 )
 
