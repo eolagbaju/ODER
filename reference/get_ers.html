@@ -40,8 +40,8 @@
 
 
 <meta property="og:title" content="Define sets of ERs — get_ers" />
-<meta property="og:description" content="ge_ERs defines ERs across an inputted range of mean coverage cut-offs
-(MCCs) and max region gaps (MRGs) from the coverage." />
+<meta property="og:description" content="get_ers defines expressed regions across an inputted range of mean
+coverage cut-offs (MCCs) and max region gaps (MRGs) from the coverage." />
 
 
 
@@ -130,8 +130,8 @@
     </div>
 
     <div class="ref-description">
-    <p><code>ge_ERs</code> defines ERs across an inputted range of mean coverage cut-offs
-(MCCs) and max region gaps (MRGs) from the coverage.</p>
+    <p><code>get_ers</code> defines expressed regions across an inputted range of mean
+coverage cut-offs (MCCs) and max region gaps (MRGs) from the coverage.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_ers</span><span class='op'>(</span><span class='va'>coverage</span>, <span class='va'>mccs</span>, <span class='va'>mrgs</span><span class='op'>)</span></pre>
@@ -146,11 +146,15 @@
     </tr>
     <tr>
       <th>mccs</th>
-      <td><p>mean coverage cut-offs to apply.</p></td>
+      <td><p>numeric vector containing the mean coverage cut-offs to apply. MCCs
+are the mininmum number of reads that a base has to have to be considered as
+expressed.</p></td>
     </tr>
     <tr>
       <th>mrgs</th>
-      <td><p>max region gaps to apply.</p></td>
+      <td><p>numeric vector containing the max region gaps to apply. MRGs are the
+maximum number of bases between ERs that can be below the MCC and the adjacent
+ERs will be merged.</p></td>
     </tr>
     </table>
 
@@ -162,8 +166,8 @@ combination of MCC and MRG.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># coverage_example is from the package data folder</span>
 <span class='va'>eg_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_ers</span><span class='op'>(</span>coverage <span class='op'>=</span> <span class='va'>coverage_example</span>, mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-09-03 15:03:39 - Generating ERs for chr21"
-#&gt; [1] "2021-09-03 15:03:40 - Generating ERs for chr22"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-09-03 17:25:27 - Generating ERs for chr21"
+#&gt; [1] "2021-09-03 17:25:28 - Generating ERs for chr22"</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_ers</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $mcc_5
 #&gt; $mcc_5$mrg_10

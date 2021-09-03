@@ -142,7 +142,7 @@ respective genes that each ER could be associated with will also be passed in
 as a metadata column, a character list.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_junctions</span><span class='op'>(</span><span class='va'>opt_ers</span>, <span class='va'>junc_data</span>, <span class='va'>gtf_path</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_junctions</span><span class='op'>(</span><span class='va'>opt_ers</span>, <span class='va'>junc_data</span>, <span class='va'>txdb</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,8 +156,10 @@ as a metadata column, a character list.</p>
       <td><p>junction data that should match the ERs passed into opt_ers</p></td>
     </tr>
     <tr>
-      <th>gtf_path</th>
-      <td><p>a gtf file or txdb with exon data</p></td>
+      <th>txdb</th>
+      <td><p>a gtf file or txdb (<a href='https://rdrr.io/pkg/GenomicFeatures/man/TxDb-class.html'>TxDb-class</a>)
+with exon data. This will ultimately be used to annotate the junction data
+passed in.</p></td>
     </tr>
     </table>
 
@@ -230,14 +232,14 @@ as a metadata column, a character list.</p>
 <span class='va'>example_er_juncs</span> <span class='op'>&lt;-</span> <span class='fu'>get_junctions</span><span class='op'>(</span>
     opt_ers <span class='op'>=</span> <span class='va'>example_ers</span>,
     junc_data <span class='op'>=</span> <span class='va'>example_junctions</span>,
-    gtf_path <span class='op'>=</span> <span class='va'>ens_txdb</span> <span class='co'># can either be a gtf file or txdb in the Ensembl format</span>
+    txdb <span class='op'>=</span> <span class='va'>ens_txdb</span> <span class='co'># can either be a gtf file or txdb in the Ensembl format</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-09-03 15:05:32 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#&gt; [1] "2021-09-03 15:05:32 - Getting junction annotation using overlapping exons..."
-#&gt; [1] "2021-09-03 15:05:34 - Tidying junction annotation..."
-#&gt; [1] "2021-09-03 15:05:34 - Deriving junction categories..."
-#&gt; [1] "2021-09-03 15:05:38 - done!"
-#&gt; [1] "2021-09-03 15:05:38 - Finding junctions overlapping ers..."</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-09-03 17:27:34 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+#&gt; [1] "2021-09-03 17:27:35 - Getting junction annotation using overlapping exons..."
+#&gt; [1] "2021-09-03 17:27:36 - Tidying junction annotation..."
+#&gt; [1] "2021-09-03 17:27:37 - Deriving junction categories..."
+#&gt; [1] "2021-09-03 17:27:42 - done!"
+#&gt; [1] "2021-09-03 17:27:42 - Finding junctions overlapping ers..."</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>example_er_juncs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; GRanges object with 11 ranges and 4 metadata columns:
 #&gt;     seqnames            ranges strand |     score        GC

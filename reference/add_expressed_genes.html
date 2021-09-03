@@ -156,11 +156,13 @@ file will be used.</p></td>
     </tr>
     <tr>
       <th>tissue</th>
-      <td><p>Tissue to filter for. See tissue_options for options</p></td>
+      <td><p>Tissue to filter for. See <code><a href='tissue_options.html'>tissue_options</a></code> for options</p></td>
     </tr>
     <tr>
       <th>gtf</th>
-      <td><p>gtf file path or gtf GRanges</p></td>
+      <td><p>Either a string containg the path to a .gtf file or a pre-imported
+gtf using <code><a href='https://rdrr.io/pkg/rtracklayer/man/export.html'>import</a></code>. Provdes gene data to help determine
+the nearest gene and nearest expressed gene.</p></td>
     </tr>
     <tr>
       <th>species</th>
@@ -169,7 +171,8 @@ Homo sapiens is the default</p></td>
     </tr>
     <tr>
       <th>annot_ers</th>
-      <td><p>annotated ERs, should have an mcols column called "annotation"</p></td>
+      <td><p>annotated ERs i.e. the product of <code><a href='annotatERs.html'>annotatERs</a></code>,
+should have an mcols column called "annotation"</p></td>
     </tr>
     </table>
 

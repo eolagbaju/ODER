@@ -92,8 +92,7 @@
 <a href="#oder" class="anchor"></a>ODER</h1></div>
 <!-- badges: start -->
 
-<p>The goal of <code>ODER</code> is <strong>O</strong>ptimising the <strong>D</strong>efinition of <strong>E</strong>xpressed <strong>R</strong>egions, which the package does by well defining the expressed regions from RNA-squencing experiments so that they can be confidently identified as pre-existing annotated exons or unannotated novel exons. ODER allows the user to vary two features -the MCC(Mean Coverage Cutoff) and MRG (Max Region Gap) - to generate various expressed regions and identifying the combination of MCC and MRG that most accurately defines the expressed region(s) by comparing it to a “gold standard” set of exons. This is done by calculating the exon delta (the absolute difference between the ER definition and the corresponding exon boundaries).</p>
-<p>The optimally defined Expressed regions will be stored in the GenomicRanges GRanges class and ODER has several functions that will operate on these optimal ERs such as: 1. plotting the various exon deltas across MCCs and MRGs 2. annotating the ERs with junction data 3. refining annotated ERs using the junction data 4. generate a count matrix</p>
+<p>The goal of <code>ODER</code> is to <strong>O</strong>ptimise the <strong>D</strong>efinition of <strong>E</strong>xpressed <strong>R</strong>egions. <code>ODER</code> is a packaged form of the method developed in the Zhang et al. 2020 publication: <a href="https://advances.sciencemag.org/content/6/24/eaay8299.full">Incomplete annotation has a disproportionate impact on our understanding of Mendelian and complex neurogenetic disorders</a>. For a more detailed explanation of using <code>ODER</code>, please see the <a href="https://eolagbaju.github.io/ODER/articles/ODERflow.html">vignette</a>. For more explanation of the methodology behind <code>ODER</code>, see the mehtods section of the <a href="https://advances.sciencemag.org/content/6/24/eaay8299.full">original publication</a>.</p>
 <div id="installation-instructions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation-instructions" class="anchor"></a>Installation instructions</h2>
@@ -108,62 +107,44 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"eolagbaju/ODER"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># library("ODER")</span>
-<span class="co"># library("magrittr")</span>
-<span class="co"># # loading in RNA seq data to run ODER on</span>
-<span class="co"># gtex_metadata &lt;- recount::all_metadata("gtex")</span>
-<span class="co"># gtex_metadata &lt;- gtex_metadata %&gt;%</span>
-<span class="co">#     as.data.frame() %&gt;%</span>
-<span class="co">#     dplyr::filter(project == "SRP012682")</span>
-<span class="co"># url &lt;- recount::download_study(</span>
-<span class="co">#     project = "SRP012682",</span>
-<span class="co">#     type = "samples",</span>
-<span class="co">#     download = FALSE</span>
-<span class="co"># )</span>
-<span class="co"># # .file_cache is an internal function to download a bigwig file from a link if the file has been downloaded recently, it will be retrieved from a cache</span>
-<span class="co"># bw_path &lt;- ODER:::.file_cache(url[1])</span>
-<span class="co"># gtf_url &lt;- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
-<span class="co"># gtf_path &lt;- ODER:::.file_cache(gtf_url)</span>
-<span class="co">#</span>
-<span class="co"># # getting the optimally defined ERs by finding the combination of Mean Coverage Cut-off and Max Region Gap that gives the smallest exon delta</span>
-<span class="co">#</span>
-<span class="co"># # MCC - Mean Cutoff Coverage - this is the minimum read depth that a read needs to have to be considered expressed</span>
-<span class="co"># # MRG - Max Region Gap - this is the maximum number of base pairs between reads that fall below the MCC before you would not include it as part of the expressed region</span>
-<span class="co"># opt_ers &lt;- ODER(</span>
-<span class="co">#     bw_paths = bw_path, auc_raw = gtex_metadata[["auc"]][1], # auc_example,</span>
-<span class="co">#     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),</span>
-<span class="co">#     genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),</span>
-<span class="co">#     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,</span>
-<span class="co">#     exons_no_overlap = NULL, bw_chr = "chr"</span>
-<span class="co"># )</span>
-<span class="co">#</span>
-<span class="co"># # for stranded bigwig files:</span>
-<span class="co">#</span>
-<span class="co"># # bw_plus &lt;- ODER:::.file_cache(url[58])</span>
-<span class="co"># # bw_minus &lt;- ODER:::.file_cache(url[84])</span>
-<span class="co"># # opt_strand_ers &lt;- ODER_strand(</span>
-<span class="co"># #     bw_pos = bw_plus, bw_neg = bw_minus,</span>
-<span class="co"># #     auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],</span>
-<span class="co"># #     auc_tar_pos = 40e6 * 100, auc_tar_neg = 40e6 * 100, chrs = c("chr21", "chr22"),</span>
-<span class="co"># #     genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30), gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = FALSE,</span>
-<span class="co"># #     exons_no_overlap = NULL, bw_chr = "chr"</span>
-<span class="co"># # )</span>
-<span class="co">#</span>
-<span class="co"># opt_ers</span>
-<span class="co"># # opt_strand_ers</span></code></pre></div>
-<p>In that case, don’t forget to commit and push the resulting figure files, so they display on GitHub!</p>
-</div>
 <div id="citation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
 <p>Below is the citation output from using <code><a href="https://rdrr.io/r/utils/citation.html">citation('ODER')</a></code> in R. Please run this yourself to check for any updates on how to cite <strong>ODER</strong>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># print(citation('ODER'), bibtex = TRUE)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">"ODER"</span><span class="op">)</span>, bibtex <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; eolagbaju (2021). _Optimising the Definition of Expressed Regions_.</span>
+<span class="co">#&gt; doi: 10.18129/B9.bioc.ODER (URL:</span>
+<span class="co">#&gt; https://doi.org/10.18129/B9.bioc.ODER),</span>
+<span class="co">#&gt; https://github.com/eolagbaju/ODER/ODER - R package version 0.99.8,</span>
+<span class="co">#&gt; &lt;URL: http://www.bioconductor.org/packages/ODER&gt;.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; A BibTeX entry for LaTeX users is</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   @Manual{,</span>
+<span class="co">#&gt;     title = {Optimising the Definition of Expressed Regions},</span>
+<span class="co">#&gt;     author = {{eolagbaju}},</span>
+<span class="co">#&gt;     year = {2021},</span>
+<span class="co">#&gt;     url = {http://www.bioconductor.org/packages/ODER},</span>
+<span class="co">#&gt;     note = {https://github.com/eolagbaju/ODER/ODER - R package version 0.99.8},</span>
+<span class="co">#&gt;     doi = {10.18129/B9.bioc.ODER},</span>
+<span class="co">#&gt;   }</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; eolagbaju (2021). "Optimising the Definition of Expressed Regions."</span>
+<span class="co">#&gt; _bioRxiv_. doi: 10.1101/TODO (URL: https://doi.org/10.1101/TODO), &lt;URL:</span>
+<span class="co">#&gt; https://www.biorxiv.org/content/10.1101/TODO&gt;.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; A BibTeX entry for LaTeX users is</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   @Article{,</span>
+<span class="co">#&gt;     title = {Optimising the Definition of Expressed Regions},</span>
+<span class="co">#&gt;     author = {{eolagbaju}},</span>
+<span class="co">#&gt;     year = {2021},</span>
+<span class="co">#&gt;     journal = {bioRxiv},</span>
+<span class="co">#&gt;     doi = {10.1101/TODO},</span>
+<span class="co">#&gt;     url = {https://www.biorxiv.org/content/10.1101/TODO},</span>
+<span class="co">#&gt;   }</span></code></pre></div>
 <p>Please note that the <code>ODER</code> was only made possible thanks to many other R and bioinformatics software authors, which are cited either in the vignettes and/or the paper(s) describing this package.</p>
 </div>
 <div id="code-of-conduct" class="section level2">

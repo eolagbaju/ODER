@@ -141,7 +141,7 @@ generate a genomic state used to label each ER as to whether they are exonic,
 intronic, intergenic or none.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>annotatERs</span><span class='op'>(</span><span class='va'>opt_ers</span>, <span class='va'>junc_data</span>, <span class='va'>gtf_path</span>, <span class='va'>genom_state</span>, gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, <span class='va'>txdb</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>annotatERs</span><span class='op'>(</span><span class='va'>opt_ers</span>, <span class='va'>junc_data</span>, <span class='va'>genom_state</span>, <span class='va'>gtf</span>, <span class='va'>txdb</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,20 +155,20 @@ intronic, intergenic or none.</p>
       <td><p>junction data that should match the ERs passed into opt_ers</p></td>
     </tr>
     <tr>
-      <th>gtf_path</th>
-      <td><p>a gtf file or txdb with exon data</p></td>
-    </tr>
-    <tr>
       <th>genom_state</th>
       <td><p>a genomic state object</p></td>
     </tr>
     <tr>
       <th>gtf</th>
-      <td><p>gtf in a GRanges object</p></td>
+      <td><p>gtf in a GRanges object, pre-imported using
+<code><a href='https://rdrr.io/pkg/rtracklayer/man/export.html'>import</a></code>. This is used to provide the gene information
+for annotation.</p></td>
     </tr>
     <tr>
       <th>txdb</th>
-      <td><p>txdb object to create genomic state</p></td>
+      <td><p><a href='https://rdrr.io/pkg/GenomicFeatures/man/TxDb-class.html'>TxDb-class</a> (txdb object) to create
+genomic state. This is used to annotate the expressed regions as exonic, intronic
+or intergenic.</p></td>
     </tr>
     </table>
 
@@ -226,16 +226,16 @@ intronic, intergenic or none.</p>
 <span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"annot_ers1"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
     <span class='va'>annot_ers1</span> <span class='op'>&lt;-</span> <span class='fu'>annotatERs</span><span class='op'>(</span>
         opt_ers <span class='op'>=</span> <span class='va'>ex_opt_ers</span>, junc_data <span class='op'>=</span> <span class='va'>junctions</span>,
-        gtf <span class='op'>=</span> <span class='va'>gtf_gr</span>, txdb <span class='op'>=</span> <span class='va'>ens_txdb</span>, genom_state <span class='op'>=</span> <span class='va'>genom_state</span>,
+        gtf <span class='op'>=</span> <span class='va'>gtf_gr</span>, txdb <span class='op'>=</span> <span class='va'>ens_txdb</span>, genom_state <span class='op'>=</span> <span class='va'>genom_state</span>
     <span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; [1] "2021-09-03 15:03:21 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#&gt; [1] "2021-09-03 15:03:22 - Getting junction annotation using overlapping exons..."
-#&gt; [1] "2021-09-03 15:03:24 - Tidying junction annotation..."
-#&gt; [1] "2021-09-03 15:03:24 - Deriving junction categories..."
-#&gt; [1] "2021-09-03 15:03:28 - done!"
-#&gt; [1] "2021-09-03 15:03:28 - Finding junctions overlapping ers..."
-#&gt; [1] "2021-09-03 15:03:28 - Annotating the Expressed regions..."</div><div class='output co'>#&gt; <span class='message'>2021-09-03 15:03:28 annotateRegions: counting</span></div><div class='output co'>#&gt; <span class='message'>2021-09-03 15:03:28 annotateRegions: annotating</span></div><div class='output co'>#&gt; [1] "2021-09-03 15:03:29 - done!"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "2021-09-03 17:25:10 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+#&gt; [1] "2021-09-03 17:25:10 - Getting junction annotation using overlapping exons..."
+#&gt; [1] "2021-09-03 17:25:12 - Tidying junction annotation..."
+#&gt; [1] "2021-09-03 17:25:12 - Deriving junction categories..."
+#&gt; [1] "2021-09-03 17:25:18 - done!"
+#&gt; [1] "2021-09-03 17:25:18 - Finding junctions overlapping ers..."
+#&gt; [1] "2021-09-03 17:25:18 - Annotating the Expressed regions..."</div><div class='output co'>#&gt; <span class='message'>2021-09-03 17:25:18 annotateRegions: counting</span></div><div class='output co'>#&gt; <span class='message'>2021-09-03 17:25:18 annotateRegions: annotating</span></div><div class='output co'>#&gt; [1] "2021-09-03 17:25:19 - done!"</div><div class='input'>
 <span class='va'>annot_ers1</span>
 </div><div class='output co'>#&gt; GRanges object with 5 ranges and 5 metadata columns:
 #&gt;       seqnames          ranges strand |                     grl           genes
