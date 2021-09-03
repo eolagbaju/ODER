@@ -28,7 +28,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 ```{r vignetteSetup, echo=FALSE, message=FALSE, warning = FALSE}
 ## Track time spent on making the vignette
 startTime <- Sys.time()
@@ -36,17 +35,17 @@ startTime <- Sys.time()
 ## Bib setup
 library("RefManageR")
 
-# ## Write bibliography information
-# bib <- c(
-#     R = citation(),
-#     BiocStyle = citation("BiocStyle")[1],
-#     knitr = citation("knitr")[1],
-#     RefManageR = citation("RefManageR")[1],
-#     rmarkdown = citation("rmarkdown")[1],
-#     sessioninfo = citation("sessioninfo")[1],
-#     testthat = citation("testthat")[1],
-#     ODER = citation("ODER")[1]
-# )
+## Write bibliography information
+bib <- c(
+    R = citation(),
+    BiocStyle = citation("BiocStyle")[1],
+    knitr = citation("knitr")[1],
+    RefManageR = citation("RefManageR")[1],
+    rmarkdown = citation("rmarkdown")[1],
+    sessioninfo = citation("sessioninfo")[1],
+    testthat = citation("testthat")[1],
+    ODER = citation("ODER")[1]
+)
 ```
 
 # Basics
@@ -68,13 +67,11 @@ BiocManager::valid()
 
 ## Required knowledge
 
-The expected input of `r Biocpkg("ODER")` is coverage in the form of BigWig files.
+The expected input of `r Biocpkg("ODER")` is coverage in the form of BigWig files as well as, depending on the functionalility required by a specific user, junctions in form of a `RangedSummarizedExperiments`. 
 
-`r Biocpkg("ODER")` is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with RNA-seq data. The `r Biocpkg("GenomicRanges")` package is heavily used in `r Biocpkg("ODER")` while other packages like `r Biocpkg("SummarizedExperiment")` and `r Biocpkg("GenomeInfoDb")` also being featured so previous experience with these packages will help in the comprehension and use of `r Biocpkg("ODER")`.
+`r Biocpkg("ODER")` is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with RNA-seq data. The `r Biocpkg("GenomicRanges")` package is heavily used in `r Biocpkg("ODER")` while other packages like `r Biocpkg("SummarizedExperiment")` and `r Biocpkg("derfinder")`. Previous experience with these packages will help in the comprehension and use of `r Biocpkg("ODER")`.
 
 If you are asking yourself the question "Where do I start using Bioconductor?" you might be interested in [this blog post](http://lcolladotor.github.io/2014/10/16/startbioc/#.VkOKbq6rRuU). If you find the structure of a `r Biocpkg("SummarizedExperiment")` unclear, you might consider checking out [this manual](http://master.bioconductor.org/help/course-materials/2019/BSS2019/04_Practical_CoreApproachesInBioconductor.html).
-
-
 
 ## Asking for help
 
@@ -86,154 +83,155 @@ We hope that `r Biocpkg("ODER")` will be useful for your research. Please use th
 
 ```{r "citation"}
 ## Citation info
-# citation("ODER")
+citation("ODER")
 ```
+
+# Background 
+
+`ODER` is a packaged form of the method developed in the Zhang et al. 2020 publication: [Incomplete annotation has a disproportionate impact on our understanding of Mendelian and complex neurogenetic disorders](https://advances.sciencemag.org/content/6/24/eaay8299.full). The overarching aim of `ODER` is use RNA-sequencing data to define regions of unannotated expression (ERs) in the genome, optimise their definition, then link them to known genes. 
+
+`ODER` builds upon the method defined in `r Biocpkg("derfinder")` by improving the definition of ERs in a few ways. Firstly, rather than being a fixed value, the coverage cut off is optimised based on a set of user-inputted, gold-standard exons for a given set of samples. Secondly, `ODER` introduces a second optimisation parameter, the max region gap, which determines the number of base-pairs of gap between which ERs are merged. Thirdly, ERs can be connected to known genes through junction reads. This aids the interpretation of ERs and also allows their definition to be refined further using the intersection between ERs and junctions. For more detailed methods, please see the methods section of the  [original publication](https://advances.sciencemag.org/content/6/24/eaay8299.full). 
+
+Unannotated ERs can provide evidence for the existence and location of novel exons, which are yet to be added within reference annotation. Improving the completeness of reference annotation can aid the interpretation of genetic variation. For example, the output of `ODER` can help to better interpret non-coding genetics variants that are found in the genome of Mendelian disease patients, poetentially leading to improvements in diagnosis rates.
 
 # Quick start to using to `ODER`
 
-ODER consists of 4 main functions, some of which consist of several smaller helper functions. These functions are
+From the top-level ODER consists of 4 core functions, which are broken down internally into several smaller helper functions. These functions are expected to be run sequentially in the order presented below:
 
-1. **ODER** - Returns the optimum definition of the expressed regions by finding the ideal MCC (Mean Coverage Cutoff) and MRG (Max Region Gap)
-2. **annotatER** - Annotates the expressed regions with overlapping junctions and the nearest expressed genes
-3. **refine_ers** - Uses the junctions to further refine the starts and the ends of the expressed regions
-4. **get_count_matrix** - Scores the coverage of the expressed regions
+1. `ODER()` - Takes as input coverage in the form of BigWig files. Uses `r Biocpkg("derfinder")` to call contigous blocks of expression that we term expressed regions or ERs. ER definitions are optimised across a pair of parameters the mean coverage cut-off (MCC) and the max region gap (MRG) with respect to a user-inputted set of gold standard exons. The set of ERs for the optimised MCC and MRG are returned. 
+2. `annotatER()` - Takes as input the optimised set of ERs and a set of junctions. Finds overlaps between the ERs and junctions, thereby annotating ERs with the gene associated with it's corresponding junction. Also categorises ERs into "exon", "intron", "intergenic" or any combination of these three categories depending on the ERs overlap with existing annotation. 
+3. `refine_ers()` - Takes as input the optimised set of ERs annotated with junctions. Refines the ER definition based on the intersection between the ER and it's overlapping junction. 
+4. `get_count_matrix()` - Takes as input any set of `GenomicRanges` and a set of `BigWig` files. Returns a `RangedSummarizedExperiment` with `assays` containing the average coverage across each range. This function is intended to obtain the coverage across ERs to allow usage in downstream analyses such as differential expression. 
 
-```{r 'install_dev', eval = FALSE}
+```{r install-dev, eval = FALSE}
+
 BiocManager::install("eolagbaju/ODER")
 ```
+
 ## Example
 
-This is a basic example to show how you can use ODER, for reproducibility everything used in this vignette can either be found online or is contained in ODER. First, we need to download the data and information needed to run ODER:
+This is a basic example to show how you can use ODER. First, we need to download the example `BigWig` data required as input for `ODER`. 
 
 ```{r load_data, eval = requireNamespace('ODER')}
+
 library("ODER")
 library("magrittr")
-# loading in RNA seq data to run ODER on
+
+# Download recount data in the form of BigWigs
 gtex_metadata <- recount::all_metadata("gtex")
+
 gtex_metadata <- gtex_metadata %>%
     as.data.frame() %>%
     dplyr::filter(project == "SRP012682")
+
 url <- recount::download_study(
     project = "SRP012682",
     type = "samples",
     download = FALSE
 )
-# .file_cache is an internal function to download a bigwig file from a link if the file has been downloaded recently, it will be retrieved from a cache
-bw_path <- .file_cache(url[1])
-gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-gtf_path <- .file_cache(gtf_url)
 
-gtf_gr <- rtracklayer::import(gtf_path)
+# .file_cache is an internal ODER function to cache files for
+# faster repeated loading
+bw_path <- .file_cache(url[1])
+
+bw_path
 ```
 
-To get the optimum set of ERs from a BigWig file we can use the ODER function, for stranded BigWigs there is the ODER_strand function:
+To get the optimum set of ERs from a BigWig file we can use the `ODER()` function. This will obtain the optimally defined ERs by finding the combination of MCC and MRG parameters that gives the lowest exon delta between the ERs and the inputted gold-standard exons. The MCC is minimum read depth that a base pair needs to have to be considered expressed. The MRG is the maximum number of base pairs between reads that fall below the MCC before you would not include it as part of the expressed region. Internally, gold-standard exons are obtained by finding the non-overlapping exons from the inputted reference annotation. 
+
+In this example, we demonstrate `ODER()` on a single unstranded `Bigwig`. However, in reality, it is likely that you will want to optimise the ER definitions across multiple `BigWigs`. It is worth noting that the arguments `bw_pos` and `bw_neg` in `ODER()` allow for the input of stranded `BigWigs`. 
 
 ```{r ODER}
-# Getting the optimally defined ERs by finding the combination of Mean Coverage Cut-off and Max Region Gap that gives the smallest exon delta
 
-# MCC - Mean Cutoff Coverage - this is the minimum read depth that a read needs to have to be considered expressed
-
-# MRG - Max Region Gap - this is the maximum number of base pairs between reads that fall below the MCC before you would not include it as part of the expressed region
+# load reference annotation from Ensembl
+gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+gtf_path <- .file_cache(gtf_url)
+gtf_gr <- rtracklayer::import(gtf_path)
 
 opt_ers <- ODER(
     bw_paths = bw_path, auc_raw = gtex_metadata[["auc"]][1],
     auc_target = 40e6 * 100, chrs = c("chr21"),
     genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),
-    gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+    gtf = gtf_gr, ucsc_chr = TRUE, ignore.strand = TRUE,
     exons_no_overlap = NULL, bw_chr = "chr"
 )
-
-# for stranded bigwig files:
-
-# bw_pos <- ODER:::.file_cache(url[58])
-# bw_neg <- ODER:::.file_cache(url[84])
-# opt_strand_ers <- ODER_strand(
-#     bw_pos = bw_plus, bw_neg = bw_minus,
-#     auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
-#     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-#     genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),
-#     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
-# )
-
-opt_ers
-# opt_strand_ers
 ```
 
-Once we have the opt_ers, we can generate a plot to see how the various MCCs and MRGs would look. The median exon delta represents the overall accuracy of all ER definitions, whereas the number of ERs with exon delta equal to 0 indicates the extent to which ER definitions precisely match overlapping exon boundaries.
-
-The median exon delta represents the overall accuracy of all ER definitions, whereas the number of ERs with exon delta equal to 0 indicates the extent to which ER definitions precisely match overlapping exon boundaries.
+Once we have the obtained the optimised set of ERs, we may consider plotting the exon delta across the various MCCs and MRGs. This can be useful to check the error associated with the definition of the set of optimised ERs. This error is measured through two metrics; the median exon delta and the number of ERs with exon delta equal to 0. The median exon delta represents the overall accuracy of all ER definitions, whereas the number of ERs with exon delta equal to 0 indicates the extent to which ER definitions precisely match overlapping gold-standard exon boundaries. 
 
 ```{r plot_example}
 # visualise the spread of mccs and mrgs
 plot_ers(opt_ers[["deltas"]], opt_ers[["opt_mcc_mrg"]])
 ```
 
-To find the overlapping junctions and find the nearest expressed genes we can use annotatERs. The junctions used should be the same tissue type as the ERs from the BigWig passed into ODER, in this case we are looking at lung tissue data.
+Next, we will use `annotatERs()` to find the overlap between the ERs and junctions. Furthermore, `annotatERs()` will also classify ERs by their overlap with existing reference annotation into the categories; "exon", "intron" and "intergenic". This can be helpful for two reasons. Primarily, junctions can be used to inform which gene the ER is associated to. This gene-level association can be useful multiple downstream applications, such as novel exon discovery. Furthermore, the category of ER, in terms of whether it overlaps a exonic, intronic or intergenic region, can help determine whether the ER represents novel expression. For example, ERs solely overlapping intronic or intergenic regions and associated with a gene can be the indication of the expression of an unannotated exon. 
+
+To note, it is recommended that the inputted junctions are derived from the same samples or tissue as the `BigWig` files used to define ERs.
 
 ```{r annotatER_example}
 
-
-# annotating the optimally defined ers with overlapping junctions
-
-
+# running only chr21 to reduce runtime
 chrs_to_keep <- c("21")
-#### preparing the txdb object
-# gtf_txdb <- GenomicFeatures::makeTxDbFromGFF(file = gtf_path, format = "gtf")
-# gtf_txdb <- GenomeInfoDb::keepSeqlevels(gtf_txdb, chrs_to_keep)
+
+# prepare the txdb object to create a genomic state
+# based on https://support.bioconductor.org/p/93235/
 hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
+
 new_info <- hg38_chrominfo$size[match(
-    chrs_to_keep, # GenomeInfoDb::seqlevels(gtf_txdb),
+    chrs_to_keep,
     GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
 )]
+
 names(new_info) <- chrs_to_keep
 gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
     chrs_to_keep,
     pruning.mode = "tidy"
 )
+
 GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
 GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
 rtracklayer::genome(gtf_gr_tx) <- "hg38"
 
 ucsc_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
 genom_state <- derfinder::makeGenomicState(txdb = ucsc_txdb)
+
+# convert UCSC chrs format to Ensembl to match the ERs
 ens_txdb <- ucsc_txdb
 GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
-################### end of genomstate creation
 
-
+# lung_junc_21_22 is an example data set of junctions
+# obtained from recount3, derived from the lung tissue
+# run annotatERs()
 annot_ers <- annotatERs(
-    opt_ers = head(opt_ers[["opt_ers"]], 100), junc_data = lung_junc_21_22,
-    gtf_path = gtf_path, gtf = gtf_gr, txdb = ens_txdb,
-    genom_state = genom_state
+    opt_ers = head(opt_ers[["opt_ers"]], 100),
+    junc_data = lung_junc_21_22,
+    genom_state = genom_state,
+    gtf = gtf_gr,
+    txdb = ens_txdb
 )
 
-# To check the types of tissue you can filter for:
-# print(tissue_options)
-
-annot_ers <- add_expressed_genes(tissue = "lung", gtf = gtf_gr, annot_ers = annot_ers)
-
-annot_ers
+# print first 5 ERs
+annot_ers[1:5]
 ```
 
-We can use refine_ers to modify the starts and ends of the expressed regions by using refine_ers on the annotated regions.
+After we have annotated ERs with the overlapping junctions, optionally we can use `refine_ers()` to refine the starts and ends of the ERs based on the overlapping junctions. This will filter ERs for those which have either a single or two non-intersecting junctions overlapping. For the remaining ERs, `refine_ers()` will shave the ER definitions to the exon boundaries matching the overlapping junctions. This can be useful for downstream applications whereby the accuracy of the ER definition is extremely important. For example, the interpretion of variants in diagnostic setting. 
 
-```{r refineER_example}
-# modify the starts and ends of the ERs using the junction data
+```{r refine_ERs_example}
 
 refined_ers <- refine_ERs(annot_ers)
 
 refined_ers
 ```
 
-Generate an ER count matrix with get_count_matrix, if cols is left blank the function will auto-generate colData for the Ranged Summarized Experiment output.
-
+Finally, we can generate an ER count matrix with `get_count_matrix()`. This function can flexibly be run at any stage of the `ODER` pipeline and it requires a set of `GenomicRanges` and `BigWig` paths as input. `get_count_matrix()` will return a `RangedSummarizedExperiment` which has `assays` filled with the mean coverage across each inputted range. Internally, `get_count_matrix()` relies on `r Biocpkg("megadepth")` to obtain coverage from `BigWigs` therefore `megadepth::install_megadepth()` must be executed at least once on the user's system before `get_count_matrix()`. 
 
 ```{r get_count_matrix_example}
-# Generate a count matrix for the annotated ERs
 
+# create sample metadata containing identifiers for each BigWig
 run <- gtex_metadata[["run"]][[1]]
 col_info <- as.data.frame(run)
 
+# install megadepth
 megadepth::install_megadepth()
 
 er_count_matrix <- get_count_matrix(bw_paths = bw_path, annot_ers = annot_ers, cols = col_info)
@@ -243,9 +241,17 @@ er_count_matrix
 
 # Reproducibility
 
+The `r Biocpkg("dasper")` package `r Citep(bib[["dasper"]])` was made possible thanks to:
+
+-   R `r Citep(bib[["R"]])`
+-   `r Biocpkg("BiocStyle")` `r Citep(bib[["BiocStyle"]])`
+-   `r CRANpkg("RefManageR")` `r Citep(bib[["RefManageR"]])`
+-   `r CRANpkg("knitr")` `r Citep(bib[["knitr"]])`
+-   `r CRANpkg("rmarkdown")` `r Citep(bib[["rmarkdown"]])`
+-   `r CRANpkg("sessioninfo")` `r Citep(bib[["sessioninfo"]])`
+-   `r CRANpkg("testthat")` `r Citep(bib[["testthat"]])`
 
 This package was developed using `r BiocStyle::Biocpkg("biocthis")`.
-
 
 Code for creating the vignette
 
@@ -283,12 +289,3 @@ options(width = 120)
 session_info()
 ```
 
-
-
-# Bibliography
-
-
-```{r vignetteBiblio, results = "asis", echo = FALSE, warning = FALSE, message = FALSE}
-## Print bibliography
-# PrintBibliography(bib, .opts = list(hyperlink = "to.doc", style = "html"))
-```
