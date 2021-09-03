@@ -44,23 +44,7 @@ test_grs2 <- GenomicRanges::GRanges( # this is created to not overlap
     GC = seq(1, 0, length = 11)
 )
 
-test_juncs <- SummarizedExperiment::rowRanges(dasper::junctions_example)
 
-test_er_aj <- suppressWarnings(get_junctions(
-    opt_ers = test_grs,
-    junc_data = test_juncs,
-    gtf_path = gtf_path
-))
-
-test_er_aj2 <- suppressWarnings(get_junctions(
-    opt_ers = test_grs2,
-    junc_data = test_juncs,
-    gtf_path = gtf_path
-))
-
-test_gene <- unique(unlist(GenomicRanges::mcols(
-    GenomicRanges::mcols(test_er_aj[1])[["grl"]][[1]]
-)[["gene_id_junction"]]))
 
 chrs_to_keep <- c("21", "22")
 #### preparing the txdb object
@@ -83,6 +67,24 @@ test_gstate <- derfinder::makeGenomicState(txdb = ucsc_txdb)
 ens_txdb <- ucsc_txdb
 GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
 ################### end of txdb creation
+
+test_juncs <- SummarizedExperiment::rowRanges(dasper::junctions_example)
+
+test_er_aj <- suppressWarnings(get_junctions(
+    opt_ers = test_grs,
+    junc_data = test_juncs,
+    gtf_path = ens_txdb
+))
+
+test_er_aj2 <- suppressWarnings(get_junctions(
+    opt_ers = test_grs2,
+    junc_data = test_juncs,
+    gtf_path = ens_txdb
+))
+
+test_gene <- unique(unlist(GenomicRanges::mcols(
+    GenomicRanges::mcols(test_er_aj[1])[["grl"]][[1]]
+)[["gene_id_junction"]]))
 
 
 test_annot_ers <- suppressWarnings(annotatERs(

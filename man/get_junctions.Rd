@@ -11,7 +11,7 @@ get_junctions(opt_ers, junc_data, gtf_path)
 
 \item{junc_data}{junction data that should match the ERs passed into opt_ers}
 
-\item{gtf_path}{a gtf file with exon data}
+\item{gtf_path}{a gtf file or txdb with exon data}
 }
 \value{
 optimally defined ers annotated with junction and gene information
@@ -39,6 +39,29 @@ if (!exists("gtf_path")) {
 if (!exists("gtf_gr")) {
     gtf_gr <- rtracklayer::import(gtf_path)
 }
+
+chrs_to_keep <- c("21", "22")
+#' if (!exists("ens_txdb")) {
+#### preparing the txdb object
+hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
+new_info <- hg38_chrominfo$size[match(
+    chrs_to_keep,
+    GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
+)]
+names(new_info) <- chrs_to_keep
+gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
+    chrs_to_keep,
+    pruning.mode = "tidy"
+)
+GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
+GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
+rtracklayer::genome(gtf_gr_tx) <- "hg38"
+
+ens_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
+GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
+################### end of txdb creation
+
+}
 }
 example_ers <- GenomicRanges::GRanges(
     seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(10, 1)),
@@ -63,7 +86,7 @@ example_junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
 example_er_juncs <- get_junctions(
     opt_ers = example_ers,
     junc_data = example_junctions,
-    gtf_path = gtf_path
+    gtf_path = ens_txdb #can either be a gtf file or txdb in the Ensembl format
 )
 
 print(example_er_juncs)

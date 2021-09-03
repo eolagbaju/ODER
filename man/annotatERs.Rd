@@ -21,7 +21,7 @@ annotatERs(
 
 \item{junc_data}{junction data that should match the ERs passed into opt_ers}
 
-\item{gtf_path}{a gtf file with exon data}
+\item{gtf_path}{a gtf file or txdb with exon data}
 
 \item{genom_state}{a genomic state object}
 
@@ -52,12 +52,6 @@ if (!exists("gtf_gr")) {
     gtf_gr <- rtracklayer::import(gtf_path)
 }
 }
-if (!exists("genom_state")) {
-    genom_state <- generate_genomic_state(
-        gtf = gtf_path,
-        chrs_to_keep = c("21"), ensembl = TRUE
-    )
-}
 ex_opt_ers <- GenomicRanges::GRanges(
     seqnames = S4Vectors::Rle(c("chr21"), c(5)),
     ranges = IRanges::IRanges(
@@ -69,7 +63,7 @@ ex_opt_ers <- GenomicRanges::GRanges(
 junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
 
 chrs_to_keep <- c("21", "22")
-#### preparing the txdb object
+#### preparing the txdb and genomstate object(s)
 hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
 new_info <- hg38_chrominfo$size[match(
     chrs_to_keep,
@@ -93,7 +87,7 @@ GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
 if (!exists("annot_ers1")) {
     annot_ers1 <- annotatERs(
         opt_ers = ex_opt_ers, junc_data = junctions,
-        gtf_path = gtf_path, chrs_to_keep = c("21", "22"), ensembl = TRUE,
+        chrs_to_keep = c("21", "22"), ensembl = TRUE,
         gtf = gtf_gr, txdb = ens_txdb, genom_state = genom_state,
     )
 }
