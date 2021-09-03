@@ -105,7 +105,7 @@ plot_ers <- function(ers_delta, opt_mcc_mrg) {
         num_exon_delta_eq_0_plot,
         nrow = 2, ncol = 1,
         align = "v",
-        common.legend = T,
+        common.legend = TRUE,
         legend = "right"
     )
 

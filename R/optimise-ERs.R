@@ -89,7 +89,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
     # GTF Processing
 
     gtf_gr <- GenomeInfoDb::keepStandardChromosomes(gtf_gr, species = "Homo_sapiens", pruning.mode = "coarse")
-    gtf.df <- as.data.frame(gtf_gr, stringsAsFactor = F)
+    gtf.df <- as.data.frame(gtf_gr, stringsAsFactor = FALSE)
 
     # Select protein-coding genes and transcripts
     gtf.df.pc <- gtf.df %>% dplyr::filter(gene_biotype %in% "protein_coding", transcript_biotype %in% "protein_coding")
