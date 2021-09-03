@@ -13,8 +13,8 @@ add_expressed_genes(
 )
 }
 \arguments{
-\item{input_file}{GTEX median expression file, if left as NULL
-\code{\link{get_tissue}} will use the default file}
+\item{input_file}{GTEX median expression file, if left as NULL the default
+file will be used.}
 
 \item{tissue}{Tissue to filter for. See tissue_options for options}
 

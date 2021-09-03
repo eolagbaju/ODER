@@ -65,7 +65,7 @@
 #'         gtf = gtf_gr, txdb = ens_txdb, genom_state = genom_state,
 #'     )
 #' }
-#' 
+#'
 #' annot_ers1
 annotatERs <- function(opt_ers,
     junc_data,

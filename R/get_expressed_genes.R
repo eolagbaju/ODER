@@ -5,8 +5,8 @@
 #' nearest expressed gene will be added to the metadata columns of the annotated
 #' ERs.
 #'
-#' @param input_file GTEX median expression file, if left as NULL
-#' \code{\link{get_tissue}} will use the default file
+#' @param input_file GTEX median expression file, if left as NULL the default
+#' file will be used.
 #' @param tissue Tissue to filter for. See tissue_options for options
 #' @param gtf gtf file path or gtf GRanges
 #' @param species character string containing the species to filter for,
@@ -129,8 +129,7 @@ get_expressed_genes <- function(gtf, species = "Homo_sapiens", tissue_df) {
 #'
 #' Adds the overall nearest gene and the nearest expressed gene to the annotated
 #' expressed regions as metadata columns. Takes in annotated ers produced by
-#' \code{\link{annotatERs}}, expressed genes from \code{\link{get_expressed_genes}}
-#' and a gtf file.
+#' \code{\link{annotatERs}}, expressed genes and a gtf file.
 #'
 #' @param gtf gtf file path or gtf GRanges
 #' @param annot_ers annotated ERs, should have an mcols column called "annotation"
