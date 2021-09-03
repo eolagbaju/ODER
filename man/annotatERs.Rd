@@ -80,7 +80,7 @@ GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
 if (!exists("annot_ers1")) {
     annot_ers1 <- annotatERs(
         opt_ers = ex_opt_ers, junc_data = junctions,
-        gtf = gtf_gr, txdb = ens_txdb, genom_state = genom_state,
+        gtf = gtf_gr, txdb = ens_txdb, genom_state = genom_state
     )
 }
 
