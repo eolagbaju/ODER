@@ -67,14 +67,12 @@
 #' }
 #' 
 #' annot_ers1
-annotatERs <- function(
-  opt_ers, 
-  junc_data, 
-  gtf_path,
-  genom_state,
-  gtf = gtf_path, 
-  txdb
-  ) {
+annotatERs <- function(opt_ers,
+    junc_data,
+    gtf_path,
+    genom_state,
+    gtf = gtf_path,
+    txdb) {
     ann_opt_ers <- get_junctions(
         opt_ers = opt_ers, junc_data = junc_data,
         gtf_path = txdb # gtf_path
@@ -180,28 +178,27 @@ annotatERs <- function(
 #' if (!exists("gtf_gr")) {
 #'     gtf_gr <- rtracklayer::import(gtf_path)
 #' }
-#' 
-#' chrs_to_keep <- c("21", "22")
-#' #' if (!exists("ens_txdb")) {
-#' #### preparing the txdb object
-#' hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
-#' new_info <- hg38_chrominfo$size[match(
-#'     chrs_to_keep,
-#'     GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
-#' )]
-#' names(new_info) <- chrs_to_keep
-#' gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
-#'     chrs_to_keep,
-#'     pruning.mode = "tidy"
-#' )
-#' GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
-#' GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
-#' rtracklayer::genome(gtf_gr_tx) <- "hg38"
 #'
-#' ens_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
-#' GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
-#' ################### end of txdb creation
-#' 
+#' chrs_to_keep <- c("21", "22")
+#' if (!exists("ens_txdb")) {
+#'     #### preparing the txdb object
+#'     hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
+#'     new_info <- hg38_chrominfo$size[match(
+#'         chrs_to_keep,
+#'         GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
+#'     )]
+#'     names(new_info) <- chrs_to_keep
+#'     gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
+#'         chrs_to_keep,
+#'         pruning.mode = "tidy"
+#'     )
+#'     GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
+#'     GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
+#'     rtracklayer::genome(gtf_gr_tx) <- "hg38"
+#'
+#'     ens_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
+#'     GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
+#'     ################### end of txdb creation
 #' }
 #' }
 #' example_ers <- GenomicRanges::GRanges(
@@ -223,11 +220,11 @@ annotatERs <- function(
 #' )
 #'
 #' example_junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
-#'
+#' d
 #' example_er_juncs <- get_junctions(
 #'     opt_ers = example_ers,
 #'     junc_data = example_junctions,
-#'     gtf_path = ens_txdb #can either be a gtf file or txdb in the Ensembl format
+#'     gtf_path = ens_txdb # can either be a gtf file or txdb in the Ensembl format
 #' )
 #'
 #' print(example_er_juncs)

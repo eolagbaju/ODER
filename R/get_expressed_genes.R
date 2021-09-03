@@ -140,8 +140,7 @@ get_expressed_genes <- function(gtf, species = "Homo_sapiens", tissue_df) {
 #' @keywords internal
 #' @noRd
 get_nearest_expressed_genes <- function(annot_ers, exp_genes, gtf) {
-    # gtf <- rtracklayer::import(gtf_path)
-    gtf <- gtf_load(gtf_path)
+    gtf <- gtf_load(gtf)
     gtf <- GenomeInfoDb::keepStandardChromosomes(gtf, species = "Homo_sapiens", pruning.mode = "coarse")
     GenomeInfoDb::seqlevelsStyle(gtf) <- "UCSC" # add chr to seqnames
     genesgtf <- gtf[S4Vectors::mcols(gtf)[["type"]] == "gene"]
