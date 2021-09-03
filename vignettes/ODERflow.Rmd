@@ -203,7 +203,7 @@ GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
 
 annot_ers <- annotatERs(
     opt_ers = head(opt_ers[["opt_ers"]], 100), junc_data = lung_junc_21_22,
-    gtf_path = gtf_path, gtf = gtf_gr, chrs_to_keep = chrs_to_keep, ensembl = TRUE, txdb = ens_txdb,
+    gtf_path = gtf_path, gtf = gtf_gr, txdb = ens_txdb,
     genom_state = genom_state
 )
 
