@@ -141,14 +141,7 @@ generate a genomic state used to label each ER as to whether they are exonic,
 intronic, intergenic or none.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>annotatERs</span><span class='op'>(</span>
-  <span class='va'>opt_ers</span>,
-  <span class='va'>junc_data</span>,
-  <span class='va'>gtf_path</span>,
-  chrs_to_keep <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>22</span>, <span class='st'>"X"</span>, <span class='st'>"Y"</span>, <span class='st'>"MT"</span><span class='op'>)</span>,
-  <span class='va'>genom_state</span>,
-  ensembl <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>annotatERs</span><span class='op'>(</span><span class='va'>opt_ers</span>, <span class='va'>junc_data</span>, <span class='va'>gtf_path</span>, <span class='va'>genom_state</span>, gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, <span class='va'>txdb</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,21 +156,19 @@ intronic, intergenic or none.</p>
     </tr>
     <tr>
       <th>gtf_path</th>
-      <td><p>a gtf file with exon data</p></td>
-    </tr>
-    <tr>
-      <th>chrs_to_keep</th>
-      <td><p>chromosomes to keep in genomic state (in NCBI format i.e.
-1,2,3...22,X,Y,MT)</p></td>
+      <td><p>a gtf file or txdb with exon data</p></td>
     </tr>
     <tr>
       <th>genom_state</th>
       <td><p>a genomic state object</p></td>
     </tr>
     <tr>
-      <th>ensembl</th>
-      <td><p>logical variable to say whether the gtf file entered is from
-ensembl, the default is true</p></td>
+      <th>gtf</th>
+      <td><p>gtf in a GRanges object</p></td>
+    </tr>
+    <tr>
+      <th>txdb</th>
+      <td><p>txdb object to create genomic state</p></td>
     </tr>
     </table>
 
@@ -194,16 +185,12 @@ ensembl, the default is true</p></td>
     <span class='op'>)</span>
     <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
 <span class='op'>}</span>
-<span class='co'># }</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"genom_state"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>genom_state</span> <span class='op'>&lt;-</span> <span class='fu'><a href='generate_genomic_state.html'>generate_genomic_state</a></span><span class='op'>(</span>
-        gtf <span class='op'>=</span> <span class='va'>gtf_path</span>,
-        chrs_to_keep <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"21"</span><span class='op'>)</span>, ensembl <span class='op'>=</span> <span class='cn'>TRUE</span>
-    <span class='op'>)</span>
+
+<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_gr"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>gtf_gr</span> <span class='op'>&lt;-</span> <span class='fu'>rtracklayer</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rtracklayer/man/export.html'>import</a></span><span class='op'>(</span><span class='va'>gtf_path</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; [1] "2021-09-02 13:47:44 - Generating a genomic state..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
-#&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
-#&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='input'><span class='va'>ex_opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>GenomicRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html'>GRanges</a></span><span class='op'>(</span>
+<span class='co'># }</span>
+<span class='va'>ex_opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>GenomicRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html'>GRanges</a></span><span class='op'>(</span>
     seqnames <span class='op'>=</span> <span class='fu'>S4Vectors</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Rle-class.html'>Rle</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>,
     ranges <span class='op'>=</span> <span class='fu'>IRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IRanges/man/IRanges-constructor.html'>IRanges</a></span><span class='op'>(</span>
         start <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5032176</span>, <span class='fl'>5033408</span>, <span class='fl'>5034717</span>, <span class='fl'>5035188</span>, <span class='fl'>5036577</span><span class='op'>)</span>,
@@ -212,21 +199,44 @@ ensembl, the default is true</p></td>
 <span class='op'>)</span>
 
 <span class='va'>junctions</span> <span class='op'>&lt;-</span> <span class='fu'>SummarizedExperiment</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/SummarizedExperiment/man/RangedSummarizedExperiment-class.html'>rowRanges</a></span><span class='op'>(</span><span class='fu'>dasper</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/dasper/man/junctions_example.html'>junctions_example</a></span><span class='op'>)</span>
+
+<span class='va'>chrs_to_keep</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"21"</span>, <span class='st'>"22"</span><span class='op'>)</span>
+<span class='co'>#### preparing the txdb and genomstate object(s)</span>
+<span class='va'>hg38_chrominfo</span> <span class='op'>&lt;-</span> <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/getChromInfoFromUCSC.html'>getChromInfoFromUCSC</a></span><span class='op'>(</span><span class='st'>"hg38"</span><span class='op'>)</span>
+<span class='va'>new_info</span> <span class='op'>&lt;-</span> <span class='va'>hg38_chrominfo</span><span class='op'>$</span><span class='va'>size</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/match.html'>match</a></span><span class='op'>(</span>
+    <span class='va'>chrs_to_keep</span>,
+    <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html'>mapSeqlevels</a></span><span class='op'>(</span><span class='va'>hg38_chrominfo</span><span class='op'>$</span><span class='va'>chrom</span>, <span class='st'>"Ensembl"</span><span class='op'>)</span>
+<span class='op'>)</span><span class='op'>]</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>new_info</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>chrs_to_keep</span>
+<span class='va'>gtf_gr_tx</span> <span class='op'>&lt;-</span> <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqlevels-wrappers.html'>keepSeqlevels</a></span><span class='op'>(</span><span class='va'>gtf_gr</span>,
+    <span class='va'>chrs_to_keep</span>,
+    pruning.mode <span class='op'>=</span> <span class='st'>"tidy"</span>
+<span class='op'>)</span>
+<span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqinfo.html'>seqlengths</a></span><span class='op'>(</span><span class='va'>gtf_gr_tx</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>new_info</span>
+<span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html'>seqlevelsStyle</a></span><span class='op'>(</span><span class='va'>gtf_gr_tx</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"UCSC"</span>
+<span class='fu'>rtracklayer</span><span class='fu'>::</span><span class='fu'>genome</span><span class='op'>(</span><span class='va'>gtf_gr_tx</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"hg38"</span>
+
+<span class='va'>ucsc_txdb</span> <span class='op'>&lt;-</span> <span class='fu'>GenomicFeatures</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicFeatures/man/makeTxDbFromGRanges.html'>makeTxDbFromGRanges</a></span><span class='op'>(</span><span class='va'>gtf_gr_tx</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
+#&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='input'><span class='va'>genom_state</span> <span class='op'>&lt;-</span> <span class='fu'>derfinder</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/derfinder/man/makeGenomicState.html'>makeGenomicState</a></span><span class='op'>(</span>txdb <span class='op'>=</span> <span class='va'>ucsc_txdb</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span></div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='input'><span class='va'>ens_txdb</span> <span class='op'>&lt;-</span> <span class='va'>ucsc_txdb</span>
+<span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html'>seqlevelsStyle</a></span><span class='op'>(</span><span class='va'>ens_txdb</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"Ensembl"</span>
+<span class='co'>################### end of genomstate creation</span>
+
 <span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"annot_ers1"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
     <span class='va'>annot_ers1</span> <span class='op'>&lt;-</span> <span class='fu'>annotatERs</span><span class='op'>(</span>
         opt_ers <span class='op'>=</span> <span class='va'>ex_opt_ers</span>, junc_data <span class='op'>=</span> <span class='va'>junctions</span>,
-        gtf_path <span class='op'>=</span> <span class='va'>gtf_path</span>, chrs_to_keep <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"21"</span>, <span class='st'>"22"</span><span class='op'>)</span>, ensembl <span class='op'>=</span> <span class='cn'>TRUE</span>,
-        genom_state <span class='op'>=</span> <span class='va'>genom_state</span>
+        gtf <span class='op'>=</span> <span class='va'>gtf_gr</span>, txdb <span class='op'>=</span> <span class='va'>ens_txdb</span>, genom_state <span class='op'>=</span> <span class='va'>genom_state</span>,
     <span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; [1] "2021-09-02 13:49:52 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#&gt; [1] "2021-09-02 13:49:52 - Importing gtf/gff3 as a TxDb..."</div><div class='output co'>#&gt; <span class='message'>Import genomic features from the file as a GRanges object ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Prepare the 'metadata' data frame ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Make the TxDb object ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
-#&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; [1] "2021-09-02 13:51:24 - Getting junction annotation using overlapping exons..."
-#&gt; [1] "2021-09-02 13:51:26 - Tidying junction annotation..."
-#&gt; [1] "2021-09-02 13:51:26 - Deriving junction categories..."
-#&gt; [1] "2021-09-02 13:51:31 - done!"
-#&gt; [1] "2021-09-02 13:51:31 - Finding junctions overlapping ers..."
-#&gt; [1] "2021-09-02 13:51:31 - Annotating the Expressed regions..."</div><div class='output co'>#&gt; <span class='message'>2021-09-02 13:51:31 annotateRegions: counting</span></div><div class='output co'>#&gt; <span class='message'>2021-09-02 13:51:31 annotateRegions: annotating</span></div><div class='output co'>#&gt; [1] "2021-09-02 13:52:13 - done!"</div><div class='input'><span class='va'>annot_ers1</span>
+</div><div class='output co'>#&gt; [1] "2021-09-03 15:03:21 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
+#&gt; [1] "2021-09-03 15:03:22 - Getting junction annotation using overlapping exons..."
+#&gt; [1] "2021-09-03 15:03:24 - Tidying junction annotation..."
+#&gt; [1] "2021-09-03 15:03:24 - Deriving junction categories..."
+#&gt; [1] "2021-09-03 15:03:28 - done!"
+#&gt; [1] "2021-09-03 15:03:28 - Finding junctions overlapping ers..."
+#&gt; [1] "2021-09-03 15:03:28 - Annotating the Expressed regions..."</div><div class='output co'>#&gt; <span class='message'>2021-09-03 15:03:28 annotateRegions: counting</span></div><div class='output co'>#&gt; <span class='message'>2021-09-03 15:03:28 annotateRegions: annotating</span></div><div class='output co'>#&gt; [1] "2021-09-03 15:03:29 - done!"</div><div class='input'>
+<span class='va'>annot_ers1</span>
 </div><div class='output co'>#&gt; GRanges object with 5 ranges and 5 metadata columns:
 #&gt;       seqnames          ranges strand |                     grl           genes
 #&gt;          &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; |           &lt;GRangesList&gt;     &lt;character&gt;
