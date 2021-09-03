@@ -4,14 +4,16 @@
 \alias{get_junctions}
 \title{Get junctions that overlap the optimally defined ERs}
 \usage{
-get_junctions(opt_ers, junc_data, gtf_path)
+get_junctions(opt_ers, junc_data, txdb)
 }
 \arguments{
 \item{opt_ers}{optimally defined ERs (the product of the ODER function)}
 
 \item{junc_data}{junction data that should match the ERs passed into opt_ers}
 
-\item{gtf_path}{a gtf file or txdb with exon data}
+\item{txdb}{a gtf file or txdb (\link[GenomicFeatures:TxDb-class]{TxDb-class})
+with exon data. This will ultimately be used to annotate the junction data
+passed in.}
 }
 \value{
 optimally defined ers annotated with junction and gene information
@@ -85,7 +87,7 @@ example_junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
 example_er_juncs <- get_junctions(
     opt_ers = example_ers,
     junc_data = example_junctions,
-    gtf_path = ens_txdb # can either be a gtf file or txdb in the Ensembl format
+    txdb = ens_txdb # can either be a gtf file or txdb in the Ensembl format
 )
 
 print(example_er_juncs)

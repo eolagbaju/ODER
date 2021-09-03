@@ -73,13 +73,13 @@ test_juncs <- SummarizedExperiment::rowRanges(dasper::junctions_example)
 test_er_aj <- suppressWarnings(get_junctions(
     opt_ers = test_grs,
     junc_data = test_juncs,
-    gtf_path = ens_txdb
+    txdb = ens_txdb
 ))
 
 test_er_aj2 <- suppressWarnings(get_junctions(
     opt_ers = test_grs2,
     junc_data = test_juncs,
-    gtf_path = ens_txdb
+    txdb = ens_txdb
 ))
 
 test_gene <- unique(unlist(GenomicRanges::mcols(
@@ -89,7 +89,7 @@ test_gene <- unique(unlist(GenomicRanges::mcols(
 
 test_annot_ers <- suppressWarnings(annotatERs(
     opt_ers = test_grs, junc_data = test_juncs,
-    gtf_path = gtf_path, genom_state = test_gstate,
+    genom_state = test_gstate,
     gtf = gtf_grs_ann, txdb = ens_txdb
 ))
 
@@ -102,7 +102,7 @@ test_optgrs2 <- GenomicRanges::GRanges( # this is created to not overlap
 ) # first 2 ranges intergenic, 2 introns, 2exons
 test_annopt_ers <- suppressWarnings(annotatERs(
     opt_ers = test_optgrs2, junc_data = test_juncs,
-    gtf_path = gtf_path, genom_state = test_gstate,
+    genom_state = test_gstate,
     gtf = gtf_grs_ann, txdb = ens_txdb
 ))
 

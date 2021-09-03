@@ -11,7 +11,7 @@ get_ers_delta(ers, opt_exons, delta_fun = ODER:::.delta)
 \code{\link{get_ers}}.}
 
 \item{opt_exons}{GRanges object that contains the regions that ideally, you
-want to the ER definitions to match - output of \code{\link{get_exons}}.}
+want the ER definitions to match - output of \code{\link{get_exons}}.}
 
 \item{delta_fun}{Function that calculates the delta between ERs and
 \code{opt_exons}. Takes as input a set of ERs from \code{ers} and

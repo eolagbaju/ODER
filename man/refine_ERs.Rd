@@ -10,18 +10,17 @@ refine_ERs(annot_ers)
 \item{annot_ers}{ERs that have been annotated (result of annotatER)}
 }
 \value{
-Genomic ranges with refined base pair starts and ends and a logical
-vector listing changes
+Genomic ranges with refined base pair starts and ends
 }
 \description{
 Uses the junctions added by \code{\link{annotatERs}} to modify the starts and
 ends of the expressed regions. When a junction intersects an expressed region
-depending on whether it is the start or end or both the regions corresponding
+depending on whether it is the start or end or both, the regions corresponding
 starts and ends will be modified.
 }
 \details{
 As junctions mark intron boundaries, the expressed region will be changed to
-either being one less or more than the junction end.
+either being one less or one more than the junction end.
 }
 \examples{
 # example set of ers to save runtime
