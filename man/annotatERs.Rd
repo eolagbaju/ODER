@@ -5,16 +5,7 @@
 \title{Connects ERs to genes using junction data, then classifies ERs into "exonic",
 "intronic", "intergenic", or a combination of these categories}
 \usage{
-annotatERs(
-  opt_ers,
-  junc_data,
-  gtf_path,
-  chrs_to_keep = c(1:22, "X", "Y", "MT"),
-  genom_state,
-  ensembl = TRUE,
-  gtf = gtf_path,
-  txdb
-)
+annotatERs(opt_ers, junc_data, gtf_path, genom_state, gtf = gtf_path, txdb)
 }
 \arguments{
 \item{opt_ers}{optimally defined ERs (the product of the ODER function)}

@@ -1,43 +1,17 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # ODER
 
 <!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental) [![BioC status](http://www.bioconductor.org/shields/build/release/bioc/ODER.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/ODER) [![R-CMD-check-bioc](https://github.com/eolagbaju/ODER/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/eolagbaju/ODER/actions) [![Codecov test coverage](https://codecov.io/gh/eolagbaju/ODER/branch/master/graph/badge.svg)](https://codecov.io/gh/eolagbaju/ODER?branch=master) <!-- badges: end -->
 
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![BioC
-status](http://www.bioconductor.org/shields/build/release/bioc/ODER.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/ODER)
-[![R-CMD-check-bioc](https://github.com/eolagbaju/ODER/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/eolagbaju/ODER/actions)
-[![Codecov test
-coverage](https://codecov.io/gh/eolagbaju/ODER/branch/master/graph/badge.svg)](https://codecov.io/gh/eolagbaju/ODER?branch=master)
-<!-- badges: end -->
+The goal of `ODER` is **O**ptimising the **D**efinition of **E**xpressed **R**egions, which the package does by well defining the expressed regions from RNA-squencing experiments so that they can be confidently identified as pre-existing annotated exons or unannotated novel exons. ODER allows the user to vary two features -the MCC(Mean Coverage Cutoff) and MRG (Max Region Gap) - to generate various expressed regions and identifying the combination of MCC and MRG that most accurately defines the expressed region(s) by comparing it to a "gold standard" set of exons. This is done by calculating the exon delta (the absolute difference between the ER definition and the corresponding exon boundaries).
 
-The goal of `ODER` is **O**ptimising the **D**efinition of **E**xpressed
-**R**egions, which the package does by well defining the expressed
-regions from RNA-squencing experiments so that they can be confidently
-identified as pre-existing annotated exons or unannotated novel exons.
-ODER allows the user to vary two features -the MCC(Mean Coverage Cutoff)
-and MRG (Max Region Gap) - to generate various expressed regions and
-identifying the combination of MCC and MRG that most accurately defines
-the expressed region(s) by comparing it to a “gold standard” set of
-exons. This is done by calculating the exon delta (the absolute
-difference between the ER definition and the corresponding exon
-boundaries).
-
-The optimally defined Expressed regions will be stored in the
-GenomicRanges GRanges class and ODER has several functions that will
-operate on these optimal ERs such as: 1. plotting the various exon
-deltas across MCCs and MRGs 2. annotating the ERs with junction data 3.
-refining annotated ERs using the junction data 4. generate a count
-matrix
+The optimally defined Expressed regions will be stored in the GenomicRanges GRanges class and ODER has several functions that will operate on these optimal ERs such as: 1. plotting the various exon deltas across MCCs and MRGs 2. annotating the ERs with junction data 3. refining annotated ERs using the junction data 4. generate a count matrix
 
 ## Installation instructions
 
-Get the latest stable `R` release from
-[CRAN](http://cran.r-project.org/). Then install `ODER` using from
-[Bioconductor](http://bioconductor.org/) the following code:
+Get the latest stable `R` release from [CRAN](http://cran.r-project.org/). Then install `ODER` using from [Bioconductor](http://bioconductor.org/) the following code:
 
 ``` r
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
@@ -47,8 +21,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
 BiocManager::install("ODER")
 ```
 
-And the development version from
-[GitHub](https://github.com/eolagbaju/ODER) with:
+And the development version from [GitHub](https://github.com/eolagbaju/ODER) with:
 
 ``` r
 BiocManager::install("eolagbaju/ODER")
@@ -104,51 +77,30 @@ This is a basic example which shows you how to solve a common problem:
 # # opt_strand_ers
 ```
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub\!
+In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
 
 ## Citation
 
-Below is the citation output from using `citation('ODER')` in R. Please
-run this yourself to check for any updates on how to cite **ODER**.
+Below is the citation output from using `citation('ODER')` in R. Please run this yourself to check for any updates on how to cite **ODER**.
 
 ``` r
 # print(citation('ODER'), bibtex = TRUE)
 ```
 
-Please note that the `ODER` was only made possible thanks to many other
-R and bioinformatics software authors, which are cited either in the
-vignettes and/or the paper(s) describing this package.
+Please note that the `ODER` was only made possible thanks to many other R and bioinformatics software authors, which are cited either in the vignettes and/or the paper(s) describing this package.
 
 ## Code of Conduct
 
-Please note that the `ODER` project is released with a [Contributor Code
-of Conduct](http://bioconductor.org/about/code-of-conduct/). By
-contributing to this project, you agree to abide by its terms.
+Please note that the `ODER` project is released with a [Contributor Code of Conduct](http://bioconductor.org/about/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
 
 ## Development tools
 
-  - Continuous code testing is possible thanks to [GitHub
-    actions](https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/)
-    through *[usethis](https://CRAN.R-project.org/package=usethis)*,
-    *[remotes](https://CRAN.R-project.org/package=remotes)*, and
-    *[rcmdcheck](https://CRAN.R-project.org/package=rcmdcheck)*
-    customized to use [Bioconductor’s docker
-    containers](https://www.bioconductor.org/help/docker/) and
-    *[BiocCheck](https://bioconductor.org/packages/3.12/BiocCheck)*.
-  - Code coverage assessment is possible thanks to
-    [codecov](https://codecov.io/gh) and
-    *[covr](https://CRAN.R-project.org/package=covr)*.
-  - The [documentation website](http://eolagbaju.github.io/ODER) is
-    automatically updated thanks to
-    *[pkgdown](https://CRAN.R-project.org/package=pkgdown)*.
-  - The code is styled automatically thanks to
-    *[styler](https://CRAN.R-project.org/package=styler)*.
-  - The documentation is formatted thanks to
-    *[devtools](https://CRAN.R-project.org/package=devtools)* and
-    *[roxygen2](https://CRAN.R-project.org/package=roxygen2)*.
+-   Continuous code testing is possible thanks to [GitHub actions](https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/) through *[usethis](https://CRAN.R-project.org/package=usethis)*, *[remotes](https://CRAN.R-project.org/package=remotes)*, and *[rcmdcheck](https://CRAN.R-project.org/package=rcmdcheck)* customized to use [Bioconductor's docker containers](https://www.bioconductor.org/help/docker/) and *[BiocCheck](https://bioconductor.org/packages/3.12/BiocCheck)*.
+-   Code coverage assessment is possible thanks to [codecov](https://codecov.io/gh) and *[covr](https://CRAN.R-project.org/package=covr)*.
+-   The [documentation website](http://eolagbaju.github.io/ODER) is automatically updated thanks to *[pkgdown](https://CRAN.R-project.org/package=pkgdown)*.
+-   The code is styled automatically thanks to *[styler](https://CRAN.R-project.org/package=styler)*.
+-   The documentation is formatted thanks to *[devtools](https://CRAN.R-project.org/package=devtools)* and *[roxygen2](https://CRAN.R-project.org/package=roxygen2)*.
 
 For more details, check the `dev` directory.
 
-This package was developed using
-*[biocthis](https://bioconductor.org/packages/3.12/biocthis)*.
+This package was developed using *[biocthis](https://bioconductor.org/packages/3.12/biocthis)*.

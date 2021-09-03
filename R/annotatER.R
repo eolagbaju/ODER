@@ -67,9 +67,14 @@
 #'     )
 #' }
 #' annot_ers1
-annotatERs <- function(opt_ers, junc_data, gtf_path,
-    chrs_to_keep = c(1:22, "X", "Y", "MT"), genom_state,
-    ensembl = TRUE, gtf = gtf_path, txdb) {
+annotatERs <- function(
+  opt_ers, 
+  junc_data, 
+  gtf_path,
+  genom_state,
+  gtf = gtf_path, 
+  txdb
+  ) {
     ann_opt_ers <- get_junctions(
         opt_ers = opt_ers, junc_data = junc_data,
         gtf_path = txdb # gtf_path

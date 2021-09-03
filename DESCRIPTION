@@ -45,6 +45,7 @@ Suggests:
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Imports: 
+    BiocGenerics,
     BiocFileCache,
     dasper,
     derfinder,
@@ -58,5 +59,11 @@ Imports:
     rtracklayer,
     S4Vectors,
     stringr,
+    data.table,
+    megadepth,
+    methods,
+    plyr,
+    purrr,
+    tibble
 Depends: 
     R (>= 2.10)
