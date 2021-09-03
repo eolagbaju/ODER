@@ -9,7 +9,7 @@ get_count_matrix(bw_paths, annot_ers, cols = NULL)
 \arguments{
 \item{bw_paths}{Vector containing the bigwig file paths to read in}
 
-\item{annot_ers}{GRangesList containing the annotated ERs (product of annotatERs())}
+\item{annot_ers}{GRangesList containing the annotated ERs (product of \code{annotatERs})}
 
 \item{cols}{A dataframe containing the information to be used as colData for the
 output. If NULL then the bw_paths will be used for the colData}

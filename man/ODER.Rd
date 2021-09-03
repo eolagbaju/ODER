@@ -21,11 +21,11 @@ ODER(
 )
 }
 \arguments{
-\item{bw_paths}{paths to bigwig files with the RNA-seq data that you want the
-coverage of.}
+\item{bw_paths}{path(s) to bigwig file(s) with the RNA-seq data that you want
+the #'   coverage of.}
 
 \item{auc_raw}{vector containing AUCs(Area Under Coverage) matching the order
-of bigwig paths.}
+of bigwig path(s).}
 
 \item{auc_target}{total AUC to normalise all samples to e.g. 40e6 * 100 would
 be the estimated total auc for sample sequenced to 40 million reads of
@@ -37,9 +37,13 @@ chromosome i.e. chrs = c(1,X)}
 
 \item{genome}{the UCSC genome you want to use, the default is hg38.}
 
-\item{mccs}{mean coverage cut-offs to apply.}
+\item{mccs}{numeric vector containing the mean coverage cut-offs to apply. MCCs
+are the mininmum number of reads that a base has to have to be considered as
+expressed.}
 
-\item{mrgs}{max region gaps to apply.}
+\item{mrgs}{numeric vector containing the max region gaps to apply. MRGs are the
+maximum number of bases between ERs that can be below the MCC and the adjacent
+ERs will be merged.}
 
 \item{gtf}{Either a string containg the path to a .gtf file or a pre-imported
 gtf using \code{\link[rtracklayer]{import}}.}
@@ -69,7 +73,9 @@ list containing optimised ERs, optimal pair of MCC/MRGs and
 }
 \description{
 Returns the optimum definition of the expressed regions by finding the ideal
-MCC (Mean Coverage Cutoff) and MRG (Max Region Gap)
+MCC (Mean Coverage Cutoff) and MRG (Max Region Gap). The combination of MCC
+and MRG that returns the expressed region with the smallest exon delta is the
+most ideal.
 }
 \examples{
 \dontshow{

@@ -5,20 +5,22 @@
 \title{Connects ERs to genes using junction data, then classifies ERs into "exonic",
 "intronic", "intergenic", or a combination of these categories}
 \usage{
-annotatERs(opt_ers, junc_data, gtf_path, genom_state, gtf = gtf_path, txdb)
+annotatERs(opt_ers, junc_data, genom_state, gtf, txdb)
 }
 \arguments{
 \item{opt_ers}{optimally defined ERs (the product of the ODER function)}
 
 \item{junc_data}{junction data that should match the ERs passed into opt_ers}
 
-\item{gtf_path}{a gtf file or txdb with exon data}
-
 \item{genom_state}{a genomic state object}
 
-\item{gtf}{gtf in a GRanges object}
+\item{gtf}{gtf in a GRanges object, pre-imported using
+\code{\link[rtracklayer]{import}}. This is used to provide the gene information
+for annotation.}
 
-\item{txdb}{txdb object to create genomic state}
+\item{txdb}{\link[GenomicFeatures:TxDb-class]{TxDb-class} (txdb object) to create
+genomic state. This is used to annotate the expressed regions as exonic, intronic
+or intergenic.}
 }
 \value{
 annotated ERs

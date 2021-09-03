@@ -1,7 +1,9 @@
 #' Generates the optimum expressed regions
 #'
 #' Returns the optimum definition of the expressed regions by finding the ideal
-#' MCC (Mean Coverage Cutoff) and MRG (Max Region Gap)
+#' MCC (Mean Coverage Cutoff) and MRG (Max Region Gap). The combination of MCC
+#' and MRG that returns the expressed region with the smallest exon delta is the
+#' most ideal.
 #'
 #' @param exons_no_overlap Optimum set of exons to help calculate deltas
 #' @inheritParams get_coverage
@@ -69,7 +71,12 @@ ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
     return(opt_ers)
 }
 
-#' Generates the optimum expressed regions
+#' Generates the optimum expressed regions for stranded BigWig files
+#'
+#' Returns the optimum definition of the expressed regions by finding the ideal
+#' MCC (Mean Coverage Cutoff) and MRG (Max Region Gap). The combination of MCC
+#' and MRG that returns the expressed region with the smallest exon delta is the
+#' most ideal.
 #'
 #' @param exons_no_overlap Optimum set of exons to help calculate deltas
 #' @inheritParams get_coverage

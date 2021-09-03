@@ -3,10 +3,10 @@
 #' \code{get_coverage} returns the mean coverage of the BigWig files passed in.
 #' Internally, this operates through `derfinder::loadCoverage`.
 #'
-#' @param bw_paths paths to bigwig files with the RNA-seq data that you want the
-#'   coverage of.
+#' @param bw_paths path(s) to bigwig file(s) with the RNA-seq data that you want
+#'   the #'   coverage of.
 #' @param auc_raw vector containing AUCs(Area Under Coverage) matching the order
-#'   of bigwig paths.
+#'   of bigwig path(s).
 #' @param auc_target total AUC to normalise all samples to e.g. 40e6 * 100 would
 #'   be the estimated total auc for sample sequenced to 40 million reads of
 #'   100bp in length.

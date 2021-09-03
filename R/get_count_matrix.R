@@ -3,7 +3,7 @@
 #' Scores the mean coverage of the expressed regions as a count matrix
 #'
 #' @param bw_paths Vector containing the bigwig file paths to read in
-#' @param annot_ers GRangesList containing the annotated ERs (product of annotatERs())
+#' @param annot_ers GRangesList containing the annotated ERs (product of \code{annotatERs})
 #' @param cols A dataframe containing the information to be used as colData for the
 #' output. If NULL then the bw_paths will be used for the colData
 #'
@@ -40,9 +40,9 @@ get_count_matrix <- function(bw_paths, annot_ers, cols = NULL) {
     if (!methods::is(annot_ers, "GRanges")) {
         stop("annot_ers must be Granges")
     }
-
+    # empty matrix to store the mean coverage for each bigwig
     gene_counts <- matrix(nrow = length(annot_ers), ncol = length(bw_paths))
-
+    # converting the annotated ERs into a bed file
     fil <- tempfile("er.bed")
     er_bed <- rtracklayer::export.bed(object = annot_ers, con = fil)
 

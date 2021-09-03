@@ -8,8 +8,12 @@
 #'
 #' @inheritParams get_junctions
 #' @param genom_state a genomic state object
-#' @param gtf gtf in a GRanges object
-#' @param txdb txdb object to create genomic state
+#' @param gtf gtf in a GRanges object, pre-imported using
+#' \code{\link[rtracklayer]{import}}. This is used to provide the gene information
+#' for annotation.
+#' @param txdb [TxDb-class][GenomicFeatures::TxDb-class] (txdb object) to create
+#' genomic state. This is used to annotate the expressed regions as exonic, intronic
+#' or intergenic.
 #' @return annotated ERs
 #' @export
 #'
@@ -69,13 +73,12 @@
 #' annot_ers1
 annotatERs <- function(opt_ers,
     junc_data,
-    gtf_path,
     genom_state,
-    gtf = gtf_path,
+    gtf,
     txdb) {
     ann_opt_ers <- get_junctions(
         opt_ers = opt_ers, junc_data = junc_data,
-        gtf_path = txdb # gtf_path
+        txdb = txdb
     )
     print(stringr::str_c(Sys.time(), " - Annotating the Expressed regions..."))
 
@@ -96,7 +99,6 @@ annotatERs <- function(opt_ers,
 
     # if all of none of the ers are matched up with a gene, this is run
     if (all(identical(unique(unlist(GenomicRanges::mcols(ann_opt_ers)$genes)), character(0)))) {
-        # gtf_gr <- rtracklayer::import(gtf_path)
         genes_gr <- gtf_gr[gtf_gr$type == "gene"]
         GenomeInfoDb::seqlevelsStyle(genes_gr) <- "UCSC"
         nearest_genes <- GenomicRanges::nearest(ann_opt_ers, genes_gr)
@@ -119,7 +121,6 @@ annotatERs <- function(opt_ers,
 
 
     ng_ann_opt_ers <- ann_opt_ers[lengths(GenomicRanges::mcols(ann_opt_ers)[["genes"]]) == 0]
-    # gtf_gr <- rtracklayer::import(gtf_path)
     genes_gr <- gtf_gr[gtf_gr$type == "gene"]
     GenomeInfoDb::seqlevelsStyle(genes_gr) <- "UCSC"
     nearest_genes <- GenomicRanges::nearest(ng_ann_opt_ers, genes_gr)
@@ -158,7 +159,9 @@ annotatERs <- function(opt_ers,
 #'
 #' @param opt_ers optimally defined ERs (the product of the ODER function)
 #' @param junc_data junction data that should match the ERs passed into opt_ers
-#' @param gtf_path a gtf file or txdb with exon data
+#' @param txdb a gtf file or txdb ([TxDb-class][GenomicFeatures::TxDb-class])
+#' with exon data. This will ultimately be used to annotate the junction data
+#' passed in.
 #'
 #' @return optimally defined ers annotated with junction and gene information
 #' @export
@@ -224,16 +227,16 @@ annotatERs <- function(opt_ers,
 #' example_er_juncs <- get_junctions(
 #'     opt_ers = example_ers,
 #'     junc_data = example_junctions,
-#'     gtf_path = ens_txdb # can either be a gtf file or txdb in the Ensembl format
+#'     txdb = ens_txdb # can either be a gtf file or txdb in the Ensembl format
 #' )
 #'
 #' print(example_er_juncs)
-get_junctions <- function(opt_ers, junc_data, gtf_path) {
+get_junctions <- function(opt_ers, junc_data, txdb) {
     if (methods::is(junc_data, "data.frame")) {
         junc_data <- GenomicRanges::makeGRangesFromDataFrame(junc_data)
     }
     GenomeInfoDb::seqlevelsStyle(junc_data) <- "NCBI"
-    annotated_junctions <- dasper::junction_annot(junctions = junc_data, ref = gtf_path)
+    annotated_junctions <- dasper::junction_annot(junctions = junc_data, ref = txdb)
     GenomeInfoDb::seqlevelsStyle(annotated_junctions) <- "UCSC" # to match opt_ers
 
     print(stringr::str_c(Sys.time(), " - Finding junctions overlapping ers..."))

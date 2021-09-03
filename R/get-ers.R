@@ -1,12 +1,16 @@
 #' Define sets of ERs
 #'
-#' \code{ge_ERs} defines ERs across an inputted range of mean coverage cut-offs
-#' (MCCs) and max region gaps (MRGs) from the coverage.
+#' \code{get_ers} defines expressed regions across an inputted range of mean
+#' coverage cut-offs (MCCs) and max region gaps (MRGs) from the coverage.
 #'
 #' @param coverage the coverage of the bigwig files passed into
 #'   \code{\link{get_coverage}}.
-#' @param mccs mean coverage cut-offs to apply.
-#' @param mrgs max region gaps to apply.
+#' @param mccs numeric vector containing the mean coverage cut-offs to apply. MCCs
+#' are the mininmum number of reads that a base has to have to be considered as
+#' expressed.
+#' @param mrgs numeric vector containing the max region gaps to apply. MRGs are the
+#' maximum number of bases between ERs that can be below the MCC and the adjacent
+#' ERs will be merged.
 #'
 #' @return list containing sets of ERs, each generated using a particular
 #'   combination of MCC and MRG.
@@ -28,7 +32,7 @@ get_ers <- function(coverage, mccs, mrgs) {
 
     ers <- list()
 
-    for (j in 1:length(mccs)) {
+    for (j in 1:length(mccs)) { # getting the various MCC-MRG pairings ready
         mcc_label <- stringr::str_c("mcc_", mccs[j])
 
         for (k in 1:length(mrgs)) {
@@ -100,9 +104,9 @@ get_ers <- function(coverage, mccs, mrgs) {
 #' @param bw_pos positive strand bigwig file
 #' @param bw_neg negative strand bigwig file
 #' @param auc_raw_pos vector containing AUCs(Area Under Coverage) matching the order
-#'   of bigwig paths.
+#'   of the positive bigwig paths.
 #' @param auc_raw_neg vector containing AUCs(Area Under Coverage) matching the order
-#'   of bigwig paths.
+#'   of the negative bigwig paths.
 #' @param auc_target total AUC to normalise all samples to. E.g. 40e6 * 100
 #'   would be the estimated total auc for sample sequenced to 40 million reads
 #'   of 100bp in length.
@@ -159,7 +163,7 @@ get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target,
     for (i in 1:length(ers_combi)) {
         ers_combi[[i]] <- sublist
     }
-
+    # combining the positive and negative strands into one combined ER
     for (i in 1:length(ers_plus)) {
         names(ers_combi) <- names(ers_plus)
         for (j in 1:length(ers_plus[[i]])) {

@@ -516,7 +516,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
 #' @param ers Sets of ERs across various MCCs/MRGs - output of
 #' \code{\link{get_ers}}.
 #' @param opt_exons GRanges object that contains the regions that ideally, you
-#' want to the ER definitions to match - output of \code{\link{get_exons}}.
+#' want the ER definitions to match - output of \code{\link{get_exons}}.
 #' @param delta_fun Function that calculates the delta between ERs and
 #'   \code{opt_exons}. Takes as input a set of ERs from \code{ers} and
 #'   \code{opt_exons}. Then outputs a tibble/dataframe containing the summarised
