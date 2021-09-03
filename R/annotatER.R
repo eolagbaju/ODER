@@ -220,7 +220,7 @@ annotatERs <- function(opt_ers,
 #' )
 #'
 #' example_junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
-#' d
+#'
 #' example_er_juncs <- get_junctions(
 #'     opt_ers = example_ers,
 #'     junc_data = example_junctions,
