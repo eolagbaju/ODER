@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/eolagbaju/ODER/branch/master/graph/badge.svg)](https://codecov.io/gh/eolagbaju/ODER?branch=master)
 <!-- badges: end -->
 
-The goal of `ODER` is to **O**ptimise the **D**efinition of **E**xpressed **R**egions. `ODER` is a packaged form of the method developed in the Zhang et al. 2020 publication: [Incomplete annotation has a disproportionate impact on our understanding of Mendelian and complex neurogenetic disorders](https://advances.sciencemag.org/content/6/24/eaay8299.full). For a more detailed explanation of using `ODER`, please see the [vignette](https://eolagbaju.github.io/ODER/articles/ODERflow.html). For more explanation of the methodology behind `ODER`, see the mehtods section of the  [original publication](https://advances.sciencemag.org/content/6/24/eaay8299.full). 
+The goal of `ODER` is to **O**ptimise the **D**efinition of **E**xpressed **R**egions. `ODER` is a packaged form of the method developed in the Zhang et al. 2020 publication: [Incomplete annotation has a disproportionate impact on our understanding of Mendelian and complex neurogenetic disorders](https://www.science.org/doi/10.1126/sciadv.aay8299). For a more detailed explanation of using `ODER`, please see the [vignette](https://eolagbaju.github.io/ODER/articles/ODERflow.html). For more explanation of the methodology behind `ODER`, see the mehtods section of the  [original publication](https://www.science.org/doi/10.1126/sciadv.aay8299). 
 
 ## Installation instructions
 
