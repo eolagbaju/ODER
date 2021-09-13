@@ -15,7 +15,7 @@ annotatERs(opt_ers, junc_data, genom_state, gtf, txdb)
 \item{genom_state}{a genomic state object}
 
 \item{gtf}{gtf in a GRanges object, pre-imported using
-\code{\link[rtracklayer]{import}}. This is used to provide the gene information
+\code{rtracklayer::import} . This is used to provide the gene information
 for annotation.}
 
 \item{txdb}{\link[GenomicFeatures:TxDb-class]{TxDb-class} (txdb object) to create

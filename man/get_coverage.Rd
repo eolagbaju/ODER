@@ -54,13 +54,14 @@ if (!exists("rec_url")) {
     bw_path <- .file_cache(rec_url[1])
 }
 }
-
-eg_coverage <- get_coverage(
-    bw_paths = bw_path,
-    auc_raw = 11872688252,
-    auc_target = 40e6 * 100,
-    chrs = c("chr21", "chr22")
-)
-
+# As of rtracklayer 1.25.16, BigWig is not supported on Windows.
+if (!xfun::is_windows()) {
+    eg_coverage <- get_coverage(
+        bw_paths = bw_path,
+        auc_raw = 11872688252,
+        auc_target = 40e6 * 100,
+        chrs = c("chr21", "chr22")
+    )
+}
 print(eg_coverage)
 }

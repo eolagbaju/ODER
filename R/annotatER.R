@@ -9,7 +9,7 @@
 #' @inheritParams get_junctions
 #' @param genom_state a genomic state object
 #' @param gtf gtf in a GRanges object, pre-imported using
-#' \code{\link[rtracklayer]{import}} . This is used to provide the gene information
+#' `rtracklayer::import` . This is used to provide the gene information
 #' for annotation.
 #' @param txdb [TxDb-class][GenomicFeatures::TxDb-class] (txdb object) to create
 #' genomic state. This is used to annotate the expressed regions as exonic, intronic

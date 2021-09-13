@@ -16,11 +16,7 @@ bw_path <- ODER:::.file_cache(rec_url[1])
 bw_plus <- ODER:::.file_cache(rec_url[58])
 bw_minus <- ODER:::.file_cache(rec_url[84])
 
-test_strand_ers <- get_strand_ers(
-    bw_pos = bw_plus, bw_neg = bw_minus, auc_raw_pos = gtex_metadata[["auc"]][58],
-    auc_raw_neg = gtex_metadata[["auc"]][84], auc_target = 40e6 * 100,
-    chrs = "chr21", mccs = c(5, 10), mrgs = c(10, 20), bw_chr = "chr"
-)
+
 
 test_that("get_chr_info works", {
     chrs <- c("chr1", "chr2", "chr3")
@@ -77,6 +73,7 @@ test_that("get_coverage works", {
         ),
         "bw_paths is empty"
     )
+
     expect_error(
         get_coverage(
             bw_paths = paste0(
@@ -126,8 +123,17 @@ test_that("get_ers works", {
     expect_true(methods::is(test_er_df, "data.frame"))
 })
 
-test_that("get_strand_ers works", {
-    expect_true("+" %in% unlist(as.list(BiocGenerics::strand(test_strand_ers[[1]][[1]]))))
-    expect_true("-" %in% unlist(as.list(BiocGenerics::strand(test_strand_ers[[1]][[1]]))))
-    expect_false("*" %in% unlist(as.list(BiocGenerics::strand(test_strand_ers[[1]][[1]]))))
-})
+
+# As of rtracklayer 1.25.16, BigWig is not supported on Windows.
+if (!xfun::is_windows()) {
+    test_strand_ers <- get_strand_ers(
+        bw_pos = bw_plus, bw_neg = bw_minus, auc_raw_pos = gtex_metadata[["auc"]][58],
+        auc_raw_neg = gtex_metadata[["auc"]][84], auc_target = 40e6 * 100,
+        chrs = "chr21", mccs = c(5, 10), mrgs = c(10, 20), bw_chr = "chr"
+    )
+    test_that("get_strand_ers works", {
+        expect_true("+" %in% unlist(as.list(BiocGenerics::strand(test_strand_ers[[1]][[1]]))))
+        expect_true("-" %in% unlist(as.list(BiocGenerics::strand(test_strand_ers[[1]][[1]]))))
+        expect_false("*" %in% unlist(as.list(BiocGenerics::strand(test_strand_ers[[1]][[1]]))))
+    })
+}

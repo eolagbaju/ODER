@@ -142,13 +142,15 @@ get_ers <- function(coverage, mccs, mrgs) {
 #' bw_plus <- .file_cache(rec_url[58])
 #' bw_minus <- .file_cache(rec_url[84])
 #'
-#' stranded_ers <- get_strand_ers(
-#'     bw_pos = bw_plus, bw_neg = bw_minus,
-#'     auc_raw_pos = gtex_metadata[["auc"]][58],
-#'     auc_raw_neg = gtex_metadata[["auc"]][84], auc_target = 40e6 * 100,
-#'     chrs = "chr21", mccs = c(5, 10), mrgs = c(10, 20)
-#' )
-#'
+#' # As of rtracklayer 1.25.16, BigWig is not supported on Windows.
+#' if (!xfun::is_windows()) {
+#'     stranded_ers <- get_strand_ers(
+#'         bw_pos = bw_plus, bw_neg = bw_minus,
+#'         auc_raw_pos = gtex_metadata[["auc"]][58],
+#'         auc_raw_neg = gtex_metadata[["auc"]][84], auc_target = 40e6 * 100,
+#'         chrs = "chr21", mccs = c(5, 10), mrgs = c(10, 20)
+#'     )
+#' }
 #' stranded_ers
 get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target, chrs, mccs, mrgs, bw_chr = "chr") {
     plus_coverage <- get_coverage(bw_paths = bw_pos, auc_raw = auc_raw_pos, auc_target = auc_target, chrs = chrs, bw_chr = bw_chr)

@@ -4,7 +4,7 @@
 #' of Expressed regions. These exons are used in calculating the exon deltas.
 #'
 #' @param gtf Either a string containg the path to a .gtf file or a pre-imported
-#'   gtf using \code{\link[rtracklayer]{import}}.
+#'   gtf using `rtracklayer::import` .
 #' @param ucsc_chr logical scalar, determining whether to add "chr" prefix to
 #'   the seqnames of non-overlapping exons and change "chrMT" -> "chrM". Note,
 #'   if set to TRUE and seqnames already have "chr", it will not add another.

@@ -33,14 +33,17 @@
 #'     )
 #'     gtf_path <- ODER:::.file_cache(gtf_url)
 #' }
+#' # As of rtracklayer 1.25.16, BigWig is not supported on Windows.
 #' }
-#' opt_ers <- ODER(
-#'     bw_paths = bw_path, auc_raw = auc_example,
-#'     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-#'     genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
-#'     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-#'     exons_no_overlap = NULL, bw_chr = "chr"
-#' )
+#' if (!xfun::is_windows()) {
+#'     opt_ers <- ODER(
+#'         bw_paths = bw_path, auc_raw = auc_example,
+#'         auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
+#'         genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
+#'         gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+#'         exons_no_overlap = NULL, bw_chr = "chr"
+#'     )
+#' }
 #'
 #' opt_ers
 ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
@@ -113,15 +116,16 @@ ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
 #' }
 #' bw_plus <- .file_cache(rec_url[58])
 #' bw_minus <- .file_cache(rec_url[84])
-#'
-#' opt_ers <- ODER_strand(
-#'     bw_pos = bw_plus, bw_neg = bw_minus,
-#'     auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
-#'     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"), genome = "hg38",
-#'     mccs = c(5, 10), mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE,
-#'     ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
-#' )
-#'
+#' # As of rtracklayer 1.25.16, BigWig is not supported on Windows.
+#' if (!xfun::is_windows()) {
+#'     opt_ers <- ODER_strand(
+#'         bw_pos = bw_plus, bw_neg = bw_minus,
+#'         auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
+#'         auc_target = 40e6 * 100, chrs = c("chr21", "chr22"), genome = "hg38",
+#'         mccs = c(5, 10), mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE,
+#'         ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
+#'     )
+#' }
 #' opt_ers
 ODER_strand <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target, chrs = "", genome = "hg38",
     mccs, mrgs, gtf = NULL, ucsc_chr, ignore.strand, exons_no_overlap = NULL, bw_chr = "chr") {

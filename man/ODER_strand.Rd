@@ -51,7 +51,7 @@ maximum number of bases between ERs that can be below the MCC and the adjacent
 ERs will be merged.}
 
 \item{gtf}{Either a string containg the path to a .gtf file or a pre-imported
-gtf using \code{\link[rtracklayer]{import}}.}
+gtf using \code{rtracklayer::import} .}
 
 \item{ucsc_chr}{logical scalar, determining whether to add "chr" prefix to
 the seqnames of non-overlapping exons and change "chrMT" -> "chrM". Note,
@@ -100,14 +100,15 @@ if (!exists("rec_url")) {
 }
 bw_plus <- .file_cache(rec_url[58])
 bw_minus <- .file_cache(rec_url[84])
-
-opt_ers <- ODER_strand(
-    bw_pos = bw_plus, bw_neg = bw_minus,
-    auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
-    auc_target = 40e6 * 100, chrs = c("chr21", "chr22"), genome = "hg38",
-    mccs = c(5, 10), mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE,
-    ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
-)
-
+# As of rtracklayer 1.25.16, BigWig is not supported on Windows.
+if (!xfun::is_windows()) {
+    opt_ers <- ODER_strand(
+        bw_pos = bw_plus, bw_neg = bw_minus,
+        auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
+        auc_target = 40e6 * 100, chrs = c("chr21", "chr22"), genome = "hg38",
+        mccs = c(5, 10), mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE,
+        ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
+    )
+}
 opt_ers
 }

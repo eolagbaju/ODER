@@ -8,7 +8,7 @@ get_exons(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overlapping")
 }
 \arguments{
 \item{gtf}{Either a string containg the path to a .gtf file or a pre-imported
-gtf using \code{\link[rtracklayer]{import}}.}
+gtf using \code{rtracklayer::import} .}
 
 \item{ucsc_chr}{logical scalar, determining whether to add "chr" prefix to
 the seqnames of non-overlapping exons and change "chrMT" -> "chrM". Note,

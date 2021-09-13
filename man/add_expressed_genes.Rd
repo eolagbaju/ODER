@@ -19,7 +19,7 @@ file will be used.}
 \item{tissue}{Tissue to filter for. See \code{\link{tissue_options}} for options}
 
 \item{gtf}{Either a string containg the path to a .gtf file or a pre-imported
-gtf using \code{\link[rtracklayer]{import}}. Provdes gene data to help determine
+gtf using \code{rtracklayer::import} . Provides gene data to help determine
 the nearest gene and nearest expressed gene.}
 
 \item{species}{character string containing the species to filter for,
