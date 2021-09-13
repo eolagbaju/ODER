@@ -1,6 +1,6 @@
 Package: ODER
 Title: Optimising the Definition of Expressed Regions
-Version: 0.99.8
+Version: 0.99.9
 Date: 2021-04-13
 Authors@R: 
     c(person(given = "Emmanuel",family = "Olagbaju",
