@@ -50,6 +50,8 @@ as a metadata column, a character list." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -61,9 +63,15 @@ as a metadata column, a character list." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -77,19 +85,13 @@ as a metadata column, a character list." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -142,7 +144,7 @@ respective genes that each ER could be associated with will also be passed in
 as a metadata column, a character list.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_junctions</span><span class='op'>(</span><span class='va'>opt_ers</span>, <span class='va'>junc_data</span>, <span class='va'>txdb</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_junctions</span><span class='op'>(</span><span class='va'>opt_ers</span>, <span class='va'>junc_data</span>, <span class='va'>txdb</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,118 +173,121 @@ passed in.</p></td>
     <div class='dont-index'><p>dasper::junction_annot</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_path"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
-        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
-        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
-    <span class='op'>)</span>
-    <span class='co'># .file_cache is an internal function to download a bigwig file from a link</span>
-    <span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span>
-    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_gr"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>gtf_gr</span> <span class='op'>&lt;-</span> <span class='fu'>rtracklayer</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rtracklayer/man/export.html'>import</a></span><span class='op'>(</span><span class='va'>gtf_path</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='va'>chrs_to_keep</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"21"</span>, <span class='st'>"22"</span><span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"ens_txdb"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='co'>#### preparing the txdb object</span>
-    <span class='va'>hg38_chrominfo</span> <span class='op'>&lt;-</span> <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/getChromInfoFromUCSC.html'>getChromInfoFromUCSC</a></span><span class='op'>(</span><span class='st'>"hg38"</span><span class='op'>)</span>
-    <span class='va'>new_info</span> <span class='op'>&lt;-</span> <span class='va'>hg38_chrominfo</span><span class='op'>$</span><span class='va'>size</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/match.html'>match</a></span><span class='op'>(</span>
-        <span class='va'>chrs_to_keep</span>,
-        <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html'>mapSeqlevels</a></span><span class='op'>(</span><span class='va'>hg38_chrominfo</span><span class='op'>$</span><span class='va'>chrom</span>, <span class='st'>"Ensembl"</span><span class='op'>)</span>
-    <span class='op'>)</span><span class='op'>]</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>new_info</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>chrs_to_keep</span>
-    <span class='va'>gtf_gr_tx</span> <span class='op'>&lt;-</span> <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqlevels-wrappers.html'>keepSeqlevels</a></span><span class='op'>(</span><span class='va'>gtf_gr</span>,
-        <span class='va'>chrs_to_keep</span>,
-        pruning.mode <span class='op'>=</span> <span class='st'>"tidy"</span>
-    <span class='op'>)</span>
-    <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqinfo.html'>seqlengths</a></span><span class='op'>(</span><span class='va'>gtf_gr_tx</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>new_info</span>
-    <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html'>seqlevelsStyle</a></span><span class='op'>(</span><span class='va'>gtf_gr_tx</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"UCSC"</span>
-    <span class='fu'>rtracklayer</span><span class='fu'>::</span><span class='fu'>genome</span><span class='op'>(</span><span class='va'>gtf_gr_tx</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"hg38"</span>
-
-    <span class='va'>ens_txdb</span> <span class='op'>&lt;-</span> <span class='fu'>GenomicFeatures</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicFeatures/man/makeTxDbFromGRanges.html'>makeTxDbFromGRanges</a></span><span class='op'>(</span><span class='va'>gtf_gr_tx</span><span class='op'>)</span>
-    <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html'>seqlevelsStyle</a></span><span class='op'>(</span><span class='va'>ens_txdb</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"Ensembl"</span>
-    <span class='co'>################### end of txdb creation</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: The "phase" metadata column contains non-NA values for features of type</span>
-#&gt; <span class='warning'>  stop_codon. This information was ignored.</span></div><div class='input'><span class='co'># }</span>
-<span class='va'>example_ers</span> <span class='op'>&lt;-</span> <span class='fu'>GenomicRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html'>GRanges</a></span><span class='op'>(</span>
-    seqnames <span class='op'>=</span> <span class='fu'>S4Vectors</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Rle-class.html'>Rle</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>,
-    ranges <span class='op'>=</span> <span class='fu'>IRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IRanges/man/IRanges-constructor.html'>IRanges</a></span><span class='op'>(</span>
-        start <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
-            <span class='fl'>5026423</span>, <span class='fl'>24738</span>, <span class='fl'>5032218</span>, <span class='fl'>5033895</span>, <span class='fl'>17554</span>, <span class='fl'>50800446</span>,
-            <span class='fl'>50800539</span>, <span class='fl'>16570</span>, <span class='fl'>50800790</span>, <span class='fl'>15005</span>, <span class='fl'>20312</span>
-        <span class='op'>)</span>,
-        end <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
-            <span class='fl'>5323718</span>, <span class='fl'>24891</span>, <span class='fl'>5033407</span>, <span class='fl'>5033980</span>, <span class='fl'>17728</span>, <span class='fl'>50800910</span>,
-            <span class='fl'>50800817</span>, <span class='fl'>16723</span>, <span class='fl'>50800910</span>, <span class='fl'>15038</span>, <span class='fl'>20582</span>
-        <span class='op'>)</span>,
-        names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>letters</span>, <span class='fl'>11</span><span class='op'>)</span>
-    <span class='op'>)</span>,
-    strand <span class='op'>=</span> <span class='fu'>S4Vectors</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Rle-class.html'>Rle</a></span><span class='op'>(</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"+"</span>, <span class='st'>"-"</span><span class='op'>)</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>6</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>,
-    score <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>11</span>,
-    GC <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>0</span>, length <span class='op'>=</span> <span class='fl'>11</span><span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='va'>example_junctions</span> <span class='op'>&lt;-</span> <span class='fu'>SummarizedExperiment</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/SummarizedExperiment/man/RangedSummarizedExperiment-class.html'>rowRanges</a></span><span class='op'>(</span><span class='fu'>dasper</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/dasper/man/junctions_example.html'>junctions_example</a></span><span class='op'>)</span>
-
-<span class='va'>example_er_juncs</span> <span class='op'>&lt;-</span> <span class='fu'>get_junctions</span><span class='op'>(</span>
-    opt_ers <span class='op'>=</span> <span class='va'>example_ers</span>,
-    junc_data <span class='op'>=</span> <span class='va'>example_junctions</span>,
-    txdb <span class='op'>=</span> <span class='va'>ens_txdb</span> <span class='co'># can either be a gtf file or txdb in the Ensembl format</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-09-04 10:14:51 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."
-#&gt; [1] "2021-09-04 10:14:52 - Getting junction annotation using overlapping exons..."
-#&gt; [1] "2021-09-04 10:14:53 - Tidying junction annotation..."
-#&gt; [1] "2021-09-04 10:14:53 - Deriving junction categories..."
-#&gt; [1] "2021-09-04 10:14:58 - done!"
-#&gt; [1] "2021-09-04 10:14:58 - Finding junctions overlapping ers..."</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>example_er_juncs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; GRanges object with 11 ranges and 4 metadata columns:
-#&gt;     seqnames            ranges strand |     score        GC
-#&gt;        &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;numeric&gt;
-#&gt;   a    chr21   5026423-5323718      + |         1       1.0
-#&gt;   b    chr21       24738-24891      + |         2       0.9
-#&gt;   c    chr21   5032218-5033407      + |         3       0.8
-#&gt;   d    chr21   5033895-5033980      + |         4       0.7
-#&gt;   e    chr21       17554-17728      + |         5       0.6
-#&gt;   f    chr21 50800446-50800910      + |         6       0.5
-#&gt;   g    chr21 50800539-50800817      - |         7       0.4
-#&gt;   h    chr21       16570-16723      - |         8       0.3
-#&gt;   i    chr21 50800790-50800910      - |         9       0.2
-#&gt;   j    chr21       15005-15038      - |        10       0.1
-#&gt;   k    chr22       20312-20582      - |        11       0.0
-#&gt;                                                                             grl
-#&gt;                                                                   &lt;GRangesList&gt;
-#&gt;   a chr21:5026423-5323718:+,chr21:5028226-5032052:+,chr21:5032218-5033407:+,...
-#&gt;   b                                                                            
-#&gt;   c                             chr21:5026423-5323718:+,chr21:5032218-5033407:+
-#&gt;   d                             chr21:5026423-5323718:+,chr21:5033895-5033980:+
-#&gt;   e                                                                            
-#&gt;   f                                                                            
-#&gt;   g                                                                            
-#&gt;   h                                                                            
-#&gt;   i                                                                            
-#&gt;   j                                                                            
-#&gt;   k                                                                            
-#&gt;               genes
-#&gt;     &lt;CharacterList&gt;
-#&gt;   a ENSG00000277117
-#&gt;   b                
-#&gt;   c ENSG00000277117
-#&gt;   d                
-#&gt;   e                
-#&gt;   f                
-#&gt;   g                
-#&gt;   h                
-#&gt;   i                
-#&gt;   j                
-#&gt;   k                
-#&gt;   -------
-#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \dontshow{</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_path"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span></span>
+<span class='r-in'>        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,</span>
+<span class='r-in'>        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span></span>
+<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'>    <span class='co'># .file_cache is an internal function to download a bigwig file from a link</span></span>
+<span class='r-in'>    <span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span></span>
+<span class='r-in'>    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dot-file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_gr"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>gtf_gr</span> <span class='op'>&lt;-</span> <span class='fu'>rtracklayer</span><span class='fu'>::</span><span class='fu'>import</span><span class='op'>(</span><span class='va'>gtf_path</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>chrs_to_keep</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"21"</span>, <span class='st'>"22"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"ens_txdb"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='co'>#### preparing the txdb object</span></span>
+<span class='r-in'>    <span class='va'>hg38_chrominfo</span> <span class='op'>&lt;-</span> <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/getChromInfoFromUCSC.html'>getChromInfoFromUCSC</a></span><span class='op'>(</span><span class='st'>"hg38"</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='va'>new_info</span> <span class='op'>&lt;-</span> <span class='va'>hg38_chrominfo</span><span class='op'>$</span><span class='va'>size</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/match.html'>match</a></span><span class='op'>(</span></span>
+<span class='r-in'>        <span class='va'>chrs_to_keep</span>,</span>
+<span class='r-in'>        <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html'>mapSeqlevels</a></span><span class='op'>(</span><span class='va'>hg38_chrominfo</span><span class='op'>$</span><span class='va'>chrom</span>, <span class='st'>"Ensembl"</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>)</span><span class='op'>]</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>new_info</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>chrs_to_keep</span></span>
+<span class='r-in'>    <span class='va'>gtf_gr_tx</span> <span class='op'>&lt;-</span> <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqlevels-wrappers.html'>keepSeqlevels</a></span><span class='op'>(</span><span class='va'>gtf_gr</span>,</span>
+<span class='r-in'>        <span class='va'>chrs_to_keep</span>,</span>
+<span class='r-in'>        pruning.mode <span class='op'>=</span> <span class='st'>"tidy"</span></span>
+<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'>    <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqinfo.html'>seqlengths</a></span><span class='op'>(</span><span class='va'>gtf_gr_tx</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>new_info</span></span>
+<span class='r-in'>    <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html'>seqlevelsStyle</a></span><span class='op'>(</span><span class='va'>gtf_gr_tx</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"UCSC"</span></span>
+<span class='r-in'>    <span class='fu'>rtracklayer</span><span class='fu'>::</span><span class='fu'>genome</span><span class='op'>(</span><span class='va'>gtf_gr_tx</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"hg38"</span></span>
+<span class='r-in'></span>
+<span class='r-in'>    <span class='va'>ens_txdb</span> <span class='op'>&lt;-</span> <span class='fu'>GenomicFeatures</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicFeatures/man/makeTxDbFromGRanges.html'>makeTxDbFromGRanges</a></span><span class='op'>(</span><span class='va'>gtf_gr_tx</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='fu'>GenomeInfoDb</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html'>seqlevelsStyle</a></span><span class='op'>(</span><span class='va'>ens_txdb</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"Ensembl"</span></span>
+<span class='r-in'>    <span class='co'>################### end of txdb creation</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>The "phase" metadata column contains non-NA values for features of type</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>   stop_codon. This information was ignored.</span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'><span class='va'>example_ers</span> <span class='op'>&lt;-</span> <span class='fu'>GenomicRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html'>GRanges</a></span><span class='op'>(</span></span>
+<span class='r-in'>    seqnames <span class='op'>=</span> <span class='fu'>S4Vectors</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Rle-class.html'>Rle</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span class='r-in'>    ranges <span class='op'>=</span> <span class='fu'>IRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IRanges/man/IRanges-constructor.html'>IRanges</a></span><span class='op'>(</span></span>
+<span class='r-in'>        start <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span class='r-in'>            <span class='fl'>5026423</span>, <span class='fl'>24738</span>, <span class='fl'>5032218</span>, <span class='fl'>5033895</span>, <span class='fl'>17554</span>, <span class='fl'>50800446</span>,</span>
+<span class='r-in'>            <span class='fl'>50800539</span>, <span class='fl'>16570</span>, <span class='fl'>50800790</span>, <span class='fl'>15005</span>, <span class='fl'>20312</span></span>
+<span class='r-in'>        <span class='op'>)</span>,</span>
+<span class='r-in'>        end <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span class='r-in'>            <span class='fl'>5323718</span>, <span class='fl'>24891</span>, <span class='fl'>5033407</span>, <span class='fl'>5033980</span>, <span class='fl'>17728</span>, <span class='fl'>50800910</span>,</span>
+<span class='r-in'>            <span class='fl'>50800817</span>, <span class='fl'>16723</span>, <span class='fl'>50800910</span>, <span class='fl'>15038</span>, <span class='fl'>20582</span></span>
+<span class='r-in'>        <span class='op'>)</span>,</span>
+<span class='r-in'>        names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>letters</span>, <span class='fl'>11</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>)</span>,</span>
+<span class='r-in'>    strand <span class='op'>=</span> <span class='fu'>S4Vectors</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Rle-class.html'>Rle</a></span><span class='op'>(</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"+"</span>, <span class='st'>"-"</span><span class='op'>)</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>6</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span class='r-in'>    score <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>11</span>,</span>
+<span class='r-in'>    GC <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>0</span>, length <span class='op'>=</span> <span class='fl'>11</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>example_junctions</span> <span class='op'>&lt;-</span> <span class='fu'>SummarizedExperiment</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/SummarizedExperiment/man/RangedSummarizedExperiment-class.html'>rowRanges</a></span><span class='op'>(</span><span class='fu'>dasper</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/dasper/man/junctions_example.html'>junctions_example</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>example_er_juncs</span> <span class='op'>&lt;-</span> <span class='fu'>get_junctions</span><span class='op'>(</span></span>
+<span class='r-in'>    opt_ers <span class='op'>=</span> <span class='va'>example_ers</span>,</span>
+<span class='r-in'>    junc_data <span class='op'>=</span> <span class='va'>example_junctions</span>,</span>
+<span class='r-in'>    txdb <span class='op'>=</span> <span class='va'>ens_txdb</span> <span class='co'># can either be a gtf file or txdb in the Ensembl format</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:09:48 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:09:49 - Getting junction annotation using overlapping exons..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:09:50 - Tidying junction annotation..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:09:51 - Deriving junction categories..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:09:55 - done!"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:09:55 - Finding junctions overlapping ers..."</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>example_er_juncs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 11 ranges and 4 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     seqnames            ranges strand |     score        GC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;numeric&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   a    chr21   5026423-5323718      + |         1       1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   b    chr21       24738-24891      + |         2       0.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   c    chr21   5032218-5033407      + |         3       0.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   d    chr21   5033895-5033980      + |         4       0.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   e    chr21       17554-17728      + |         5       0.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   f    chr21 50800446-50800910      + |         6       0.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   g    chr21 50800539-50800817      - |         7       0.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   h    chr21       16570-16723      - |         8       0.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   i    chr21 50800790-50800910      - |         9       0.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   j    chr21       15005-15038      - |        10       0.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   k    chr22       20312-20582      - |        11       0.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                             grl</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                   &lt;GRangesList&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   a chr21:5026423-5323718:+,chr21:5028226-5032052:+,chr21:5032218-5033407:+,...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   b                                                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   c                             chr21:5026423-5323718:+,chr21:5032218-5033407:+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   d                             chr21:5026423-5323718:+,chr21:5033895-5033980:+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   e                                                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   f                                                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   g                                                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   h                                                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   i                                                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   j                                                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   k                                                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               genes</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;CharacterList&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   a ENSG00000277117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   b                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   c ENSG00000277117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   d                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   e                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   f                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   g                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   h                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   i                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   j                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   k                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -294,11 +299,11 @@ passed in.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Emmanuel Olagbaju.</p>
+  <p><p>Developed by Emmanuel Olagbaju.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -306,6 +311,8 @@ passed in.</p></td>
 
   
 
+
+  
 
   </body>
 </html>

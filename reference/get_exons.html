@@ -46,6 +46,8 @@ of Expressed regions. These exons are used in calculating the exon deltas." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -57,9 +59,15 @@ of Expressed regions. These exons are used in calculating the exon deltas." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -73,19 +81,13 @@ of Expressed regions. These exons are used in calculating the exon deltas." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -134,7 +136,7 @@ of Expressed regions. These exons are used in calculating the exon deltas." />
 of Expressed regions. These exons are used in calculating the exon deltas.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_exons</span><span class='op'>(</span><span class='va'>gtf</span>, <span class='va'>ucsc_chr</span>, ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>, biotype <span class='op'>=</span> <span class='st'>"Non-overlapping"</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_exons</span><span class='op'>(</span><span class='va'>gtf</span>, <span class='va'>ucsc_chr</span>, ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>, biotype <span class='op'>=</span> <span class='st'>"Non-overlapping"</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,7 +144,7 @@ of Expressed regions. These exons are used in calculating the exon deltas.</p>
     <tr>
       <th>gtf</th>
       <td><p>Either a string containg the path to a .gtf file or a pre-imported
-gtf using <code><a href='https://rdrr.io/pkg/rtracklayer/man/export.html'>import</a></code>.</p></td>
+gtf using <code>rtracklayer::import</code> .</p></td>
     </tr>
     <tr>
       <th>ucsc_chr</th>
@@ -170,111 +172,113 @@ if set to TRUE and seqnames already have "chr", it will not add another.</p></td
     <p>GRanges object containing non-overlapping exons.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_path"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
-        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
-        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
-    <span class='op'>)</span>
-    <span class='co'># .file_cache is an internal function to download a bigwig file from a link</span>
-    <span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span>
-    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_gr"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>gtf_gr</span> <span class='op'>&lt;-</span> <span class='fu'>rtracklayer</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rtracklayer/man/export.html'>import</a></span><span class='op'>(</span><span class='va'>gtf_path</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='co'># }</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"eg_opt_exons"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>eg_opt_exons</span> <span class='op'>&lt;-</span> <span class='fu'>get_exons</span><span class='op'>(</span>
-        gtf <span class='op'>=</span> <span class='va'>gtf_gr</span>,
-        ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,
-        ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>
-    <span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; [1] "2021-09-04 10:14:14 - Obtaining non-overlapping exons"</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_opt_exons</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; GRanges object with 160103 ranges and 22 metadata columns:
-#&gt;            seqnames      ranges strand |   source     type     score     phase
-#&gt;               &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;factor&gt; &lt;factor&gt; &lt;numeric&gt; &lt;integer&gt;
-#&gt;        [1]     chr1 12975-13052      + |   havana     exon        NA      &lt;NA&gt;
-#&gt;        [2]     chr1 24738-24891      - |   havana     exon        NA      &lt;NA&gt;
-#&gt;        [3]     chr1 18268-18366      - |   havana     exon        NA      &lt;NA&gt;
-#&gt;        [4]     chr1 17915-18061      - |   havana     exon        NA      &lt;NA&gt;
-#&gt;        [5]     chr1 17606-17742      - |   havana     exon        NA      &lt;NA&gt;
-#&gt;        ...      ...         ...    ... .      ...      ...       ...       ...
-#&gt;   [160099]     chrM 14149-14673      - |    insdc     exon        NA      &lt;NA&gt;
-#&gt;   [160100]     chrM 14674-14742      - |    insdc     exon        NA      &lt;NA&gt;
-#&gt;   [160101]     chrM 14747-15887      + |    insdc     exon        NA      &lt;NA&gt;
-#&gt;   [160102]     chrM 15888-15953      + |    insdc     exon        NA      &lt;NA&gt;
-#&gt;   [160103]     chrM 15956-16023      - |    insdc     exon        NA      &lt;NA&gt;
-#&gt;                    gene_id gene_version   gene_name gene_source
-#&gt;                &lt;character&gt;  &lt;character&gt; &lt;character&gt; &lt;character&gt;
-#&gt;        [1] ENSG00000223972            5     DDX11L1      havana
-#&gt;        [2] ENSG00000227232            5      WASH7P      havana
-#&gt;        [3] ENSG00000227232            5      WASH7P      havana
-#&gt;        [4] ENSG00000227232            5      WASH7P      havana
-#&gt;        [5] ENSG00000227232            5      WASH7P      havana
-#&gt;        ...             ...          ...         ...         ...
-#&gt;   [160099] ENSG00000198695            2      MT-ND6       insdc
-#&gt;   [160100] ENSG00000210194            1       MT-TE       insdc
-#&gt;   [160101] ENSG00000198727            2      MT-CYB       insdc
-#&gt;   [160102] ENSG00000210195            2       MT-TT       insdc
-#&gt;   [160103] ENSG00000210196            2       MT-TP       insdc
-#&gt;                      gene_biotype   transcript_id transcript_version
-#&gt;                       &lt;character&gt;     &lt;character&gt;        &lt;character&gt;
-#&gt;        [1] transcribed_unproces.. ENST00000450305                  2
-#&gt;        [2] unprocessed_pseudogene ENST00000488147                  1
-#&gt;        [3] unprocessed_pseudogene ENST00000488147                  1
-#&gt;        [4] unprocessed_pseudogene ENST00000488147                  1
-#&gt;        [5] unprocessed_pseudogene ENST00000488147                  1
-#&gt;        ...                    ...             ...                ...
-#&gt;   [160099]         protein_coding ENST00000361681                  2
-#&gt;   [160100]                Mt_tRNA ENST00000387459                  1
-#&gt;   [160101]         protein_coding ENST00000361789                  2
-#&gt;   [160102]                Mt_tRNA ENST00000387460                  2
-#&gt;   [160103]                Mt_tRNA ENST00000387461                  2
-#&gt;            transcript_name transcript_source     transcript_biotype         tag
-#&gt;                &lt;character&gt;       &lt;character&gt;            &lt;character&gt; &lt;character&gt;
-#&gt;        [1]     DDX11L1-201            havana transcribed_unproces..       basic
-#&gt;        [2]      WASH7P-201            havana unprocessed_pseudogene       basic
-#&gt;        [3]      WASH7P-201            havana unprocessed_pseudogene       basic
-#&gt;        [4]      WASH7P-201            havana unprocessed_pseudogene       basic
-#&gt;        [5]      WASH7P-201            havana unprocessed_pseudogene       basic
-#&gt;        ...             ...               ...                    ...         ...
-#&gt;   [160099]      MT-ND6-201             insdc         protein_coding       basic
-#&gt;   [160100]       MT-TE-201             insdc                Mt_tRNA       basic
-#&gt;   [160101]      MT-CYB-201             insdc         protein_coding       basic
-#&gt;   [160102]       MT-TT-201             insdc                Mt_tRNA       basic
-#&gt;   [160103]       MT-TP-201             insdc                Mt_tRNA       basic
-#&gt;            transcript_support_level exon_number         exon_id exon_version
-#&gt;                         &lt;character&gt; &lt;character&gt;     &lt;character&gt;  &lt;character&gt;
-#&gt;        [1]                       NA           4 ENSE00001799933            2
-#&gt;        [2]                       NA           2 ENSE00003507205            1
-#&gt;        [3]                       NA           3 ENSE00003477500            1
-#&gt;        [4]                       NA           4 ENSE00003565697            1
-#&gt;        [5]                       NA           5 ENSE00003475637            1
-#&gt;        ...                      ...         ...             ...          ...
-#&gt;   [160099]                       NA           1 ENSE00001434974            2
-#&gt;   [160100]                       NA           1 ENSE00001544476            1
-#&gt;   [160101]                       NA           1 ENSE00001436074            2
-#&gt;   [160102]                       NA           1 ENSE00001544475            2
-#&gt;   [160103]                       NA           1 ENSE00001544473            2
-#&gt;             protein_id protein_version     ccds_id
-#&gt;            &lt;character&gt;     &lt;character&gt; &lt;character&gt;
-#&gt;        [1]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
-#&gt;        [2]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
-#&gt;        [3]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
-#&gt;        [4]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
-#&gt;        [5]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
-#&gt;        ...         ...             ...         ...
-#&gt;   [160099]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
-#&gt;   [160100]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
-#&gt;   [160101]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
-#&gt;   [160102]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
-#&gt;   [160103]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;
-#&gt;   -------
-#&gt;   seqinfo: 25 sequences from an unspecified genome; no seqlengths</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \dontshow{</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_path"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span></span>
+<span class='r-in'>        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,</span>
+<span class='r-in'>        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span></span>
+<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'>    <span class='co'># .file_cache is an internal function to download a bigwig file from a link</span></span>
+<span class='r-in'>    <span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span></span>
+<span class='r-in'>    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dot-file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_gr"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>gtf_gr</span> <span class='op'>&lt;-</span> <span class='fu'>rtracklayer</span><span class='fu'>::</span><span class='fu'>import</span><span class='op'>(</span><span class='va'>gtf_path</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"eg_opt_exons"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>eg_opt_exons</span> <span class='op'>&lt;-</span> <span class='fu'>get_exons</span><span class='op'>(</span></span>
+<span class='r-in'>        gtf <span class='op'>=</span> <span class='va'>gtf_gr</span>,</span>
+<span class='r-in'>        ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span class='r-in'>        ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:09:09 - Obtaining non-overlapping exons"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_opt_exons</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 160103 ranges and 22 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            seqnames      ranges strand |   source     type     score     phase</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;factor&gt; &lt;factor&gt; &lt;numeric&gt; &lt;integer&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [1]     chr1 12975-13052      + |   havana     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [2]     chr1 24738-24891      - |   havana     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [3]     chr1 18268-18366      - |   havana     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [4]     chr1 17915-18061      - |   havana     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [5]     chr1 17606-17742      - |   havana     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        ...      ...         ...    ... .      ...      ...       ...       ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160099]     chrM 14149-14673      - |    insdc     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160100]     chrM 14674-14742      - |    insdc     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160101]     chrM 14747-15887      + |    insdc     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160102]     chrM 15888-15953      + |    insdc     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160103]     chrM 15956-16023      - |    insdc     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    gene_id gene_version   gene_name gene_source</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                &lt;character&gt;  &lt;character&gt; &lt;character&gt; &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [1] ENSG00000223972            5     DDX11L1      havana</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [2] ENSG00000227232            5      WASH7P      havana</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [3] ENSG00000227232            5      WASH7P      havana</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [4] ENSG00000227232            5      WASH7P      havana</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [5] ENSG00000227232            5      WASH7P      havana</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        ...             ...          ...         ...         ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160099] ENSG00000198695            2      MT-ND6       insdc</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160100] ENSG00000210194            1       MT-TE       insdc</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160101] ENSG00000198727            2      MT-CYB       insdc</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160102] ENSG00000210195            2       MT-TT       insdc</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160103] ENSG00000210196            2       MT-TP       insdc</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                      gene_biotype   transcript_id transcript_version</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       &lt;character&gt;     &lt;character&gt;        &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [1] transcribed_unproces.. ENST00000450305                  2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [2] unprocessed_pseudogene ENST00000488147                  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [3] unprocessed_pseudogene ENST00000488147                  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [4] unprocessed_pseudogene ENST00000488147                  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [5] unprocessed_pseudogene ENST00000488147                  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        ...                    ...             ...                ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160099]         protein_coding ENST00000361681                  2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160100]                Mt_tRNA ENST00000387459                  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160101]         protein_coding ENST00000361789                  2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160102]                Mt_tRNA ENST00000387460                  2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160103]                Mt_tRNA ENST00000387461                  2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            transcript_name transcript_source     transcript_biotype         tag</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                &lt;character&gt;       &lt;character&gt;            &lt;character&gt; &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [1]     DDX11L1-201            havana transcribed_unproces..       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [2]      WASH7P-201            havana unprocessed_pseudogene       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [3]      WASH7P-201            havana unprocessed_pseudogene       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [4]      WASH7P-201            havana unprocessed_pseudogene       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [5]      WASH7P-201            havana unprocessed_pseudogene       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        ...             ...               ...                    ...         ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160099]      MT-ND6-201             insdc         protein_coding       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160100]       MT-TE-201             insdc                Mt_tRNA       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160101]      MT-CYB-201             insdc         protein_coding       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160102]       MT-TT-201             insdc                Mt_tRNA       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160103]       MT-TP-201             insdc                Mt_tRNA       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            transcript_support_level exon_number         exon_id exon_version</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                         &lt;character&gt; &lt;character&gt;     &lt;character&gt;  &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [1]                       NA           4 ENSE00001799933            2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [2]                       NA           2 ENSE00003507205            1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [3]                       NA           3 ENSE00003477500            1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [4]                       NA           4 ENSE00003565697            1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [5]                       NA           5 ENSE00003475637            1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        ...                      ...         ...             ...          ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160099]                       NA           1 ENSE00001434974            2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160100]                       NA           1 ENSE00001544476            1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160101]                       NA           1 ENSE00001436074            2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160102]                       NA           1 ENSE00001544475            2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160103]                       NA           1 ENSE00001544473            2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             protein_id protein_version     ccds_id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            &lt;character&gt;     &lt;character&gt; &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [1]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [2]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [3]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [4]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [5]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        ...         ...             ...         ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160099]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160100]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160101]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160102]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160103]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 25 sequences from an unspecified genome; no seqlengths</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -286,11 +290,11 @@ if set to TRUE and seqnames already have "chr", it will not add another.</p></td
 
       <footer>
       <div class="copyright">
-  <p>Developed by Emmanuel Olagbaju.</p>
+  <p><p>Developed by Emmanuel Olagbaju.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -298,6 +302,8 @@ if set to TRUE and seqnames already have "chr", it will not add another.</p></td
 
   
 
+
+  
 
   </body>
 </html>

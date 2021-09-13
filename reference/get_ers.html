@@ -46,6 +46,8 @@ coverage cut-offs (MCCs) and max region gaps (MRGs) from the coverage." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -57,9 +59,15 @@ coverage cut-offs (MCCs) and max region gaps (MRGs) from the coverage." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -73,19 +81,13 @@ coverage cut-offs (MCCs) and max region gaps (MRGs) from the coverage." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -134,7 +136,7 @@ coverage cut-offs (MCCs) and max region gaps (MRGs) from the coverage." />
 coverage cut-offs (MCCs) and max region gaps (MRGs) from the coverage.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_ers</span><span class='op'>(</span><span class='va'>coverage</span>, <span class='va'>mccs</span>, <span class='va'>mrgs</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_ers</span><span class='op'>(</span><span class='va'>coverage</span>, <span class='va'>mccs</span>, <span class='va'>mrgs</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,87 +166,89 @@ ERs will be merged.</p></td>
 combination of MCC and MRG.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># coverage_example is from the package data folder</span>
-<span class='va'>eg_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_ers</span><span class='op'>(</span>coverage <span class='op'>=</span> <span class='va'>coverage_example</span>, mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-09-04 10:12:59 - Generating ERs for chr21"
-#&gt; [1] "2021-09-04 10:13:00 - Generating ERs for chr22"</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_ers</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $mcc_5
-#&gt; $mcc_5$mrg_10
-#&gt; GRanges object with 26459 ranges and 0 metadata columns:
-#&gt;           seqnames            ranges strand
-#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;       [1]    chr21   5026470-5026525      *
-#&gt;       [2]    chr21   5027955-5028030      *
-#&gt;       [3]    chr21   5032160-5032217      *
-#&gt;       [4]    chr21   5033408-5033441      *
-#&gt;       [5]    chr21   5034694-5034787      *
-#&gt;       ...      ...               ...    ...
-#&gt;   [26455]    chr22 50799669-50799744      *
-#&gt;   [26456]    chr22 50799915-50799990      *
-#&gt;   [26457]    chr22 50800460-50800587      *
-#&gt;   [26458]    chr22 50802354-50802398      *
-#&gt;   [26459]    chr22 50802615-50802631      *
-#&gt;   -------
-#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths
-#&gt; 
-#&gt; $mcc_5$mrg_20
-#&gt; GRanges object with 24404 ranges and 0 metadata columns:
-#&gt;           seqnames            ranges strand
-#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;       [1]    chr21   5026470-5026525      *
-#&gt;       [2]    chr21   5027955-5028030      *
-#&gt;       [3]    chr21   5032160-5032217      *
-#&gt;       [4]    chr21   5033408-5033441      *
-#&gt;       [5]    chr21   5034694-5034787      *
-#&gt;       ...      ...               ...    ...
-#&gt;   [24400]    chr22 50799669-50799744      *
-#&gt;   [24401]    chr22 50799915-50799990      *
-#&gt;   [24402]    chr22 50800460-50800587      *
-#&gt;   [24403]    chr22 50802354-50802398      *
-#&gt;   [24404]    chr22 50802615-50802631      *
-#&gt;   -------
-#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths
-#&gt; 
-#&gt; 
-#&gt; $mcc_10
-#&gt; $mcc_10$mrg_10
-#&gt; GRanges object with 17761 ranges and 0 metadata columns:
-#&gt;           seqnames            ranges strand
-#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;       [1]    chr21   5032176-5032217      *
-#&gt;       [2]    chr21   5033408-5033425      *
-#&gt;       [3]    chr21   5034717-5034756      *
-#&gt;       [4]    chr21   5035188-5035189      *
-#&gt;       [5]    chr21   5036577-5036581      *
-#&gt;       ...      ...               ...    ...
-#&gt;   [17757]    chr22 50799209-50799264      *
-#&gt;   [17758]    chr22 50799283-50799284      *
-#&gt;   [17759]    chr22 50799669-50799688      *
-#&gt;   [17760]    chr22 50799717-50799744      *
-#&gt;   [17761]    chr22 50800460-50800587      *
-#&gt;   -------
-#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths
-#&gt; 
-#&gt; $mcc_10$mrg_20
-#&gt; GRanges object with 15977 ranges and 0 metadata columns:
-#&gt;           seqnames            ranges strand
-#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;       [1]    chr21   5032176-5032217      *
-#&gt;       [2]    chr21   5033408-5033425      *
-#&gt;       [3]    chr21   5034717-5034756      *
-#&gt;       [4]    chr21   5035188-5035189      *
-#&gt;       [5]    chr21   5036577-5036581      *
-#&gt;       ...      ...               ...    ...
-#&gt;   [15973]    chr22 50798996-50799149      *
-#&gt;   [15974]    chr22 50799209-50799284      *
-#&gt;   [15975]    chr22 50799669-50799688      *
-#&gt;   [15976]    chr22 50799717-50799744      *
-#&gt;   [15977]    chr22 50800460-50800587      *
-#&gt;   -------
-#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths
-#&gt; 
-#&gt; </div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># coverage_example is from the package data folder</span></span>
+<span class='r-in'><span class='va'>eg_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_ers</span><span class='op'>(</span>coverage <span class='op'>=</span> <span class='va'>coverage_example</span>, mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:07:54 - Generating ERs for chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:07:55 - Generating ERs for chr22"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_ers</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5$mrg_10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 26459 ranges and 0 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           seqnames            ranges strand</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [1]    chr21   5026470-5026525      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [2]    chr21   5027955-5028030      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [3]    chr21   5032160-5032217      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [4]    chr21   5033408-5033441      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [5]    chr21   5034694-5034787      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       ...      ...               ...    ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [26455]    chr22 50799669-50799744      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [26456]    chr22 50799915-50799990      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [26457]    chr22 50800460-50800587      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [26458]    chr22 50802354-50802398      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [26459]    chr22 50802615-50802631      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5$mrg_20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 24404 ranges and 0 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           seqnames            ranges strand</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [1]    chr21   5026470-5026525      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [2]    chr21   5027955-5028030      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [3]    chr21   5032160-5032217      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [4]    chr21   5033408-5033441      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [5]    chr21   5034694-5034787      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       ...      ...               ...    ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [24400]    chr22 50799669-50799744      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [24401]    chr22 50799915-50799990      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [24402]    chr22 50800460-50800587      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [24403]    chr22 50802354-50802398      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [24404]    chr22 50802615-50802631      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_10$mrg_10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 17761 ranges and 0 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           seqnames            ranges strand</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [1]    chr21   5032176-5032217      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [2]    chr21   5033408-5033425      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [3]    chr21   5034717-5034756      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [4]    chr21   5035188-5035189      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [5]    chr21   5036577-5036581      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       ...      ...               ...    ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [17757]    chr22 50799209-50799264      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [17758]    chr22 50799283-50799284      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [17759]    chr22 50799669-50799688      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [17760]    chr22 50799717-50799744      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [17761]    chr22 50800460-50800587      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_10$mrg_20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 15977 ranges and 0 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           seqnames            ranges strand</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [1]    chr21   5032176-5032217      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [2]    chr21   5033408-5033425      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [3]    chr21   5034717-5034756      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [4]    chr21   5035188-5035189      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [5]    chr21   5036577-5036581      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       ...      ...               ...    ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [15973]    chr22 50798996-50799149      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [15974]    chr22 50799209-50799284      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [15975]    chr22 50799669-50799688      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [15976]    chr22 50799717-50799744      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [15977]    chr22 50800460-50800587      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -256,11 +260,11 @@ combination of MCC and MRG.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Emmanuel Olagbaju.</p>
+  <p><p>Developed by Emmanuel Olagbaju.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -268,6 +272,8 @@ combination of MCC and MRG.</p>
 
   
 
+
+  
 
   </body>
 </html>

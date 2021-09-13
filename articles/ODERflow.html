@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -64,7 +60,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/eolagbaju/ODER/">
+  <a href="https://github.com/eolagbaju/ODER/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -79,18 +75,18 @@
 
       
 
-      </header><script src="ODERflow_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
+      </header><script src="ODERflow_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>ODER workflow</h1>
-                        <h4 class="author">Emmanuel Olagbaju</h4>
+                        <h4 data-toc-skip class="author">Emmanuel Olagbaju</h4>
             <address class="author_afil">
       UCL<br><a class="author_email" href="mailto:#"></a><a href="mailto:e.olagbaju@ucl.ac.uk" class="email">e.olagbaju@ucl.ac.uk</a>
       </address>
                   
-            <h4 class="date">4 September 2021</h4>
+            <h4 data-toc-skip class="date">13 September 2021</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/eolagbaju/ODER/blob/master/vignettes/ODERflow.Rmd"><code>vignettes/ODERflow.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/eolagbaju/ODER/blob/master/vignettes/ODERflow.Rmd" class="external-link"><code>vignettes/ODERflow.Rmd</code></a></small>
       <div class="hidden name"><code>ODERflow.Rmd</code></div>
 
     </div>
@@ -99,47 +95,47 @@
     
 <div id="basics" class="section level1">
 <h1 class="hasAnchor">
-<a href="#basics" class="anchor"></a>Basics</h1>
+<a href="#basics" class="anchor" aria-hidden="true"></a>Basics</h1>
 <div id="install-oder" class="section level2">
 <h2 class="hasAnchor">
-<a href="#install-oder" class="anchor"></a>Install <code>ODER</code>
+<a href="#install-oder" class="anchor" aria-hidden="true"></a>Install <code>ODER</code>
 </h2>
-<p><code>R</code> is an open-source statistical environment which can be easily modified to enhance its functionality via packages. <em><a href="https://bioconductor.org/packages/3.12/ODER">ODER</a></em> is a <code>R</code> package available via the <a href="http://bioconductor.org">Bioconductor</a> repository for packages. <code>R</code> can be installed on any operating system from <a href="https://cran.r-project.org/">CRAN</a> after which you can install <em><a href="https://bioconductor.org/packages/3.12/ODER">ODER</a></em> by using the following commands in your <code>R</code> session:</p>
+<p><code>R</code> is an open-source statistical environment which can be easily modified to enhance its functionality via packages. <em><a href="https://bioconductor.org/packages/3.14/ODER" class="external-link">ODER</a></em> is a <code>R</code> package available via the <a href="http://bioconductor.org" class="external-link">Bioconductor</a> repository for packages. <code>R</code> can be installed on any operating system from <a href="https://cran.r-project.org/" class="external-link">CRAN</a> after which you can install <em><a href="https://bioconductor.org/packages/3.14/ODER" class="external-link">ODER</a></em> by using the following commands in your <code>R</code> session:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 <span class="op">}</span>
 
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"ODER"</span><span class="op">)</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"ODER"</span><span class="op">)</span>
 
 <span class="co">## Check that you have a valid Bioconductor installation</span>
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/valid.html">valid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/valid.html" class="external-link">valid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="required-knowledge" class="section level2">
 <h2 class="hasAnchor">
-<a href="#required-knowledge" class="anchor"></a>Required knowledge</h2>
-<p>The expected input of <em><a href="https://bioconductor.org/packages/3.12/ODER">ODER</a></em> is coverage in the form of BigWig files as well as, depending on the functionalility required by a specific user, junctions in form of a <code>RangedSummarizedExperiments</code>.</p>
-<p><em><a href="https://bioconductor.org/packages/3.12/ODER">ODER</a></em> is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with RNA-seq data. The <em><a href="https://bioconductor.org/packages/3.12/GenomicRanges">GenomicRanges</a></em> package is heavily used in <em><a href="https://bioconductor.org/packages/3.12/ODER">ODER</a></em> while other packages like <em><a href="https://bioconductor.org/packages/3.12/SummarizedExperiment">SummarizedExperiment</a></em> and <em><a href="https://bioconductor.org/packages/3.12/derfinder">derfinder</a></em>. Previous experience with these packages will help in the comprehension and use of <em><a href="https://bioconductor.org/packages/3.12/ODER">ODER</a></em>.</p>
-<p>If you are asking yourself the question “Where do I start using Bioconductor?” you might be interested in <a href="http://lcolladotor.github.io/2014/10/16/startbioc/#.VkOKbq6rRuU">this blog post</a>. If you find the structure of a <em><a href="https://bioconductor.org/packages/3.12/SummarizedExperiment">SummarizedExperiment</a></em> unclear, you might consider checking out <a href="http://master.bioconductor.org/help/course-materials/2019/BSS2019/04_Practical_CoreApproachesInBioconductor.html">this manual</a>.</p>
+<a href="#required-knowledge" class="anchor" aria-hidden="true"></a>Required knowledge</h2>
+<p>The expected input of <em><a href="https://bioconductor.org/packages/3.14/ODER" class="external-link">ODER</a></em> is coverage in the form of BigWig files as well as, depending on the functionalility required by a specific user, junctions in form of a <code>RangedSummarizedExperiments</code>.</p>
+<p><em><a href="https://bioconductor.org/packages/3.14/ODER" class="external-link">ODER</a></em> is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with RNA-seq data. The <em><a href="https://bioconductor.org/packages/3.14/GenomicRanges" class="external-link">GenomicRanges</a></em> package is heavily used in <em><a href="https://bioconductor.org/packages/3.14/ODER" class="external-link">ODER</a></em> while other packages like <em><a href="https://bioconductor.org/packages/3.14/SummarizedExperiment" class="external-link">SummarizedExperiment</a></em> and <em><a href="https://bioconductor.org/packages/3.14/derfinder" class="external-link">derfinder</a></em>. Previous experience with these packages will help in the comprehension and use of <em><a href="https://bioconductor.org/packages/3.14/ODER" class="external-link">ODER</a></em>.</p>
+<p>If you are asking yourself the question “Where do I start using Bioconductor?” you might be interested in <a href="http://lcolladotor.github.io/2014/10/16/startbioc/#.VkOKbq6rRuU" class="external-link">this blog post</a>. If you find the structure of a <em><a href="https://bioconductor.org/packages/3.14/SummarizedExperiment" class="external-link">SummarizedExperiment</a></em> unclear, you might consider checking out <a href="http://master.bioconductor.org/help/course-materials/2019/BSS2019/04_Practical_CoreApproachesInBioconductor.html" class="external-link">this manual</a>.</p>
 </div>
 <div id="asking-for-help" class="section level2">
 <h2 class="hasAnchor">
-<a href="#asking-for-help" class="anchor"></a>Asking for help</h2>
-<p>As package developers, we try to explain clearly how to use our packages and in which order to use the functions. But <code>R</code> and <code>Bioconductor</code> have a steep learning curve so it is critical to learn where to ask for help. The blog post quoted above mentions some but we would like to highlight the <a href="https://support.bioconductor.org/">Bioconductor support site</a> as the main resource for getting help: remember to use the <code>ODER</code> tag and check <a href="https://support.bioconductor.org/t/ODER/">the older posts</a>. Other alternatives are available such as creating GitHub issues and tweeting. However, please note that if you want to receive help you should adhere to the <a href="http://www.bioconductor.org/help/support/posting-guide/">posting guidelines</a>. It is particularly critical that you provide a small reproducible example and your session information so package developers can track down the source of the error.</p>
+<a href="#asking-for-help" class="anchor" aria-hidden="true"></a>Asking for help</h2>
+<p>As package developers, we try to explain clearly how to use our packages and in which order to use the functions. But <code>R</code> and <code>Bioconductor</code> have a steep learning curve so it is critical to learn where to ask for help. The blog post quoted above mentions some but we would like to highlight the <a href="https://support.bioconductor.org/" class="external-link">Bioconductor support site</a> as the main resource for getting help: remember to use the <code>ODER</code> tag and check <a href="https://support.bioconductor.org/t/ODER/" class="external-link">the older posts</a>. Other alternatives are available such as creating GitHub issues and tweeting. However, please note that if you want to receive help you should adhere to the <a href="http://www.bioconductor.org/help/support/posting-guide/" class="external-link">posting guidelines</a>. It is particularly critical that you provide a small reproducible example and your session information so package developers can track down the source of the error.</p>
 </div>
 <div id="citing-oder" class="section level2">
 <h2 class="hasAnchor">
-<a href="#citing-oder" class="anchor"></a>Citing <code>ODER</code>
+<a href="#citing-oder" class="anchor" aria-hidden="true"></a>Citing <code>ODER</code>
 </h2>
-<p>We hope that <em><a href="https://bioconductor.org/packages/3.12/ODER">ODER</a></em> will be useful for your research. Please use the following information to cite the package and the overall approach. Thank you!</p>
+<p>We hope that <em><a href="https://bioconductor.org/packages/3.14/ODER" class="external-link">ODER</a></em> will be useful for your research. Please use the following information to cite the package and the overall approach. Thank you!</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Citation info</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">"ODER"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"ODER"</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; eolagbaju (2021). _Optimising the Definition of Expressed Regions_.</span>
 <span class="co">#&gt; doi: 10.18129/B9.bioc.ODER (URL:</span>
 <span class="co">#&gt; https://doi.org/10.18129/B9.bioc.ODER),</span>
-<span class="co">#&gt; https://github.com/eolagbaju/ODER/ODER - R package version 0.99.8,</span>
+<span class="co">#&gt; https://github.com/eolagbaju/ODER/ODER - R package version 0.99.10,</span>
 <span class="co">#&gt; &lt;URL: http://www.bioconductor.org/packages/ODER&gt;.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; eolagbaju (2021). "Optimising the Definition of Expressed Regions."</span>
@@ -153,19 +149,19 @@
 </div>
 <div id="background" class="section level1">
 <h1 class="hasAnchor">
-<a href="#background" class="anchor"></a>Background</h1>
-<p><code>ODER</code> is a packaged form of the method developed in the Zhang et al. 2020 publication: <a href="https://advances.sciencemag.org/content/6/24/eaay8299.full">Incomplete annotation has a disproportionate impact on our understanding of Mendelian and complex neurogenetic disorders</a>. The overarching aim of <code>ODER</code> is use RNA-sequencing data to define regions of unannotated expression (ERs) in the genome, optimise their definition, then link them to known genes.</p>
-<p><code>ODER</code> builds upon the method defined in <em><a href="https://bioconductor.org/packages/3.12/derfinder">derfinder</a></em> by improving the definition of ERs in a few ways. Firstly, rather than being a fixed value, the coverage cut off is optimised based on a set of user-inputted, gold-standard exons for a given set of samples. Secondly, <code>ODER</code> introduces a second optimisation parameter, the max region gap, which determines the number of base-pairs of gap between which ERs are merged. Thirdly, ERs can be connected to known genes through junction reads. This aids the interpretation of ERs and also allows their definition to be refined further using the intersection between ERs and junctions. For more detailed methods, please see the methods section of the <a href="https://www.science.org/doi/10.1126/sciadv.aay8299">original publication</a>.</p>
+<a href="#background" class="anchor" aria-hidden="true"></a>Background</h1>
+<p><code>ODER</code> is a packaged form of the method developed in the Zhang et al. 2020 publication: <a href="https://advances.sciencemag.org/content/6/24/eaay8299.full" class="external-link">Incomplete annotation has a disproportionate impact on our understanding of Mendelian and complex neurogenetic disorders</a>. The overarching aim of <code>ODER</code> is use RNA-sequencing data to define regions of unannotated expression (ERs) in the genome, optimise their definition, then link them to known genes.</p>
+<p><code>ODER</code> builds upon the method defined in <em><a href="https://bioconductor.org/packages/3.14/derfinder" class="external-link">derfinder</a></em> by improving the definition of ERs in a few ways. Firstly, rather than being a fixed value, the coverage cut off is optimised based on a set of user-inputted, gold-standard exons for a given set of samples. Secondly, <code>ODER</code> introduces a second optimisation parameter, the max region gap, which determines the number of base-pairs of gap between which ERs are merged. Thirdly, ERs can be connected to known genes through junction reads. This aids the interpretation of ERs and also allows their definition to be refined further using the intersection between ERs and junctions. For more detailed methods, please see the methods section of the <a href="https://www.science.org/doi/10.1126/sciadv.aay8299" class="external-link">original publication</a>.</p>
 <p>Unannotated ERs can provide evidence for the existence and location of novel exons, which are yet to be added within reference annotation. Improving the completeness of reference annotation can aid the interpretation of genetic variation. For example, the output of <code>ODER</code> can help to better interpret non-coding genetics variants that are found in the genome of Mendelian disease patients, poetentially leading to improvements in diagnosis rates.</p>
 </div>
 <div id="quick-start-to-using-to-oder" class="section level1">
 <h1 class="hasAnchor">
-<a href="#quick-start-to-using-to-oder" class="anchor"></a>Quick start to using to <code>ODER</code>
+<a href="#quick-start-to-using-to-oder" class="anchor" aria-hidden="true"></a>Quick start to using to <code>ODER</code>
 </h1>
 <p>From the top-level ODER consists of 4 core functions, which are broken down internally into several smaller helper functions. These functions are expected to be run sequentially in the order presented below:</p>
 <ol style="list-style-type: decimal">
 <li>
-<code><a href="../reference/ODER.html">ODER()</a></code> - Takes as input coverage in the form of BigWig files. Uses <em><a href="https://bioconductor.org/packages/3.12/derfinder">derfinder</a></em> to call contigous blocks of expression that we term expressed regions or ERs. ER definitions are optimised across a pair of parameters the mean coverage cut-off (MCC) and the max region gap (MRG) with respect to a user-inputted set of gold standard exons. The set of ERs for the optimised MCC and MRG are returned.</li>
+<code><a href="../reference/ODER.html">ODER()</a></code> - Takes as input coverage in the form of BigWig files. Uses <em><a href="https://bioconductor.org/packages/3.14/derfinder" class="external-link">derfinder</a></em> to call contigous blocks of expression that we term expressed regions or ERs. ER definitions are optimised across a pair of parameters the mean coverage cut-off (MCC) and the max region gap (MRG) with respect to a user-inputted set of gold standard exons. The set of ERs for the optimised MCC and MRG are returned.</li>
 <li>
 <code>annotatER()</code> - Takes as input the optimised set of ERs and a set of junctions. Finds overlaps between the ERs and junctions, thereby annotating ERs with the gene associated with it’s corresponding junction. Also categorises ERs into “exon”, “intron”, “intergenic” or any combination of these three categories depending on the ERs overlap with existing annotation.</li>
 <li>
@@ -174,28 +170,27 @@
 <code><a href="../reference/get_count_matrix.html">get_count_matrix()</a></code> - Takes as input any set of <code>GenomicRanges</code> and a set of <code>BigWig</code> files. Returns a <code>RangedSummarizedExperiment</code> with <code>assays</code> containing the average coverage across each range. This function is intended to obtain the coverage across ERs to allow usage in downstream analyses such as differential expression.</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"eolagbaju/ODER"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"eolagbaju/ODER"</span><span class="op">)</span></code></pre></div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<a href="#example" class="anchor" aria-hidden="true"></a>Example</h2>
 <p>This is a basic example to show how you can use ODER. First, we need to download the example <code>BigWig</code> data required as input for <code>ODER</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/eolagbaju/ODER">"ODER"</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://magrittr.tidyverse.org">"magrittr"</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/eolagbaju/ODER" class="external-link">"ODER"</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://magrittr.tidyverse.org" class="external-link">"magrittr"</a></span><span class="op">)</span>
 
 <span class="co"># Download recount data in the form of BigWigs</span>
-<span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="fu">recount</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/recount/man/all_metadata.html">all_metadata</a></span><span class="op">(</span><span class="st">"gtex"</span><span class="op">)</span>
+<span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="fu">recount</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/recount/man/all_metadata.html" class="external-link">all_metadata</a></span><span class="op">(</span><span class="st">"gtex"</span><span class="op">)</span>
 <span class="co">#&gt; Setting options('download.file.method.GEOquery'='auto')</span>
 <span class="co">#&gt; Setting options('GEOquery.inmemory.gpl'=FALSE)</span>
-<span class="co">#&gt; 2021-09-04 10:15:59 downloading the metadata to /tmp/Rtmpor1qSV/metadata_clean_gtex.Rdata</span>
+<span class="co">#&gt; No methods found in package 'IRanges' for request: 'values&lt;-' when loading 'derfinder'</span>
+<span class="co">#&gt; No methods found in package 'IRanges' for request: 'values' when loading 'derfinder'</span>
+<span class="co">#&gt; 2021-09-13 17:10:55 downloading the metadata to /tmp/RtmpIssFmn/metadata_clean_gtex.Rdata</span>
+<span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="va">gtex_metadata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">project</span> <span class="op">==</span> <span class="st">"SRP012682"</span><span class="op">)</span>
 
-<span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="va">gtex_metadata</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">project</span> <span class="op">==</span> <span class="st">"SRP012682"</span><span class="op">)</span>
-
-<span class="va">url</span> <span class="op">&lt;-</span> <span class="fu">recount</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/recount/man/download_study.html">download_study</a></span><span class="op">(</span>
+<span class="va">url</span> <span class="op">&lt;-</span> <span class="fu">recount</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/recount/man/download_study.html" class="external-link">download_study</a></span><span class="op">(</span>
     project <span class="op">=</span> <span class="st">"SRP012682"</span>,
     type <span class="op">=</span> <span class="st">"samples"</span>,
     download <span class="op">=</span> <span class="cn">FALSE</span>
@@ -203,36 +198,29 @@
 
 <span class="co"># .file_cache is an internal ODER function to cache files for</span>
 <span class="co"># faster repeated loading</span>
-<span class="va">bw_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/.file_cache.html">.file_cache</a></span><span class="op">(</span><span class="va">url</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
+<span class="va">bw_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dot-file_cache.html">.file_cache</a></span><span class="op">(</span><span class="va">url</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
 
 <span class="va">bw_path</span>
-<span class="co">#&gt;                                                                            BFC1 </span>
-<span class="co">#&gt; "~/.cache/BiocFileCache/38b5629a5b6_SRR660824_SRS389722_SRX222703_male_lung.bw"</span></code></pre></div>
+<span class="co">#&gt;                                                                                          BFC1 </span>
+<span class="co">#&gt; "/github/home/.cache/R/BiocFileCache/15376a50018a_SRR660824_SRS389722_SRX222703_male_lung.bw"</span></code></pre></div>
 <p>To get the optimum set of ERs from a BigWig file we can use the <code><a href="../reference/ODER.html">ODER()</a></code> function. This will obtain the optimally defined ERs by finding the combination of MCC and MRG parameters that gives the lowest exon delta between the ERs and the inputted gold-standard exons. The MCC is minimum read depth that a base pair needs to have to be considered expressed. The MRG is the maximum number of base pairs between reads that fall below the MCC before you would not include it as part of the expressed region. Internally, gold-standard exons are obtained by finding the non-overlapping exons from the inputted reference annotation.</p>
 <p>In this example, we demonstrate <code><a href="../reference/ODER.html">ODER()</a></code> on a single unstranded <code>Bigwig</code>. However, in reality, it is likely that you will want to optimise the ER definitions across multiple <code>BigWigs</code>. It is worth noting that the arguments <code>bw_pos</code> and <code>bw_neg</code> in <code><a href="../reference/ODER.html">ODER()</a></code> allow for the input of stranded <code>BigWigs</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># load reference annotation from Ensembl</span>
+<code class="sourceCode R"><span class="co"># load reference annotation from Ensembl</span>
 <span class="va">gtf_url</span> <span class="op">&lt;-</span> <span class="st">"http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
-<span class="va">gtf_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/.file_cache.html">.file_cache</a></span><span class="op">(</span><span class="va">gtf_url</span><span class="op">)</span>
-<span class="va">gtf_gr</span> <span class="op">&lt;-</span> <span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rtracklayer/man/export.html">import</a></span><span class="op">(</span><span class="va">gtf_path</span><span class="op">)</span>
+<span class="va">gtf_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dot-file_cache.html">.file_cache</a></span><span class="op">(</span><span class="va">gtf_url</span><span class="op">)</span>
+<span class="va">gtf_gr</span> <span class="op">&lt;-</span> <span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu">import</span><span class="op">(</span><span class="va">gtf_path</span><span class="op">)</span>
 
 <span class="va">opt_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ODER.html">ODER</a></span><span class="op">(</span>
     bw_paths <span class="op">=</span> <span class="va">bw_path</span>, auc_raw <span class="op">=</span> <span class="va">gtex_metadata</span><span class="op">[[</span><span class="st">"auc"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
-    auc_target <span class="op">=</span> <span class="fl">40e6</span> <span class="op">*</span> <span class="fl">100</span>, chrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chr21"</span><span class="op">)</span>,
-    genome <span class="op">=</span> <span class="st">"hg38"</span>, mccs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>, mrgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span>,
+    auc_target <span class="op">=</span> <span class="fl">40e6</span> <span class="op">*</span> <span class="fl">100</span>, chrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"chr21"</span><span class="op">)</span>,
+    genome <span class="op">=</span> <span class="st">"hg38"</span>, mccs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>, mrgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span>,
     gtf <span class="op">=</span> <span class="va">gtf_gr</span>, ucsc_chr <span class="op">=</span> <span class="cn">TRUE</span>, ignore.strand <span class="op">=</span> <span class="cn">TRUE</span>,
     exons_no_overlap <span class="op">=</span> <span class="cn">NULL</span>, bw_chr <span class="op">=</span> <span class="st">"chr"</span>
 <span class="op">)</span>
 <span class="co">#&gt; Loading required package: BiocGenerics</span>
-<span class="co">#&gt; Loading required package: parallel</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'BiocGenerics'</span>
-<span class="co">#&gt; The following objects are masked from 'package:parallel':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,</span>
-<span class="co">#&gt;     clusterExport, clusterMap, parApply, parCapply, parLapply,</span>
-<span class="co">#&gt;     parLapplyLB, parRapply, parSapply, parSapplyLB</span>
 <span class="co">#&gt; The following objects are masked from 'package:stats':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     IQR, mad, sd, var, xtabs</span>
@@ -248,15 +236,15 @@
 <span class="co">#&gt; Loading required package: stats4</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'S4Vectors'</span>
-<span class="co">#&gt; The following object is masked from 'package:base':</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     expand.grid</span>
-<span class="co">#&gt; [1] "2021-09-04 10:16:46 - Obtaining mean coverage across 1 samples"</span>
-<span class="co">#&gt; [1] "2021-09-04 10:16:46 - chr21"</span>
-<span class="co">#&gt; [1] "2021-09-04 10:16:46 - Generating ERs for chr21"</span>
-<span class="co">#&gt; [1] "2021-09-04 10:16:49 - Obtaining non-overlapping exons"</span>
-<span class="co">#&gt; [1] "2021-09-04 10:16:52 - Calculating delta for ERs..."</span>
-<span class="co">#&gt; [1] "2021-09-04 10:16:54 - Obtaining optimal set of ERs..."</span></code></pre></div>
+<span class="co">#&gt;     expand.grid, I, unname</span>
+<span class="co">#&gt; [1] "2021-09-13 17:11:44 - Obtaining mean coverage across 1 samples"</span>
+<span class="co">#&gt; [1] "2021-09-13 17:11:44 - chr21"</span>
+<span class="co">#&gt; [1] "2021-09-13 17:11:44 - Generating ERs for chr21"</span>
+<span class="co">#&gt; [1] "2021-09-13 17:11:47 - Obtaining non-overlapping exons"</span>
+<span class="co">#&gt; [1] "2021-09-13 17:11:51 - Calculating delta for ERs..."</span>
+<span class="co">#&gt; [1] "2021-09-13 17:11:52 - Obtaining optimal set of ERs..."</span></code></pre></div>
 <p>Once we have the obtained the optimised set of ERs, we may consider plotting the exon delta across the various MCCs and MRGs. This can be useful to check the error associated with the definition of the set of optimised ERs. This error is measured through two metrics; the median exon delta and the number of ERs with exon delta equal to 0. The median exon delta represents the overall accuracy of all ER definitions, whereas the number of ERs with exon delta equal to 0 indicates the extent to which ER definitions precisely match overlapping gold-standard exon boundaries.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># visualise the spread of mccs and mrgs</span>
@@ -265,61 +253,58 @@
 <p>Next, we will use <code><a href="../reference/annotatERs.html">annotatERs()</a></code> to find the overlap between the ERs and junctions. Furthermore, <code><a href="../reference/annotatERs.html">annotatERs()</a></code> will also classify ERs by their overlap with existing reference annotation into the categories; “exon”, “intron” and “intergenic”. This can be helpful for two reasons. Primarily, junctions can be used to inform which gene the ER is associated to. This gene-level association can be useful multiple downstream applications, such as novel exon discovery. Furthermore, the category of ER, in terms of whether it overlaps a exonic, intronic or intergenic region, can help determine whether the ER represents novel expression. For example, ERs solely overlapping intronic or intergenic regions and associated with a gene can be the indication of the expression of an unannotated exon.</p>
 <p>To note, it is recommended that the inputted junctions are derived from the same samples or tissue as the <code>BigWig</code> files used to define ERs.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># running only chr21 to reduce runtime</span>
-<span class="va">chrs_to_keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"21"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co"># running only chr21 to reduce runtime</span>
+<span class="va">chrs_to_keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"21"</span><span class="op">)</span>
 
 <span class="co"># prepare the txdb object to create a genomic state</span>
 <span class="co"># based on https://support.bioconductor.org/p/93235/</span>
-<span class="va">hg38_chrominfo</span> <span class="op">&lt;-</span> <span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/getChromInfoFromUCSC.html">getChromInfoFromUCSC</a></span><span class="op">(</span><span class="st">"hg38"</span><span class="op">)</span>
+<span class="va">hg38_chrominfo</span> <span class="op">&lt;-</span> <span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/getChromInfoFromUCSC.html" class="external-link">getChromInfoFromUCSC</a></span><span class="op">(</span><span class="st">"hg38"</span><span class="op">)</span>
 
-<span class="va">new_info</span> <span class="op">&lt;-</span> <span class="va">hg38_chrominfo</span><span class="op">$</span><span class="va">size</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span>
+<span class="va">new_info</span> <span class="op">&lt;-</span> <span class="va">hg38_chrominfo</span><span class="op">$</span><span class="va">size</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span>
     <span class="va">chrs_to_keep</span>,
-    <span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html">mapSeqlevels</a></span><span class="op">(</span><span class="va">hg38_chrominfo</span><span class="op">$</span><span class="va">chrom</span>, <span class="st">"Ensembl"</span><span class="op">)</span>
+    <span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html" class="external-link">mapSeqlevels</a></span><span class="op">(</span><span class="va">hg38_chrominfo</span><span class="op">$</span><span class="va">chrom</span>, <span class="st">"Ensembl"</span><span class="op">)</span>
 <span class="op">)</span><span class="op">]</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">new_info</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">chrs_to_keep</span>
-<span class="va">gtf_gr_tx</span> <span class="op">&lt;-</span> <span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqlevels-wrappers.html">keepSeqlevels</a></span><span class="op">(</span><span class="va">gtf_gr</span>,
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">new_info</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">chrs_to_keep</span>
+<span class="va">gtf_gr_tx</span> <span class="op">&lt;-</span> <span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqlevels-wrappers.html" class="external-link">keepSeqlevels</a></span><span class="op">(</span><span class="va">gtf_gr</span>,
     <span class="va">chrs_to_keep</span>,
     pruning.mode <span class="op">=</span> <span class="st">"tidy"</span>
 <span class="op">)</span>
 
-<span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqinfo.html">seqlengths</a></span><span class="op">(</span><span class="va">gtf_gr_tx</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">new_info</span>
-<span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html">seqlevelsStyle</a></span><span class="op">(</span><span class="va">gtf_gr_tx</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"UCSC"</span>
+<span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqinfo.html" class="external-link">seqlengths</a></span><span class="op">(</span><span class="va">gtf_gr_tx</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">new_info</span>
+<span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html" class="external-link">seqlevelsStyle</a></span><span class="op">(</span><span class="va">gtf_gr_tx</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"UCSC"</span>
 <span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu">genome</span><span class="op">(</span><span class="va">gtf_gr_tx</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"hg38"</span>
 
-<span class="va">ucsc_txdb</span> <span class="op">&lt;-</span> <span class="fu">GenomicFeatures</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomicFeatures/man/makeTxDbFromGRanges.html">makeTxDbFromGRanges</a></span><span class="op">(</span><span class="va">gtf_gr_tx</span><span class="op">)</span>
+<span class="va">ucsc_txdb</span> <span class="op">&lt;-</span> <span class="fu">GenomicFeatures</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomicFeatures/man/makeTxDbFromGRanges.html" class="external-link">makeTxDbFromGRanges</a></span><span class="op">(</span><span class="va">gtf_gr_tx</span><span class="op">)</span>
 <span class="co">#&gt; Warning in .get_cds_IDX(mcols0$type, mcols0$phase): The "phase" metadata column contains non-NA values for features of type</span>
 <span class="co">#&gt;   stop_codon. This information was ignored.</span>
-<span class="va">genom_state</span> <span class="op">&lt;-</span> <span class="fu">derfinder</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/derfinder/man/makeGenomicState.html">makeGenomicState</a></span><span class="op">(</span>txdb <span class="op">=</span> <span class="va">ucsc_txdb</span><span class="op">)</span>
+<span class="va">genom_state</span> <span class="op">&lt;-</span> <span class="fu">derfinder</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/derfinder/man/makeGenomicState.html" class="external-link">makeGenomicState</a></span><span class="op">(</span>txdb <span class="op">=</span> <span class="va">ucsc_txdb</span><span class="op">)</span>
 <span class="co">#&gt; extendedMapSeqlevels: sequence names mapped from NCBI to UCSC for species homo_sapiens</span>
 <span class="co">#&gt; 'select()' returned 1:1 mapping between keys and columns</span>
-
 <span class="co"># convert UCSC chrs format to Ensembl to match the ERs</span>
 <span class="va">ens_txdb</span> <span class="op">&lt;-</span> <span class="va">ucsc_txdb</span>
-<span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html">seqlevelsStyle</a></span><span class="op">(</span><span class="va">ens_txdb</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"Ensembl"</span>
+<span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html" class="external-link">seqlevelsStyle</a></span><span class="op">(</span><span class="va">ens_txdb</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"Ensembl"</span>
 
 <span class="co"># lung_junc_21_22 is an example data set of junctions</span>
 <span class="co"># obtained from recount3, derived from the lung tissue</span>
 <span class="co"># run annotatERs()</span>
 <span class="va">annot_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/annotatERs.html">annotatERs</a></span><span class="op">(</span>
-    opt_ers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">opt_ers</span><span class="op">[[</span><span class="st">"opt_ers"</span><span class="op">]</span><span class="op">]</span>, <span class="fl">100</span><span class="op">)</span>,
+    opt_ers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">opt_ers</span><span class="op">[[</span><span class="st">"opt_ers"</span><span class="op">]</span><span class="op">]</span>, <span class="fl">100</span><span class="op">)</span>,
     junc_data <span class="op">=</span> <span class="va">lung_junc_21_22</span>,
     genom_state <span class="op">=</span> <span class="va">genom_state</span>,
     gtf <span class="op">=</span> <span class="va">gtf_gr</span>,
     txdb <span class="op">=</span> <span class="va">ens_txdb</span>
 <span class="op">)</span>
-<span class="co">#&gt; [1] "2021-09-04 10:17:02 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span>
-<span class="co">#&gt; [1] "2021-09-04 10:17:03 - Getting junction annotation using overlapping exons..."</span>
-<span class="co">#&gt; [1] "2021-09-04 10:17:03 - Tidying junction annotation..."</span>
-<span class="co">#&gt; [1] "2021-09-04 10:17:03 - Deriving junction categories..."</span>
-<span class="co">#&gt; [1] "2021-09-04 10:17:04 - done!"</span>
-<span class="co">#&gt; [1] "2021-09-04 10:17:04 - Finding junctions overlapping ers..."</span>
-<span class="co">#&gt; [1] "2021-09-04 10:17:05 - Annotating the Expressed regions..."</span>
-<span class="co">#&gt; 2021-09-04 10:17:05 annotateRegions: counting</span>
-<span class="co">#&gt; 2021-09-04 10:17:05 annotateRegions: annotating</span>
-<span class="co">#&gt; [1] "2021-09-04 10:17:07 - done!"</span>
-
+<span class="co">#&gt; [1] "2021-09-13 17:12:02 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span>
+<span class="co">#&gt; [1] "2021-09-13 17:12:02 - Getting junction annotation using overlapping exons..."</span>
+<span class="co">#&gt; [1] "2021-09-13 17:12:03 - Tidying junction annotation..."</span>
+<span class="co">#&gt; [1] "2021-09-13 17:12:03 - Deriving junction categories..."</span>
+<span class="co">#&gt; [1] "2021-09-13 17:12:03 - done!"</span>
+<span class="co">#&gt; [1] "2021-09-13 17:12:04 - Finding junctions overlapping ers..."</span>
+<span class="co">#&gt; [1] "2021-09-13 17:12:05 - Annotating the Expressed regions..."</span>
+<span class="co">#&gt; 2021-09-13 17:12:05 annotateRegions: counting</span>
+<span class="co">#&gt; 2021-09-13 17:12:05 annotateRegions: annotating</span>
+<span class="co">#&gt; [1] "2021-09-13 17:12:09 - done!"</span>
 <span class="co"># print first 5 ERs</span>
 <span class="va">annot_ers</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>
 <span class="co">#&gt; GRanges object with 5 ranges and 5 metadata columns:</span>
@@ -341,10 +326,8 @@
 <span class="co">#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths</span></code></pre></div>
 <p>After we have annotated ERs with the overlapping junctions, optionally we can use <code>refine_ers()</code> to refine the starts and ends of the ERs based on the overlapping junctions. This will filter ERs for those which have either a single or two non-intersecting junctions overlapping. For the remaining ERs, <code>refine_ers()</code> will shave the ER definitions to the exon boundaries matching the overlapping junctions. This can be useful for downstream applications whereby the accuracy of the ER definition is extremely important. For example, the interpretion of variants in diagnostic setting.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">refined_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/refine_ERs.html">refine_ERs</a></span><span class="op">(</span><span class="va">annot_ers</span><span class="op">)</span>
-<span class="co">#&gt; [1] "2021-09-04 10:17:08 - Refining the Expressed regions..."</span>
-
+<code class="sourceCode R"><span class="va">refined_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/refine_ERs.html">refine_ERs</a></span><span class="op">(</span><span class="va">annot_ers</span><span class="op">)</span>
+<span class="co">#&gt; [1] "2021-09-13 17:12:09 - Refining the Expressed regions..."</span>
 <span class="va">refined_ers</span>
 <span class="co">#&gt; GRanges object with 2 ranges and 5 metadata columns:</span>
 <span class="co">#&gt;       seqnames          ranges strand |                     grl           genes</span>
@@ -357,21 +340,19 @@
 <span class="co">#&gt;   [2]      intron        71 nearest gtf genes</span>
 <span class="co">#&gt;   -------</span>
 <span class="co">#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths</span></code></pre></div>
-<p>Finally, we can generate an ER count matrix with <code><a href="../reference/get_count_matrix.html">get_count_matrix()</a></code>. This function can flexibly be run at any stage of the <code>ODER</code> pipeline and it requires a set of <code>GenomicRanges</code> and <code>BigWig</code> paths as input. <code><a href="../reference/get_count_matrix.html">get_count_matrix()</a></code> will return a <code>RangedSummarizedExperiment</code> which has <code>assays</code> filled with the mean coverage across each inputted range. Internally, <code><a href="../reference/get_count_matrix.html">get_count_matrix()</a></code> relies on <em><a href="https://bioconductor.org/packages/3.12/megadepth">megadepth</a></em> to obtain coverage from <code>BigWigs</code> therefore <code><a href="https://rdrr.io/pkg/megadepth/man/install_megadepth.html">megadepth::install_megadepth()</a></code> must be executed at least once on the user’s system before <code><a href="../reference/get_count_matrix.html">get_count_matrix()</a></code>.</p>
+<p>Finally, we can generate an ER count matrix with <code><a href="../reference/get_count_matrix.html">get_count_matrix()</a></code>. This function can flexibly be run at any stage of the <code>ODER</code> pipeline and it requires a set of <code>GenomicRanges</code> and <code>BigWig</code> paths as input. <code><a href="../reference/get_count_matrix.html">get_count_matrix()</a></code> will return a <code>RangedSummarizedExperiment</code> which has <code>assays</code> filled with the mean coverage across each inputted range. Internally, <code><a href="../reference/get_count_matrix.html">get_count_matrix()</a></code> relies on <em><a href="https://bioconductor.org/packages/3.14/megadepth" class="external-link">megadepth</a></em> to obtain coverage from <code>BigWigs</code> therefore <code><a href="https://rdrr.io/pkg/megadepth/man/install_megadepth.html" class="external-link">megadepth::install_megadepth()</a></code> must be executed at least once on the user’s system before <code><a href="../reference/get_count_matrix.html">get_count_matrix()</a></code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># create sample metadata containing identifiers for each BigWig</span>
+<code class="sourceCode R"><span class="co"># create sample metadata containing identifiers for each BigWig</span>
 <span class="va">run</span> <span class="op">&lt;-</span> <span class="va">gtex_metadata</span><span class="op">[[</span><span class="st">"run"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
-<span class="va">col_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">run</span><span class="op">)</span>
+<span class="va">col_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">run</span><span class="op">)</span>
 
 <span class="co"># install megadepth</span>
-<span class="fu">megadepth</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/megadepth/man/install_megadepth.html">install_megadepth</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu">megadepth</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/megadepth/man/install_megadepth.html" class="external-link">install_megadepth</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; The latest megadepth version is 1.1.1</span>
-<span class="co">#&gt; megadepth has been installed to /github/home/bin</span>
-
+<span class="co">#&gt; This is not an interactive session, therefore megadepth has been installed temporarily to </span>
+<span class="co">#&gt; /tmp/RtmpIssFmn/megadepth</span>
 <span class="va">er_count_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_count_matrix.html">get_count_matrix</a></span><span class="op">(</span>bw_paths <span class="op">=</span> <span class="va">bw_path</span>, annot_ers <span class="op">=</span> <span class="va">annot_ers</span>, cols <span class="op">=</span> <span class="va">col_info</span><span class="op">)</span>
 <span class="co">#&gt; Warning in is.na(.x): is.na() applied to non-(list or vector) of type 'S4'</span>
-
 <span class="va">er_count_matrix</span>
 <span class="co">#&gt; class: RangedSummarizedExperiment </span>
 <span class="co">#&gt; dim: 100 1 </span>
@@ -385,217 +366,225 @@
 </div>
 <div id="reproducibility" class="section level1">
 <h1 class="hasAnchor">
-<a href="#reproducibility" class="anchor"></a>Reproducibility</h1>
-<p>The <em><a href="https://bioconductor.org/packages/3.12/dasper">dasper</a></em> package was made possible thanks to:</p>
+<a href="#reproducibility" class="anchor" aria-hidden="true"></a>Reproducibility</h1>
+<p>The <em><a href="https://bioconductor.org/packages/3.14/dasper" class="external-link">dasper</a></em> package was made possible thanks to:</p>
 <ul>
-<li>R (R Core Team, 2020)</li>
+<li>R (R Core Team, 2021)</li>
 <li>
-<em><a href="https://bioconductor.org/packages/3.12/BiocStyle">BiocStyle</a></em> (Oleś, Morgan, and Huber, 2020)</li>
+<em><a href="https://bioconductor.org/packages/3.14/BiocStyle" class="external-link">BiocStyle</a></em> (Oleś, 2021)</li>
 <li>
-<em><a href="https://CRAN.R-project.org/package=RefManageR">RefManageR</a></em> (McLean, 2017)</li>
+<em><a href="https://CRAN.R-project.org/package=RefManageR" class="external-link">RefManageR</a></em> (McLean, 2017)</li>
 <li>
-<em><a href="https://CRAN.R-project.org/package=knitr">knitr</a></em> (Xie, 2021)</li>
+<em><a href="https://CRAN.R-project.org/package=knitr" class="external-link">knitr</a></em> (Xie, 2021)</li>
 <li>
-<em><a href="https://CRAN.R-project.org/package=rmarkdown">rmarkdown</a></em> (Allaire, Xie, McPherson, Luraschi, Ushey, Atkins, Wickham, Cheng, Chang, and Iannone, 2020)</li>
+<em><a href="https://CRAN.R-project.org/package=rmarkdown" class="external-link">rmarkdown</a></em> (Allaire, Xie, McPherson, Luraschi, Ushey, Atkins, Wickham, Cheng, Chang, and Iannone, 2021)</li>
 <li>
-<em><a href="https://CRAN.R-project.org/package=sessioninfo">sessioninfo</a></em> (Csárdi, core, Wickham, Chang, Flight, Müller, and Hester, 2018)</li>
+<em><a href="https://CRAN.R-project.org/package=sessioninfo" class="external-link">sessioninfo</a></em> (Csárdi, core, Wickham, Chang, Flight, Müller, and Hester, 2018)</li>
 <li>
-<em><a href="https://CRAN.R-project.org/package=testthat">testthat</a></em> (Wickham, 2011)</li>
+<em><a href="https://CRAN.R-project.org/package=testthat" class="external-link">testthat</a></em> (Wickham, 2011)</li>
 </ul>
-<p>This package was developed using <em><a href="https://bioconductor.org/packages/3.12/biocthis">biocthis</a></em>.</p>
+<p>This package was developed using <em><a href="https://bioconductor.org/packages/3.14/biocthis" class="external-link">biocthis</a></em>.</p>
 <p>Code for creating the vignette</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Create the vignette</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rstudio/rmarkdown">"rmarkdown"</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/rmarkdown/man/render.html">render</a></span><span class="op">(</span><span class="st">"ODER.Rmd"</span>, <span class="st">"BiocStyle::html_document"</span><span class="op">)</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rstudio/rmarkdown" class="external-link">"rmarkdown"</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">render</a></span><span class="op">(</span><span class="st">"ODER.Rmd"</span>, <span class="st">"BiocStyle::html_document"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">## Extract the R code</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/">"knitr"</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html">knit</a></span><span class="op">(</span><span class="st">"ODER.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/" class="external-link">"knitr"</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knit</a></span><span class="op">(</span><span class="st">"ODER.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code>#&gt; [1] "2021-09-04 10:17:17 UTC"</code></pre>
+<pre><code>#&gt; [1] "2021-09-13 17:12:29 UTC"</code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code>#&gt; Time difference of 1.548 mins</code></pre>
+<pre><code>#&gt; Time difference of 1.767 mins</code></pre>
 <p><code>R</code> session information.</p>
 <pre><code>#&gt; ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt;  setting  value                       
-#&gt;  version  R version 4.0.3 (2020-10-10)
-#&gt;  os       Ubuntu 20.04 LTS            
+#&gt;  version  R version 4.1.1 (2021-08-10)
+#&gt;  os       Ubuntu 20.04.3 LTS          
 #&gt;  system   x86_64, linux-gnu           
 #&gt;  ui       X11                         
 #&gt;  language (EN)                        
 #&gt;  collate  en_US.UTF-8                 
 #&gt;  ctype    en_US.UTF-8                 
-#&gt;  tz       Etc/UTC                     
-#&gt;  date     2021-09-04                  
+#&gt;  tz       UTC                         
+#&gt;  date     2021-09-13                  
 #&gt; 
 #&gt; ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────
-#&gt;  package              * version  date       lib source        
-#&gt;  abind                  1.4-5    2016-07-21 [1] RSPM (R 4.0.3)
-#&gt;  AnnotationDbi          1.52.0   2020-10-27 [1] Bioconductor  
-#&gt;  askpass                1.1      2019-01-13 [2] RSPM (R 4.0.3)
-#&gt;  assertthat             0.2.1    2019-03-21 [2] RSPM (R 4.0.3)
-#&gt;  backports              1.2.1    2020-12-09 [1] RSPM (R 4.0.3)
-#&gt;  base64enc              0.1-3    2015-07-28 [2] RSPM (R 4.0.3)
-#&gt;  basilisk               1.2.1    2020-12-16 [1] Bioconductor  
-#&gt;  basilisk.utils         1.2.2    2021-01-27 [1] Bioconductor  
-#&gt;  Biobase                2.50.0   2020-10-27 [1] Bioconductor  
-#&gt;  BiocFileCache          1.14.0   2020-10-27 [1] Bioconductor  
-#&gt;  BiocGenerics         * 0.36.1   2021-04-16 [1] Bioconductor  
-#&gt;  BiocManager            1.30.10  2019-11-16 [1] RSPM (R 4.0.0)
-#&gt;  BiocParallel           1.24.1   2020-11-06 [1] Bioconductor  
-#&gt;  BiocStyle            * 2.18.1   2020-11-24 [1] Bioconductor  
-#&gt;  biomaRt                2.46.3   2021-02-09 [1] Bioconductor  
-#&gt;  Biostrings             2.58.0   2020-10-27 [1] Bioconductor  
-#&gt;  bit                    4.0.4    2020-08-04 [1] RSPM (R 4.0.3)
-#&gt;  bit64                  4.0.5    2020-08-30 [1] RSPM (R 4.0.3)
-#&gt;  bitops                 1.0-6    2013-08-17 [1] RSPM (R 4.0.3)
-#&gt;  blob                   1.2.1    2020-01-20 [1] RSPM (R 4.0.3)
-#&gt;  bookdown               0.21     2020-10-13 [1] RSPM (R 4.0.2)
-#&gt;  broom                  0.7.4    2021-01-29 [1] RSPM (R 4.0.3)
-#&gt;  BSgenome               1.58.0   2020-10-27 [1] Bioconductor  
-#&gt;  bumphunter             1.32.0   2020-10-27 [1] Bioconductor  
-#&gt;  cachem                 1.0.4    2021-02-13 [2] RSPM (R 4.0.3)
-#&gt;  car                    3.0-10   2020-09-29 [1] RSPM (R 4.0.3)
-#&gt;  carData                3.0-4    2020-05-22 [1] RSPM (R 4.0.3)
-#&gt;  cellranger             1.1.0    2016-07-27 [1] RSPM (R 4.0.3)
-#&gt;  checkmate              2.0.0    2020-02-06 [1] RSPM (R 4.0.3)
-#&gt;  cli                    2.3.0    2021-01-31 [2] RSPM (R 4.0.3)
-#&gt;  cluster                2.1.1    2021-02-14 [3] RSPM (R 4.0.3)
-#&gt;  cmdfun                 1.0.2    2020-10-10 [1] RSPM (R 4.0.2)
-#&gt;  codetools              0.2-18   2020-11-04 [3] RSPM (R 4.0.3)
-#&gt;  colorspace             2.0-0    2020-11-11 [1] RSPM (R 4.0.3)
-#&gt;  cowplot                1.1.1    2020-12-30 [1] RSPM (R 4.0.3)
-#&gt;  crayon                 1.4.1    2021-02-08 [2] RSPM (R 4.0.3)
-#&gt;  curl                   4.3      2019-12-02 [2] RSPM (R 4.0.3)
-#&gt;  dasper                 1.0.0    2020-10-27 [1] Bioconductor  
-#&gt;  data.table             1.13.6   2020-12-30 [1] RSPM (R 4.0.3)
-#&gt;  DBI                    1.1.1    2021-01-15 [1] RSPM (R 4.0.3)
-#&gt;  dbplyr                 2.1.0    2021-02-03 [1] RSPM (R 4.0.3)
-#&gt;  DelayedArray           0.16.3   2021-03-24 [1] Bioconductor  
-#&gt;  derfinder              1.24.2   2020-12-18 [1] Bioconductor  
-#&gt;  derfinderHelper        1.24.1   2020-12-18 [1] Bioconductor  
-#&gt;  desc                   1.2.0    2018-05-01 [2] RSPM (R 4.0.3)
-#&gt;  diffobj                0.3.3    2021-01-07 [2] RSPM (R 4.0.3)
-#&gt;  digest                 0.6.27   2020-10-24 [2] RSPM (R 4.0.3)
-#&gt;  doRNG                  1.8.2    2020-01-27 [1] RSPM (R 4.0.3)
-#&gt;  downloader             0.4      2015-07-09 [1] RSPM (R 4.0.3)
-#&gt;  dplyr                  1.0.4    2021-02-02 [1] RSPM (R 4.0.3)
-#&gt;  ellipsis               0.3.1    2020-05-15 [2] RSPM (R 4.0.3)
-#&gt;  evaluate               0.14     2019-05-28 [2] RSPM (R 4.0.3)
-#&gt;  farver                 2.0.3    2020-01-16 [1] RSPM (R 4.0.3)
-#&gt;  fastmap                1.1.0    2021-01-25 [2] RSPM (R 4.0.3)
-#&gt;  filelock               1.0.2    2018-10-05 [1] RSPM (R 4.0.0)
-#&gt;  forcats                0.5.1    2021-01-27 [1] RSPM (R 4.0.3)
-#&gt;  foreach                1.5.1    2020-10-15 [1] RSPM (R 4.0.3)
-#&gt;  foreign                0.8-81   2020-12-22 [3] RSPM (R 4.0.3)
-#&gt;  Formula                1.2-4    2020-10-16 [1] RSPM (R 4.0.3)
-#&gt;  fs                     1.5.0    2020-07-31 [2] RSPM (R 4.0.3)
-#&gt;  generics               0.1.0    2020-10-31 [1] RSPM (R 4.0.3)
-#&gt;  GenomeInfoDb         * 1.26.7   2021-04-08 [1] Bioconductor  
-#&gt;  GenomeInfoDbData       1.2.4    2021-08-24 [1] Bioconductor  
-#&gt;  GenomicAlignments      1.26.0   2020-10-27 [1] Bioconductor  
-#&gt;  GenomicFeatures        1.42.3   2021-04-01 [1] Bioconductor  
-#&gt;  GenomicFiles           1.26.0   2020-10-27 [1] Bioconductor  
-#&gt;  GenomicRanges          1.42.0   2020-10-27 [1] Bioconductor  
-#&gt;  GEOquery               2.58.0   2020-10-27 [1] Bioconductor  
-#&gt;  ggplot2                3.3.3    2020-12-30 [1] RSPM (R 4.0.3)
-#&gt;  ggpubr                 0.4.0    2020-06-27 [1] RSPM (R 4.0.3)
-#&gt;  ggrepel                0.9.1    2021-01-15 [1] RSPM (R 4.0.3)
-#&gt;  ggsignif               0.6.0    2019-08-08 [1] RSPM (R 4.0.3)
-#&gt;  glue                   1.4.2    2020-08-27 [2] RSPM (R 4.0.3)
-#&gt;  gridExtra              2.3      2017-09-09 [1] RSPM (R 4.0.3)
-#&gt;  gtable                 0.3.0    2019-03-25 [1] RSPM (R 4.0.3)
-#&gt;  haven                  2.3.1    2020-06-01 [1] RSPM (R 4.0.3)
-#&gt;  highr                  0.8      2019-03-20 [2] RSPM (R 4.0.3)
-#&gt;  Hmisc                  4.4-2    2020-11-29 [1] RSPM (R 4.0.3)
-#&gt;  hms                    1.0.0    2021-01-13 [1] RSPM (R 4.0.3)
-#&gt;  htmlTable              2.1.0    2020-09-16 [1] RSPM (R 4.0.3)
-#&gt;  htmltools              0.5.1.1  2021-01-22 [2] RSPM (R 4.0.3)
-#&gt;  htmlwidgets            1.5.3    2020-12-10 [2] RSPM (R 4.0.3)
-#&gt;  httr                   1.4.2    2020-07-20 [2] RSPM (R 4.0.3)
-#&gt;  IRanges              * 2.24.1   2020-12-12 [1] Bioconductor  
-#&gt;  iterators              1.0.13   2020-10-15 [1] RSPM (R 4.0.3)
-#&gt;  jpeg                   0.1-8.1  2019-10-24 [1] RSPM (R 4.0.3)
-#&gt;  jsonlite               1.7.2    2020-12-09 [2] RSPM (R 4.0.3)
-#&gt;  knitr                  1.31     2021-01-27 [2] RSPM (R 4.0.3)
-#&gt;  labeling               0.4.2    2020-10-20 [1] RSPM (R 4.0.3)
-#&gt;  lattice                0.20-41  2020-04-02 [3] CRAN (R 4.0.3)
-#&gt;  latticeExtra           0.6-29   2019-12-19 [1] RSPM (R 4.0.3)
-#&gt;  lifecycle              1.0.0    2021-02-15 [2] RSPM (R 4.0.3)
-#&gt;  limma                  3.46.0   2020-10-27 [1] Bioconductor  
-#&gt;  locfit                 1.5-9.4  2020-03-25 [1] RSPM (R 4.0.3)
-#&gt;  lubridate              1.7.9.2  2020-11-13 [1] RSPM (R 4.0.3)
-#&gt;  magrittr             * 2.0.1    2020-11-17 [2] RSPM (R 4.0.3)
-#&gt;  Matrix                 1.3-2    2021-01-06 [3] RSPM (R 4.0.3)
-#&gt;  MatrixGenerics         1.2.1    2021-01-30 [1] Bioconductor  
-#&gt;  matrixStats            0.58.0   2021-01-29 [1] RSPM (R 4.0.3)
-#&gt;  megadepth              1.0.3    2021-02-03 [1] Bioconductor  
-#&gt;  memoise                2.0.0    2021-01-26 [2] RSPM (R 4.0.3)
-#&gt;  munsell                0.5.0    2018-06-12 [1] RSPM (R 4.0.3)
-#&gt;  nnet                   7.3-15   2021-01-24 [3] RSPM (R 4.0.3)
-#&gt;  ODER                 * 0.99.8   2021-09-04 [1] Bioconductor  
-#&gt;  openssl                1.4.3    2020-09-18 [2] RSPM (R 4.0.3)
-#&gt;  openxlsx               4.2.3    2020-10-27 [1] RSPM (R 4.0.3)
-#&gt;  pillar                 1.4.7    2020-11-20 [2] RSPM (R 4.0.3)
-#&gt;  pkgconfig              2.0.3    2019-09-22 [2] RSPM (R 4.0.3)
-#&gt;  pkgdown                1.6.1    2020-09-12 [1] RSPM (R 4.0.2)
-#&gt;  pkgload                1.1.0    2020-05-29 [2] RSPM (R 4.0.3)
-#&gt;  plyr                   1.8.6    2020-03-03 [1] RSPM (R 4.0.3)
-#&gt;  png                    0.1-7    2013-12-03 [1] RSPM (R 4.0.3)
-#&gt;  prettyunits            1.1.1    2020-01-24 [2] RSPM (R 4.0.3)
-#&gt;  progress               1.2.2    2019-05-16 [1] RSPM (R 4.0.3)
-#&gt;  purrr                  0.3.4    2020-04-17 [2] RSPM (R 4.0.3)
-#&gt;  qvalue                 2.22.0   2020-10-27 [1] Bioconductor  
-#&gt;  R6                     2.5.0    2020-10-28 [2] RSPM (R 4.0.3)
-#&gt;  ragg                   1.1.0    2021-02-15 [1] RSPM (R 4.0.3)
-#&gt;  rappdirs               0.3.3    2021-01-31 [2] RSPM (R 4.0.3)
-#&gt;  RColorBrewer           1.1-2    2014-12-07 [1] RSPM (R 4.0.3)
-#&gt;  Rcpp                   1.0.6    2021-01-15 [2] RSPM (R 4.0.3)
-#&gt;  RCurl                  1.98-1.2 2020-04-18 [1] RSPM (R 4.0.3)
-#&gt;  readr                  1.4.0    2020-10-05 [1] RSPM (R 4.0.3)
-#&gt;  readxl                 1.3.1    2019-03-13 [1] RSPM (R 4.0.3)
-#&gt;  recount                1.16.1   2020-12-18 [1] Bioconductor  
-#&gt;  RefManageR           * 1.3.0    2020-11-13 [1] RSPM (R 4.0.3)
-#&gt;  rematch2               2.1.2    2020-05-01 [2] RSPM (R 4.0.3)
-#&gt;  rentrez                1.2.3    2020-11-10 [1] RSPM (R 4.0.3)
-#&gt;  reshape2               1.4.4    2020-04-09 [1] RSPM (R 4.0.3)
-#&gt;  reticulate             1.18     2020-10-25 [1] RSPM (R 4.0.3)
-#&gt;  rio                    0.5.16   2018-11-26 [1] RSPM (R 4.0.3)
-#&gt;  rlang                  0.4.10   2020-12-30 [2] RSPM (R 4.0.3)
-#&gt;  rmarkdown              2.6      2020-12-14 [1] RSPM (R 4.0.3)
-#&gt;  rngtools               1.5      2020-01-23 [1] RSPM (R 4.0.3)
-#&gt;  rpart                  4.1-15   2019-04-12 [3] CRAN (R 4.0.3)
-#&gt;  rprojroot              2.0.2    2020-11-15 [2] RSPM (R 4.0.3)
-#&gt;  Rsamtools              2.6.0    2020-10-27 [1] Bioconductor  
-#&gt;  RSQLite                2.2.3    2021-01-24 [1] RSPM (R 4.0.3)
-#&gt;  rstatix                0.7.0    2021-02-13 [1] RSPM (R 4.0.3)
-#&gt;  rstudioapi             0.13     2020-11-12 [2] RSPM (R 4.0.3)
-#&gt;  rtracklayer            1.50.0   2020-10-27 [1] Bioconductor  
-#&gt;  S4Vectors            * 0.28.1   2020-12-09 [1] Bioconductor  
-#&gt;  scales                 1.1.1    2020-05-11 [1] RSPM (R 4.0.3)
-#&gt;  sessioninfo          * 1.1.1    2018-11-05 [2] RSPM (R 4.0.3)
-#&gt;  stringi                1.5.3    2020-09-09 [2] RSPM (R 4.0.3)
-#&gt;  stringr                1.4.0    2019-02-10 [2] RSPM (R 4.0.3)
-#&gt;  SummarizedExperiment   1.20.0   2020-10-27 [1] Bioconductor  
-#&gt;  survival               3.2-7    2020-09-28 [3] CRAN (R 4.0.3)
-#&gt;  systemfonts            1.0.1    2021-02-09 [1] RSPM (R 4.0.3)
-#&gt;  testthat               3.0.2    2021-02-14 [2] RSPM (R 4.0.3)
-#&gt;  textshaping            0.3.0    2021-02-10 [1] RSPM (R 4.0.3)
-#&gt;  tibble                 3.0.6    2021-01-29 [2] RSPM (R 4.0.3)
-#&gt;  tidyr                  1.1.2    2020-08-27 [1] RSPM (R 4.0.3)
-#&gt;  tidyselect             1.1.0    2020-05-11 [1] RSPM (R 4.0.3)
-#&gt;  VariantAnnotation      1.36.0   2020-10-27 [1] Bioconductor  
-#&gt;  vctrs                  0.3.6    2020-12-17 [2] RSPM (R 4.0.3)
-#&gt;  waldo                  0.2.4    2021-02-11 [2] RSPM (R 4.0.3)
-#&gt;  withr                  2.4.1    2021-01-26 [2] RSPM (R 4.0.3)
-#&gt;  xfun                   0.21     2021-02-10 [2] RSPM (R 4.0.3)
-#&gt;  XML                    3.99-0.5 2020-07-23 [1] RSPM (R 4.0.3)
-#&gt;  xml2                   1.3.2    2020-04-23 [2] RSPM (R 4.0.3)
-#&gt;  XVector                0.30.0   2020-10-27 [1] Bioconductor  
-#&gt;  yaml                   2.2.1    2020-02-01 [2] RSPM (R 4.0.3)
-#&gt;  zip                    2.1.1    2020-08-27 [2] RSPM (R 4.0.3)
-#&gt;  zlibbioc               1.36.0   2020-10-27 [1] Bioconductor  
+#&gt;  package              * version    date       lib source                        
+#&gt;  abind                  1.4-5      2016-07-21 [1] RSPM (R 4.1.0)                
+#&gt;  AnnotationDbi          1.55.1     2021-06-07 [1] Bioconductor                  
+#&gt;  assertthat             0.2.1      2019-03-21 [1] RSPM (R 4.1.0)                
+#&gt;  backports              1.2.1      2020-12-09 [1] RSPM (R 4.1.0)                
+#&gt;  base64enc              0.1-3      2015-07-28 [1] RSPM (R 4.1.0)                
+#&gt;  basilisk               1.5.0      2021-05-19 [1] Bioconductor                  
+#&gt;  basilisk.utils         1.5.0      2021-05-19 [1] Bioconductor                  
+#&gt;  Biobase                2.53.0     2021-05-19 [1] Bioconductor                  
+#&gt;  BiocFileCache          2.1.1      2021-06-23 [1] Bioconductor                  
+#&gt;  BiocGenerics         * 0.39.2     2021-08-18 [1] Bioconductor                  
+#&gt;  BiocIO                 1.3.0      2021-05-19 [1] Bioconductor                  
+#&gt;  BiocManager            1.30.16    2021-06-15 [2] CRAN (R 4.1.1)                
+#&gt;  BiocParallel           1.27.7     2021-09-09 [1] Bioconductor                  
+#&gt;  BiocStyle            * 2.21.3     2021-06-16 [1] Bioconductor                  
+#&gt;  biomaRt                2.49.4     2021-08-12 [1] Bioconductor                  
+#&gt;  Biostrings             2.61.2     2021-08-04 [1] Bioconductor                  
+#&gt;  bit                    4.0.4      2020-08-04 [1] RSPM (R 4.1.0)                
+#&gt;  bit64                  4.0.5      2020-08-30 [1] RSPM (R 4.1.0)                
+#&gt;  bitops                 1.0-7      2021-04-24 [1] RSPM (R 4.1.0)                
+#&gt;  blob                   1.2.2      2021-07-23 [1] RSPM (R 4.1.0)                
+#&gt;  bookdown               0.24       2021-09-02 [1] RSPM (R 4.1.0)                
+#&gt;  broom                  0.7.9      2021-07-27 [1] RSPM (R 4.1.0)                
+#&gt;  BSgenome               1.61.0     2021-05-19 [1] Bioconductor                  
+#&gt;  bslib                  0.3.0      2021-09-02 [1] RSPM (R 4.1.0)                
+#&gt;  bumphunter             1.35.0     2021-05-19 [1] Bioconductor                  
+#&gt;  cachem                 1.0.6      2021-08-19 [2] RSPM (R 4.1.0)                
+#&gt;  car                    3.0-11     2021-06-27 [1] RSPM (R 4.1.0)                
+#&gt;  carData                3.0-4      2020-05-22 [1] RSPM (R 4.1.0)                
+#&gt;  cellranger             1.1.0      2016-07-27 [1] RSPM (R 4.1.0)                
+#&gt;  checkmate              2.0.0      2020-02-06 [1] RSPM (R 4.1.0)                
+#&gt;  cli                    3.0.1      2021-07-17 [2] RSPM (R 4.1.0)                
+#&gt;  cluster                2.1.2      2021-04-17 [3] CRAN (R 4.1.1)                
+#&gt;  cmdfun                 1.0.2      2020-10-10 [1] RSPM (R 4.1.0)                
+#&gt;  codetools              0.2-18     2020-11-04 [3] CRAN (R 4.1.1)                
+#&gt;  colorspace             2.0-2      2021-06-24 [1] RSPM (R 4.1.0)                
+#&gt;  cowplot                1.1.1      2020-12-30 [1] RSPM (R 4.1.0)                
+#&gt;  crayon                 1.4.1      2021-02-08 [2] RSPM (R 4.1.0)                
+#&gt;  curl                   4.3.2      2021-06-23 [2] RSPM (R 4.1.0)                
+#&gt;  dasper                 1.3.2      2021-08-12 [1] Bioconductor                  
+#&gt;  data.table             1.14.0     2021-02-21 [1] RSPM (R 4.1.0)                
+#&gt;  DBI                    1.1.1      2021-01-15 [1] RSPM (R 4.1.0)                
+#&gt;  dbplyr                 2.1.1      2021-04-06 [1] RSPM (R 4.1.0)                
+#&gt;  DelayedArray           0.19.2     2021-09-01 [1] Bioconductor                  
+#&gt;  derfinder              1.27.2     2021-09-10 [1] Bioconductor                  
+#&gt;  derfinderHelper        1.27.1     2021-08-05 [1] Bioconductor                  
+#&gt;  desc                   1.3.0      2021-03-05 [2] RSPM (R 4.1.0)                
+#&gt;  digest                 0.6.27     2020-10-24 [2] RSPM (R 4.1.0)                
+#&gt;  dir.expiry             1.1.0      2021-05-19 [1] Bioconductor                  
+#&gt;  doRNG                  1.8.2      2020-01-27 [1] RSPM (R 4.1.0)                
+#&gt;  downloader             0.4        2015-07-09 [1] RSPM (R 4.1.0)                
+#&gt;  dplyr                  1.0.7      2021-06-18 [2] RSPM (R 4.1.0)                
+#&gt;  ellipsis               0.3.2      2021-04-29 [2] RSPM (R 4.1.0)                
+#&gt;  evaluate               0.14       2019-05-28 [2] RSPM (R 4.1.0)                
+#&gt;  fansi                  0.5.0      2021-05-25 [2] RSPM (R 4.1.0)                
+#&gt;  farver                 2.1.0      2021-02-28 [1] RSPM (R 4.1.0)                
+#&gt;  fastmap                1.1.0      2021-01-25 [2] RSPM (R 4.1.0)                
+#&gt;  filelock               1.0.2      2018-10-05 [1] RSPM (R 4.1.0)                
+#&gt;  forcats                0.5.1      2021-01-27 [1] RSPM (R 4.1.0)                
+#&gt;  foreach                1.5.1      2020-10-15 [1] RSPM (R 4.1.0)                
+#&gt;  foreign                0.8-81     2020-12-22 [3] CRAN (R 4.1.1)                
+#&gt;  Formula                1.2-4      2020-10-16 [1] RSPM (R 4.1.0)                
+#&gt;  fs                     1.5.0      2020-07-31 [2] RSPM (R 4.1.0)                
+#&gt;  generics               0.1.0      2020-10-31 [2] RSPM (R 4.1.0)                
+#&gt;  GenomeInfoDb         * 1.29.8     2021-09-05 [1] Bioconductor                  
+#&gt;  GenomeInfoDbData       1.2.6      2021-07-30 [1] Bioconductor                  
+#&gt;  GenomicAlignments      1.29.0     2021-05-19 [1] Bioconductor                  
+#&gt;  GenomicFeatures        1.45.2     2021-08-26 [1] Bioconductor                  
+#&gt;  GenomicFiles           1.29.0     2021-05-19 [1] Bioconductor                  
+#&gt;  GenomicRanges          1.45.0     2021-05-19 [1] Bioconductor                  
+#&gt;  GEOquery               2.61.0     2021-05-19 [1] Bioconductor                  
+#&gt;  ggplot2                3.3.5      2021-06-25 [1] RSPM (R 4.1.0)                
+#&gt;  ggpubr                 0.4.0      2020-06-27 [1] RSPM (R 4.1.0)                
+#&gt;  ggrepel                0.9.1      2021-01-15 [1] RSPM (R 4.1.0)                
+#&gt;  ggsignif               0.6.3      2021-09-09 [1] RSPM (R 4.1.0)                
+#&gt;  glue                   1.4.2      2020-08-27 [2] RSPM (R 4.1.0)                
+#&gt;  gridExtra              2.3        2017-09-09 [1] RSPM (R 4.1.0)                
+#&gt;  gtable                 0.3.0      2019-03-25 [1] RSPM (R 4.1.0)                
+#&gt;  haven                  2.4.3      2021-08-04 [1] RSPM (R 4.1.0)                
+#&gt;  highr                  0.9        2021-04-16 [2] RSPM (R 4.1.0)                
+#&gt;  Hmisc                  4.5-0      2021-02-28 [1] RSPM (R 4.1.0)                
+#&gt;  hms                    1.1.0      2021-05-17 [1] RSPM (R 4.1.0)                
+#&gt;  htmlTable              2.2.1      2021-05-18 [1] RSPM (R 4.1.0)                
+#&gt;  htmltools              0.5.2      2021-08-25 [1] RSPM (R 4.1.0)                
+#&gt;  htmlwidgets            1.5.4      2021-09-08 [1] RSPM (R 4.1.0)                
+#&gt;  httr                   1.4.2      2020-07-20 [2] RSPM (R 4.1.0)                
+#&gt;  IRanges              * 2.27.2     2021-08-18 [1] Bioconductor                  
+#&gt;  iterators              1.0.13     2020-10-15 [1] RSPM (R 4.1.0)                
+#&gt;  jpeg                   0.1-9      2021-07-24 [1] RSPM (R 4.1.0)                
+#&gt;  jquerylib              0.1.4      2021-04-26 [1] RSPM (R 4.1.0)                
+#&gt;  jsonlite               1.7.2      2020-12-09 [2] RSPM (R 4.1.0)                
+#&gt;  KEGGREST               1.33.0     2021-05-19 [1] Bioconductor                  
+#&gt;  knitr                  1.34       2021-09-09 [2] RSPM (R 4.1.0)                
+#&gt;  labeling               0.4.2      2020-10-20 [1] RSPM (R 4.1.0)                
+#&gt;  lattice                0.20-44    2021-05-02 [3] CRAN (R 4.1.1)                
+#&gt;  latticeExtra           0.6-29     2019-12-19 [1] RSPM (R 4.1.0)                
+#&gt;  lifecycle              1.0.0      2021-02-15 [2] RSPM (R 4.1.0)                
+#&gt;  limma                  3.49.4     2021-08-08 [1] Bioconductor                  
+#&gt;  locfit                 1.5-9.4    2020-03-25 [1] RSPM (R 4.1.0)                
+#&gt;  lubridate              1.7.10     2021-02-26 [1] RSPM (R 4.1.0)                
+#&gt;  magrittr             * 2.0.1      2020-11-17 [2] RSPM (R 4.1.0)                
+#&gt;  Matrix                 1.3-4      2021-06-01 [3] CRAN (R 4.1.1)                
+#&gt;  MatrixGenerics         1.5.4      2021-08-26 [1] Bioconductor                  
+#&gt;  matrixStats            0.60.1     2021-08-23 [1] RSPM (R 4.1.0)                
+#&gt;  megadepth              1.3.3      2021-09-10 [1] Bioconductor                  
+#&gt;  memoise                2.0.0      2021-01-26 [2] RSPM (R 4.1.0)                
+#&gt;  munsell                0.5.0      2018-06-12 [1] RSPM (R 4.1.0)                
+#&gt;  nnet                   7.3-16     2021-05-03 [3] CRAN (R 4.1.1)                
+#&gt;  ODER                 * 0.99.10    2021-09-13 [1] Bioconductor                  
+#&gt;  openxlsx               4.2.4      2021-06-16 [1] RSPM (R 4.1.0)                
+#&gt;  pillar                 1.6.2      2021-07-29 [2] RSPM (R 4.1.0)                
+#&gt;  pkgconfig              2.0.3      2019-09-22 [2] RSPM (R 4.1.0)                
+#&gt;  pkgdown                1.6.1.9001 2021-09-13 [1] Github (r-lib/pkgdown@705ff7c)
+#&gt;  pkgload                1.2.2      2021-09-11 [2] RSPM (R 4.1.0)                
+#&gt;  plyr                   1.8.6      2020-03-03 [1] RSPM (R 4.1.0)                
+#&gt;  png                    0.1-7      2013-12-03 [1] RSPM (R 4.1.0)                
+#&gt;  prettyunits            1.1.1      2020-01-24 [2] RSPM (R 4.1.0)                
+#&gt;  progress               1.2.2      2019-05-16 [1] RSPM (R 4.1.0)                
+#&gt;  purrr                  0.3.4      2020-04-17 [2] RSPM (R 4.1.0)                
+#&gt;  qvalue                 2.25.0     2021-05-19 [1] Bioconductor                  
+#&gt;  R6                     2.5.1      2021-08-19 [2] RSPM (R 4.1.0)                
+#&gt;  ragg                   1.1.3      2021-06-09 [1] RSPM (R 4.1.0)                
+#&gt;  rappdirs               0.3.3      2021-01-31 [2] RSPM (R 4.1.0)                
+#&gt;  RColorBrewer           1.1-2      2014-12-07 [1] RSPM (R 4.1.0)                
+#&gt;  Rcpp                   1.0.7      2021-07-07 [1] RSPM (R 4.1.0)                
+#&gt;  RCurl                  1.98-1.4   2021-08-17 [1] RSPM (R 4.1.0)                
+#&gt;  readr                  2.0.1      2021-08-10 [1] RSPM (R 4.1.0)                
+#&gt;  readxl                 1.3.1      2019-03-13 [1] RSPM (R 4.1.0)                
+#&gt;  recount                1.19.2     2021-08-11 [1] Bioconductor                  
+#&gt;  RefManageR           * 1.3.0      2020-11-13 [1] RSPM (R 4.1.0)                
+#&gt;  rentrez                1.2.3      2020-11-10 [1] RSPM (R 4.1.0)                
+#&gt;  reshape2               1.4.4      2020-04-09 [1] RSPM (R 4.1.0)                
+#&gt;  restfulr               0.0.13     2017-08-06 [1] RSPM (R 4.1.0)                
+#&gt;  reticulate             1.20       2021-05-03 [1] RSPM (R 4.1.0)                
+#&gt;  rio                    0.5.27     2021-06-21 [1] RSPM (R 4.1.0)                
+#&gt;  rjson                  0.2.20     2018-06-08 [1] RSPM (R 4.1.0)                
+#&gt;  rlang                  0.4.11     2021-04-30 [2] RSPM (R 4.1.0)                
+#&gt;  rmarkdown              2.10       2021-08-06 [1] RSPM (R 4.1.0)                
+#&gt;  rngtools               1.5        2020-01-23 [1] RSPM (R 4.1.0)                
+#&gt;  rpart                  4.1-15     2019-04-12 [3] CRAN (R 4.1.1)                
+#&gt;  rprojroot              2.0.2      2020-11-15 [2] RSPM (R 4.1.0)                
+#&gt;  Rsamtools              2.9.1      2021-06-17 [1] Bioconductor                  
+#&gt;  RSQLite                2.2.8      2021-08-21 [1] RSPM (R 4.1.0)                
+#&gt;  rstatix                0.7.0      2021-02-13 [1] RSPM (R 4.1.0)                
+#&gt;  rstudioapi             0.13       2020-11-12 [2] RSPM (R 4.1.0)                
+#&gt;  rtracklayer            1.53.1     2021-08-13 [1] Bioconductor                  
+#&gt;  S4Vectors            * 0.31.3     2021-08-26 [1] Bioconductor                  
+#&gt;  sass                   0.4.0      2021-05-12 [1] RSPM (R 4.1.0)                
+#&gt;  scales                 1.1.1      2020-05-11 [1] RSPM (R 4.1.0)                
+#&gt;  sessioninfo          * 1.1.1      2018-11-05 [2] RSPM (R 4.1.0)                
+#&gt;  stringi                1.7.4      2021-08-25 [2] RSPM (R 4.1.0)                
+#&gt;  stringr                1.4.0      2019-02-10 [2] RSPM (R 4.1.0)                
+#&gt;  SummarizedExperiment   1.23.4     2021-08-25 [1] Bioconductor                  
+#&gt;  survival               3.2-13     2021-08-24 [2] RSPM (R 4.1.0)                
+#&gt;  systemfonts            1.0.2      2021-05-11 [1] RSPM (R 4.1.0)                
+#&gt;  testthat               3.0.4      2021-07-01 [2] RSPM (R 4.1.0)                
+#&gt;  textshaping            0.3.5      2021-06-09 [1] RSPM (R 4.1.0)                
+#&gt;  tibble                 3.1.4      2021-08-25 [2] RSPM (R 4.1.0)                
+#&gt;  tidyr                  1.1.3      2021-03-03 [2] RSPM (R 4.1.0)                
+#&gt;  tidyselect             1.1.1      2021-04-30 [2] RSPM (R 4.1.0)                
+#&gt;  tzdb                   0.1.2      2021-07-20 [1] RSPM (R 4.1.0)                
+#&gt;  utf8                   1.2.2      2021-07-24 [2] RSPM (R 4.1.0)                
+#&gt;  VariantAnnotation      1.39.0     2021-05-19 [1] Bioconductor                  
+#&gt;  vctrs                  0.3.8      2021-04-29 [2] RSPM (R 4.1.0)                
+#&gt;  vroom                  1.5.4      2021-08-05 [1] RSPM (R 4.1.0)                
+#&gt;  waldo                  0.3.0      2021-08-23 [2] RSPM (R 4.1.0)                
+#&gt;  withr                  2.4.2      2021-04-18 [2] RSPM (R 4.1.0)                
+#&gt;  xfun                   0.25       2021-08-06 [2] RSPM (R 4.1.0)                
+#&gt;  XML                    3.99-0.7   2021-08-17 [1] RSPM (R 4.1.0)                
+#&gt;  xml2                   1.3.2      2020-04-23 [2] RSPM (R 4.1.0)                
+#&gt;  XVector                0.33.0     2021-05-19 [1] Bioconductor                  
+#&gt;  yaml                   2.2.1      2020-02-01 [2] RSPM (R 4.1.0)                
+#&gt;  zip                    2.2.0      2021-05-31 [2] RSPM (R 4.1.0)                
+#&gt;  zlibbioc               1.39.0     2021-05-19 [1] Bioconductor                  
 #&gt; 
 #&gt; [1] /__w/_temp/Library
 #&gt; [2] /usr/local/lib/R/site-library
@@ -614,11 +603,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Emmanuel Olagbaju.</p>
+  <p></p>
+<p>Developed by Emmanuel Olagbaju.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -626,6 +617,8 @@
 
   
 
+
+  
 
   </body>
 </html>

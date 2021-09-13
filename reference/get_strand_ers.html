@@ -46,6 +46,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -57,9 +59,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -73,19 +81,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -134,7 +136,7 @@
 (MCCs) and max region gaps (MRGs) from the coverage.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_strand_ers</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_strand_ers</span><span class='op'>(</span>
   <span class='va'>bw_pos</span>,
   <span class='va'>bw_neg</span>,
   <span class='va'>auc_raw_pos</span>,
@@ -144,7 +146,7 @@
   <span class='va'>mccs</span>,
   <span class='va'>mrgs</span>,
   bw_chr <span class='op'>=</span> <span class='st'>"chr"</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,113 +203,118 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 combination of MCC and MRG.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://magrittr.tidyverse.org'>"magrittr"</a></span><span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtex_metadata"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/all_metadata.html'>all_metadata</a></span><span class='op'>(</span><span class='st'>"gtex"</span><span class='op'>)</span>
-    <span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='va'>gtex_metadata</span> <span class='op'>%&gt;%</span>
-        <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-        <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='message'>2021-09-04 10:15:35 downloading the metadata to /tmp/RtmpBRewLt/metadata_clean_gtex.Rdata</span></div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"rec_url"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>rec_url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span>
-        project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,
-        type <span class='op'>=</span> <span class='st'>"samples"</span>,
-        download <span class='op'>=</span> <span class='cn'>FALSE</span>
-    <span class='op'>)</span> <span class='co'># .file_cache is an internal function to download a bigwig file from a link</span>
-    <span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span>
-<span class='op'>}</span>
-<span class='va'>bw_plus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>bw_minus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span><span class='op'>)</span>
-
-<span class='va'>stranded_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_strand_ers</span><span class='op'>(</span>
-    bw_pos <span class='op'>=</span> <span class='va'>bw_plus</span>, bw_neg <span class='op'>=</span> <span class='va'>bw_minus</span>,
-    auc_raw_pos <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span>,
-    auc_raw_neg <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span>, auc_target <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>,
-    chrs <span class='op'>=</span> <span class='st'>"chr21"</span>, mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-09-04 10:15:37 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-09-04 10:15:37 - chr21"
-#&gt; [1] "2021-09-04 10:15:37 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-09-04 10:15:37 - chr21"
-#&gt; [1] "2021-09-04 10:15:37 - Generating ERs for chr21"
-#&gt; [1] "2021-09-04 10:15:38 - Generating ERs for chr21"</div><div class='input'>
-<span class='va'>stranded_ers</span>
-</div><div class='output co'>#&gt; $mcc_5
-#&gt; $mcc_5$mrg_10
-#&gt; GRanges object with 6355 ranges and 0 metadata columns:
-#&gt;          seqnames            ranges strand
-#&gt;             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;      [1]    chr21   5116346-5117232      +
-#&gt;      [2]    chr21   5117340-5117507      +
-#&gt;      [3]    chr21   5117539-5117558      +
-#&gt;      [4]    chr21   5117587-5117592      +
-#&gt;      [5]    chr21   5117605-5117611      +
-#&gt;      ...      ...               ...    ...
-#&gt;   [6351]    chr21 46668354-46668391      -
-#&gt;   [6352]    chr21 46668488-46668581      -
-#&gt;   [6353]    chr21 46690842-46691238      -
-#&gt;   [6354]    chr21 46691775-46691807      -
-#&gt;   [6355]    chr21 46692377-46692446      -
-#&gt;   -------
-#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths
-#&gt; 
-#&gt; $mcc_5$mrg_20
-#&gt; GRanges object with 5503 ranges and 0 metadata columns:
-#&gt;          seqnames            ranges strand
-#&gt;             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;      [1]    chr21   5116346-5117232      +
-#&gt;      [2]    chr21   5117340-5117507      +
-#&gt;      [3]    chr21   5117539-5117558      +
-#&gt;      [4]    chr21   5117587-5117611      +
-#&gt;      [5]    chr21   5117670-5117817      +
-#&gt;      ...      ...               ...    ...
-#&gt;   [5499]    chr21 46668354-46668391      -
-#&gt;   [5500]    chr21 46668488-46668581      -
-#&gt;   [5501]    chr21 46690842-46691238      -
-#&gt;   [5502]    chr21 46691775-46691807      -
-#&gt;   [5503]    chr21 46692377-46692446      -
-#&gt;   -------
-#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths
-#&gt; 
-#&gt; 
-#&gt; $mcc_10
-#&gt; $mcc_10$mrg_10
-#&gt; GRanges object with 4293 ranges and 0 metadata columns:
-#&gt;          seqnames            ranges strand
-#&gt;             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;      [1]    chr21   5116356-5117231      +
-#&gt;      [2]    chr21   5117368-5117396      +
-#&gt;      [3]    chr21   5118691-5118847      +
-#&gt;      [4]    chr21   5120950-5120951      +
-#&gt;      [5]    chr21   5121718-5121803      +
-#&gt;      ...      ...               ...    ...
-#&gt;   [4289]    chr21 46665571-46665576      -
-#&gt;   [4290]    chr21 46665603-46665610      -
-#&gt;   [4291]    chr21 46690860-46691105      -
-#&gt;   [4292]    chr21 46691173-46691177      -
-#&gt;   [4293]    chr21 46691195-46691200      -
-#&gt;   -------
-#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths
-#&gt; 
-#&gt; $mcc_10$mrg_20
-#&gt; GRanges object with 3814 ranges and 0 metadata columns:
-#&gt;          seqnames            ranges strand
-#&gt;             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;      [1]    chr21   5116356-5117231      +
-#&gt;      [2]    chr21   5117368-5117396      +
-#&gt;      [3]    chr21   5118691-5118847      +
-#&gt;      [4]    chr21   5120950-5120951      +
-#&gt;      [5]    chr21   5121718-5121803      +
-#&gt;      ...      ...               ...    ...
-#&gt;   [3810]    chr21 46665544-46665545      -
-#&gt;   [3811]    chr21 46665571-46665576      -
-#&gt;   [3812]    chr21 46665603-46665610      -
-#&gt;   [3813]    chr21 46690860-46691105      -
-#&gt;   [3814]    chr21 46691173-46691200      -
-#&gt;   -------
-#&gt;   seqinfo: 1 sequence from an unspecified genome; no seqlengths
-#&gt; 
-#&gt; </div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://magrittr.tidyverse.org'>"magrittr"</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtex_metadata"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/all_metadata.html'>all_metadata</a></span><span class='op'>(</span><span class='st'>"gtex"</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='va'>gtex_metadata</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>        <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>        <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-13 17:10:33 downloading the metadata to /tmp/RtmpQ6LmeV/metadata_clean_gtex.Rdata</span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"rec_url"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>rec_url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span></span>
+<span class='r-in'>        project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,</span>
+<span class='r-in'>        type <span class='op'>=</span> <span class='st'>"samples"</span>,</span>
+<span class='r-in'>        download <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'>    <span class='op'>)</span> <span class='co'># .file_cache is an internal function to download a bigwig file from a link</span></span>
+<span class='r-in'>    <span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='va'>bw_plus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dot-file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>bw_minus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dot-file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># As of rtracklayer 1.25.16, BigWig is not supported on Windows.</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'>xfun</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xfun/man/os.html'>is_windows</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>stranded_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_strand_ers</span><span class='op'>(</span></span>
+<span class='r-in'>        bw_pos <span class='op'>=</span> <span class='va'>bw_plus</span>, bw_neg <span class='op'>=</span> <span class='va'>bw_minus</span>,</span>
+<span class='r-in'>        auc_raw_pos <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span>,</span>
+<span class='r-in'>        auc_raw_neg <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span>, auc_target <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>,</span>
+<span class='r-in'>        chrs <span class='op'>=</span> <span class='st'>"chr21"</span>, mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:10:35 - Obtaining mean coverage across 1 samples"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:10:35 - chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:10:36 - Obtaining mean coverage across 1 samples"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:10:36 - chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:10:36 - Generating ERs for chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:10:37 - Generating ERs for chr21"</span>
+<span class='r-in'><span class='va'>stranded_ers</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5$mrg_10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 6355 ranges and 0 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          seqnames            ranges strand</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [1]    chr21   5116346-5117232      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [2]    chr21   5117340-5117507      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [3]    chr21   5117539-5117558      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [4]    chr21   5117587-5117592      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [5]    chr21   5117605-5117611      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      ...      ...               ...    ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [6351]    chr21 46668354-46668391      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [6352]    chr21 46668488-46668581      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [6353]    chr21 46690842-46691238      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [6354]    chr21 46691775-46691807      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [6355]    chr21 46692377-46692446      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 1 sequence from an unspecified genome; no seqlengths</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5$mrg_20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 5503 ranges and 0 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          seqnames            ranges strand</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [1]    chr21   5116346-5117232      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [2]    chr21   5117340-5117507      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [3]    chr21   5117539-5117558      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [4]    chr21   5117587-5117611      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [5]    chr21   5117670-5117817      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      ...      ...               ...    ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [5499]    chr21 46668354-46668391      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [5500]    chr21 46668488-46668581      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [5501]    chr21 46690842-46691238      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [5502]    chr21 46691775-46691807      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [5503]    chr21 46692377-46692446      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 1 sequence from an unspecified genome; no seqlengths</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_10$mrg_10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 4293 ranges and 0 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          seqnames            ranges strand</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [1]    chr21   5116356-5117231      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [2]    chr21   5117368-5117396      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [3]    chr21   5118691-5118847      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [4]    chr21   5120950-5120951      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [5]    chr21   5121718-5121803      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      ...      ...               ...    ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4289]    chr21 46665571-46665576      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4290]    chr21 46665603-46665610      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4291]    chr21 46690860-46691105      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4292]    chr21 46691173-46691177      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4293]    chr21 46691195-46691200      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 1 sequence from an unspecified genome; no seqlengths</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_10$mrg_20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 3814 ranges and 0 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          seqnames            ranges strand</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [1]    chr21   5116356-5117231      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [2]    chr21   5117368-5117396      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [3]    chr21   5118691-5118847      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [4]    chr21   5120950-5120951      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [5]    chr21   5121718-5121803      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      ...      ...               ...    ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3810]    chr21 46665544-46665545      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3811]    chr21 46665571-46665576      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3812]    chr21 46665603-46665610      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3813]    chr21 46690860-46691105      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3814]    chr21 46691173-46691200      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 1 sequence from an unspecified genome; no seqlengths</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -319,11 +326,11 @@ combination of MCC and MRG.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Emmanuel Olagbaju.</p>
+  <p><p>Developed by Emmanuel Olagbaju.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -331,6 +338,8 @@ combination of MCC and MRG.</p>
 
   
 
+
+  
 
   </body>
 </html>

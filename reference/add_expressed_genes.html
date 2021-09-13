@@ -48,6 +48,8 @@ ERs." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -59,9 +61,15 @@ ERs." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -75,19 +83,13 @@ ERs." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -138,13 +140,13 @@ nearest expressed gene will be added to the metadata columns of the annotated
 ERs.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>add_expressed_genes</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>add_expressed_genes</span><span class='op'>(</span>
   input_file <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>tissue</span>,
   <span class='va'>gtf</span>,
   species <span class='op'>=</span> <span class='st'>"Homo_sapiens"</span>,
   <span class='va'>annot_ers</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,7 +163,7 @@ file will be used.</p></td>
     <tr>
       <th>gtf</th>
       <td><p>Either a string containg the path to a .gtf file or a pre-imported
-gtf using <code><a href='https://rdrr.io/pkg/rtracklayer/man/export.html'>import</a></code>. Provdes gene data to help determine
+gtf using <code>rtracklayer::import</code> . Provides gene data to help determine
 the nearest gene and nearest expressed gene.</p></td>
     </tr>
     <tr>
@@ -182,48 +184,49 @@ should have an mcols column called "annotation"</p></td>
 genes</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_path"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
-        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
-        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
-    <span class='op'>)</span>
-    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_gr"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>gtf_gr</span> <span class='op'>&lt;-</span> <span class='fu'>rtracklayer</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rtracklayer/man/export.html'>import</a></span><span class='op'>(</span><span class='va'>gtf_path</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='va'>ex_opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>GenomicRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html'>GRanges</a></span><span class='op'>(</span>
-    seqnames <span class='op'>=</span> <span class='fu'>S4Vectors</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Rle-class.html'>Rle</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>,
-    ranges <span class='op'>=</span> <span class='fu'>IRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IRanges/man/IRanges-constructor.html'>IRanges</a></span><span class='op'>(</span>
-        start <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5116369</span>, <span class='fl'>5118691</span>, <span class='fl'>5125879</span>, <span class='fl'>5128214</span><span class='op'>)</span>,
-        end <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5117231</span>, <span class='fl'>5118847</span>, <span class='fl'>5125988</span>, <span class='fl'>5128403</span><span class='op'>)</span>
-    <span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='va'>ex_opt_ers_w_exp_genes</span> <span class='op'>&lt;-</span> <span class='fu'>add_expressed_genes</span><span class='op'>(</span>
-    tissue <span class='op'>=</span> <span class='st'>"lung"</span>, gtf <span class='op'>=</span> <span class='va'>gtf_gr</span>,
-    annot_ers <span class='op'>=</span> <span class='va'>ex_opt_ers</span>
-<span class='op'>)</span>
-
-<span class='va'>ex_opt_ers_w_exp_genes</span>
-</div><div class='output co'>#&gt; GRanges object with 4 ranges and 2 metadata columns:
-#&gt;       seqnames          ranges strand | nearest_gene_v94_name
-#&gt;          &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; |           &lt;character&gt;
-#&gt;   [1]    chr21 5116369-5117231      * |       ENSG00000276612
-#&gt;   [2]    chr21 5118691-5118847      * |       ENSG00000276612
-#&gt;   [3]    chr22 5125879-5125988      * |       ENSG00000277248
-#&gt;   [4]    chr22 5128214-5128403      * |       ENSG00000277248
-#&gt;       nearest_expressed_gene_v94_name
-#&gt;                           &lt;character&gt;
-#&gt;   [1]                 ENSG00000264462
-#&gt;   [2]                 ENSG00000264462
-#&gt;   [3]                 ENSG00000206195
-#&gt;   [4]                 ENSG00000206195
-#&gt;   -------
-#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_path"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span></span>
+<span class='r-in'>        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,</span>
+<span class='r-in'>        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span></span>
+<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'>    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dot-file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_gr"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>gtf_gr</span> <span class='op'>&lt;-</span> <span class='fu'>rtracklayer</span><span class='fu'>::</span><span class='fu'>import</span><span class='op'>(</span><span class='va'>gtf_path</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>ex_opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>GenomicRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html'>GRanges</a></span><span class='op'>(</span></span>
+<span class='r-in'>    seqnames <span class='op'>=</span> <span class='fu'>S4Vectors</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Rle-class.html'>Rle</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span class='r-in'>    ranges <span class='op'>=</span> <span class='fu'>IRanges</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IRanges/man/IRanges-constructor.html'>IRanges</a></span><span class='op'>(</span></span>
+<span class='r-in'>        start <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5116369</span>, <span class='fl'>5118691</span>, <span class='fl'>5125879</span>, <span class='fl'>5128214</span><span class='op'>)</span>,</span>
+<span class='r-in'>        end <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5117231</span>, <span class='fl'>5118847</span>, <span class='fl'>5125988</span>, <span class='fl'>5128403</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>ex_opt_ers_w_exp_genes</span> <span class='op'>&lt;-</span> <span class='fu'>add_expressed_genes</span><span class='op'>(</span></span>
+<span class='r-in'>    tissue <span class='op'>=</span> <span class='st'>"lung"</span>, gtf <span class='op'>=</span> <span class='va'>gtf_gr</span>,</span>
+<span class='r-in'>    annot_ers <span class='op'>=</span> <span class='va'>ex_opt_ers</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>ex_opt_ers_w_exp_genes</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 4 ranges and 2 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       seqnames          ranges strand | nearest_gene_v94_name</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; |           &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]    chr21 5116369-5117231      * |       ENSG00000276612</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [2]    chr21 5118691-5118847      * |       ENSG00000276612</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3]    chr22 5125879-5125988      * |       ENSG00000277248</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4]    chr22 5128214-5128403      * |       ENSG00000277248</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       nearest_expressed_gene_v94_name</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                           &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]                 ENSG00000264462</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [2]                 ENSG00000264462</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3]                 ENSG00000206195</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4]                 ENSG00000206195</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -235,11 +238,11 @@ genes</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Emmanuel Olagbaju.</p>
+  <p><p>Developed by Emmanuel Olagbaju.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -247,6 +250,8 @@ genes</p>
 
   
 
+
+  
 
   </body>
 </html>

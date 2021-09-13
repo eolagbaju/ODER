@@ -48,6 +48,8 @@ most ideal." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -59,9 +61,15 @@ most ideal." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -75,19 +83,13 @@ most ideal." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -138,7 +140,7 @@ and MRG that returns the expressed region with the smallest exon delta is the
 most ideal.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ODER_strand</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>ODER_strand</span><span class='op'>(</span>
   <span class='va'>bw_pos</span>,
   <span class='va'>bw_neg</span>,
   <span class='va'>auc_raw_pos</span>,
@@ -153,7 +155,7 @@ most ideal.</p>
   <span class='va'>ignore.strand</span>,
   exons_no_overlap <span class='op'>=</span> <span class='cn'>NULL</span>,
   bw_chr <span class='op'>=</span> <span class='st'>"chr"</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -207,7 +209,7 @@ ERs will be merged.</p></td>
     <tr>
       <th>gtf</th>
       <td><p>Either a string containg the path to a .gtf file or a pre-imported
-gtf using <code><a href='https://rdrr.io/pkg/rtracklayer/man/export.html'>import</a></code>.</p></td>
+gtf using <code>rtracklayer::import</code> .</p></td>
     </tr>
     <tr>
       <th>ucsc_chr</th>
@@ -238,82 +240,86 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 <code>delta_df</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://magrittr.tidyverse.org'>"magrittr"</a></span><span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtex_metadata"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/all_metadata.html'>all_metadata</a></span><span class='op'>(</span><span class='st'>"gtex"</span><span class='op'>)</span>
-    <span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='va'>gtex_metadata</span> <span class='op'>%&gt;%</span>
-        <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-        <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='message'>2021-09-04 10:10:35 downloading the metadata to /tmp/RtmpBRewLt/metadata_clean_gtex.Rdata</span></div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_path"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
-        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,
-        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
-    <span class='op'>)</span>
-    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"rec_url"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>rec_url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span>
-        project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,
-        type <span class='op'>=</span> <span class='st'>"samples"</span>,
-        download <span class='op'>=</span> <span class='cn'>FALSE</span>
-    <span class='op'>)</span>
-<span class='op'>}</span>
-<span class='va'>bw_plus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>bw_minus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='.file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span><span class='op'>)</span>
-
-<span class='va'>opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>ODER_strand</span><span class='op'>(</span>
-    bw_pos <span class='op'>=</span> <span class='va'>bw_plus</span>, bw_neg <span class='op'>=</span> <span class='va'>bw_minus</span>,
-    auc_raw_pos <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span>, auc_raw_neg <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span>,
-    auc_target <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>, chrs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>, genome <span class='op'>=</span> <span class='st'>"hg38"</span>,
-    mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span>, gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,
-    ignore.strand <span class='op'>=</span> <span class='cn'>FALSE</span>, exons_no_overlap <span class='op'>=</span> <span class='cn'>NULL</span>, bw_chr <span class='op'>=</span> <span class='st'>"chr"</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2021-09-04 10:10:37 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-09-04 10:10:37 - chr21"
-#&gt; [1] "2021-09-04 10:10:37 - chr22"
-#&gt; [1] "2021-09-04 10:10:38 - Obtaining mean coverage across 1 samples"
-#&gt; [1] "2021-09-04 10:10:38 - chr21"
-#&gt; [1] "2021-09-04 10:10:38 - chr22"
-#&gt; [1] "2021-09-04 10:10:39 - Generating ERs for chr21"
-#&gt; [1] "2021-09-04 10:10:39 - Generating ERs for chr22"
-#&gt; [1] "2021-09-04 10:10:42 - Generating ERs for chr21"
-#&gt; [1] "2021-09-04 10:10:42 - Generating ERs for chr22"
-#&gt; [1] "2021-09-04 10:10:43 - Loading in GTF..."
-#&gt; [1] "2021-09-04 10:11:17 - Obtaining non-overlapping exons"
-#&gt; [1] "2021-09-04 10:11:20 - Calculating delta for ERs..."
-#&gt; [1] "2021-09-04 10:11:20 - Obtaining optimal set of ERs..."</div><div class='input'>
-<span class='va'>opt_ers</span>
-</div><div class='output co'>#&gt; $opt_ers
-#&gt; GRanges object with 11413 ranges and 0 metadata columns:
-#&gt;           seqnames            ranges strand
-#&gt;              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;       [1]    chr21   5116356-5117231      +
-#&gt;       [2]    chr21   5117368-5117396      +
-#&gt;       [3]    chr21   5118691-5118847      +
-#&gt;       [4]    chr21   5120950-5120951      +
-#&gt;       [5]    chr21   5121718-5121803      +
-#&gt;       ...      ...               ...    ...
-#&gt;   [11409]    chr22 50785173-50785293      -
-#&gt;   [11410]    chr22 50788988-50789127      -
-#&gt;   [11411]    chr22 50798655-50799149      -
-#&gt;   [11412]    chr22 50800520-50800534      -
-#&gt;   [11413]    chr22 50800556-50800591      -
-#&gt;   -------
-#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths
-#&gt; 
-#&gt; $opt_mcc_mrg
-#&gt; [1] "mcc_10" "mrg_20"
-#&gt; 
-#&gt; $deltas
-#&gt; <span style='color: #555555;'># A tibble: 4 x 7</span><span>
-#&gt;     mcc   mrg     sum  mean median n_eq_0 propor_eq_0
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     5    10 1</span><span style='text-decoration: underline;'>361</span><span>873  819.     96    511       0.307
-#&gt; </span><span style='color: #555555;'>2</span><span>     5    20 1</span><span style='text-decoration: underline;'>112</span><span>598  737.     68    515       0.341
-#&gt; </span><span style='color: #555555;'>3</span><span>    10    10  </span><span style='text-decoration: underline;'>907</span><span>214  762.     44    448       0.376
-#&gt; </span><span style='color: #555555;'>4</span><span>    10    20  </span><span style='text-decoration: underline;'>686</span><span>586  633.      9    454       0.418
-#&gt; </div></span></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://magrittr.tidyverse.org'>"magrittr"</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtex_metadata"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/all_metadata.html'>all_metadata</a></span><span class='op'>(</span><span class='st'>"gtex"</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='va'>gtex_metadata</span> <span class='op'>&lt;-</span> <span class='va'>gtex_metadata</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>        <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>        <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-13 17:05:24 downloading the metadata to /tmp/RtmpQ6LmeV/metadata_clean_gtex.Rdata</span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_path"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span></span>
+<span class='r-in'>        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,</span>
+<span class='r-in'>        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span></span>
+<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'>    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='fu'><a href='dot-file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"rec_url"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>rec_url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span></span>
+<span class='r-in'>        project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,</span>
+<span class='r-in'>        type <span class='op'>=</span> <span class='st'>"samples"</span>,</span>
+<span class='r-in'>        download <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='va'>bw_plus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dot-file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>bw_minus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dot-file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># As of rtracklayer 1.25.16, BigWig is not supported on Windows.</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'>xfun</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xfun/man/os.html'>is_windows</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>ODER_strand</span><span class='op'>(</span></span>
+<span class='r-in'>        bw_pos <span class='op'>=</span> <span class='va'>bw_plus</span>, bw_neg <span class='op'>=</span> <span class='va'>bw_minus</span>,</span>
+<span class='r-in'>        auc_raw_pos <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span>, auc_raw_neg <span class='op'>=</span> <span class='va'>gtex_metadata</span><span class='op'>[[</span><span class='st'>"auc"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span>,</span>
+<span class='r-in'>        auc_target <span class='op'>=</span> <span class='fl'>40e6</span> <span class='op'>*</span> <span class='fl'>100</span>, chrs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr21"</span>, <span class='st'>"chr22"</span><span class='op'>)</span>, genome <span class='op'>=</span> <span class='st'>"hg38"</span>,</span>
+<span class='r-in'>        mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span>, gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span class='r-in'>        ignore.strand <span class='op'>=</span> <span class='cn'>FALSE</span>, exons_no_overlap <span class='op'>=</span> <span class='cn'>NULL</span>, bw_chr <span class='op'>=</span> <span class='st'>"chr"</span></span>
+<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:05:28 - Obtaining mean coverage across 1 samples"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:05:28 - chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:05:28 - chr22"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:05:28 - Obtaining mean coverage across 1 samples"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:05:28 - chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:05:29 - chr22"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:05:29 - Generating ERs for chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:05:30 - Generating ERs for chr22"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:05:31 - Generating ERs for chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:05:31 - Generating ERs for chr22"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:05:33 - Loading in GTF..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:06:08 - Obtaining non-overlapping exons"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:06:09 - Calculating delta for ERs..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-13 17:06:10 - Obtaining optimal set of ERs..."</span>
+<span class='r-in'><span class='va'>opt_ers</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $opt_ers</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 11413 ranges and 0 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           seqnames            ranges strand</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [1]    chr21   5116356-5117231      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [2]    chr21   5117368-5117396      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [3]    chr21   5118691-5118847      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [4]    chr21   5120950-5120951      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [5]    chr21   5121718-5121803      +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       ...      ...               ...    ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [11409]    chr22 50785173-50785293      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [11410]    chr22 50788988-50789127      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [11411]    chr22 50798655-50799149      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [11412]    chr22 50800520-50800534      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [11413]    chr22 50800556-50800591      -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $opt_mcc_mrg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "mcc_10" "mrg_20"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $deltas</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 7</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     mcc   mrg     sum  mean median n_eq_0 propor_eq_0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>     5    10 1<span style='text-decoration: underline;'>361</span>873  819.     96    511       0.307</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>     5    20 1<span style='text-decoration: underline;'>112</span>598  737.     68    515       0.341</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>    10    10  <span style='text-decoration: underline;'>907</span>214  762.     44    448       0.376</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span>    10    20  <span style='text-decoration: underline;'>686</span>586  633.      9    454       0.418</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -325,11 +331,11 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 
       <footer>
       <div class="copyright">
-  <p>Developed by Emmanuel Olagbaju.</p>
+  <p><p>Developed by Emmanuel Olagbaju.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -337,6 +343,8 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 
   
 
+
+  
 
   </body>
 </html>
