@@ -162,7 +162,9 @@ Once we have the obtained the optimised set of ERs, we may consider plotting the
 
 ```{r plot_example}
 # visualise the spread of mccs and mrgs
-plot_ers(opt_ers[["deltas"]], opt_ers[["opt_mcc_mrg"]])
+if (!xfun::is_windows()) { # uses product of ODER
+    plot_ers(opt_ers[["deltas"]], opt_ers[["opt_mcc_mrg"]])
+}
 ```
 
 Next, we will use `annotatERs()` to find the overlap between the ERs and junctions. Furthermore, `annotatERs()` will also classify ERs by their overlap with existing reference annotation into the categories; "exon", "intron" and "intergenic". This can be helpful for two reasons. Primarily, junctions can be used to inform which gene the ER is associated to. This gene-level association can be useful multiple downstream applications, such as novel exon discovery. Furthermore, the category of ER, in terms of whether it overlaps a exonic, intronic or intergenic region, can help determine whether the ER represents novel expression. For example, ERs solely overlapping intronic or intergenic regions and associated with a gene can be the indication of the expression of an unannotated exon. 
