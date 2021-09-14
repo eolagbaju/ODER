@@ -58,7 +58,7 @@ print(citation("ODER"), bibtex = TRUE)
 #> eolagbaju (2021). _Optimising the Definition of Expressed Regions_.
 #> doi: 10.18129/B9.bioc.ODER (URL:
 #> https://doi.org/10.18129/B9.bioc.ODER),
-#> https://github.com/eolagbaju/ODER/ODER - R package version 0.99.12,
+#> https://github.com/eolagbaju/ODER/ODER - R package version 0.99.13,
 #> <URL: http://www.bioconductor.org/packages/ODER>.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -68,7 +68,7 @@ print(citation("ODER"), bibtex = TRUE)
 #>     author = {{eolagbaju}},
 #>     year = {2021},
 #>     url = {http://www.bioconductor.org/packages/ODER},
-#>     note = {https://github.com/eolagbaju/ODER/ODER - R package version 0.99.12},
+#>     note = {https://github.com/eolagbaju/ODER/ODER - R package version 0.99.13},
 #>     doi = {10.18129/B9.bioc.ODER},
 #>   }
 #> 

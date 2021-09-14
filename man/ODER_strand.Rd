@@ -109,6 +109,6 @@ if (!xfun::is_windows()) {
         mccs = c(5, 10), mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE,
         ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
     )
+    print(opt_ers)
 }
-opt_ers
 }

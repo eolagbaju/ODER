@@ -125,8 +125,8 @@ ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
 #'         mccs = c(5, 10), mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE,
 #'         ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
 #'     )
+#'     print(opt_ers)
 #' }
-#' opt_ers
 ODER_strand <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target, chrs = "", genome = "hg38",
     mccs, mrgs, gtf = NULL, ucsc_chr, ignore.strand, exons_no_overlap = NULL, bw_chr = "chr") {
     if (is.null(gtf)) stop("gtf must be provided.")
