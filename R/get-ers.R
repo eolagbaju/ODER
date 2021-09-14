@@ -150,8 +150,8 @@ get_ers <- function(coverage, mccs, mrgs) {
 #'         auc_raw_neg = gtex_metadata[["auc"]][84], auc_target = 40e6 * 100,
 #'         chrs = "chr21", mccs = c(5, 10), mrgs = c(10, 20)
 #'     )
+#'     print(stranded_ers)
 #' }
-#' stranded_ers
 get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target, chrs, mccs, mrgs, bw_chr = "chr") {
     plus_coverage <- get_coverage(bw_paths = bw_pos, auc_raw = auc_raw_pos, auc_target = auc_target, chrs = chrs, bw_chr = bw_chr)
     minus_coverage <- get_coverage(bw_paths = bw_neg, auc_raw = auc_raw_neg, auc_target = auc_target, chrs = chrs, bw_chr = bw_chr)
