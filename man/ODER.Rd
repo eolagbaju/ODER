@@ -17,7 +17,12 @@ ODER(
   ignore.strand,
   exons_no_overlap = NULL,
   biotype = "Non-overlapping",
-  bw_chr = "chr"
+  bw_chr = "chr",
+  file_type = "non-stranded",
+  bw_pos = NULL,
+  bw_neg = NULL,
+  auc_raw_pos = NULL,
+  auc_raw_neg = NULL
 )
 }
 \arguments{
@@ -66,6 +71,19 @@ if set to TRUE and seqnames already have "chr", it will not add another.}
 \item{bw_chr}{specifies whether the bigwig files has the chromosomes labelled
 with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 "chr" or "nochr" with "chr" being the default.}
+
+\item{file_type}{Describes if the BigWigs are stranded or not. Either "stranded"
+or non-stranded}
+
+\item{bw_pos}{positive strand bigwig file}
+
+\item{bw_neg}{negative strand bigwig file}
+
+\item{auc_raw_pos}{vector containing AUCs(Area Under Coverage) matching the order
+of the positive bigwig paths.}
+
+\item{auc_raw_neg}{vector containing AUCs(Area Under Coverage) matching the order
+of the negative bigwig paths.}
 }
 \value{
 list containing optimised ERs, optimal pair of MCC/MRGs and

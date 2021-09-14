@@ -6,10 +6,12 @@
 #' most ideal.
 #'
 #' @param exons_no_overlap Optimum set of exons to help calculate deltas
+#' @param file_type Describes if the BigWigs are stranded or not. Either "stranded"
+#' or non-stranded
 #' @inheritParams get_coverage
 #' @inheritParams get_ers
 #' @inheritParams get_exons
-#' @inheritParams get_coverage
+#' @inheritParams get_strand_ers
 #'
 #' @return list containing optimised ERs, optimal pair of MCC/MRGs and
 #' \code{delta_df}
@@ -47,107 +49,44 @@
 #'     print(opt_ers)
 #' }
 ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
-    mccs, mrgs,
-    gtf = NULL, ucsc_chr, ignore.strand,
-    exons_no_overlap = NULL, biotype = "Non-overlapping",
-    bw_chr = "chr") {
+    mccs, mrgs, gtf = NULL, ucsc_chr, ignore.strand, exons_no_overlap = NULL,
+    biotype = "Non-overlapping", bw_chr = "chr", file_type = "non-stranded",
+    bw_pos = NULL, bw_neg = NULL, auc_raw_pos = NULL, auc_raw_neg = NULL) {
     if (is.null(gtf)) stop("gtf must be provided.")
 
-    coverage <- get_coverage(
-        bw_paths = bw_paths, auc_raw = auc_raw, auc_target = auc_target,
-        chrs = chrs, genome = "hg38", bw_chr = bw_chr
-    )
-
-    ers <- get_ers(coverage = coverage, mccs = mccs, mrgs = mrgs)
-
-    if (!is.null(gtf)) {
-        exons_no_overlap <- get_exons(
-            gtf = gtf, ucsc_chr = ucsc_chr,
-            ignore.strand = ignore.strand, biotype = biotype
+    if (file_type == "non-stranded") {
+        coverage <- get_coverage(
+            bw_paths = bw_paths, auc_raw = auc_raw, auc_target = auc_target,
+            chrs = chrs, genome = "hg38", bw_chr = bw_chr
         )
-    }
+        ers <- get_ers(coverage = coverage, mccs = mccs, mrgs = mrgs)
+        if (!is.null(gtf)) {
+            exons_no_overlap <- get_exons(
+                gtf = gtf, ucsc_chr = ucsc_chr,
+                ignore.strand = ignore.strand, biotype = biotype
+            )
+        }
+        ers_delta <- get_ers_delta(ers = ers, opt_exons = exons_no_overlap)
 
-    ers_delta <- get_ers_delta(ers = ers, opt_exons = exons_no_overlap)
+        opt_ers <- get_opt_ers(ers = ers, ers_delta = ers_delta)
 
-    opt_ers <- get_opt_ers(ers = ers, ers_delta = ers_delta)
-
-    return(opt_ers)
-}
-
-#' Generates the optimum expressed regions for stranded BigWig files
-#'
-#' Returns the optimum definition of the expressed regions by finding the ideal
-#' MCC (Mean Coverage Cutoff) and MRG (Max Region Gap). The combination of MCC
-#' and MRG that returns the expressed region with the smallest exon delta is the
-#' most ideal.
-#'
-#' @param exons_no_overlap Optimum set of exons to help calculate deltas
-#' @inheritParams get_coverage
-#' @inheritParams get_ers
-#' @inheritParams get_exons
-#' @inheritParams get_coverage
-#' @inheritParams get_strand_ers
-#'
-#' @return list containing optimised ERs, optimal pair of MCC/MRGs and
-#' \code{delta_df}
-#' @export
-#'
-#' @examples
-#' library("magrittr")
-#' if (!exists("gtex_metadata")) {
-#'     gtex_metadata <- recount::all_metadata("gtex")
-#'     gtex_metadata <- gtex_metadata %>%
-#'         as.data.frame() %>%
-#'         dplyr::filter(project == "SRP012682")
-#' }
-#' if (!exists("gtf_path")) {
-#'     gtf_url <- paste0(
-#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#'     )
-#'     gtf_path <- ODER:::.file_cache(gtf_url)
-#' }
-#' if (!exists("rec_url")) {
-#'     rec_url <- recount::download_study(
-#'         project = "SRP012682",
-#'         type = "samples",
-#'         download = FALSE
-#'     )
-#' }
-#' bw_plus <- .file_cache(rec_url[58])
-#' bw_minus <- .file_cache(rec_url[84])
-#' # As of rtracklayer 1.25.16, BigWig is not supported on Windows.
-#' if (!xfun::is_windows()) {
-#'     opt_ers <- ODER_strand(
-#'         bw_pos = bw_plus, bw_neg = bw_minus,
-#'         auc_raw_pos = gtex_metadata[["auc"]][58], auc_raw_neg = gtex_metadata[["auc"]][84],
-#'         auc_target = 40e6 * 100, chrs = c("chr21", "chr22"), genome = "hg38",
-#'         mccs = c(5, 10), mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE,
-#'         ignore.strand = FALSE, exons_no_overlap = NULL, bw_chr = "chr"
-#'     )
-#'     print(opt_ers)
-#' }
-ODER_strand <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target, chrs = "", genome = "hg38",
-    mccs, mrgs, gtf = NULL, ucsc_chr, ignore.strand, exons_no_overlap = NULL, bw_chr = "chr") {
-    if (is.null(gtf)) stop("gtf must be provided.")
-
-    stranded_ers <- get_strand_ers(
-        bw_pos = bw_pos, bw_neg = bw_neg, auc_raw_pos = auc_raw_pos, auc_raw_neg = auc_raw_neg,
-        auc_target = auc_target, chrs = chrs, mccs = mccs, mrgs = mrgs
-    )
-
-
-    if (!is.null(gtf)) {
-        exons_no_overlap <- get_exons(
-            gtf = gtf,
-            ucsc_chr = ucsc_chr,
-            ignore.strand = ignore.strand
+        return(opt_ers)
+    } else if (file_type == "stranded") {
+        stranded_ers <- get_strand_ers(
+            bw_pos = bw_pos, bw_neg = bw_neg, auc_raw_pos = auc_raw_pos, auc_raw_neg = auc_raw_neg,
+            auc_target = auc_target, chrs = chrs, mccs = mccs, mrgs = mrgs
         )
+        if (!is.null(gtf)) {
+            exons_no_overlap <- get_exons(
+                gtf = gtf,
+                ucsc_chr = ucsc_chr,
+                ignore.strand = ignore.strand
+            )
+        }
+        ers_delta <- get_ers_delta(ers = stranded_ers, opt_exons = exons_no_overlap)
+
+        opt_ers <- get_opt_ers(ers = stranded_ers, ers_delta = ers_delta)
+
+        return(opt_ers)
     }
-
-    ers_delta <- get_ers_delta(ers = stranded_ers, opt_exons = exons_no_overlap)
-
-    opt_ers <- get_opt_ers(ers = stranded_ers, ers_delta = ers_delta)
-
-    return(opt_ers)
 }

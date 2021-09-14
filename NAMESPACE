@@ -2,7 +2,6 @@
 
 export(.file_cache)
 export(ODER)
-export(ODER_strand)
 export(add_expressed_genes)
 export(annotatERs)
 export(get_chr_info)
