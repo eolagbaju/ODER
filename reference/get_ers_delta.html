@@ -82,7 +82,7 @@ the ensembl database." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.14</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.15</span>
       </span>
     </div>
 
@@ -185,8 +185,8 @@ of ERs.</p>
 <span class='r-in'>        ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:18:21 - Loading in GTF..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:18:55 - Obtaining non-overlapping exons"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:54:56 - Loading in GTF..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:55:30 - Obtaining non-overlapping exons"</span>
 <span class='r-in'><span class='co'># }</span></span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"eg_ers_delta"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'>    <span class='va'>eg_ers_delta</span> <span class='op'>&lt;-</span> <span class='fu'>get_ers_delta</span><span class='op'>(</span></span>
@@ -195,7 +195,7 @@ of ERs.</p>
 <span class='r-in'>        delta_fun <span class='op'>=</span> <span class='fu'>ODER</span><span class='fu'>:::</span><span class='va'>.delta</span></span>
 <span class='r-in'>    <span class='op'>)</span> <span class='co'># .delta is ODER's default, you can pass in your own if you have one</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:18:57 - Calculating delta for ERs..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:55:32 - Calculating delta for ERs..."</span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_ers_delta</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 7</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>     mcc   mrg     sum  mean median n_eq_0 propor_eq_0</span>
