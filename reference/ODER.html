@@ -83,7 +83,7 @@ most ideal." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.17</span>
       </span>
     </div>
 
@@ -153,7 +153,12 @@ most ideal.</p>
   <span class='va'>ignore.strand</span>,
   exons_no_overlap <span class='op'>=</span> <span class='cn'>NULL</span>,
   biotype <span class='op'>=</span> <span class='st'>"Non-overlapping"</span>,
-  bw_chr <span class='op'>=</span> <span class='st'>"chr"</span>
+  bw_chr <span class='op'>=</span> <span class='st'>"chr"</span>,
+  file_type <span class='op'>=</span> <span class='st'>"non-stranded"</span>,
+  bw_pos <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bw_neg <span class='op'>=</span> <span class='cn'>NULL</span>,
+  auc_raw_pos <span class='op'>=</span> <span class='cn'>NULL</span>,
+  auc_raw_neg <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -231,6 +236,29 @@ if set to TRUE and seqnames already have "chr", it will not add another.</p></td
 with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 "chr" or "nochr" with "chr" being the default.</p></td>
     </tr>
+    <tr>
+      <th>file_type</th>
+      <td><p>Describes if the BigWigs are stranded or not. Either "stranded"
+or non-stranded</p></td>
+    </tr>
+    <tr>
+      <th>bw_pos</th>
+      <td><p>positive strand bigwig file</p></td>
+    </tr>
+    <tr>
+      <th>bw_neg</th>
+      <td><p>negative strand bigwig file</p></td>
+    </tr>
+    <tr>
+      <th>auc_raw_pos</th>
+      <td><p>vector containing AUCs(Area Under Coverage) matching the order
+of the positive bigwig paths.</p></td>
+    </tr>
+    <tr>
+      <th>auc_raw_neg</th>
+      <td><p>vector containing AUCs(Area Under Coverage) matching the order
+of the negative bigwig paths.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -294,44 +322,46 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The following objects are masked from ‘package:base’:</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span>     I, expand.grid, unname</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:51:26 - Obtaining mean coverage across 1 samples"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:51:26 - chr21"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:51:27 - chr22"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:51:28 - Generating ERs for chr21"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:51:30 - Generating ERs for chr22"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:51:32 - Loading in GTF..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:52:13 - Obtaining non-overlapping exons"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:52:15 - Calculating delta for ERs..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:52:15 - Obtaining optimal set of ERs..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 17:00:06 - Obtaining mean coverage across 1 samples"</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 4 elements: only the first used</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 17:00:06 - chr21"</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 17:00:07 - Generating ERs for chr21"</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 17:00:09 - Loading in GTF..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 17:00:49 - Obtaining non-overlapping exons"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 17:00:51 - Calculating delta for ERs..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 17:00:51 - Obtaining optimal set of ERs..."</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $opt_ers</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 15977 ranges and 0 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 10374 ranges and 0 metadata columns:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>           seqnames            ranges strand</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>       [1]    chr21   5032176-5032217      *</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>       [2]    chr21   5033408-5033425      *</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>       [3]    chr21   5034717-5034756      *</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>       [4]    chr21   5035188-5035189      *</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>       [5]    chr21   5036577-5036581      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [1]    chr21   5026470-5026525      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [2]    chr21   5027955-5028030      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [3]    chr21   5032160-5032217      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [4]    chr21   5033408-5033441      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [5]    chr21   5034694-5034787      *</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>       ...      ...               ...    ...</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [15973]    chr22 50798996-50799149      *</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [15974]    chr22 50799209-50799284      *</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [15975]    chr22 50799669-50799688      *</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [15976]    chr22 50799717-50799744      *</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [15977]    chr22 50800460-50800587      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [10370]    chr21 46676405-46676431      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [10371]    chr21 46690856-46690988      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [10372]    chr21 46691019-46691042      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [10373]    chr21 46691821-46691896      *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [10374]    chr21 46692129-46692175      *</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 1 sequence from an unspecified genome; no seqlengths</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $opt_mcc_mrg</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "mcc_10" "mrg_20"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "mcc_5"  "mrg_10"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $deltas</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 7</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     mcc   mrg     sum  mean median n_eq_0 propor_eq_0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>     5    10 2<span style='text-decoration: underline;'>187</span>300  964.   150.    322       0.142</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>     5    20 1<span style='text-decoration: underline;'>892</span>386  898.   141     335       0.159</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>    10    10 1<span style='text-decoration: underline;'>771</span>837 <span style='text-decoration: underline;'>1</span>009.   139     316       0.180</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span>    10    20 1<span style='text-decoration: underline;'>457</span>726  911.   118     323       0.202</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 7</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     mcc   mrg    sum  mean median n_eq_0 propor_eq_0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>     5    10 <span style='text-decoration: underline;'>416</span>043  534.    139     84       0.108</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 </code></pre></div>
   </div>

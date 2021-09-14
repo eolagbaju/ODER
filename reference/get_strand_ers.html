@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.17</span>
       </span>
     </div>
 
@@ -210,7 +210,7 @@ combination of MCC and MRG.</p>
 <span class='r-in'>        <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span class='r-in'>        <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-14 13:57:29 downloading the metadata to /tmp/RtmpFc7sub/metadata_clean_gtex.Rdata</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-14 17:05:04 downloading the metadata to /tmp/RtmpUEpOXp/metadata_clean_gtex.Rdata</span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"rec_url"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'>    <span class='va'>rec_url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span></span>
 <span class='r-in'>        project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,</span>
@@ -232,12 +232,26 @@ combination of MCC and MRG.</p>
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>stranded_ers</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:57:31 - Obtaining mean coverage across 1 samples"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:57:31 - chr21"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:57:32 - Obtaining mean coverage across 1 samples"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:57:32 - chr21"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:57:32 - Generating ERs for chr21"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 13:57:33 - Generating ERs for chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 17:05:06 - Obtaining mean coverage across 1 samples"</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 4 elements: only the first used</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 17:05:06 - chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 17:05:07 - Obtaining mean coverage across 1 samples"</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 4 elements: only the first used</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 17:05:07 - chr21"</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 17:05:07 - Generating ERs for chr21"</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 17:05:07 - Generating ERs for chr21"</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5$mrg_10</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 6355 ranges and 0 metadata columns:</span>
@@ -254,62 +268,6 @@ combination of MCC and MRG.</p>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   [6353]    chr21 46690842-46691238      -</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   [6354]    chr21 46691775-46691807      -</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   [6355]    chr21 46692377-46692446      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 1 sequence from an unspecified genome; no seqlengths</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5$mrg_20</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 5503 ranges and 0 metadata columns:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>          seqnames            ranges strand</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [1]    chr21   5116346-5117232      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [2]    chr21   5117340-5117507      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [3]    chr21   5117539-5117558      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [4]    chr21   5117587-5117611      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [5]    chr21   5117670-5117817      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      ...      ...               ...    ...</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [5499]    chr21 46668354-46668391      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [5500]    chr21 46668488-46668581      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [5501]    chr21 46690842-46691238      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [5502]    chr21 46691775-46691807      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [5503]    chr21 46692377-46692446      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 1 sequence from an unspecified genome; no seqlengths</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_10</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_10$mrg_10</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 4293 ranges and 0 metadata columns:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>          seqnames            ranges strand</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [1]    chr21   5116356-5117231      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [2]    chr21   5117368-5117396      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [3]    chr21   5118691-5118847      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [4]    chr21   5120950-5120951      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [5]    chr21   5121718-5121803      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      ...      ...               ...    ...</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4289]    chr21 46665571-46665576      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4290]    chr21 46665603-46665610      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4291]    chr21 46690860-46691105      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4292]    chr21 46691173-46691177      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4293]    chr21 46691195-46691200      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 1 sequence from an unspecified genome; no seqlengths</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_10$mrg_20</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 3814 ranges and 0 metadata columns:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>          seqnames            ranges strand</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [1]    chr21   5116356-5117231      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [2]    chr21   5117368-5117396      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [3]    chr21   5118691-5118847      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [4]    chr21   5120950-5120951      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      [5]    chr21   5121718-5121803      +</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      ...      ...               ...    ...</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3810]    chr21 46665544-46665545      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3811]    chr21 46665571-46665576      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3812]    chr21 46665603-46665610      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3813]    chr21 46690860-46691105      -</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3814]    chr21 46691173-46691200      -</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 1 sequence from an unspecified genome; no seqlengths</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
