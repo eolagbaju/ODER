@@ -162,13 +162,13 @@ get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target,
     sublist <- vector("list", length(ers_plus[[1]]))
     ers_combi <- vector("list", length(ers_plus))
 
-    for (i in 1:seq_along(ers_combi)) {
+    for (i in 1:length(ers_combi)) {
         ers_combi[[i]] <- sublist
     }
     # combining the positive and negative strands into one combined ER
-    for (i in 1:seq_along(ers_plus)) {
+    for (i in 1:length(ers_plus)) {
         names(ers_combi) <- names(ers_plus)
-        for (j in 1:seq_along(ers_plus[[i]])) {
+        for (j in 1:length(ers_plus[[i]])) {
             names(ers_combi[[i]]) <- names(ers_plus[[j]])
             BiocGenerics::strand(ers_plus[[i]][[j]]) <- "+"
             BiocGenerics::strand(ers_minus[[i]][[j]]) <- "-"
