@@ -61,7 +61,7 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
 
     print(stringr::str_c(Sys.time(), " - Obtaining mean coverage across ", length(bw_paths), " samples"))
 
-    for (i in 1:nrow(chr_info)) {
+    for (i in 1:seq_along(chr_info)) {
         print(stringr::str_c(Sys.time(), " - ", chr_info[["chrom"]][i]))
         # loading coverage information for designated chromosomes and merging them into a dataframe
         chr_mean_cov <-

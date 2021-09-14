@@ -25,12 +25,12 @@
 
         # suppress warning for tidyverse deprecated funs (select_() used over select()) in BiocFileCache
         # exact = TRUE means exact match required, if F then uses regex search
-        suppressWarnings(
-            file_path <- BiocFileCache::bfcrpath(BiocFileCache::BiocFileCache(ask = FALSE),
-                file_path,
-                exact = TRUE
-            )
+        # suppressWarnings(
+        file_path <- BiocFileCache::bfcrpath(BiocFileCache::BiocFileCache(ask = FALSE),
+            file_path,
+            exact = TRUE
         )
+        # )
     }
 
     return(file_path)

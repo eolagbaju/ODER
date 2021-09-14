@@ -257,7 +257,7 @@ get_junctions <- function(opt_ers, junc_data, txdb) {
     er_indices <- unique(S4Vectors::queryHits(hits))
 
     miss_ers <- numeric(0)
-    for (i in 1:length(opt_ers)) {
+    for (i in 1:seq_along(opt_ers)) {
         if (!(i %in% er_indices)) {
             miss_ers <- c(miss_ers, i)
         }
@@ -269,7 +269,8 @@ get_junctions <- function(opt_ers, junc_data, txdb) {
         })
     )
     names(empty_grl) <- miss_ers
-    combi_ajh <- suppressWarnings(c(ann_junc_hits, empty_grl))
+    # combi_ajh <- suppressWarnings(c(ann_junc_hits, empty_grl))
+    combi_ajh <- c(ann_junc_hits, empty_grl)
     sorted_combi_ajh <- combi_ajh[order(as.integer(names(combi_ajh)))]
 
     empty_gil <- vector("list", length = length(miss_ers))
