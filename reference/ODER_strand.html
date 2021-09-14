@@ -83,7 +83,7 @@ most ideal." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.13</span>
       </span>
     </div>
 
@@ -247,7 +247,7 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 <span class='r-in'>        <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span class='r-in'>        <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-14 11:14:36 downloading the metadata to /tmp/RtmpJjnnMH/metadata_clean_gtex.Rdata</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-14 11:58:45 downloading the metadata to /tmp/RtmpVM501j/metadata_clean_gtex.Rdata</span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_path"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'>    <span class='va'>gtf_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span></span>
 <span class='r-in'>        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,</span>
@@ -273,22 +273,22 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 <span class='r-in'>        mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span>, gtf <span class='op'>=</span> <span class='va'>gtf_path</span>, ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
 <span class='r-in'>        ignore.strand <span class='op'>=</span> <span class='cn'>FALSE</span>, exons_no_overlap <span class='op'>=</span> <span class='cn'>NULL</span>, bw_chr <span class='op'>=</span> <span class='st'>"chr"</span></span>
 <span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>opt_ers</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:14:39 - Obtaining mean coverage across 1 samples"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:14:39 - chr21"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:14:40 - chr22"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:14:40 - Obtaining mean coverage across 1 samples"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:14:40 - chr21"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:14:40 - chr22"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:14:41 - Generating ERs for chr21"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:14:42 - Generating ERs for chr22"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:14:43 - Generating ERs for chr21"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:14:43 - Generating ERs for chr22"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:14:44 - Loading in GTF..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:15:20 - Obtaining non-overlapping exons"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:15:22 - Calculating delta for ERs..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:15:22 - Obtaining optimal set of ERs..."</span>
-<span class='r-in'><span class='va'>opt_ers</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:58:49 - Obtaining mean coverage across 1 samples"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:58:49 - chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:58:49 - chr22"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:58:50 - Obtaining mean coverage across 1 samples"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:58:50 - chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:58:50 - chr22"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:58:50 - Generating ERs for chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:58:51 - Generating ERs for chr22"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:58:52 - Generating ERs for chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:58:53 - Generating ERs for chr22"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:58:54 - Loading in GTF..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:59:33 - Obtaining non-overlapping exons"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:59:34 - Calculating delta for ERs..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-14 11:59:35 - Obtaining optimal set of ERs..."</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $opt_ers</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 11413 ranges and 0 metadata columns:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>           seqnames            ranges strand</span>
