@@ -42,8 +42,8 @@
 #'         auc_target = 40e6 * 100,
 #'         chrs = c("chr21", "chr22")
 #'     )
+#'     print(eg_coverage)
 #' }
-#' print(eg_coverage)
 get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38", bw_chr = "chr") {
     if (!is.numeric(auc_raw) | !is.numeric(auc_target)) {
         stop("Please enter a valid number for the auc values")
