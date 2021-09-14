@@ -147,14 +147,15 @@ In this example, we demonstrate `ODER()` on a single unstranded `Bigwig`. Howeve
 gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 gtf_path <- .file_cache(gtf_url)
 gtf_gr <- rtracklayer::import(gtf_path)
-
-opt_ers <- ODER(
-    bw_paths = bw_path, auc_raw = gtex_metadata[["auc"]][1],
-    auc_target = 40e6 * 100, chrs = c("chr21"),
-    genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),
-    gtf = gtf_gr, ucsc_chr = TRUE, ignore.strand = TRUE,
-    exons_no_overlap = NULL, bw_chr = "chr"
-)
+if (!xfun::is_windows()) { # As of rtracklayer 1.25.16, BigWig is not supported on Windows.
+    opt_ers <- ODER(
+        bw_paths = bw_path, auc_raw = gtex_metadata[["auc"]][1],
+        auc_target = 40e6 * 100, chrs = c("chr21"),
+        genome = "hg38", mccs = c(2, 4, 6, 8, 10), mrgs = c(10, 20, 30),
+        gtf = gtf_gr, ucsc_chr = TRUE, ignore.strand = TRUE,
+        exons_no_overlap = NULL, bw_chr = "chr"
+    )
+}
 ```
 
 Once we have the obtained the optimised set of ERs, we may consider plotting the exon delta across the various MCCs and MRGs. This can be useful to check the error associated with the definition of the set of optimised ERs. This error is measured through two metrics; the median exon delta and the number of ERs with exon delta equal to 0. The median exon delta represents the overall accuracy of all ER definitions, whereas the number of ERs with exon delta equal to 0 indicates the extent to which ER definitions precisely match overlapping gold-standard exon boundaries. 
@@ -202,25 +203,28 @@ GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
 # lung_junc_21_22 is an example data set of junctions
 # obtained from recount3, derived from the lung tissue
 # run annotatERs()
-annot_ers <- annotatERs(
-    opt_ers = head(opt_ers[["opt_ers"]], 100),
-    junc_data = lung_junc_21_22,
-    genom_state = genom_state,
-    gtf = gtf_gr,
-    txdb = ens_txdb
-)
+if (!xfun::is_windows()) { # uses product of ODER
+    annot_ers <- annotatERs(
+        opt_ers = head(opt_ers[["opt_ers"]], 100),
+        junc_data = lung_junc_21_22,
+        genom_state = genom_state,
+        gtf = gtf_gr,
+        txdb = ens_txdb
+    )
 
-# print first 5 ERs
-annot_ers[1:5]
+    # print first 5 ERs
+    annot_ers[1:5]
+}
 ```
 
 After we have annotated ERs with the overlapping junctions, optionally we can use `refine_ers()` to refine the starts and ends of the ERs based on the overlapping junctions. This will filter ERs for those which have either a single or two non-intersecting junctions overlapping. For the remaining ERs, `refine_ers()` will shave the ER definitions to the exon boundaries matching the overlapping junctions. This can be useful for downstream applications whereby the accuracy of the ER definition is extremely important. For example, the interpretion of variants in diagnostic setting. 
 
 ```{r refine_ERs_example}
+if (!xfun::is_windows()) { # uses product of ODER
+    refined_ers <- refine_ERs(annot_ers)
 
-refined_ers <- refine_ERs(annot_ers)
-
-refined_ers
+    refined_ers
+}
 ```
 
 Finally, we can generate an ER count matrix with `get_count_matrix()`. This function can flexibly be run at any stage of the `ODER` pipeline and it requires a set of `GenomicRanges` and `BigWig` paths as input. `get_count_matrix()` will return a `RangedSummarizedExperiment` which has `assays` filled with the mean coverage across each inputted range. Internally, `get_count_matrix()` relies on `r Biocpkg("megadepth")` to obtain coverage from `BigWigs` therefore `megadepth::install_megadepth()` must be executed at least once on the user's system before `get_count_matrix()`. 
@@ -233,10 +237,11 @@ col_info <- as.data.frame(run)
 
 # install megadepth
 megadepth::install_megadepth()
+if (!xfun::is_windows()) { # uses product of ODER
+    er_count_matrix <- get_count_matrix(bw_paths = bw_path, annot_ers = annot_ers, cols = col_info)
 
-er_count_matrix <- get_count_matrix(bw_paths = bw_path, annot_ers = annot_ers, cols = col_info)
-
-er_count_matrix
+    er_count_matrix
+}
 ```
 
 # Reproducibility
