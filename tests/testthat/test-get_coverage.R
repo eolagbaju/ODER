@@ -11,10 +11,10 @@ if (!exists("rec_url")) {
         download = FALSE
     )
 }
-bw_path <- ODER:::.file_cache(rec_url[1])
+bw_path <- ODER::file_cache(rec_url[1])
 
-bw_plus <- ODER:::.file_cache(rec_url[58])
-bw_minus <- ODER:::.file_cache(rec_url[84])
+bw_plus <- ODER::file_cache(rec_url[58])
+bw_minus <- ODER::file_cache(rec_url[84])
 
 
 

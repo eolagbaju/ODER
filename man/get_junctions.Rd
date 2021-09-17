@@ -33,9 +33,9 @@ if (!exists("gtf_path")) {
         "http://ftp.ensembl.org/pub/release-103/gtf/",
         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
     )
-    # .file_cache is an internal function to download a bigwig file from a link
+    # file_cache is an internal function to download a bigwig file from a link
     # if the file has been downloaded recently, it will be retrieved from a cache
-    gtf_path <- .file_cache(gtf_url)
+    gtf_path <- file_cache(gtf_url)
 }
 
 if (!exists("gtf_gr")) {

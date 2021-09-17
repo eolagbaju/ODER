@@ -130,9 +130,9 @@ url <- recount::download_study(
     download = FALSE
 )
 
-# .file_cache is an internal ODER function to cache files for
+# file_cache is an internal ODER function to cache files for
 # faster repeated loading
-bw_path <- .file_cache(url[1])
+bw_path <- file_cache(url[1])
 
 bw_path
 ```
@@ -145,7 +145,7 @@ In this example, we demonstrate `ODER()` on a single unstranded `Bigwig`. Howeve
 
 # load reference annotation from Ensembl
 gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-gtf_path <- .file_cache(gtf_url)
+gtf_path <- file_cache(gtf_url)
 gtf_gr <- rtracklayer::import(gtf_path)
 if (!xfun::is_windows()) { # As of rtracklayer 1.25.16, BigWig is not supported on Windows.
     opt_ers <- ODER(

@@ -136,11 +136,11 @@ get_ers <- function(coverage, mccs, mrgs) {
 #'         project = "SRP012682",
 #'         type = "samples",
 #'         download = FALSE
-#'     ) # .file_cache is an internal function to download a bigwig file from a link
+#'     ) # file_cache is an internal function to download a bigwig file from a link
 #'     # if the file has been downloaded recently, it will be retrieved from a cache
 #' }
-#' bw_plus <- .file_cache(rec_url[58])
-#' bw_minus <- .file_cache(rec_url[84])
+#' bw_plus <- file_cache(rec_url[58])
+#' bw_minus <- file_cache(rec_url[84])
 #'
 #' # As of rtracklayer 1.25.16, BigWig is not supported on Windows.
 #' if (!xfun::is_windows()) {

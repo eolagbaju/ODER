@@ -13,7 +13,7 @@ url <- recount::download_study(
 )
 
 auc_example <- gtex_metadata[["auc"]][1]
-bw_path <- ODER:::.file_cache(url[1])
+bw_path <- ODER::file_cache(url[1])
 
 coverage_example <- ODER::get_coverage(
     bw_paths = bw_path,
@@ -25,13 +25,13 @@ coverage_example <- ODER::get_coverage(
 ers_example <- ODER::get_ers(coverage = coverage_example, mccs = c(5, 10), mrgs = c(10, 20))
 
 gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-gtf_path <- ODER:::.file_cache(gtf_url)
+gtf_path <- ODER::file_cache(gtf_url)
 exons_no_overlap <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE)
 
 ers_delta_example <- get_ers_delta(ers = ers_example, opt_exons = exons_no_overlap, delta_fun = .delta)
 
 # gtex_url <- "https://storage.googleapis.com/gtex_analysis_v6p/rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_median_rpkm.gct.gz"
-# gtex_path <- ODER:::.file_cache(gtex_url)
+# gtex_path <- ODER::file_cache(gtex_url)
 # library(data.table)
 # gtex_data <- fread(gtex_path)
 

@@ -27,9 +27,9 @@
 #'         "http://ftp.ensembl.org/pub/release-103/gtf/",
 #'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 #'     )
-#'     # .file_cache is an internal function to download a bigwig file from a link
+#'     # file_cache is an internal function to download a bigwig file from a link
 #'     # if the file has been downloaded recently, it will be retrieved from a cache
-#'     gtf_path <- .file_cache(gtf_url)
+#'     gtf_path <- file_cache(gtf_url)
 #' }
 #'
 #' if (!exists("gtf_gr")) {
@@ -533,9 +533,9 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
 #'         "http://ftp.ensembl.org/pub/release-103/gtf/",
 #'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 #'     )
-#'     # .file_cache is an internal function to download a bigwig file from a link
+#'     # file_cache is an internal function to download a bigwig file from a link
 #'     # if the file has been downloaded recently, it will be retrieved from a cache
-#'     gtf_path <- .file_cache(gtf_url)
+#'     gtf_path <- file_cache(gtf_url)
 #' }
 #' if (!exists("eg_opt_exons")) {
 #'     eg_opt_exons <- get_exons(
@@ -622,7 +622,7 @@ get_ers_delta <- function(ers, opt_exons, delta_fun = ODER:::.delta) {
 #'         "http://ftp.ensembl.org/pub/release-103/gtf/",
 #'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 #'     )
-#'     gtf_path <- .file_cache(gtf_url)
+#'     gtf_path <- file_cache(gtf_url)
 #' }
 #' if (!exists("eg_opt_exons")) {
 #'     eg_opt_exons <- get_exons(

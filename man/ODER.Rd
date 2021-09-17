@@ -102,16 +102,16 @@ if (!exists("rec_url")) {
         project = "SRP012682",
         type = "samples",
         download = FALSE
-    ) # .file_cache is an internal function to download a bigwig file from a link
+    ) # file_cache is an internal function to download a bigwig file from a link
     # if the file has been downloaded recently, it will be retrieved from a cache
 }
-bw_path <- ODER:::.file_cache(rec_url[1])
+bw_path <- file_cache(rec_url[1])
 if (!exists("gtf_path")) {
     gtf_url <- paste0(
         "http://ftp.ensembl.org/pub/release-103/gtf/",
         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
     )
-    gtf_path <- ODER:::.file_cache(gtf_url)
+    gtf_path <- file_cache(gtf_url)
 }
 # As of rtracklayer 1.25.16, BigWig is not supported on Windows.
 }

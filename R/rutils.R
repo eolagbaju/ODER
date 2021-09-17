@@ -1,6 +1,6 @@
 #' Cache a file if it is not found locally
 #'
-#' `.file_cache` will use [BiocFileCache][BiocFileCache::BiocFileCache-class]
+#' `file_cache` will use [BiocFileCache][BiocFileCache::BiocFileCache-class]
 #' will cache the file for faster repeated retrival, if it is not found locally
 #' (i.e. a URL).
 #'
@@ -18,9 +18,9 @@
 #'         download = FALSE
 #'     )
 #' }
-#' eg_bwfile <- .file_cache(rec_url[1])
+#' eg_bwfile <- file_cache(rec_url[1])
 #' eg_bwfile
-.file_cache <- function(file_path) {
+file_cache <- function(file_path) {
     if (!file.exists(file_path)) {
 
         # suppress warning for tidyverse deprecated funs (select_() used over select()) in BiocFileCache

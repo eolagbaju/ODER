@@ -3,7 +3,7 @@ if (!exists("gtf_path")) {
         "http://ftp.ensembl.org/pub/release-103/gtf/",
         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
     )
-    gtf_path <- .file_cache(gtf_url)
+    gtf_path <- file_cache(gtf_url)
 }
 
 if (!exists("gtf_grs")) {

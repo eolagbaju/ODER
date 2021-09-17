@@ -17,10 +17,10 @@
 #'         project = "SRP012682",
 #'         type = "samples",
 #'         download = FALSE
-#'     ) # .file_cache is an internal function to download a bigwig file from a link
+#'     ) # file_cache is an internal function to download a bigwig file from a link
 #'     # if the file has been downloaded recently, it will be retrieved from a cache
 #' }
-#' bw_path <- .file_cache(rec_url[1])
+#' bw_path <- file_cache(rec_url[1])
 #'
 #' ex_opt_ers <- GenomicRanges::GRanges(
 #'     seqnames = S4Vectors::Rle(c("chr1", "chr2"), c(4, 1)),

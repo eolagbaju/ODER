@@ -26,7 +26,7 @@
 #'         "http://ftp.ensembl.org/pub/release-103/gtf/",
 #'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 #'     )
-#'     gtf_path <- .file_cache(gtf_url)
+#'     gtf_path <- file_cache(gtf_url)
 #' }
 #'
 #' if (!exists("gtf_gr")) {
@@ -79,7 +79,7 @@ add_expressed_genes <- function(input_file = NULL, tissue, gtf,
 get_tissue <- function(input_file = NULL, tissue) {
     if (is.null(input_file)) {
         gtex_url <- "https://storage.googleapis.com/gtex_analysis_v6p/rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_median_rpkm.gct.gz"
-        gtex_path <- .file_cache(gtex_url)
+        gtex_path <- file_cache(gtex_url)
         gtex_data <- data.table::fread(gtex_path)
     } else {
         gtex_data <- data.table::fread(input_file)
