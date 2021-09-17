@@ -46,7 +46,7 @@
 #'         exons_no_overlap = NULL, bw_chr = "chr"
 #'     )
 #'
-#'     print(opt_ers)
+#'     message(opt_ers)
 #' }
 ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
     mccs, mrgs, gtf = NULL, ucsc_chr, ignore.strand, exons_no_overlap = NULL,

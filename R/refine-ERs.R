@@ -63,7 +63,7 @@ refine_ERs <- function(annot_ers) {
 
     changes <- logical(0) # logical vector to record changes
 
-    print(stringr::str_c(Sys.time(), " - Refining the Expressed regions..."))
+    message(stringr::str_c(Sys.time(), " - Refining the Expressed regions..."))
 
     refined_results <- modify_ers(annot_ers)
 

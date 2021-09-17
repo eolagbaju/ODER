@@ -20,7 +20,7 @@
 #' # coverage_example is from the package data folder
 #' eg_ers <- get_ers(coverage = coverage_example, mccs = c(5, 10), mrgs = c(10, 20))
 #'
-#' print(eg_ers)
+#' message(eg_ers)
 get_ers <- function(coverage, mccs, mrgs) {
     if (missing(coverage)) {
         stop("Coverage is missing")
@@ -45,7 +45,7 @@ get_ers <- function(coverage, mccs, mrgs) {
     ##### Generate ERs #####
 
     for (i in 1:seq_along(coverage)) {
-        print(stringr::str_c(Sys.time(), " - Generating ERs for ", names(coverage)[i]))
+        message(stringr::str_c(Sys.time(), " - Generating ERs for ", names(coverage)[i]))
 
         for (j in 1:seq_along(mccs)) {
             mcc_label <- stringr::str_c("mcc_", mccs[j])
@@ -150,7 +150,7 @@ get_ers <- function(coverage, mccs, mrgs) {
 #'         auc_raw_neg = gtex_metadata[["auc"]][84], auc_target = 40e6 * 100,
 #'         chrs = "chr21", mccs = c(5, 10), mrgs = c(10, 20)
 #'     )
-#'     print(stranded_ers)
+#'     message(stranded_ers)
 #' }
 get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target, chrs, mccs, mrgs, bw_chr = "chr") {
     plus_coverage <- get_coverage(bw_paths = bw_pos, auc_raw = auc_raw_pos, auc_target = auc_target, chrs = chrs, bw_chr = bw_chr)

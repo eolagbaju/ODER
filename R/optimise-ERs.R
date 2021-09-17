@@ -44,7 +44,7 @@
 #'     )
 #' }
 #'
-#' print(eg_opt_exons)
+#' message(eg_opt_exons)
 get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overlapping") {
     if (is.character(gtf)) {
         if (!xor(
@@ -53,7 +53,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
         )) {
             stop("Please check your gtf file path")
         }
-        print(stringr::str_c(Sys.time(), " - Loading in GTF..."))
+        message(stringr::str_c(Sys.time(), " - Loading in GTF..."))
 
         gtf_gr <- rtracklayer::import(gtf)
     } else {
@@ -61,7 +61,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
     }
 
     if (biotype == "Non-overlapping") {
-        print(stringr::str_c(Sys.time(), " - Obtaining non-overlapping exons"))
+        message(stringr::str_c(Sys.time(), " - Obtaining non-overlapping exons"))
 
         exons_gr <- gtf_gr[gtf_gr$type == "exon"]
         exons_gr <- exons_gr[!duplicated(exons_gr$exon_id)]
@@ -123,7 +123,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
     all_data_gr <- GenomicRanges::makeGRangesFromDataFrame(all_data, keep.extra.columns = TRUE)
 
     if (biotype == "Three Prime" | biotype == "3 Prime" | biotype == "3'") {
-        print(stringr::str_c(Sys.time(), " - Obtaining Three Prime exons"))
+        message(stringr::str_c(Sys.time(), " - Obtaining Three Prime exons"))
         ##############################################################
         ################# Extract 3 prime UTRs #######################
         ##############################################################
@@ -183,7 +183,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
     }
 
     if (biotype == "Five Prime" | biotype == "5 Prime" | biotype == "5'") {
-        print(stringr::str_c(Sys.time(), " - Obtaining Five Prime exons"))
+        message(stringr::str_c(Sys.time(), " - Obtaining Five Prime exons"))
         #######################################################################
         ################# Extract five prime  #################################
         #######################################################################
@@ -241,7 +241,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
     }
 
     if (biotype == "Internal") {
-        print(stringr::str_c(Sys.time(), " - Obtaining Internal coding exons"))
+        message(stringr::str_c(Sys.time(), " - Obtaining Internal coding exons"))
 
         #######################################################################
         ################# Extract Internal coding exons (ICE) #######################
@@ -308,7 +308,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
     }
 
     if (biotype == "lncRNA" | biotype == "LNCRNA" | biotype == "lncrna") {
-        print(stringr::str_c(Sys.time(), " - Obtaining Long Non-Coding RNA"))
+        message(stringr::str_c(Sys.time(), " - Obtaining Long Non-Coding RNA"))
         #######################################################################
         #################  Extract lncRNAs  ###################################
         #######################################################################
@@ -369,7 +369,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
     }
 
     if (biotype == "ncRNA" | biotype == "NCRNA" | biotype == "ncrna") {
-        print(stringr::str_c(Sys.time(), " - Obtaining Non-Coding RNA"))
+        message(stringr::str_c(Sys.time(), " - Obtaining Non-Coding RNA"))
 
         ####################################################################
         #################  Extract ncRNAs  #################################
@@ -428,7 +428,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
     }
 
     if (biotype == "pseudo" | biotype == "Pseudo" | biotype == "pseudogene" | biotype == "Pseudogene") {
-        print(stringr::str_c(Sys.time(), " - Obtaining Pseudogene"))
+        message(stringr::str_c(Sys.time(), " - Obtaining Pseudogene"))
 
         ####################################################################
         #################  Extract pseudogenes  #################################
@@ -552,7 +552,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
 #'         delta_fun = ODER:::.delta
 #'     ) # .delta is ODER's default, you can pass in your own if you have one
 #' }
-#' print(eg_ers_delta)
+#' message(eg_ers_delta)
 get_ers_delta <- function(ers, opt_exons, delta_fun = ODER:::.delta) {
     if (missing(ers)) {
         stop("No ERs were entered")
@@ -560,7 +560,7 @@ get_ers_delta <- function(ers, opt_exons, delta_fun = ODER:::.delta) {
         stop("No opt_exons were entered")
     }
 
-    print(stringr::str_c(Sys.time(), " - Calculating delta for ERs..."))
+    message(stringr::str_c(Sys.time(), " - Calculating delta for ERs..."))
 
     mcc_labels <- names(ers)
 
@@ -650,7 +650,7 @@ get_opt_ers <- function(ers, ers_delta) {
         stop("No ers_delta were entered")
     }
 
-    print(stringr::str_c(Sys.time(), " - Obtaining optimal set of ERs..."))
+    message(stringr::str_c(Sys.time(), " - Obtaining optimal set of ERs..."))
 
     delta_opt <-
         ers_delta %>%

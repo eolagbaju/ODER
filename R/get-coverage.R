@@ -42,7 +42,7 @@
 #'         auc_target = 40e6 * 100,
 #'         chrs = c("chr21", "chr22")
 #'     )
-#'     print(eg_coverage)
+#'     message(eg_coverage)
 #' }
 get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38", bw_chr = "chr") {
     if (!is.numeric(auc_raw) | !is.numeric(auc_target)) {
@@ -59,10 +59,10 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
 
     all_chrs_mean_cov <- list()
 
-    print(stringr::str_c(Sys.time(), " - Obtaining mean coverage across ", length(bw_paths), " samples"))
+    message(stringr::str_c(Sys.time(), " - Obtaining mean coverage across ", length(bw_paths), " samples"))
 
     for (i in 1:seq_along(chr_info)) {
-        print(stringr::str_c(Sys.time(), " - ", chr_info[["chrom"]][i]))
+        message(stringr::str_c(Sys.time(), " - ", chr_info[["chrom"]][i]))
         # loading coverage information for designated chromosomes and merging them into a dataframe
         chr_mean_cov <-
             derfinder::loadCoverage(
@@ -97,7 +97,7 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
 #' @examples
 #' eg_info <- get_chr_info(chrs = c("chr21", "chr22"), genome = "hg38")
 #'
-#' print(eg_info)
+#' message(eg_info)
 get_chr_info <- function(chrs, genome) {
     chrs <- informatting(chrs)
 
