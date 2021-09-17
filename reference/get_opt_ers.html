@@ -99,7 +99,7 @@ regions." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/ODERflow.html">ODER workflow</a>
+      <a href="../articles/ODER_overview.html">ODER overview</a>
     </li>
   </ul>
 </li>
@@ -167,7 +167,7 @@ per set of ERs.</p></td>
 <span class='r-in'>        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,</span>
 <span class='r-in'>        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span></span>
 <span class='r-in'>    <span class='op'>)</span></span>
-<span class='r-in'>    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dot-file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='file_cache.html'>file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"eg_opt_exons"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'>    <span class='va'>eg_opt_exons</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_exons.html'>get_exons</a></span><span class='op'>(</span></span>
@@ -176,15 +176,15 @@ per set of ERs.</p></td>
 <span class='r-in'>        ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:17:21 - Loading in GTF..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:17:53 - Obtaining non-overlapping exons"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:25:24 - Loading in GTF..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:26:01 - Obtaining non-overlapping exons"</span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"eg_ers_delta"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'>    <span class='va'>eg_ers_delta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_ers_delta.html'>get_ers_delta</a></span><span class='op'>(</span></span>
 <span class='r-in'>        ers <span class='op'>=</span> <span class='va'>ers_example</span>, <span class='co'># ers_example is from the package data folder</span></span>
 <span class='r-in'>        opt_exons <span class='op'>=</span> <span class='va'>eg_opt_exons</span></span>
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:17:57 - Calculating delta for ERs..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:26:04 - Calculating delta for ERs..."</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-in'><span class='co'># }</span></span>
@@ -192,7 +192,7 @@ per set of ERs.</p></td>
 <span class='r-in'>    ers <span class='op'>=</span> <span class='va'>ers_example</span>,</span>
 <span class='r-in'>    ers_delta <span class='op'>=</span> <span class='va'>eg_ers_delta</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:17:57 - Obtaining optimal set of ERs..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:26:04 - Obtaining optimal set of ERs..."</span>
 <span class='r-in'><span class='va'>opt_ers</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $opt_ers</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 26459 ranges and 0 metadata columns:</span>

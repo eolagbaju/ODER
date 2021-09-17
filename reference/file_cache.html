@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cache a file if it is not found locally — .file_cache • ODER</title>
+<title>Cache a file if it is not found locally — file_cache • ODER</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Cache a file if it is not found locally — .file_cache" />
-<meta property="og:description" content=".file_cache will use BiocFileCache
+<meta property="og:title" content="Cache a file if it is not found locally — file_cache" />
+<meta property="og:description" content="file_cache will use BiocFileCache
 will cache the file for faster repeated retrival, if it is not found locally
 (i.e. a URL)." />
 
@@ -99,7 +99,7 @@ will cache the file for faster repeated retrival, if it is not found locally
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/ODERflow.html">ODER workflow</a>
+      <a href="../articles/ODER_overview.html">ODER overview</a>
     </li>
   </ul>
 </li>
@@ -129,16 +129,16 @@ will cache the file for faster repeated retrival, if it is not found locally
     <div class="page-header">
     <h1>Cache a file if it is not found locally</h1>
     <small class="dont-index">Source: <a href='https://github.com/eolagbaju/ODER/blob/master/R/rutils.R'><code>R/rutils.R</code></a></small>
-    <div class="hidden name"><code>dot-file_cache.Rd</code></div>
+    <div class="hidden name"><code>file_cache.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>.file_cache</code> will use <a href='https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html'>BiocFileCache</a>
+    <p><code>file_cache</code> will use <a href='https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html'>BiocFileCache</a>
 will cache the file for faster repeated retrival, if it is not found locally
 (i.e. a URL).</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>file_path</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>file_cache</span><span class='op'>(</span><span class='va'>file_path</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,10 +161,10 @@ will cache the file for faster repeated retrival, if it is not found locally
 <span class='r-in'>        download <span class='op'>=</span> <span class='cn'>FALSE</span></span>
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-in'><span class='va'>eg_bwfile</span> <span class='op'>&lt;-</span> <span class='fu'>.file_cache</span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>eg_bwfile</span> <span class='op'>&lt;-</span> <span class='fu'>file_cache</span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>eg_bwfile</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                         BFC1 </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> "/github/home/.cache/R/BiocFileCache/38854e6d9dd_SRR660824_SRS389722_SRX222703_male_lung.bw" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> "/github/home/.cache/R/BiocFileCache/3e522636d31_SRR660824_SRS389722_SRX222703_male_lung.bw" </span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

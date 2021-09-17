@@ -98,7 +98,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/ODERflow.html">ODER workflow</a>
+      <a href="../articles/ODER_overview.html">ODER overview</a>
     </li>
   </ul>
 </li>
@@ -210,17 +210,17 @@ combination of MCC and MRG.</p>
 <span class='r-in'>        <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span class='r-in'>        <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-15 11:17:57 downloading the metadata to /tmp/Rtmp9UH10l/metadata_clean_gtex.Rdata</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-17 11:26:05 downloading the metadata to /tmp/Rtmp2fZcH9/metadata_clean_gtex.Rdata</span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"rec_url"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'>    <span class='va'>rec_url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span></span>
 <span class='r-in'>        project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,</span>
 <span class='r-in'>        type <span class='op'>=</span> <span class='st'>"samples"</span>,</span>
 <span class='r-in'>        download <span class='op'>=</span> <span class='cn'>FALSE</span></span>
-<span class='r-in'>    <span class='op'>)</span> <span class='co'># .file_cache is an internal function to download a bigwig file from a link</span></span>
+<span class='r-in'>    <span class='op'>)</span> <span class='co'># file_cache is an internal function to download a bigwig file from a link</span></span>
 <span class='r-in'>    <span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-in'><span class='va'>bw_plus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dot-file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>bw_minus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dot-file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>bw_plus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='file_cache.html'>file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>58</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>bw_minus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='file_cache.html'>file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>84</span><span class='op'>]</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># As of rtracklayer 1.25.16, BigWig is not supported on Windows.</span></span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'>xfun</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xfun/man/os.html'>is_windows</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
@@ -232,22 +232,22 @@ combination of MCC and MRG.</p>
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>stranded_ers</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:17:59 - Obtaining mean coverage across 1 samples"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:26:07 - Obtaining mean coverage across 1 samples"</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 4 elements: only the first used</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:17:59 - chr21"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:18:00 - Obtaining mean coverage across 1 samples"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:26:07 - chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:26:07 - Obtaining mean coverage across 1 samples"</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 4 elements: only the first used</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:18:00 - chr21"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:26:07 - chr21"</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:18:00 - Generating ERs for chr21"</span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:26:07 - Generating ERs for chr21"</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:18:00 - Generating ERs for chr21"</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:26:08 - Generating ERs for chr21"</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>

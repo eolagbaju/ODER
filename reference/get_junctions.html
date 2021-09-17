@@ -102,7 +102,7 @@ as a metadata column, a character list." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/ODERflow.html">ODER workflow</a>
+      <a href="../articles/ODER_overview.html">ODER overview</a>
     </li>
   </ul>
 </li>
@@ -179,9 +179,9 @@ passed in.</p></td>
 <span class='r-in'>        <span class='st'>"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,</span>
 <span class='r-in'>        <span class='st'>"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span></span>
 <span class='r-in'>    <span class='op'>)</span></span>
-<span class='r-in'>    <span class='co'># .file_cache is an internal function to download a bigwig file from a link</span></span>
+<span class='r-in'>    <span class='co'># file_cache is an internal function to download a bigwig file from a link</span></span>
 <span class='r-in'>    <span class='co'># if the file has been downloaded recently, it will be retrieved from a cache</span></span>
-<span class='r-in'>    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dot-file_cache.html'>.file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='file_cache.html'>file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_gr"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
@@ -237,12 +237,12 @@ passed in.</p></td>
 <span class='r-in'>    junc_data <span class='op'>=</span> <span class='va'>example_junctions</span>,</span>
 <span class='r-in'>    txdb <span class='op'>=</span> <span class='va'>ens_txdb</span> <span class='co'># can either be a gtf file or txdb in the Ensembl format</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:17:10 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:17:12 - Getting junction annotation using overlapping exons..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:17:14 - Tidying junction annotation..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:17:14 - Deriving junction categories..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:17:18 - done!"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-15 11:17:18 - Finding junctions overlapping ers..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:25:13 - Obtaining co-ordinates of annotated exons and junctions from gtf/gff3..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:25:15 - Getting junction annotation using overlapping exons..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:25:17 - Tidying junction annotation..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:25:17 - Deriving junction categories..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:25:21 - done!"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:25:21 - Finding junctions overlapping ers..."</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>example_er_juncs</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 11 ranges and 4 metadata columns:</span>

@@ -13,7 +13,7 @@
     <loc>/SUPPORT.html</loc>
   </url>
   <url>
-    <loc>/articles/ODERflow.html</loc>
+    <loc>/articles/ODER_overview.html</loc>
   </url>
   <url>
     <loc>/articles/index.html</loc>
@@ -43,13 +43,13 @@
     <loc>/reference/coverage_example.html</loc>
   </url>
   <url>
-    <loc>/reference/dot-file_cache.html</loc>
-  </url>
-  <url>
     <loc>/reference/ers_delta_example.html</loc>
   </url>
   <url>
     <loc>/reference/ers_example.html</loc>
+  </url>
+  <url>
+    <loc>/reference/file_cache.html</loc>
   </url>
   <url>
     <loc>/reference/get_chr_info.html</loc>
