@@ -53,39 +53,8 @@ Below is the citation output from using `citation('ODER')` in R. Please
 run this yourself to check for any updates on how to cite **ODER**.
 
 ``` r
-print(citation("ODER"), bibtex = TRUE)
-#> 
-#> eolagbaju (2021). _Optimising the Definition of Expressed Regions_.
-#> doi: 10.18129/B9.bioc.ODER (URL:
-#> https://doi.org/10.18129/B9.bioc.ODER),
-#> https://github.com/eolagbaju/ODER/ODER - R package version 0.99.18,
-#> <URL: http://www.bioconductor.org/packages/ODER>.
-#> 
-#> A BibTeX entry for LaTeX users is
-#> 
-#>   @Manual{,
-#>     title = {Optimising the Definition of Expressed Regions},
-#>     author = {{eolagbaju}},
-#>     year = {2021},
-#>     url = {http://www.bioconductor.org/packages/ODER},
-#>     note = {https://github.com/eolagbaju/ODER/ODER - R package version 0.99.18},
-#>     doi = {10.18129/B9.bioc.ODER},
-#>   }
-#> 
-#> eolagbaju (2021). "Optimising the Definition of Expressed Regions."
-#> _bioRxiv_. doi: 10.1101/TODO (URL: https://doi.org/10.1101/TODO), <URL:
-#> https://www.biorxiv.org/content/10.1101/TODO>.
-#> 
-#> A BibTeX entry for LaTeX users is
-#> 
-#>   @Article{,
-#>     title = {Optimising the Definition of Expressed Regions},
-#>     author = {{eolagbaju}},
-#>     year = {2021},
-#>     journal = {bioRxiv},
-#>     doi = {10.1101/TODO},
-#>     url = {https://www.biorxiv.org/content/10.1101/TODO},
-#>   }
+message(citation("ODER"), bibtex = TRUE)
+#> list(title = "Optimising the Definition of Expressed Regions", author = list(list(given = NULL, family = "eolagbaju", role = NULL, email = NULL, comment = NULL)), year = "2021", url = "http://www.bioconductor.org/packages/ODER", note = "https://github.com/eolagbaju/ODER/ODER - R package version 0.99.18", doi = "10.18129/B9.bioc.ODER")list(title = "Optimising the Definition of Expressed Regions", author = list(list(given = NULL, family = "eolagbaju", role = NULL, email = NULL, comment = NULL)), year = "2021", journal = "bioRxiv", doi = "10.1101/TODO", url = "https://www.biorxiv.org/content/10.1101/TODO")TRUE
 ```
 
 Please note that the `ODER` was only made possible thanks to many other

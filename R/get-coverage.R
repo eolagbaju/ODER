@@ -28,9 +28,7 @@
 #'         project = "SRP012682",
 #'         type = "samples",
 #'         download = FALSE
-#'     ) # file_cache is an internal function to download a bigwig file from a link
-#'     # if the file has been downloaded recently, it will be retrieved from a cache
-#'
+#'     )
 #'     bw_path <- file_cache(rec_url[1])
 #' }
 #' }
@@ -85,8 +83,8 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
 
 #' Get information from UCSC about the chromosomes passed in
 #'
-#' Download information about each of the chromosomes passed in, most importantly
-#' the size.
+#' Download information about each of the chromosomes passed in, most
+#' importantly the size.
 #'
 #' @param chrs chromosomes to look up (must match UCSC format)
 #' @param genome the UCSC genome to look at see \url{https://genome.ucsc.edu/}.

@@ -6,8 +6,8 @@
 #' most ideal.
 #'
 #' @param exons_no_overlap Optimum set of exons to help calculate deltas
-#' @param file_type Describes if the BigWigs are stranded or not. Either "stranded"
-#' or non-stranded
+#' @param file_type Describes if the BigWigs are stranded or not. Either
+#' "stranded" or non-stranded
 #' @inheritParams get_coverage
 #' @inheritParams get_ers
 #' @inheritParams get_exons
@@ -24,9 +24,10 @@
 #'         project = "SRP012682",
 #'         type = "samples",
 #'         download = FALSE
-#'     ) # file_cache is an internal function to download a bigwig file from a link
-#'     # if the file has been downloaded recently, it will be retrieved from a cache
+#'     )
 #' }
+#' # file_cache is an internal function to download a bigwig file from a link
+#' # if the file has been downloaded recently, it will be retrieved from a cache
 #' bw_path <- file_cache(rec_url[1])
 #' if (!exists("gtf_path")) {
 #'     gtf_url <- paste0(

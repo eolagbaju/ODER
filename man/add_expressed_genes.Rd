@@ -16,7 +16,8 @@ add_expressed_genes(
 \item{input_file}{GTEX median expression file, if left as NULL the default
 file will be used.}
 
-\item{tissue}{Tissue to filter for. See \code{\link{tissue_options}} for options}
+\item{tissue}{Tissue to filter for. See \code{\link{tissue_options}} for
+options}
 
 \item{gtf}{Either a string containg the path to a .gtf file or a pre-imported
 gtf using \code{rtracklayer::import} . Provides gene data to help determine

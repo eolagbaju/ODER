@@ -3,23 +3,26 @@
 #' Scores the mean coverage of the expressed regions as a count matrix
 #'
 #' @param bw_paths Vector containing the bigwig file paths to read in
-#' @param annot_ers GRangesList containing the annotated ERs (product of \code{annotatERs})
-#' @param cols A dataframe containing the information to be used as colData for the
-#' output. If NULL then the bw_paths will be used for the colData
+#' @param annot_ers GRangesList containing the annotated ERs
+#' (product of \code{annotatERs})
+#' @param cols A dataframe containing the information to be used as colData for
+#'  the output. If NULL then the bw_paths will be used for the colData
 #'
 #' @return A Ranged Summarized Experiment containing the gene counts as an assay
 #' @export
 #'
 #' @examples
 #' megadepth::install_megadepth()
+#'
 #' if (!exists("rec_url")) {
 #'     rec_url <- recount::download_study(
 #'         project = "SRP012682",
 #'         type = "samples",
 #'         download = FALSE
-#'     ) # file_cache is an internal function to download a bigwig file from a link
-#'     # if the file has been downloaded recently, it will be retrieved from a cache
+#'     )
 #' }
+#' # file_cache is an internal function to download a bigwig file from a link
+#' # if the file has been downloaded recently, it will be retrieved from a cache
 #' bw_path <- file_cache(rec_url[1])
 #'
 #' ex_opt_ers <- GenomicRanges::GRanges(
@@ -30,7 +33,10 @@
 #'     )
 #' )
 #'
-#' example_cm <- get_count_matrix(bw_paths = c(bw_path, bw_path), annot_ers = ex_opt_ers)
+#' example_cm <- get_count_matrix(
+#'     bw_paths = c(bw_path, bw_path),
+#'     annot_ers = ex_opt_ers
+#' )
 #' example_cm
 get_count_matrix <- function(bw_paths, annot_ers, cols = NULL) {
     if (is.null(cols)) {

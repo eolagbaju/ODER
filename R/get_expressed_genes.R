@@ -7,7 +7,8 @@
 #'
 #' @param input_file GTEX median expression file, if left as NULL the default
 #' file will be used.
-#' @param tissue Tissue to filter for. See \code{\link{tissue_options}} for options
+#' @param tissue Tissue to filter for. See \code{\link{tissue_options}} for
+#' options
 #' @param gtf Either a string containg the path to a .gtf file or a pre-imported
 #'   gtf using `rtracklayer::import` . Provides gene data to help determine
 #'   the nearest gene and nearest expressed gene.
@@ -102,8 +103,8 @@ get_tissue <- function(input_file = NULL, tissue) {
 #' Get the expressed genes
 #'
 #' Takes in a gtf file and a dataframe with expressed genes from a specific
-#' tissue. Filters the gtf file for genes and keeps those that are present in the
-#' tissue dataframe passed in.
+#' tissue. Filters the gtf file for genes and keeps those that are present in
+#' the tissue dataframe passed in.
 #'
 #' @param gtf gtf file path or gtf GRanges
 #' @param species character string containing the species to filter for,
@@ -135,8 +136,10 @@ get_expressed_genes <- function(gtf, species = "Homo_sapiens", tissue_df) {
 #' \code{\link{annotatERs}}, expressed genes and a gtf file.
 #'
 #' @param gtf gtf file path or gtf GRanges
-#' @param annot_ers annotated ERs, should have an mcols column called "annotation"
-#' @param exp_genes GRanges containing the expressed genes of a particular tissue
+#' @param annot_ers annotated ERs, should have an mcols column called
+#' "annotation"
+#' @param exp_genes GRanges containing the expressed genes of a particular
+#' tissue
 #'
 #' @return GRanges with the expressed genes for a specific tissue
 #' @keywords internal

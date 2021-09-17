@@ -27,43 +27,14 @@ respective genes that each ER could be associated with will also be passed in
 as a metadata column, a character list.
 }
 \examples{
-\dontshow{
-if (!exists("gtf_path")) {
-    gtf_url <- paste0(
-        "http://ftp.ensembl.org/pub/release-103/gtf/",
-        "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-    )
-    # file_cache is an internal function to download a bigwig file from a link
-    # if the file has been downloaded recently, it will be retrieved from a cache
-    gtf_path <- file_cache(gtf_url)
-}
+gtf_url <- paste0(
+    "http://ftp.ensembl.org/pub/release-103/gtf/",
+    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+)
+# file_cache is an internal function to download a bigwig file from a link
+# if the file has been downloaded recently, it will be retrieved from a cache
+gtf_path <- file_cache(gtf_url)
 
-if (!exists("gtf_gr")) {
-    gtf_gr <- rtracklayer::import(gtf_path)
-}
-
-chrs_to_keep <- c("21", "22")
-if (!exists("ens_txdb")) {
-    #### preparing the txdb object
-    hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
-    new_info <- hg38_chrominfo$size[match(
-        chrs_to_keep,
-        GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
-    )]
-    names(new_info) <- chrs_to_keep
-    gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
-        chrs_to_keep,
-        pruning.mode = "tidy"
-    )
-    GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
-    GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
-    rtracklayer::genome(gtf_gr_tx) <- "hg38"
-
-    ens_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
-    GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
-    ################### end of txdb creation
-}
-}
 example_ers <- GenomicRanges::GRanges(
     seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(10, 1)),
     ranges = IRanges::IRanges(
@@ -81,16 +52,40 @@ example_ers <- GenomicRanges::GRanges(
     score = 1:11,
     GC = seq(1, 0, length = 11)
 )
+if (!exists("gtf_gr")) {
+    gtf_gr <- rtracklayer::import(gtf_path)
+}
+chrs_to_keep <- c("21", "22")
+#### preparing the txdb and genomstate object(s)
+hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
+new_info <- hg38_chrominfo$size[match(
+    chrs_to_keep,
+    GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
+)]
+names(new_info) <- chrs_to_keep
+gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
+    chrs_to_keep,
+    pruning.mode = "tidy"
+)
+GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
+GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
+rtracklayer::genome(gtf_gr_tx) <- "hg38"
 
-example_junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
+ucsc_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
+genom_state <- derfinder::makeGenomicState(txdb = ucsc_txdb)
+ens_txdb <- ucsc_txdb
+GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
+################### end of genomstate creation
+
+junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
 
 example_er_juncs <- get_junctions(
     opt_ers = example_ers,
-    junc_data = example_junctions,
+    junc_data = junctions,
     txdb = ens_txdb # can either be a gtf file or txdb in the Ensembl format
 )
 
-print(example_er_juncs)
+message(example_er_juncs)
 }
 \seealso{
 dasper::junction_annot

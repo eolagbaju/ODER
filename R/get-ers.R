@@ -5,12 +5,12 @@
 #'
 #' @param coverage the coverage of the bigwig files passed into
 #'   \code{\link{get_coverage}}.
-#' @param mccs numeric vector containing the mean coverage cut-offs to apply. MCCs
-#' are the mininmum number of reads that a base has to have to be considered as
-#' expressed.
-#' @param mrgs numeric vector containing the max region gaps to apply. MRGs are the
-#' maximum number of bases between ERs that can be below the MCC and the adjacent
-#' ERs will be merged.
+#' @param mccs numeric vector containing the mean coverage cut-offs to apply.
+#' MCCs are the mininmum number of reads that a base has to have to be
+#' considered as expressed.
+#' @param mrgs numeric vector containing the max region gaps to apply. MRGs are
+#' the maximum number of bases between ERs that can be below the MCC and the
+#' adjacent ERs will be merged.
 #'
 #' @return list containing sets of ERs, each generated using a particular
 #'   combination of MCC and MRG.
@@ -18,7 +18,11 @@
 #'
 #' @examples
 #' # coverage_example is from the package data folder
-#' eg_ers <- get_ers(coverage = coverage_example, mccs = c(5, 10), mrgs = c(10, 20))
+#' eg_ers <- get_ers(
+#'     coverage = coverage_example,
+#'     mccs = c(5, 10),
+#'     mrgs = c(10, 20)
+#' )
 #'
 #' message(eg_ers)
 get_ers <- function(coverage, mccs, mrgs) {
@@ -98,15 +102,15 @@ get_ers <- function(coverage, mccs, mrgs) {
 
 #' Define sets of ERs for stranded Bigwigs
 #'
-#' \code{get_strand_ers} defines ERs across an inputted range of mean coverage cut-offs
-#' (MCCs) and max region gaps (MRGs) from the coverage.
+#' \code{get_strand_ers} defines ERs across an inputted range of mean coverage
+#' cut-offs (MCCs) and max region gaps (MRGs) from the coverage.
 #'
 #' @param bw_pos positive strand bigwig file
 #' @param bw_neg negative strand bigwig file
-#' @param auc_raw_pos vector containing AUCs(Area Under Coverage) matching the order
-#'   of the positive bigwig paths.
-#' @param auc_raw_neg vector containing AUCs(Area Under Coverage) matching the order
-#'   of the negative bigwig paths.
+#' @param auc_raw_pos vector containing AUCs(Area Under Coverage) matching the
+#' order of the positive bigwig paths.
+#' @param auc_raw_neg vector containing AUCs(Area Under Coverage) matching the
+#' order of the negative bigwig paths.
 #' @param auc_target total AUC to normalise all samples to. E.g. 40e6 * 100
 #'   would be the estimated total auc for sample sequenced to 40 million reads
 #'   of 100bp in length.
@@ -119,8 +123,8 @@ get_ers <- function(coverage, mccs, mrgs) {
 #'   with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 #'   "chr" or "nochr" with "chr" being the default.
 #'
-#' @return list containing sets of stranded ERs, each generated using a particular
-#'   combination of MCC and MRG.
+#' @return list containing sets of stranded ERs, each generated using a
+#' particular combination of MCC and MRG.
 #' @export
 #'
 #' @examples
@@ -136,9 +140,10 @@ get_ers <- function(coverage, mccs, mrgs) {
 #'         project = "SRP012682",
 #'         type = "samples",
 #'         download = FALSE
-#'     ) # file_cache is an internal function to download a bigwig file from a link
-#'     # if the file has been downloaded recently, it will be retrieved from a cache
+#'     )
 #' }
+#' # file_cache is an internal function to download a bigwig file from a link
+#' # if the file has been downloaded recently, it will be retrieved from a cache
 #' bw_plus <- file_cache(rec_url[58])
 #' bw_minus <- file_cache(rec_url[84])
 #'

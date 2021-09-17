@@ -7,8 +7,8 @@
 plot_ers(ers_delta, opt_mcc_mrg)
 }
 \arguments{
-\item{ers_delta}{tibble/dataframe containing summarised delta values. One row per set
-of ERs.}
+\item{ers_delta}{tibble/dataframe containing summarised delta values. One row
+per set of ERs.}
 
 \item{opt_mcc_mrg}{vector containing the optimum mcc and mrg, in that order}
 }
@@ -21,7 +21,10 @@ MCCs on two separate graphs with a line for each of the various MRGs.
 }
 \examples{
 # ers_delta_example is from the package data folder
-eg_plots <- plot_ers(ers_delta = ers_delta_example, opt_mcc_mrg = c("mcc_10", "mrg_20"))
+eg_plots <- plot_ers(ers_delta = ers_delta_example, opt_mcc_mrg = c(
+    "mcc_10",
+    "mrg_20"
+))
 
 eg_plots
 }

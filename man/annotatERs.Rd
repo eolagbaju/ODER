@@ -19,8 +19,8 @@ annotatERs(opt_ers, junc_data, genom_state, gtf, txdb)
 for annotation.}
 
 \item{txdb}{\link[GenomicFeatures:TxDb-class]{TxDb-class} (txdb object) to create
-genomic state. This is used to annotate the expressed regions as exonic, intronic
-or intergenic.}
+genomic state. This is used to annotate the expressed regions as exonic,
+intronic or intergenic.}
 }
 \value{
 annotated ERs
@@ -32,18 +32,18 @@ generate a genomic state used to label each ER as to whether they are exonic,
 intronic, intergenic or none.
 }
 \examples{
-\dontshow{
-if (!exists("gtf_path")) {
-    gtf_url <- paste0(
-        "http://ftp.ensembl.org/pub/release-103/gtf/",
-        "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-    )
-    gtf_path <- file_cache(gtf_url)
-}
+
+gtf_url <- paste0(
+    "http://ftp.ensembl.org/pub/release-103/gtf/",
+    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+)
+# file_cache is an internal function to download a bigwig file from a link
+# if the file has been downloaded recently, it will be retrieved from a cache
+gtf_path <- file_cache(gtf_url)
+
 
 if (!exists("gtf_gr")) {
     gtf_gr <- rtracklayer::import(gtf_path)
-}
 }
 ex_opt_ers <- GenomicRanges::GRanges(
     seqnames = S4Vectors::Rle(c("chr21"), c(5)),
@@ -54,28 +54,30 @@ ex_opt_ers <- GenomicRanges::GRanges(
 )
 
 junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
-
 chrs_to_keep <- c("21", "22")
-#### preparing the txdb and genomstate object(s)
-hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
-new_info <- hg38_chrominfo$size[match(
-    chrs_to_keep,
-    GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
-)]
-names(new_info) <- chrs_to_keep
-gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
-    chrs_to_keep,
-    pruning.mode = "tidy"
-)
-GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
-GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
-rtracklayer::genome(gtf_gr_tx) <- "hg38"
+if (!exists("genom_state")) {
+    #### preparing the txdb and genomstate object(s)
+    hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
+    new_info <- hg38_chrominfo$size[match(
+        chrs_to_keep,
+        GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
+    )]
+    names(new_info) <- chrs_to_keep
+    gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
+        chrs_to_keep,
+        pruning.mode = "tidy"
+    )
+    GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
+    GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
+    rtracklayer::genome(gtf_gr_tx) <- "hg38"
 
-ucsc_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
-genom_state <- derfinder::makeGenomicState(txdb = ucsc_txdb)
-ens_txdb <- ucsc_txdb
-GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
-################### end of genomstate creation
+    ucsc_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
+    genom_state <- derfinder::makeGenomicState(txdb = ucsc_txdb)
+    ens_txdb <- ucsc_txdb
+    GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
+    ################### end of genomstate creation
+}
+
 
 if (!exists("annot_ers1")) {
     annot_ers1 <- annotatERs(

@@ -27,8 +27,6 @@
 #'         "http://ftp.ensembl.org/pub/release-103/gtf/",
 #'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 #'     )
-#'     # file_cache is an internal function to download a bigwig file from a link
-#'     # if the file has been downloaded recently, it will be retrieved from a cache
 #'     gtf_path <- file_cache(gtf_url)
 #' }
 #'
@@ -533,9 +531,10 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
 #'         "http://ftp.ensembl.org/pub/release-103/gtf/",
 #'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 #'     )
-#'     # file_cache is an internal function to download a bigwig file from a link
-#'     # if the file has been downloaded recently, it will be retrieved from a cache
-#'     gtf_path <- file_cache(gtf_url)
+#'     # file_cache is an internal function to download a bigwig file from a
+#'     # link
+#'     # if the file has been downloaded recently, it will be retrieved from a
+#'     # cache gtf_path <- file_cache(gtf_url)
 #' }
 #' if (!exists("eg_opt_exons")) {
 #'     eg_opt_exons <- get_exons(
@@ -654,8 +653,9 @@ get_opt_ers <- function(ers, ers_delta) {
 
     delta_opt <-
         ers_delta %>%
-        dplyr::filter(median == min(median)) %>% # with the lowest median ER delta
-        dplyr::filter(n_eq_0 == max(n_eq_0)) # and highest num of delta equal to 0
+        dplyr::filter(median == min(median)) %>%
+        dplyr::filter(n_eq_0 == max(n_eq_0)) # with the lowest median ER delta
+    # and highest num of delta equal to 0
 
     mcc_label <- stringr::str_c("mcc_", as.character(delta_opt[["mcc"]]))
     mrg_label <- stringr::str_c("mrg_", as.character(delta_opt[["mrg"]]))

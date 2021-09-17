@@ -3,8 +3,8 @@
 #' Plots the median deltas and the number of ERs with a delta of 0 against the
 #' MCCs on two separate graphs with a line for each of the various MRGs.
 #'
-#' @param ers_delta tibble/dataframe containing summarised delta values. One row per set
-#'   of ERs.
+#' @param ers_delta tibble/dataframe containing summarised delta values. One row
+#'  per set of ERs.
 #' @param opt_mcc_mrg vector containing the optimum mcc and mrg, in that order
 #'
 #' @return Plot of MCC against median delta and number of ERS with a delta of 0
@@ -22,7 +22,10 @@
 #'
 #' @examples
 #' # ers_delta_example is from the package data folder
-#' eg_plots <- plot_ers(ers_delta = ers_delta_example, opt_mcc_mrg = c("mcc_10", "mrg_20"))
+#' eg_plots <- plot_ers(ers_delta = ers_delta_example, opt_mcc_mrg = c(
+#'     "mcc_10",
+#'     "mrg_20"
+#' ))
 #'
 #' eg_plots
 plot_ers <- function(ers_delta, opt_mcc_mrg) {

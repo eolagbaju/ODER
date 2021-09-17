@@ -10,13 +10,13 @@ get_ers(coverage, mccs, mrgs)
 \item{coverage}{the coverage of the bigwig files passed into
 \code{\link{get_coverage}}.}
 
-\item{mccs}{numeric vector containing the mean coverage cut-offs to apply. MCCs
-are the mininmum number of reads that a base has to have to be considered as
-expressed.}
+\item{mccs}{numeric vector containing the mean coverage cut-offs to apply.
+MCCs are the mininmum number of reads that a base has to have to be
+considered as expressed.}
 
-\item{mrgs}{numeric vector containing the max region gaps to apply. MRGs are the
-maximum number of bases between ERs that can be below the MCC and the adjacent
-ERs will be merged.}
+\item{mrgs}{numeric vector containing the max region gaps to apply. MRGs are
+the maximum number of bases between ERs that can be below the MCC and the
+adjacent ERs will be merged.}
 }
 \value{
 list containing sets of ERs, each generated using a particular
@@ -28,7 +28,11 @@ coverage cut-offs (MCCs) and max region gaps (MRGs) from the coverage.
 }
 \examples{
 # coverage_example is from the package data folder
-eg_ers <- get_ers(coverage = coverage_example, mccs = c(5, 10), mrgs = c(10, 20))
+eg_ers <- get_ers(
+    coverage = coverage_example,
+    mccs = c(5, 10),
+    mrgs = c(10, 20)
+)
 
-print(eg_ers)
+message(eg_ers)
 }

@@ -15,11 +15,11 @@ get_chr_info(chrs, genome)
 a dataframe with data on the passed in chromosomes
 }
 \description{
-Download information about each of the chromosomes passed in, most importantly
-the size.
+Download information about each of the chromosomes passed in, most
+importantly the size.
 }
 \examples{
 eg_info <- get_chr_info(chrs = c("chr21", "chr22"), genome = "hg38")
 
-print(eg_info)
+message(eg_info)
 }

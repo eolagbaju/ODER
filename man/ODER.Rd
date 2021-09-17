@@ -42,13 +42,13 @@ chromosome i.e. chrs = c(1,X)}
 
 \item{genome}{the UCSC genome you want to use, the default is hg38.}
 
-\item{mccs}{numeric vector containing the mean coverage cut-offs to apply. MCCs
-are the mininmum number of reads that a base has to have to be considered as
-expressed.}
+\item{mccs}{numeric vector containing the mean coverage cut-offs to apply.
+MCCs are the mininmum number of reads that a base has to have to be
+considered as expressed.}
 
-\item{mrgs}{numeric vector containing the max region gaps to apply. MRGs are the
-maximum number of bases between ERs that can be below the MCC and the adjacent
-ERs will be merged.}
+\item{mrgs}{numeric vector containing the max region gaps to apply. MRGs are
+the maximum number of bases between ERs that can be below the MCC and the
+adjacent ERs will be merged.}
 
 \item{gtf}{Either a string containg the path to a .gtf file or a pre-imported
 gtf using \code{rtracklayer::import} .}
@@ -72,18 +72,18 @@ if set to TRUE and seqnames already have "chr", it will not add another.}
 with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 "chr" or "nochr" with "chr" being the default.}
 
-\item{file_type}{Describes if the BigWigs are stranded or not. Either "stranded"
-or non-stranded}
+\item{file_type}{Describes if the BigWigs are stranded or not. Either
+"stranded" or non-stranded}
 
 \item{bw_pos}{positive strand bigwig file}
 
 \item{bw_neg}{negative strand bigwig file}
 
-\item{auc_raw_pos}{vector containing AUCs(Area Under Coverage) matching the order
-of the positive bigwig paths.}
+\item{auc_raw_pos}{vector containing AUCs(Area Under Coverage) matching the
+order of the positive bigwig paths.}
 
-\item{auc_raw_neg}{vector containing AUCs(Area Under Coverage) matching the order
-of the negative bigwig paths.}
+\item{auc_raw_neg}{vector containing AUCs(Area Under Coverage) matching the
+order of the negative bigwig paths.}
 }
 \value{
 list containing optimised ERs, optimal pair of MCC/MRGs and
@@ -102,9 +102,10 @@ if (!exists("rec_url")) {
         project = "SRP012682",
         type = "samples",
         download = FALSE
-    ) # file_cache is an internal function to download a bigwig file from a link
-    # if the file has been downloaded recently, it will be retrieved from a cache
+    )
 }
+# file_cache is an internal function to download a bigwig file from a link
+# if the file has been downloaded recently, it will be retrieved from a cache
 bw_path <- file_cache(rec_url[1])
 if (!exists("gtf_path")) {
     gtf_url <- paste0(
@@ -124,6 +125,6 @@ if (!xfun::is_windows()) {
         exons_no_overlap = NULL, bw_chr = "chr"
     )
 
-    print(opt_ers)
+    message(opt_ers)
 }
 }
