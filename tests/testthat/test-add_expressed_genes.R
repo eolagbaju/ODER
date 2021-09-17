@@ -18,12 +18,12 @@ ex_opt_ers <- GenomicRanges::GRanges(
     )
 )
 
-liver_tissue <- ODER:::get_tissue(tissue = "liver")
-stomach_tissue <- ODER:::get_tissue(tissue = "stomach")
+liver_tissue <- get_tissue(tissue = "liver")
+stomach_tissue <- get_tissue(tissue = "stomach")
 
-livexpr_genes <- ODER:::get_expressed_genes(gtf = gtf_grs, tissue_df = liver_tissue)
+livexpr_genes <- get_expressed_genes(gtf = gtf_grs, tissue_df = liver_tissue)
 
-full_annot_liver_ers <- ODER:::get_nearest_expressed_genes(annot_ers = ex_opt_ers, exp_genes = livexpr_genes, gtf = gtf_grs)
+full_annot_liver_ers <- get_nearest_expressed_genes(annot_ers = ex_opt_ers, exp_genes = livexpr_genes, gtf = gtf_grs)
 
 
 test_that("get_tissue works", {
