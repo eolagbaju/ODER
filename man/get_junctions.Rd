@@ -85,7 +85,7 @@ example_er_juncs <- get_junctions(
     txdb = ens_txdb # can either be a gtf file or txdb in the Ensembl format
 )
 
-message(example_er_juncs)
+example_er_juncs
 }
 \seealso{
 dasper::junction_annot

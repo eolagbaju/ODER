@@ -21,5 +21,5 @@ importantly the size.
 \examples{
 eg_info <- get_chr_info(chrs = c("chr21", "chr22"), genome = "hg38")
 
-message(eg_info)
+eg_info
 }

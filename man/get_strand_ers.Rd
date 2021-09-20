@@ -79,6 +79,6 @@ if (!xfun::is_windows()) {
         auc_raw_neg = gtex_metadata[["auc"]][84], auc_target = 40e6 * 100,
         chrs = "chr21", mccs = c(5, 10), mrgs = c(10, 20)
     )
-    message(stranded_ers)
+    stranded_ers
 }
 }

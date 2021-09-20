@@ -125,6 +125,6 @@ if (!xfun::is_windows()) {
         exons_no_overlap = NULL, bw_chr = "chr"
     )
 
-    message(opt_ers)
+    opt_ers
 }
 }

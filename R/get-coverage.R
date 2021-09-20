@@ -40,7 +40,7 @@
 #'         auc_target = 40e6 * 100,
 #'         chrs = c("chr21", "chr22")
 #'     )
-#'     message(eg_coverage)
+#'     eg_coverage
 #' }
 get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38", bw_chr = "chr") {
     if (!is.numeric(auc_raw) | !is.numeric(auc_target)) {
@@ -95,7 +95,7 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
 #' @examples
 #' eg_info <- get_chr_info(chrs = c("chr21", "chr22"), genome = "hg38")
 #'
-#' message(eg_info)
+#' eg_info
 get_chr_info <- function(chrs, genome) {
     chrs <- informatting(chrs)
 

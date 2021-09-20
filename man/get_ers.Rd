@@ -34,5 +34,5 @@ eg_ers <- get_ers(
     mrgs = c(10, 20)
 )
 
-message(eg_ers)
+eg_ers
 }

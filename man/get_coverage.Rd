@@ -60,6 +60,6 @@ if (!xfun::is_windows()) {
         auc_target = 40e6 * 100,
         chrs = c("chr21", "chr22")
     )
-    message(eg_coverage)
+    eg_coverage
 }
 }

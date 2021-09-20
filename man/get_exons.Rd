@@ -52,5 +52,5 @@ if (!exists("eg_opt_exons")) {
     )
 }
 
-message(eg_opt_exons)
+eg_opt_exons
 }

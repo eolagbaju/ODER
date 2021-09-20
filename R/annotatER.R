@@ -77,7 +77,7 @@
 #'     txdb = ens_txdb # can either be a gtf file or txdb in the Ensembl format
 #' )
 #'
-#' message(example_er_juncs)
+#' example_er_juncs
 get_junctions <- function(opt_ers, junc_data, txdb) {
     if (methods::is(junc_data, "data.frame")) {
         junc_data <- GenomicRanges::makeGRangesFromDataFrame(junc_data)
