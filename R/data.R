@@ -8,7 +8,7 @@
 #'
 #' @source See example.R in data-raw
 #'
-"auc_example"
+"gtex_lung_auc_1"
 #' An example object containing coverage
 #'
 #' Coverage generated for a user to try out the package and
@@ -19,11 +19,11 @@
 #'
 #' @source See example.R in data-raw
 #'
-"coverage_example"
+"gtex_lung_coverage_1"
 #' An example set of Expressed Regions
 #'
 #' An example set of Expressed Regions generated for a user to try out the
-#' package and to pass in for tests. Generated using coverage_example and MCCs
+#' package and to pass in for tests. Generated using gtex_lung_coverage_1 and MCCs
 #' of 5 and 10 and MRGs of 10 and 20.
 #'
 #' @format A list containing two lists (for each mcc) each with a set of genomic ranges
@@ -31,17 +31,17 @@
 #'
 #' @source See example.R in data-raw
 #'
-"ers_example"
+"gtex_lung_ers_1"
 #' An example set of ER deltas
 #'
-#' This set of deltas was calculated using ers_example and exons from ensembl.
+#' This set of deltas was calculated using gtex_lung_ers_1 and exons from ensembl.
 #'
 #' @format A tibble/dataframe with the sums, means, medians, n_eq_0 and
 #' propor_eq_0 for each combination of mccs (5 & 10) and mrgs (10 & 20)
 #'
 #' @source See example.R in data-raw
 #'
-"ers_delta_example"
+"gtex_lung_erdelta_1"
 #' Junction data of chromosomes 21 and 22 from a lung tissue sample
 #'
 #' These junctions were sampled from a local junction file.

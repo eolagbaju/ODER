@@ -12,23 +12,23 @@ url <- recount::download_study(
     download = FALSE
 )
 
-auc_example <- gtex_metadata[["auc"]][1]
+gtex_lung_auc_1 <- gtex_metadata[["auc"]][1]
 bw_path <- ODER::file_cache(url[1])
 
-coverage_example <- ODER::get_coverage(
+gtex_lung_coverage_1 <- ODER::get_coverage(
     bw_paths = bw_path,
-    auc_raw = auc_example,
+    auc_raw = gtex_lung_auc_1,
     auc_target = 40e6 * 100,
     chrs = c("chr21", "chr22")
 )
 
-ers_example <- ODER::get_ers(coverage = coverage_example, mccs = c(5, 10), mrgs = c(10, 20))
+gtex_lung_ers_1 <- ODER::get_ers(coverage = gtex_lung_coverage_1, mccs = c(5, 10), mrgs = c(10, 20))
 
 gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
 gtf_path <- ODER::file_cache(gtf_url)
 exons_no_overlap <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE)
 
-ers_delta_example <- get_ers_delta(ers = ers_example, opt_exons = exons_no_overlap, delta_fun = .delta)
+gtex_lung_erdelta_1 <- get_ers_delta(ers = gtex_lung_ers_1, opt_exons = exons_no_overlap, delta_fun = .delta)
 
 # gtex_url <- "https://storage.googleapis.com/gtex_analysis_v6p/rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_median_rpkm.gct.gz"
 # gtex_path <- ODER::file_cache(gtex_url)
@@ -36,7 +36,7 @@ ers_delta_example <- get_ers_delta(ers = ers_example, opt_exons = exons_no_overl
 # gtex_data <- fread(gtex_path)
 
 
-usethis::use_data(auc_example, overwrite = TRUE)
-usethis::use_data(coverage_example, overwrite = TRUE) # might have to exclude - 1.4MB
-usethis::use_data(ers_example, overwrite = TRUE)
-usethis::use_data(ers_delta_example, overwrite = TRUE)
+usethis::use_data(gtex_lung_auc_1, overwrite = TRUE)
+usethis::use_data(gtex_lung_coverage_1, overwrite = TRUE) # might have to exclude - 1.4MB
+usethis::use_data(gtex_lung_ers_1, overwrite = TRUE)
+usethis::use_data(gtex_lung_erdelta_1, overwrite = TRUE)

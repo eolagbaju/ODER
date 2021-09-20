@@ -27,9 +27,9 @@ combination of MCC and MRG.
 coverage cut-offs (MCCs) and max region gaps (MRGs) from the coverage.
 }
 \examples{
-# coverage_example is from the package data folder
+# gtex_lung_coverage_1 is from the package data folder
 eg_ers <- get_ers(
-    coverage = coverage_example,
+    coverage = gtex_lung_coverage_1,
     mccs = c(5, 10),
     mrgs = c(10, 20)
 )

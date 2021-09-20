@@ -1,12 +1,12 @@
 test_plots <- plot_ers(
-    ers_delta = ers_delta_example, # ers_delta_example is from the data folder
+    ers_delta = gtex_lung_erdelta_1, # gtex_lung_erdelta_1 is from the data folder
     opt_mcc_mrg = c("mcc_10", "mrg_20")
 )
 
 test_that("plot_ers works", {
     expect_error(
         plot_ers(
-            ers_delta = ers_delta_example
+            ers_delta = gtex_lung_erdelta_1
         ),
         "The optimum MCC and/or MRG were not entered"
     )

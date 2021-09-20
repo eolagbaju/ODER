@@ -40,13 +40,13 @@ if (!exists("eg_opt_exons")) {
 }
 if (!exists("eg_ers_delta")) {
     eg_ers_delta <- get_ers_delta(
-        ers = ers_example, # ers_example is from the package data folder
+        ers = gtex_lung_ers_1, # gtex_lung_ers_1 is from the package data folder
         opt_exons = eg_opt_exons
     )
 }
 }
 opt_ers <- get_opt_ers(
-    ers = ers_example,
+    ers = gtex_lung_ers_1,
     ers_delta = eg_ers_delta
 )
 opt_ers
