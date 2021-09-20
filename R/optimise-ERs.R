@@ -42,7 +42,7 @@
 #'     )
 #' }
 #'
-#' message(eg_opt_exons)
+#' eg_opt_exons
 get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overlapping") {
     if (is.character(gtf)) {
         if (!xor(
@@ -548,17 +548,19 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE, biotype = "Non-overla
 #' if (!exists("eg_ers_delta")) {
 #'     eg_ers_delta <- get_ers_delta(
 #'         ers = ers_example, # ers_example is from the package data folder
-#'         opt_exons = eg_opt_exons,
-#'         delta_fun = .delta
-#'     ) # .delta is ODER's default, you can pass in your own if you have one
+#'         opt_exons = eg_opt_exons
+#'     ) # .delta is ODER's default and is used if delta_fun is left NULL
+#'     # you can pass in your own if you have one
 #' }
-#' message(eg_ers_delta)
-get_ers_delta <- function(ers, opt_exons, delta_fun = ODER:::.delta) {
+#' eg_ers_delta
+get_ers_delta <- function(ers, opt_exons, delta_fun = NULL) {
     if (missing(ers)) {
         stop("No ERs were entered")
     } else if (missing(opt_exons)) {
         stop("No opt_exons were entered")
     }
+
+    if (is.null(delta_fun)) delta_fun <- .delta
 
     message(stringr::str_c(Sys.time(), " - Calculating delta for ERs..."))
 

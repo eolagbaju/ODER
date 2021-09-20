@@ -4,7 +4,7 @@
 \alias{get_ers_delta}
 \title{Calculates delta for sets of ERs}
 \usage{
-get_ers_delta(ers, opt_exons, delta_fun = ODER:::.delta)
+get_ers_delta(ers, opt_exons, delta_fun = NULL)
 }
 \arguments{
 \item{ers}{Sets of ERs across various MCCs/MRGs - output of
@@ -51,9 +51,9 @@ if (!exists("eg_opt_exons")) {
 if (!exists("eg_ers_delta")) {
     eg_ers_delta <- get_ers_delta(
         ers = ers_example, # ers_example is from the package data folder
-        opt_exons = eg_opt_exons,
-        delta_fun = .delta
-    ) # .delta is ODER's default, you can pass in your own if you have one
+        opt_exons = eg_opt_exons
+    ) # .delta is ODER's default and is used if delta_fun is left NULL
+    # you can pass in your own if you have one
 }
-message(eg_ers_delta)
+eg_ers_delta
 }
