@@ -148,15 +148,15 @@ coverage cut-offs (MCCs) and max region gaps (MRGs) from the coverage.</p>
     </tr>
     <tr>
       <th>mccs</th>
-      <td><p>numeric vector containing the mean coverage cut-offs to apply. MCCs
-are the mininmum number of reads that a base has to have to be considered as
-expressed.</p></td>
+      <td><p>numeric vector containing the mean coverage cut-offs to apply.
+MCCs are the mininmum number of reads that a base has to have to be
+considered as expressed.</p></td>
     </tr>
     <tr>
       <th>mrgs</th>
-      <td><p>numeric vector containing the max region gaps to apply. MRGs are the
-maximum number of bases between ERs that can be below the MCC and the adjacent
-ERs will be merged.</p></td>
+      <td><p>numeric vector containing the max region gaps to apply. MRGs are
+the maximum number of bases between ERs that can be below the MCC and the
+adjacent ERs will be merged.</p></td>
     </tr>
     </table>
 
@@ -167,17 +167,21 @@ combination of MCC and MRG.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># coverage_example is from the package data folder</span></span>
-<span class='r-in'><span class='va'>eg_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_ers</span><span class='op'>(</span>coverage <span class='op'>=</span> <span class='va'>coverage_example</span>, mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>, mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>eg_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_ers</span><span class='op'>(</span></span>
+<span class='r-in'>    coverage <span class='op'>=</span> <span class='va'>coverage_example</span>,</span>
+<span class='r-in'>    mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>,</span>
+<span class='r-in'>    mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-17 11:23:05 - Generating ERs for chr21"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-20 14:48:00 - Generating ERs for chr21</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>numerical expression has 2 elements: only the first used</span>
 <span class='r-in'></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>eg_ers</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>eg_ers</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5$mrg_10</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 10374 ranges and 0 metadata columns:</span>
