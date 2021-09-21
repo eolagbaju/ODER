@@ -16,6 +16,8 @@
 #' Homo sapiens is the default
 #' @param annot_ers annotated ERs i.e. the product of \code{\link{annotatERs}},
 #' should have an mcols column called "annotation"
+#' @param type_col_name column name in the gtf file to filter on genes. Default
+#' is "type
 #' @return Granges with annotated ERs and details of their nearest expressed
 #'    genes
 #'
@@ -49,12 +51,22 @@
 #'
 #' ex_opt_ers_w_exp_genes
 add_expressed_genes <- function(input_file = NULL, tissue, gtf,
-    species = "Homo_sapiens", annot_ers) {
+    species = "Homo_sapiens", annot_ers, type_col_name = "type") {
     tissue_df <- get_tissue(input_file = input_file, tissue = tissue)
 
-    expressed_genes <- get_expressed_genes(gtf = gtf, species = species, tissue_df = tissue_df)
+    expressed_genes <- get_expressed_genes(
+        gtf = gtf,
+        species = species,
+        tissue_df = tissue_df,
+        type_col_name = type_col_name
+    )
 
-    full_annot_ers <- get_nearest_expressed_genes(annot_ers = annot_ers, exp_genes = expressed_genes, gtf = gtf)
+    full_annot_ers <- get_nearest_expressed_genes(
+        annot_ers = annot_ers,
+        exp_genes = expressed_genes,
+        gtf = gtf,
+        type_col_name = type_col_name
+    )
 
     return(full_annot_ers)
 }
@@ -111,16 +123,21 @@ get_tissue <- function(input_file = NULL, tissue) {
 #' Homo sapiens is the default
 #' @param tissue_df dataframe containing the expressed genes for a particular
 #' tissue
+#' @param type_col_name column name in the gtf file to filter on genes. Default
+#' is "type
 #'
 #' @return GRanges with the expressed genes for a specific tissue
 #' @keywords internal
 #' @noRd
-get_expressed_genes <- function(gtf, species = "Homo_sapiens", tissue_df) {
-    # gtf <- rtracklayer::import(gtf_path)
+get_expressed_genes <- function(gtf, species = "Homo_sapiens", tissue_df,
+    type_col_name = "type") {
     gtf <- gtf_load(gtf)
-    gtf <- GenomeInfoDb::keepStandardChromosomes(gtf, species = species, pruning.mode = "coarse")
+    gtf <- GenomeInfoDb::keepStandardChromosomes(gtf,
+        species = species,
+        pruning.mode = "coarse"
+    )
     GenomeInfoDb::seqlevelsStyle(gtf) <- "UCSC" # add chr to seqnames
-    genesgtf <- gtf[S4Vectors::mcols(gtf)[["type"]] == "gene"]
+    genesgtf <- gtf[S4Vectors::mcols(gtf)[[type_col_name]] == "gene"]
     gtf.gene <- as.data.frame(genesgtf)
 
     gtf.exp.gr <- dplyr::semi_join(gtf.gene, tissue_df, by = c("gene_id" = "Name")) %>%
@@ -140,15 +157,18 @@ get_expressed_genes <- function(gtf, species = "Homo_sapiens", tissue_df) {
 #' "annotation"
 #' @param exp_genes GRanges containing the expressed genes of a particular
 #' tissue
+#' @param type_col_name column name in the gtf file to filter on genes. Default
+#' is "type
 #'
 #' @return GRanges with the expressed genes for a specific tissue
 #' @keywords internal
 #' @noRd
-get_nearest_expressed_genes <- function(annot_ers, exp_genes, gtf) {
+get_nearest_expressed_genes <- function(annot_ers, exp_genes, gtf,
+    type_col_name = "type") {
     gtf <- gtf_load(gtf)
     gtf <- GenomeInfoDb::keepStandardChromosomes(gtf, species = "Homo_sapiens", pruning.mode = "coarse")
     GenomeInfoDb::seqlevelsStyle(gtf) <- "UCSC" # add chr to seqnames
-    genesgtf <- gtf[S4Vectors::mcols(gtf)[["type"]] == "gene"]
+    genesgtf <- gtf[S4Vectors::mcols(gtf)[[type_col_name]] == "gene"]
 
     # annot_ers <- annot_ers[S4Vectors::mcols(annot_ers)[["annotation"]] %in% c("intron", "intergenic")]
 

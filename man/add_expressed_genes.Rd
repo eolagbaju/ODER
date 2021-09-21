@@ -9,7 +9,8 @@ add_expressed_genes(
   tissue,
   gtf,
   species = "Homo_sapiens",
-  annot_ers
+  annot_ers,
+  type_col_name = "type"
 )
 }
 \arguments{
@@ -28,6 +29,9 @@ Homo sapiens is the default}
 
 \item{annot_ers}{annotated ERs i.e. the product of \code{\link{annotatERs}},
 should have an mcols column called "annotation"}
+
+\item{type_col_name}{column name in the gtf file to filter on genes. Default
+is "type}
 }
 \value{
 Granges with annotated ERs and details of their nearest expressed
