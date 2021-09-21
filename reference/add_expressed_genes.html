@@ -145,7 +145,8 @@ ERs.</p>
   <span class='va'>tissue</span>,
   <span class='va'>gtf</span>,
   species <span class='op'>=</span> <span class='st'>"Homo_sapiens"</span>,
-  <span class='va'>annot_ers</span>
+  <span class='va'>annot_ers</span>,
+  type_col_name <span class='op'>=</span> <span class='st'>"type"</span>
 <span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -176,6 +177,11 @@ Homo sapiens is the default</p></td>
       <th>annot_ers</th>
       <td><p>annotated ERs i.e. the product of <code><a href='annotatERs.html'>annotatERs</a></code>,
 should have an mcols column called "annotation"</p></td>
+    </tr>
+    <tr>
+      <th>type_col_name</th>
+      <td><p>column name in the gtf file to filter on genes. Default
+is "type</p></td>
     </tr>
     </table>
 
