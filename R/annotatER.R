@@ -98,18 +98,14 @@ get_junctions <- function(opt_ers, junc_data, txdb) {
     gene_id_list <- lapply(gene_id_list, function(x) {
         return(unique(unlist(x)))
     })
-
     ann_junc_hits <- ann_junc_hits %>% S4Vectors::split(f = ann_junc_hits$er_index)
-
     er_indices <- unique(S4Vectors::queryHits(hits))
-
     miss_ers <- numeric(0)
     for (i in 1:length(opt_ers)) {
         if (!(i %in% er_indices)) {
             miss_ers <- c(miss_ers, i)
         }
     }
-
     empty_grl <- GenomicRanges::GRangesList(
         lapply(miss_ers, function(x) {
             return(GenomicRanges::GRanges())
@@ -122,7 +118,6 @@ get_junctions <- function(opt_ers, junc_data, txdb) {
 
     empty_gil <- vector("list", length = length(miss_ers))
     names(empty_gil) <- miss_ers
-
     combi_gil <- c(gene_id_list, empty_gil)
     sorted_combi_gil <- combi_gil[order(as.integer(names(combi_gil)))]
     sorted_combi_gil <- sorted_combi_gil %>% IRanges::CharacterList()
