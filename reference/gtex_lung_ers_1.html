@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>An example set of ER deltas — ers_delta_example • ODER</title>
+<title>An example set of Expressed Regions — gtex_lung_ers_1 • ODER</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="An example set of ER deltas — ers_delta_example" />
-<meta property="og:description" content="This set of deltas was calculated using ers_example and exons from ensembl." />
+<meta property="og:title" content="An example set of Expressed Regions — gtex_lung_ers_1" />
+<meta property="og:description" content="An example set of Expressed Regions generated for a user to try out the
+package and to pass in for tests. Generated using gtex_lung_coverage_1 and MCCs
+of 5 and 10 and MRGs of 10 and 20." />
 
 
 
@@ -125,22 +127,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>An example set of ER deltas</h1>
+    <h1>An example set of Expressed Regions</h1>
     <small class="dont-index">Source: <a href='https://github.com/eolagbaju/ODER/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>ers_delta_example.Rd</code></div>
+    <div class="hidden name"><code>gtex_lung_ers_1.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This set of deltas was calculated using ers_example and exons from ensembl.</p>
+    <p>An example set of Expressed Regions generated for a user to try out the
+package and to pass in for tests. Generated using gtex_lung_coverage_1 and MCCs
+of 5 and 10 and MRGs of 10 and 20.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='va'>ers_delta_example</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='va'>gtex_lung_ers_1</span></code></pre></div>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A tibble/dataframe with the sums, means, medians, n_eq_0 and
-propor_eq_0 for each combination of mccs (5 &amp; 10) and mrgs (10 &amp; 20)</p>
+    <p>A list containing two lists (for each mcc) each with a set of genomic ranges
+for the different combinations of mcc and mrg</p>
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
     <p>See example.R in data-raw</p>

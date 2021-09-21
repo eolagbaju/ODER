@@ -37,18 +37,6 @@
     <loc>/reference/annotatERs.html</loc>
   </url>
   <url>
-    <loc>/reference/auc_example.html</loc>
-  </url>
-  <url>
-    <loc>/reference/coverage_example.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ers_delta_example.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ers_example.html</loc>
-  </url>
-  <url>
     <loc>/reference/file_cache.html</loc>
   </url>
   <url>
@@ -77,6 +65,18 @@
   </url>
   <url>
     <loc>/reference/get_strand_ers.html</loc>
+  </url>
+  <url>
+    <loc>/reference/gtex_lung_auc_1.html</loc>
+  </url>
+  <url>
+    <loc>/reference/gtex_lung_coverage_1.html</loc>
+  </url>
+  <url>
+    <loc>/reference/gtex_lung_erdelta_1.html</loc>
+  </url>
+  <url>
+    <loc>/reference/gtex_lung_ers_1.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
