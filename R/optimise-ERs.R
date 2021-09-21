@@ -568,10 +568,10 @@ get_ers_delta <- function(ers, opt_exons, delta_fun = NULL) {
 
     delta_df <- dplyr::tibble()
 
-    for (i in 1:seq_along(mcc_labels)) {
+    for (i in seq_along(mcc_labels)) {
         mrg_labels <- names(ers[[mcc_labels[i]]])
 
-        for (j in 1:seq_along(mrg_labels)) {
+        for (j in seq_along(mrg_labels)) {
             delta_summarised <-
                 delta_fun(
                     query = ers[[mcc_labels[i]]][[mrg_labels[j]]],

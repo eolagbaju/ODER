@@ -36,10 +36,10 @@ get_ers <- function(coverage, mccs, mrgs) {
 
     ers <- list()
 
-    for (j in 1:seq_along(mccs)) { # getting the various MCC-MRG pairings ready
+    for (j in seq_along(mccs)) { # getting the various MCC-MRG pairings ready
         mcc_label <- stringr::str_c("mcc_", mccs[j])
 
-        for (k in 1:seq_along(mrgs)) {
+        for (k in seq_along(mrgs)) {
             mrg_label <- stringr::str_c("mrg_", mrgs[k])
 
             ers[[mcc_label]][[mrg_label]] <- list()
@@ -48,10 +48,10 @@ get_ers <- function(coverage, mccs, mrgs) {
 
     ##### Generate ERs #####
 
-    for (i in 1:seq_along(coverage)) {
+    for (i in seq_along(coverage)) {
         message(stringr::str_c(Sys.time(), " - Generating ERs for ", names(coverage)[i]))
 
-        for (j in 1:seq_along(mccs)) {
+        for (j in seq_along(mccs)) {
             mcc_label <- stringr::str_c("mcc_", mccs[j])
 
             # generate ERs at particular mcc
@@ -67,7 +67,7 @@ get_ers <- function(coverage, mccs, mrgs) {
             )
             # )
 
-            for (k in 1:seq_along(mrgs)) {
+            for (k in seq_along(mrgs)) {
                 mrg_label <- stringr::str_c("mrg_", mrgs[k])
 
 
@@ -80,10 +80,10 @@ get_ers <- function(coverage, mccs, mrgs) {
 
     ##### Merge ERs across chromosomes #####
 
-    for (j in 1:seq_along(mccs)) {
+    for (j in seq_along(mccs)) {
         mcc_label <- stringr::str_c("mcc_", mccs[j])
 
-        for (k in 1:seq_along(mrgs)) {
+        for (k in seq_along(mrgs)) {
             mrg_label <- stringr::str_c("mrg_", mrgs[k])
 
             ers[[mcc_label]][[mrg_label]] <-
@@ -167,13 +167,13 @@ get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target,
     sublist <- vector("list", length(ers_plus[[1]]))
     ers_combi <- vector("list", length(ers_plus))
 
-    for (i in 1:length(ers_combi)) {
+    for (i in seq_along(ers_combi)) {
         ers_combi[[i]] <- sublist
     }
     # combining the positive and negative strands into one combined ER
-    for (i in 1:length(ers_plus)) {
+    for (i in seq_along(ers_plus)) {
         names(ers_combi) <- names(ers_plus)
-        for (j in 1:length(ers_plus[[i]])) {
+        for (j in seq_along(ers_plus[[i]])) {
             names(ers_combi[[i]]) <- names(ers_plus[[j]])
             BiocGenerics::strand(ers_plus[[i]][[j]]) <- "+"
             BiocGenerics::strand(ers_minus[[i]][[j]]) <- "-"
