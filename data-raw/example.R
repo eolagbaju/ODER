@@ -22,21 +22,24 @@ gtex_lung_coverage_1 <- ODER::get_coverage(
     chrs = c("chr21", "chr22")
 )
 
-gtex_lung_ers_1 <- ODER::get_ers(coverage = gtex_lung_coverage_1, mccs = c(5, 10), mrgs = c(10, 20))
+gtex_lung_ers_1 <- ODER::get_ers(
+    coverage = gtex_lung_coverage_1, mccs = c(5, 10), mrgs = c(10, 20)
+)
 
-gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+gtf_url <- paste0(
+    "http://ftp.ensembl.org/pub/release-103/gtf/",
+    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+)
 gtf_path <- ODER::file_cache(gtf_url)
-exons_no_overlap <- get_exons(gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE)
+exons_no_overlap <- get_exons(
+    gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE
+)
 
-gtex_lung_erdelta_1 <- get_ers_delta(ers = gtex_lung_ers_1, opt_exons = exons_no_overlap, delta_fun = .delta)
-
-# gtex_url <- "https://storage.googleapis.com/gtex_analysis_v6p/rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_median_rpkm.gct.gz"
-# gtex_path <- ODER::file_cache(gtex_url)
-# library(data.table)
-# gtex_data <- fread(gtex_path)
-
+gtex_lung_erdelta_1 <- get_ers_delta(
+    ers = gtex_lung_ers_1, opt_exons = exons_no_overlap, delta_fun = .delta
+)
 
 usethis::use_data(gtex_lung_auc_1, overwrite = TRUE)
-usethis::use_data(gtex_lung_coverage_1, overwrite = TRUE) # might have to exclude - 1.4MB
+usethis::use_data(gtex_lung_coverage_1, overwrite = TRUE)
 usethis::use_data(gtex_lung_ers_1, overwrite = TRUE)
 usethis::use_data(gtex_lung_erdelta_1, overwrite = TRUE)

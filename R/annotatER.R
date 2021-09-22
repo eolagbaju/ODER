@@ -83,22 +83,32 @@ get_junctions <- function(opt_ers, junc_data, txdb) {
         junc_data <- GenomicRanges::makeGRangesFromDataFrame(junc_data)
     }
     GenomeInfoDb::seqlevelsStyle(junc_data) <- "NCBI"
-    annotated_junctions <- dasper::junction_annot(junctions = junc_data, ref = txdb)
-    GenomeInfoDb::seqlevelsStyle(annotated_junctions) <- "UCSC" # to match opt_ers
-
-    message(stringr::str_c(Sys.time(), " - Finding junctions overlapping ers..."))
+    annotated_junctions <- dasper::junction_annot(
+        junctions = junc_data,
+        ref = txdb
+    )
+    GenomeInfoDb::seqlevelsStyle(annotated_junctions) <- "UCSC"
+    # to match opt_ers
+    message(stringr::str_c(
+        Sys.time(),
+        " - Finding junctions overlapping ers..."
+    ))
 
     hits <- GenomicRanges::findOverlaps(opt_ers, annotated_junctions)
     ann_junc_hits <- annotated_junctions[S4Vectors::subjectHits(hits)]
     ann_junc_hits$er_index <- S4Vectors::queryHits(hits)
 
-    gene_id_list <- GenomicRanges::mcols(ann_junc_hits)[["gene_id_junction"]] %>%
+    gene_id_list <- GenomicRanges::mcols(
+        ann_junc_hits
+    )[["gene_id_junction"]] %>%
         S4Vectors::split(f = ann_junc_hits$er_index)
 
     gene_id_list <- lapply(gene_id_list, function(x) {
         return(unique(unlist(x)))
     })
-    ann_junc_hits <- ann_junc_hits %>% S4Vectors::split(f = ann_junc_hits$er_index)
+    ann_junc_hits <- ann_junc_hits %>% S4Vectors::split(
+        f = ann_junc_hits$er_index
+    )
     er_indices <- unique(S4Vectors::queryHits(hits))
     miss_ers <- numeric(0)
     for (i in 1:length(opt_ers)) {
@@ -214,7 +224,10 @@ annotatERs <- function(opt_ers,
         opt_ers = opt_ers, junc_data = junc_data,
         txdb = txdb
     )
-    message(stringr::str_c(Sys.time(), " - Annotating the Expressed regions..."))
+    message(stringr::str_c(
+        Sys.time(),
+        " - Annotating the Expressed regions..."
+    ))
 
     annot_ers <- derfinder::annotateRegions(
         regions = ann_opt_ers,
@@ -222,7 +235,9 @@ annotatERs <- function(opt_ers,
         maxgap = -1L, minoverlap = 1L
     )
     annot_table <- annotate_table(annot_ers[["countTable"]])
-    GenomicRanges::mcols(ann_opt_ers)$annotation <- annot_table[["region_annot"]]
+    GenomicRanges::mcols(
+        ann_opt_ers
+    )$annotation <- annot_table[["region_annot"]]
     GenomicRanges::mcols(ann_opt_ers)$og_index <- annot_table[["ER_index"]]
 
     ## add missing junction genes
@@ -232,44 +247,73 @@ annotatERs <- function(opt_ers,
     gtf_gr <- gtf_load(gtf)
 
     # if all of none of the ers are matched up with a gene, this is run
-    if (all(identical(unique(unlist(GenomicRanges::mcols(ann_opt_ers)$genes)), character(0)))) {
+    if (all(identical(
+        unique(unlist(GenomicRanges::mcols(ann_opt_ers)$genes)),
+        character(0)
+    ))) {
         genes_gr <- gtf_gr[gtf_gr$type == "gene"]
         GenomeInfoDb::seqlevelsStyle(genes_gr) <- "UCSC"
         nearest_genes <- GenomicRanges::nearest(ann_opt_ers, genes_gr)
-        missing_genes <- GenomicRanges::mcols(genes_gr[nearest_genes])[["gene_id"]]
+        missing_genes <- GenomicRanges::mcols(
+            genes_gr[nearest_genes]
+        )[["gene_id"]]
         GenomicRanges::mcols(ann_opt_ers)[["genes"]] <- missing_genes
-        GenomicRanges::mcols(ann_opt_ers[GenomicRanges::mcols(ann_opt_ers)[["og_index"]]])[["genes"]] <- missing_genes
-        GenomicRanges::mcols(ann_opt_ers[GenomicRanges::mcols(ann_opt_ers)[["og_index"]]])[["gene_source"]] <- "nearest gtf genes"
+        GenomicRanges::mcols(ann_opt_ers[GenomicRanges::mcols(
+            ann_opt_ers
+        )[["og_index"]]])[["genes"]] <- missing_genes
+        GenomicRanges::mcols(ann_opt_ers[GenomicRanges::mcols(
+            ann_opt_ers
+        )[["og_index"]]])[["gene_source"]] <- "nearest gtf genes"
 
         ngdist <- GenomicRanges::distanceToNearest(ann_opt_ers, genes_gr)
-        overmaxdist <- ngdist[GenomicRanges::mcols(ngdist)[["distance"]] > 10000]
+        overmaxdist <- ngdist[GenomicRanges::mcols(
+            ngdist
+        )[["distance"]] > 10000]
         if (length(overmaxdist) > 0) {
-            GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["genes"]] <- ""
-            GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["gene_source"]] <- "Too far"
+            GenomicRanges::mcols(
+                ann_opt_ers[queryHits(overmaxdist)]
+            )[["genes"]] <- ""
+            GenomicRanges::mcols(
+                ann_opt_ers[queryHits(
+                    overmaxdist
+                )]
+            )[["gene_source"]] <- "Too far"
         }
         message(stringr::str_c(Sys.time(), " - done!"))
 
         return(ann_opt_ers)
     }
-    GenomicRanges::mcols(ann_opt_ers[lengths(GenomicRanges::mcols(ann_opt_ers)[["genes"]]) > 0])$gene_source <- "junction(s)"
+    GenomicRanges::mcols(ann_opt_ers[lengths(
+        GenomicRanges::mcols(
+            ann_opt_ers
+        )[["genes"]]
+    ) > 0])$gene_source <- "junction(s)"
 
 
-    ng_ann_opt_ers <- ann_opt_ers[lengths(GenomicRanges::mcols(ann_opt_ers)[["genes"]]) == 0]
+    ng_ann_opt_ers <- ann_opt_ers[lengths(
+        GenomicRanges::mcols(ann_opt_ers)[["genes"]]
+    ) == 0]
     genes_gr <- gtf_gr[gtf_gr$type == "gene"]
     GenomeInfoDb::seqlevelsStyle(genes_gr) <- "UCSC"
     nearest_genes <- GenomicRanges::nearest(ng_ann_opt_ers, genes_gr)
     missing_genes <- GenomicRanges::mcols(genes_gr[nearest_genes])[["gene_id"]]
     GenomicRanges::mcols(ng_ann_opt_ers)[["genes"]] <- missing_genes
-    GenomicRanges::mcols(ann_opt_ers[GenomicRanges::mcols(ng_ann_opt_ers)[["og_index"]]])[["genes"]] <- missing_genes
-    GenomicRanges::mcols(ann_opt_ers[GenomicRanges::mcols(ng_ann_opt_ers)[["og_index"]]])[["gene_source"]] <- "nearest gtf genes"
+    GenomicRanges::mcols(ann_opt_ers[GenomicRanges::mcols(
+        ng_ann_opt_ers
+    )[["og_index"]]])[["genes"]] <- missing_genes
+    GenomicRanges::mcols(ann_opt_ers[GenomicRanges::mcols(
+        ng_ann_opt_ers
+    )[["og_index"]]])[["gene_source"]] <- "nearest gtf genes"
 
     ngdist <- GenomicRanges::distanceToNearest(ann_opt_ers, genes_gr)
     overmaxdist <- ngdist[GenomicRanges::mcols(ngdist)[["distance"]] > 10000]
-    # GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["genes"]] <- ""
-    # GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["gene_source"]] <- "Too far"
     if (length(overmaxdist) > 0) {
-        GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["genes"]] <- ""
-        GenomicRanges::mcols(ann_opt_ers[queryHits(overmaxdist)])[["gene_source"]] <- "Too far"
+        GenomicRanges::mcols(
+            ann_opt_ers[queryHits(overmaxdist)]
+        )[["genes"]] <- ""
+        GenomicRanges::mcols(
+            ann_opt_ers[queryHits(overmaxdist)]
+        )[["gene_source"]] <- "Too far"
     }
 
     message(stringr::str_c(Sys.time(), " - done!"))

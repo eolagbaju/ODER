@@ -23,12 +23,15 @@
 file_cache <- function(file_path) {
     if (!file.exists(file_path)) {
 
-        # suppress warning for tidyverse deprecated funs (select_() used over select()) in BiocFileCache
+        # suppress warning for tidyverse deprecated funs (select_() used over
+        # select()) in BiocFileCache
         # exact = TRUE means exact match required, if F then uses regex search
         # suppressWarnings(
-        file_path <- BiocFileCache::bfcrpath(BiocFileCache::BiocFileCache(ask = FALSE),
-            file_path,
-            exact = TRUE
+        file_path <- BiocFileCache::bfcrpath(BiocFileCache::BiocFileCache(
+            ask = FALSE
+        ),
+        file_path,
+        exact = TRUE
         )
         # )
     }
@@ -43,7 +46,8 @@ file_cache <- function(file_path) {
 #'
 #' @return
 #'
-#' @seealso \url{https://stackoverflow.com/questions/34445106/test-if-vector-is-contained-in-another-vector-including-repetitions}
+#' @seealso \url{https://stackoverflow.com/questions/34445106/test-if-vector-is-
+#' contained-in-another-vector-including-repetitions}
 #'
 #' @keywords internal
 #' @noRd

@@ -74,8 +74,9 @@ ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
         return(opt_ers)
     } else if (file_type == "stranded") {
         stranded_ers <- get_strand_ers(
-            bw_pos = bw_pos, bw_neg = bw_neg, auc_raw_pos = auc_raw_pos, auc_raw_neg = auc_raw_neg,
-            auc_target = auc_target, chrs = chrs, mccs = mccs, mrgs = mrgs
+            bw_pos = bw_pos, bw_neg = bw_neg, auc_raw_pos = auc_raw_pos,
+            auc_raw_neg = auc_raw_neg, auc_target = auc_target,
+            chrs = chrs, mccs = mccs, mrgs = mrgs
         )
         if (!is.null(gtf)) {
             exons_no_overlap <- get_exons(
@@ -84,7 +85,10 @@ ODER <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38",
                 ignore.strand = ignore.strand
             )
         }
-        ers_delta <- get_ers_delta(ers = stranded_ers, opt_exons = exons_no_overlap)
+        ers_delta <- get_ers_delta(
+            ers = stranded_ers,
+            opt_exons = exons_no_overlap
+        )
 
         opt_ers <- get_opt_ers(ers = stranded_ers, ers_delta = ers_delta)
 

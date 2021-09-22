@@ -42,7 +42,8 @@
 #'     )
 #'     eg_coverage
 #' }
-get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg38", bw_chr = "chr") {
+get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "",
+    genome = "hg38", bw_chr = "chr") {
     if (!is.numeric(auc_raw) | !is.numeric(auc_target)) {
         stop("Please enter a valid number for the auc values")
     } else if (missing(bw_paths)) {
@@ -57,15 +58,19 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
 
     all_chrs_mean_cov <- list()
 
-    message(stringr::str_c(Sys.time(), " - Obtaining mean coverage across ", length(bw_paths), " samples"))
+    message(stringr::str_c(
+        Sys.time(), " - Obtaining mean coverage across ",
+        length(bw_paths), " samples"
+    ))
 
     for (i in 1:nrow(chr_info)) {
         message(stringr::str_c(Sys.time(), " - ", chr_info[["chrom"]][i]))
-        # loading coverage information for designated chromosomes and merging them into a dataframe
+        # loading coverage information for designated chromosomes and merging
+        # them into a dataframe
         chr_mean_cov <-
             derfinder::loadCoverage(
-                files = bw_paths,
-                totalMapped = auc_raw, # normalise by auc here as for bws, more accurate since Rail-RNA clips reads
+                files = bw_paths, # normalise by auc here as for bws, more
+                totalMapped = auc_raw, # accurate since Rail-RNA clips reads
                 targetSize = auc_target, # these come from derfinder::filterData
                 chr = chr_formatting(chr_info$chrom[i], bw_chr),
                 chrlen = chr_info$size[i],
@@ -74,9 +79,11 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "", genome = "hg3
                 returnCoverage = FALSE,
                 verbose = FALSE,
                 cutoff = NULL
-            ) # setting cutoff as NULL here and instead to be applied in findRegions()
+            )
+        # setting cutoff as NULL here and instead to be applied in findRegions()
         # storing the mean coverage in a list
-        all_chrs_mean_cov[[chr_info[["chrom"]][i]]] <- chr_mean_cov["meanCoverage"]
+        all_chrs_mean_cov[[
+        chr_info[["chrom"]][i]]] <- chr_mean_cov["meanCoverage"]
     }
     return(all_chrs_mean_cov)
 }

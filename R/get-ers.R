@@ -49,7 +49,10 @@ get_ers <- function(coverage, mccs, mrgs) {
     ##### Generate ERs #####
 
     for (i in seq_along(coverage)) {
-        message(stringr::str_c(Sys.time(), " - Generating ERs for ", names(coverage)[i]))
+        message(stringr::str_c(
+            Sys.time(), " - Generating ERs for ",
+            names(coverage)[i]
+        ))
 
         for (j in seq_along(mccs)) {
             mcc_label <- stringr::str_c("mcc_", mccs[j])
@@ -57,12 +60,17 @@ get_ers <- function(coverage, mccs, mrgs) {
             # generate ERs at particular mcc
             # suppressMessages(
             er_mcc <- derfinder::findRegions(
-                position = S4Vectors::Rle(TRUE, length(coverage[[i]][["meanCoverage"]])),
+                position = S4Vectors::Rle(
+                    TRUE,
+                    length(coverage[[i]][["meanCoverage"]])
+                ),
                 fstats = coverage[[i]][["meanCoverage"]],
                 chr = names(coverage)[i],
                 cutoff = mccs[j],
                 maxRegionGap = 0L,
-                maxClusterGap = length(coverage[[i]][["meanCoverage"]]), # setting this to chr length (ignore clusters) to reduce run time. No impact on ERs
+                # setting maxClusterGap to chr length (ignore clusters)
+                # to reduce run time. No impact on ERs
+                maxClusterGap = length(coverage[[i]][["meanCoverage"]]),
                 verbose = FALSE
             )
             # )
@@ -72,7 +80,9 @@ get_ers <- function(coverage, mccs, mrgs) {
 
 
                 # collapse ERs with less than a MRG apart
-                ers[[mcc_label]][[mrg_label]][[names(coverage)[i]]] <- er_mcc %>%
+                ers[[mcc_label]][[mrg_label]][[names(
+                    coverage
+                )[i]]] <- er_mcc %>%
                     GenomicRanges::reduce(min.gapwidth = mrgs[k])
             }
         }
@@ -157,9 +167,18 @@ get_ers <- function(coverage, mccs, mrgs) {
 #'     )
 #'     stranded_ers
 #' }
-get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target, chrs, mccs, mrgs, bw_chr = "chr") {
-    plus_coverage <- get_coverage(bw_paths = bw_pos, auc_raw = auc_raw_pos, auc_target = auc_target, chrs = chrs, bw_chr = bw_chr)
-    minus_coverage <- get_coverage(bw_paths = bw_neg, auc_raw = auc_raw_neg, auc_target = auc_target, chrs = chrs, bw_chr = bw_chr)
+get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target,
+    chrs, mccs, mrgs, bw_chr = "chr") {
+    plus_coverage <- get_coverage(
+        bw_paths = bw_pos, auc_raw = auc_raw_pos,
+        auc_target = auc_target, chrs = chrs,
+        bw_chr = bw_chr
+    )
+    minus_coverage <- get_coverage(
+        bw_paths = bw_neg, auc_raw = auc_raw_neg,
+        auc_target = auc_target, chrs = chrs,
+        bw_chr = bw_chr
+    )
 
     ers_plus <- get_ers(coverage = plus_coverage, mccs = mccs, mrgs = mrgs)
     ers_minus <- get_ers(coverage = minus_coverage, mccs = mccs, mrgs = mrgs)

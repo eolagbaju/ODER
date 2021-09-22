@@ -53,7 +53,11 @@ get_count_matrix <- function(bw_paths, annot_ers, cols = NULL) {
     er_bed <- rtracklayer::export.bed(object = annot_ers, con = fil)
 
     for (i in seq_along(bw_paths)) {
-        mean_coverage <- megadepth::get_coverage(bigwig_file = bw_paths[i], op = "mean", annotation = er_bed)
+        mean_coverage <- megadepth::get_coverage(
+            bigwig_file = bw_paths[i],
+            op = "mean",
+            annotation = er_bed
+        )
         gene_counts[, i] <- S4Vectors::mcols(mean_coverage)[["score"]]
     }
 

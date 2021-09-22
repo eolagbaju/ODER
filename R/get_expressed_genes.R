@@ -91,14 +91,19 @@ add_expressed_genes <- function(input_file = NULL, tissue, gtf,
 #' @noRd
 get_tissue <- function(input_file = NULL, tissue) {
     if (is.null(input_file)) {
-        gtex_url <- "https://storage.googleapis.com/gtex_analysis_v6p/rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_median_rpkm.gct.gz"
+        gtex_url <- paste0(
+            "https://storage.googleapis.com/gtex_analysis_v6p/rna_seq_data",
+            "/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_median_rpkm.gct.gz"
+        )
         gtex_path <- file_cache(gtex_url)
         gtex_data <- data.table::fread(gtex_path)
     } else {
         gtex_data <- data.table::fread(input_file)
     }
 
-    data <- gtex_data %>% dplyr::mutate(Name = stringr::str_split_fixed(Name, "\\.", n = 2)[, 1])
+    data <- gtex_data %>% dplyr::mutate(
+        Name = stringr::str_split_fixed(Name, "\\.", n = 2)[, 1]
+    )
 
     names <- colnames(data) %>%
         stringr::str_replace_all("\\.+", "_") %>%
@@ -140,7 +145,10 @@ get_expressed_genes <- function(gtf, species = "Homo_sapiens", tissue_df,
     genesgtf <- gtf[S4Vectors::mcols(gtf)[[type_col_name]] == "gene"]
     gtf.gene <- as.data.frame(genesgtf)
 
-    gtf.exp.gr <- dplyr::semi_join(gtf.gene, tissue_df, by = c("gene_id" = "Name")) %>%
+    gtf.exp.gr <- dplyr::semi_join(gtf.gene,
+        tissue_df,
+        by = c("gene_id" = "Name")
+    ) %>%
         GenomicRanges::makeGRangesFromDataFrame(., keep.extra.columns = TRUE)
 
     return(gtf.exp.gr)
@@ -166,17 +174,32 @@ get_expressed_genes <- function(gtf, species = "Homo_sapiens", tissue_df,
 get_nearest_expressed_genes <- function(annot_ers, exp_genes, gtf,
     type_col_name = "type") {
     gtf <- gtf_load(gtf)
-    gtf <- GenomeInfoDb::keepStandardChromosomes(gtf, species = "Homo_sapiens", pruning.mode = "coarse")
+    gtf <- GenomeInfoDb::keepStandardChromosomes(gtf,
+        species = "Homo_sapiens",
+        pruning.mode = "coarse"
+    )
     GenomeInfoDb::seqlevelsStyle(gtf) <- "UCSC" # add chr to seqnames
     genesgtf <- gtf[S4Vectors::mcols(gtf)[[type_col_name]] == "gene"]
 
-    # annot_ers <- annot_ers[S4Vectors::mcols(annot_ers)[["annotation"]] %in% c("intron", "intergenic")]
+    nearest_hit <- GenomicRanges::nearest(annot_ers,
+        genesgtf,
+        select = c("arbitrary"),
+        ignore.strand = FALSE
+    )
+    S4Vectors::mcols(annot_ers)[["nearest_gene_v94_name"]] <- S4Vectors::mcols(
+        genesgtf[nearest_hit]
+    )[["gene_id"]]
 
-    nearest_hit <- GenomicRanges::nearest(annot_ers, genesgtf, select = c("arbitrary"), ignore.strand = FALSE)
-    S4Vectors::mcols(annot_ers)[["nearest_gene_v94_name"]] <- S4Vectors::mcols(genesgtf[nearest_hit])[["gene_id"]]
-
-    exp_hit <- GenomicRanges::nearest(annot_ers, exp_genes, select = c("arbitrary"), ignore.strand = FALSE)
-    S4Vectors::mcols(annot_ers)[["nearest_expressed_gene_v94_name"]] <- S4Vectors::mcols(exp_genes[exp_hit])[["gene_id"]]
+    exp_hit <- GenomicRanges::nearest(annot_ers, exp_genes,
+        select = c("arbitrary"),
+        ignore.strand = FALSE
+    )
+    S4Vectors::mcols(
+        annot_ers
+    )[[
+    "nearest_expressed_gene_v94_name"]] <- S4Vectors::mcols(
+        exp_genes[exp_hit]
+    )[["gene_id"]]
 
     return(annot_ers)
 }

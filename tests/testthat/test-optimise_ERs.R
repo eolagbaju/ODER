@@ -11,26 +11,26 @@ if (!exists("gtf_grs")) {
 }
 
 if (!exists("test_exons")) {
-test_exons <- get_exons(
-    gtf = gtf_grs,
-    ucsc_chr = TRUE,
-    ignore.strand = TRUE
-)
+    test_exons <- get_exons(
+        gtf = gtf_grs,
+        ucsc_chr = TRUE,
+        ignore.strand = TRUE
+    )
 }
 
 if (!exists("test_ers_delta")) {
-test_ers_delta <- get_ers_delta(
-    ers = gtex_lung_ers_1, # gtex_lung_ers_1 is from the data folder
-    opt_exons = test_exons,
-    delta_fun = .delta
-)
+    test_ers_delta <- get_ers_delta(
+        ers = gtex_lung_ers_1, # gtex_lung_ers_1 is from the data folder
+        opt_exons = test_exons,
+        delta_fun = .delta
+    )
 }
 
 if (!exists("test_opt_ers")) {
-test_opt_ers <- get_opt_ers(
-    ers = gtex_lung_ers_1,
-    ers_delta = test_ers_delta
-)
+    test_opt_ers <- get_opt_ers(
+        ers = gtex_lung_ers_1,
+        ers_delta = test_ers_delta
+    )
 }
 
 test_grs <- GenomicRanges::GRanges(
