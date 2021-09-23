@@ -15,6 +15,7 @@ See example.R in data-raw
 gtex_lung_erdelta_1
 }
 \description{
-This set of deltas was calculated using gtex_lung_ers_1 and exons from ensembl.
+This set of deltas was calculated using gtex_lung_ers_1 and exons from
+ensembl.
 }
 \keyword{datasets}

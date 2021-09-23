@@ -53,7 +53,7 @@
 add_expressed_genes <- function(input_file = NULL, tissue, gtf,
     species = "Homo_sapiens", annot_ers, type_col_name = "type") {
     tissue_df <- get_tissue(input_file = input_file, tissue = tissue)
-        
+
     expressed_genes <- get_expressed_genes(
         gtf = gtf,
         species = species,
@@ -97,7 +97,7 @@ get_tissue <- function(input_file = NULL, tissue) {
         )
         gtex_path <- file_cache(gtex_url)
         gtex_data <- data.table::fread(gtex_path)
-    }   else    {
+    } else {
         gtex_data <- data.table::fread(input_file)
     }
 

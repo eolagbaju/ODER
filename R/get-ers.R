@@ -67,8 +67,7 @@ get_ers <- function(coverage, mccs, mrgs) {
                     GenomicRanges::reduce(min.gapwidth = mrgs[k])
             }
         }
-    }
-    ##### Merge ERs across chromosomes #####
+    } ##### Merge ERs across chromosomes #####
     for (j in seq_along(mccs)) {
         mcc_label <- stringr::str_c("mcc_", mccs[j])
         for (k in seq_along(mrgs)) {

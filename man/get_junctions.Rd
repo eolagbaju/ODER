@@ -69,7 +69,7 @@ gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
 )
 GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
 GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
-rtracklayer::genome(gtf_gr_tx) <- "hg38"
+GenomeInfoDb::genome(gtf_gr_tx) <- "hg38"
 
 ucsc_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
 genom_state <- derfinder::makeGenomicState(txdb = ucsc_txdb)

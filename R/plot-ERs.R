@@ -62,7 +62,8 @@ plot_ers <- function(ers_delta, opt_mcc_mrg) {
         geom_line(aes(colour = as.factor(mrg))) +
         geom_vline(xintercept = opt_mcc, colour = "#177D87", linetype = 2) +
         geom_point(aes(x = opt_mcc, y = opt_median),
-                   colour = "black", shape = 4) +
+            colour = "black", shape = 4
+        ) +
         ggrepel::geom_text_repel(
             data = dplyr::tibble(
                 mcc = opt_mcc,
@@ -84,8 +85,10 @@ plot_ers <- function(ers_delta, opt_mcc_mrg) {
     ) +
         geom_line(aes(colour = as.factor(mrg))) +
         geom_vline(xintercept = opt_mcc, colour = "#177D87", linetype = 2) +
-        geom_point(aes(x = opt_mcc, y = opt_n_eq_0), colour = "black",
-                   shape = 4) +
+        geom_point(aes(x = opt_mcc, y = opt_n_eq_0),
+            colour = "black",
+            shape = 4
+        ) +
         scale_x_continuous(name = "MCC") +
         scale_y_continuous(
             name = expression(

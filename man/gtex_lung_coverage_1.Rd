@@ -5,7 +5,8 @@
 \alias{gtex_lung_coverage_1}
 \title{An example object containing coverage}
 \format{
-A list of length 2 containing 2 Rles for chromosomes 21 and 22 respectively
+A list of length 2 containing 2 Rles for chromosomes 21 and
+22 respectively
 }
 \source{
 See example.R in data-raw

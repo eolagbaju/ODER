@@ -5,8 +5,8 @@
 \alias{gtex_lung_ers_1}
 \title{An example set of Expressed Regions}
 \format{
-A list containing two lists (for each mcc) each with a set of genomic ranges
-for the different combinations of mcc and mrg
+A list containing two lists (for each mcc) each with a set of genomic
+ranges for the different combinations of mcc and mrg
 }
 \source{
 See example.R in data-raw
@@ -16,7 +16,7 @@ gtex_lung_ers_1
 }
 \description{
 An example set of Expressed Regions generated for a user to try out the
-package and to pass in for tests. Generated using gtex_lung_coverage_1 and MCCs
-of 5 and 10 and MRGs of 10 and 20.
+package and to pass in for tests. Generated using gtex_lung_coverage_1 and
+MCCs of 5 and 10 and MRGs of 10 and 20.
 }
 \keyword{datasets}
