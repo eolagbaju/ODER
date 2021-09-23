@@ -1,5 +1,5 @@
 ---
-title: "ODER overview"
+title: "ODER: Optimising the Definition of Expressed Regions"
 author: 
   - name: Emmanuel Olagbaju
     affiliation:
@@ -362,18 +362,6 @@ The `r Biocpkg("ODER")` package `r Citep(bib[["ODER"]])` was made possible thank
 -   `r CRANpkg("testthat")` `r Citep(bib[["testthat"]])`
 
 This package was developed using `r BiocStyle::Biocpkg("biocthis")`.
-
-Code for creating the vignette
-
-```{r createVignette, eval=FALSE}
-## Create the vignette
-library("rmarkdown")
-system.time(render("ODER.Rmd", "BiocStyle::html_document"))
-
-## Extract the R code
-library("knitr")
-knit("ODER.Rmd", tangle = TRUE)
-```
 
 Date the vignette was generated.
 
