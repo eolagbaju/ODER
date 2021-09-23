@@ -176,8 +176,8 @@ per set of ERs.</p></td>
 <span class='r-in'>        ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-22 14:49:06 - Loading in GTF...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-22 14:49:44 - Obtaining non-overlapping exons</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-23 10:31:02 - Loading in GTF...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-23 10:31:38 - Obtaining non-overlapping exons</span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"eg_ers_delta"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'>    <span class='va'>eg_ers_delta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_ers_delta.html'>get_ers_delta</a></span><span class='op'>(</span></span>
 <span class='r-in'>        ers <span class='op'>=</span> <span class='va'>gtex_lung_ers_1</span>,</span>
@@ -185,13 +185,13 @@ per set of ERs.</p></td>
 <span class='r-in'>        opt_exons <span class='op'>=</span> <span class='va'>eg_opt_exons</span></span>
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-22 14:49:47 - Calculating delta for ERs...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-23 10:31:41 - Calculating delta for ERs...</span>
 <span class='r-in'><span class='co'># }</span></span>
 <span class='r-in'><span class='va'>opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_opt_ers</span><span class='op'>(</span></span>
 <span class='r-in'>    ers <span class='op'>=</span> <span class='va'>gtex_lung_ers_1</span>,</span>
 <span class='r-in'>    ers_delta <span class='op'>=</span> <span class='va'>eg_ers_delta</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-22 14:49:47 - Obtaining optimal set of ERs...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-23 10:31:41 - Obtaining optimal set of ERs...</span>
 <span class='r-in'><span class='va'>opt_ers</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $opt_ers</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 15977 ranges and 0 metadata columns:</span>
