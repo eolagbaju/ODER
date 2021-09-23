@@ -22,6 +22,15 @@
 #' eg_bwfile
 file_cache <- function(file_path) {
     if (!file.exists(file_path)) {
+        if (!
+        (
+            (stringr::str_detect(file_path, "http:")) |
+                (stringr::str_detect(file_path, "~/.cache")) |
+                (stringr::str_detect(file_path, "https:"))
+        )
+        ) {
+            stop("File path does not exist or was entered incorrectly")
+        }
 
         # suppress warning for tidyverse deprecated funs (select_() used over
         # select()) in BiocFileCache
