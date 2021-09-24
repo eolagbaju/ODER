@@ -20,7 +20,7 @@ if (!exists("test_exons")) {
 
 if (!exists("test_ers_delta")) {
     test_ers_delta <- get_ers_delta(
-        ers = gtex_lung_ers_1, # gtex_lung_ers_1 is from the data folder
+        ers = gtex_SRP012682_SRX222703_lung_ers_1, # gtex_SRP012682_SRX222703_lung_ers_1 is from the data folder
         opt_exons = test_exons,
         delta_fun = .delta
     )
@@ -28,7 +28,7 @@ if (!exists("test_ers_delta")) {
 
 if (!exists("test_opt_ers")) {
     test_opt_ers <- get_opt_ers(
-        ers = gtex_lung_ers_1,
+        ers = gtex_SRP012682_SRX222703_lung_ers_1,
         ers_delta = test_ers_delta
     )
 }
@@ -79,7 +79,7 @@ test_that("get_ers_delta works", {
     )
     expect_error(
         get_ers_delta(
-            ers = gtex_lung_ers_1,
+            ers = gtex_SRP012682_SRX222703_lung_ers_1,
             delta_fun = .delta
         ),
         "No opt_exons were entered"
@@ -106,7 +106,7 @@ test_that("get_opt_ers works", {
     )
     expect_error(
         get_opt_ers(
-            ers = gtex_lung_ers_1
+            ers = gtex_SRP012682_SRX222703_lung_ers_1
         ),
         "No ers_delta were entered"
     )

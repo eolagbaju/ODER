@@ -118,7 +118,7 @@ if (!exists("gtf_path")) {
 }
 if (!xfun::is_windows()) {
     opt_ers <- ODER(
-        bw_paths = bw_path, auc_raw = gtex_lung_auc_1,
+        bw_paths = bw_path, auc_raw = gtex_SRP012682_SRX222703_lung_auc_1,
         auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
         genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
         gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,

@@ -40,14 +40,14 @@ if (!exists("eg_opt_exons")) {
 }
 if (!exists("eg_ers_delta")) {
     eg_ers_delta <- get_ers_delta(
-        ers = gtex_lung_ers_1,
-        # gtex_lung_ers_1 is from the package data folder
+        ers = gtex_SRP012682_SRX222703_lung_ers_1,
+        # gtex_SRP012682_SRX222703_lung_ers_1 is from the package data folder
         opt_exons = eg_opt_exons
     )
 }
 }
 opt_ers <- get_opt_ers(
-    ers = gtex_lung_ers_1,
+    ers = gtex_SRP012682_SRX222703_lung_ers_1,
     ers_delta = eg_ers_delta
 )
 opt_ers

@@ -20,7 +20,7 @@ if (!exists("test_exons")) {
 
 if (!exists("test_ers_delta")) {
     test_ers_delta <- get_ers_delta(
-        ers = gtex_lung_ers_1, # gtex_lung_ers_1 is from the data folder
+        ers = gtex_SRP012682_SRX222703_lung_ers_1, # gtex_SRP012682_SRX222703_lung_ers_1 is from the data folder
         opt_exons = test_exons,
         delta_fun = .delta
     )
@@ -28,7 +28,7 @@ if (!exists("test_ers_delta")) {
 
 if (!exists("test_opt_ers")) {
     test_opt_ers <- get_opt_ers(
-        ers = gtex_lung_ers_1,
+        ers = gtex_SRP012682_SRX222703_lung_ers_1,
         ers_delta = test_ers_delta
     )
 }
@@ -44,7 +44,7 @@ bw_path <- ODER::file_cache(rec_url[1])
 
 
 test_ODER_opt_ers <- ODER(
-    bw_paths = bw_path, auc_raw = gtex_lung_auc_1,
+    bw_paths = bw_path, auc_raw = gtex_SRP012682_SRX222703_lung_auc_1,
     auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
     genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
     gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,

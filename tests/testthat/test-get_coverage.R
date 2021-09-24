@@ -50,7 +50,7 @@ test_that("get_coverage works", {
     expect_error(
         get_coverage(
             bw_paths = bw_path,
-            auc_raw = gtex_lung_auc_1, # gtex_lung_auc_1 is from the data folder
+            auc_raw = gtex_SRP012682_SRX222703_lung_auc_1, # gtex_SRP012682_SRX222703_lung_auc_1 is from the data folder
             auc_target = "Not a number",
             chrs = c("chr21", "chr22")
         ),
@@ -59,7 +59,7 @@ test_that("get_coverage works", {
     expect_error(
         get_coverage(
             bw_paths = "",
-            auc_raw = gtex_lung_auc_1,
+            auc_raw = gtex_SRP012682_SRX222703_lung_auc_1,
             auc_target = 40e6 * 100,
             chrs = c("chr21", "chr22")
         ),
@@ -67,7 +67,7 @@ test_that("get_coverage works", {
     )
     expect_error(
         get_coverage(
-            auc_raw = gtex_lung_auc_1,
+            auc_raw = gtex_SRP012682_SRX222703_lung_auc_1,
             auc_target = 40e6 * 100,
             chrs = c("chr21", "chr22")
         ),
@@ -80,20 +80,20 @@ test_that("get_coverage works", {
                 "~/.cache/BiocFileCache/25c6571687b_",
                 "SRR660824_SRS389722_SRX222703_male_lung.png"
             ),
-            auc_raw = gtex_lung_auc_1,
+            auc_raw = gtex_SRP012682_SRX222703_lung_auc_1,
             auc_target = 40e6 * 100,
             chrs = c("chr21", "chr22")
         ),
         "Please check your bigwig file paths are correct"
     )
-    expect_type(gtex_lung_coverage_1, "list") # gtex_lung_coverage_1 is from the data folder
-    expect_type(gtex_lung_coverage_1[["chr21"]][["meanCoverage"]], "S4")
-    expect_true(methods::is(gtex_lung_coverage_1[["chr21"]][["meanCoverage"]], "Rle"))
-    expect_equal(length(c("chr21", "chr22")), length(gtex_lung_coverage_1))
+    expect_type(gtex_SRP012682_SRX222703_lung_coverage_1, "list") # gtex_SRP012682_SRX222703_lung_coverage_1 is from the data folder
+    expect_type(gtex_SRP012682_SRX222703_lung_coverage_1[["chr21"]][["meanCoverage"]], "S4")
+    expect_true(methods::is(gtex_SRP012682_SRX222703_lung_coverage_1[["chr21"]][["meanCoverage"]], "Rle"))
+    expect_equal(length(c("chr21", "chr22")), length(gtex_SRP012682_SRX222703_lung_coverage_1))
 })
 
 test_that("get_ers works", {
-    test_er_df <- as.data.frame(gtex_lung_ers_1[[1]][[1]])
+    test_er_df <- as.data.frame(gtex_SRP012682_SRX222703_lung_ers_1[[1]][[1]])
 
     expect_error(
         get_ers(
@@ -104,22 +104,22 @@ test_that("get_ers works", {
     )
     expect_error(
         get_ers(
-            coverage = gtex_lung_coverage_1,
+            coverage = gtex_SRP012682_SRX222703_lung_coverage_1,
             mrgs = c(10, 20)
         ),
         "Mean Coverage Cutoff is empty"
     )
     expect_error(
         get_ers(
-            coverage = gtex_lung_coverage_1,
+            coverage = gtex_SRP012682_SRX222703_lung_coverage_1,
             mccs = c(5, 10)
         ),
         "Max Region Gap is empty"
     )
 
-    expect_type(gtex_lung_ers_1, "list") # gtex_lung_ers_1 is from the data folder
-    expect_type(gtex_lung_ers_1[[1]][[1]], "S4")
-    expect_true(methods::is(gtex_lung_ers_1[[1]][[1]], "GenomicRanges"))
+    expect_type(gtex_SRP012682_SRX222703_lung_ers_1, "list") # gtex_SRP012682_SRX222703_lung_ers_1 is from the data folder
+    expect_type(gtex_SRP012682_SRX222703_lung_ers_1[[1]][[1]], "S4")
+    expect_true(methods::is(gtex_SRP012682_SRX222703_lung_ers_1[[1]][[1]], "GenomicRanges"))
     expect_true(methods::is(test_er_df, "data.frame"))
 })
 

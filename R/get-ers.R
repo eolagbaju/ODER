@@ -17,9 +17,9 @@
 #' @export
 #'
 #' @examples
-#' # gtex_lung_coverage_1 is from the package data folder
+#' # gtex_SRP012682_SRX222703_lung_coverage_1 is from the package data folder
 #' eg_ers <- get_ers(
-#'     coverage = gtex_lung_coverage_1,
+#'     coverage = gtex_SRP012682_SRX222703_lung_coverage_1,
 #'     mccs = c(5, 10),
 #'     mrgs = c(10, 20)
 #' )
