@@ -98,7 +98,7 @@ coverage cut-offs (MCCs) and max region gaps (MRGs) from the coverage." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/ODER_overview.html">ODER overview</a>
+      <a href="../articles/ODER_overview.html">ODER: Optimising the Definition of Expressed Regions</a>
     </li>
   </ul>
 </li>
@@ -166,14 +166,14 @@ adjacent ERs will be merged.</p></td>
 combination of MCC and MRG.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># gtex_lung_coverage_1 is from the package data folder</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># gtex_SRP012682_SRX222703_lung_coverage_1 is from the package data folder</span></span>
 <span class='r-in'><span class='va'>eg_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_ers</span><span class='op'>(</span></span>
-<span class='r-in'>    coverage <span class='op'>=</span> <span class='va'>gtex_lung_coverage_1</span>,</span>
+<span class='r-in'>    coverage <span class='op'>=</span> <span class='va'>gtex_SRP012682_SRX222703_lung_coverage_1</span>,</span>
 <span class='r-in'>    mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>,</span>
 <span class='r-in'>    mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-23 11:07:54 - Generating ERs for chr21</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-23 11:07:54 - Generating ERs for chr22</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-24 11:11:20 - Generating ERs for chr21</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-24 11:11:21 - Generating ERs for chr22</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='va'>eg_ers</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5</span>
