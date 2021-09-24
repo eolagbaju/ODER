@@ -26,13 +26,7 @@
 #'
 #' eg_ers
 get_ers <- function(coverage, mccs, mrgs) {
-    if (missing(coverage)) {
-        stop("Coverage is missing")
-    } else if (missing(mccs)) {
-        stop("Mean Coverage Cutoff is empty")
-    } else if (missing(mrgs)) {
-        stop("Max Region Gap is empty")
-    }
+    er_entry_check(coverage, mccs, mrgs)
     ers <- list()
     for (j in seq_along(mccs)) { # getting the various MCC-MRG pairings ready
         mcc_label <- stringr::str_c("mcc_", mccs[j])
@@ -41,8 +35,7 @@ get_ers <- function(coverage, mccs, mrgs) {
             ers[[mcc_label]][[mrg_label]] <- list()
         }
     }
-    ##### Generate ERs #####
-    for (i in seq_along(coverage)) {
+    for (i in seq_along(coverage)) { ##### Generate ERs #####
         message(stringr::str_c(
             Sys.time(), " - Generating ERs for ", names(coverage)[i]
         ))
@@ -78,8 +71,7 @@ get_ers <- function(coverage, mccs, mrgs) {
                 unlist() %>%
                 sort()
             names(ers[[mcc_label]][[mrg_label]]) <- NULL
-            # enables conversion into dataframe otherwise all rows will have chr
-        }
+        } # enables conversion into dataframe otherwise all rows will have chr
     }
     return(ers)
 }
@@ -177,4 +169,22 @@ get_strand_ers <- function(bw_pos, bw_neg, auc_raw_pos, auc_raw_neg, auc_target,
     }
 
     return(ers_combi)
+}
+
+#' Checks for valid input toget_ers
+#'
+#' @param coverage bigwig coverage
+#' @param mccs Mean Cutoff Coverages
+#' @param mrgs Max Region Gaps
+#'
+#' @keywords internal
+#' @noRd
+er_entry_check <- function(coverage, mccs, mrgs) {
+    if (missing(coverage)) {
+        stop("Coverage is missing")
+    } else if (missing(mccs)) {
+        stop("Mean Coverage Cutoff is empty")
+    } else if (missing(mrgs)) {
+        stop("Max Region Gap is empty")
+    }
 }
