@@ -55,6 +55,41 @@ plot_ers <- function(ers_delta, opt_mcc_mrg) {
         colours = ggpubr::get_palette("Blues", clr_num)
     ) %>%
         dplyr::mutate(colours = ifelse(maxgap == opt_mrg, "red", colours))
+
+    exon_delta_median_plot <- plot_exon_delta_median(
+        mrg, mcc, opt_mcc, ers_delta,
+        median, opt_median,
+        maxgaps_colours
+    )
+    num_exon_delta_eq_0_plot <- plot_num_exon_delta_eq_0(
+        mrg, mcc, opt_mcc,
+        ers_delta, n_eq_0,
+        opt_n_eq_0,
+        maxgaps_colours
+    )
+    optimised_exon_delta_plots <- ggpubr::ggarrange(exon_delta_median_plot,
+        num_exon_delta_eq_0_plot,
+        nrow = 2, ncol = 1, align = "v",
+        common.legend = TRUE, legend = "right"
+    )
+    return(optimised_exon_delta_plots)
+}
+
+#' Plots the optimum exon deltas for the various MCCs and MRGs
+#'
+#' @param mrg Max Region Gap
+#' @param mcc Mean Cutoff Coverages
+#' @param opt_mcc the optimum mean cutoff coverage
+#' @param ers_delta the er deltas
+#' @param median the median exon deltas
+#' @param opt_median the median exon delta produced by the optimum MCC and MRG
+#' @param maxgaps_colours colours to use for the plot lines
+#'
+#' @return exon_delta_median_plot
+#' @keywords internal
+#' @noRd
+plot_exon_delta_median <- function(mrg, mcc, opt_mcc, ers_delta,
+    median, opt_median, maxgaps_colours) {
     exon_delta_median_plot <- ggplot(
         data = ers_delta,
         mapping = aes(x = mcc, y = median)
@@ -79,6 +114,26 @@ plot_ers <- function(ers_delta, opt_mcc_mrg) {
             legend.title = element_text(colour = "red"),
             axis.title.x = element_text(colour = "#177D87")
         )
+
+    return(exon_delta_median_plot)
+}
+
+#' Plots the optimum exon deltas for the various MCCs and MRGs
+#'
+#' @param mrg Max Region Gap
+#' @param mcc Mean Cutoff Coverages
+#' @param opt_mcc the optimum mean cutoff coverage
+#' @param ers_delta the er deltas
+#' @param n_eq_0 the number of ers with an exon delta of 0
+#' @param opt_n_eq_0 the number of ers with an exon delta of 0 for the optimum
+#'  MCC and MRG
+#' @param maxgaps_colours colours to use for the plot lines
+#'
+#' @return num_exon_delta_eq_0_plot
+#' @keywords internal
+#' @noRd
+plot_num_exon_delta_eq_0 <- function(mrg, mcc, opt_mcc, ers_delta,
+    n_eq_0, opt_n_eq_0, maxgaps_colours) {
     num_exon_delta_eq_0_plot <- ggplot(
         data = ers_delta,
         mapping = aes(x = mcc, y = n_eq_0)
@@ -107,10 +162,6 @@ plot_ers <- function(ers_delta, opt_mcc_mrg) {
             ), aes(x = mcc, y = n_eq_0),
             label = "optimum", min.segment.length = 0, force_pull = 0.5
         )
-    optimised_exon_delta_plots <- ggpubr::ggarrange(exon_delta_median_plot,
-        num_exon_delta_eq_0_plot,
-        nrow = 2, ncol = 1, align = "v",
-        common.legend = TRUE, legend = "right"
-    )
-    return(optimised_exon_delta_plots)
+
+    return(num_exon_delta_eq_0_plot)
 }
