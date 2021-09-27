@@ -58,7 +58,7 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE,
         gtf_gr <- gtf
     }
     if (biotype == "Non-overlapping") {
-        return(no_exons(gtf_gr))
+        return(no_exons(gtf_gr, ignore.strand, ucsc_chr))
     }
     gtf.df.pc.tsl1 <- gtf_proc(gtf_gr) # GTF Processing
     gtf.df <- as.data.frame(gtf_gr, stringsAsFactor = FALSE)
@@ -314,11 +314,13 @@ get_opt_ers <- function(ers, ers_delta) {
 #' Filters GRanges to non-overlapping exons
 #'
 #' @param gtf_gr GRanges
+#' @param ignore.strand logical argument
+#' @param ucsc_chr logical scalar
 #'
 #' @return exons_no_overlap_gr genomic ranges
 #' @keywords internal
 #' @noRd
-no_exons <- function(gtf_gr) {
+no_exons <- function(gtf_gr, ignore.strand, ucsc_chr) {
     message(stringr::str_c(
         Sys.time(),
         " - Obtaining non-overlapping exons"
