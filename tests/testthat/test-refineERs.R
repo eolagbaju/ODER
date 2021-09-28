@@ -44,6 +44,6 @@ test_that("refine_ERs works", {
     expect_false("exon" %in% S4Vectors::mcols(test_refined_ers)[["annotation"]])
     expect_equal(BiocGenerics::end(test_refined_ers[1]), BiocGenerics::start(S4Vectors::mcols(test_annot_ers)[["grl"]][[1]]) - 1)
     expect_equal(BiocGenerics::start(test_refined_ers[2]), BiocGenerics::end(S4Vectors::mcols(test_annot_ers)[["grl"]][[2]])[1] + 1)
-    expect_equal(BiocGenerics::end(test_refined_ers[2]), BiocGenerics::start(mcols(test_annot_ers)[["grl"]][[2]])[2] - 1)
+    expect_equal(BiocGenerics::end(test_refined_ers[2]), BiocGenerics::start(S4Vectors::mcols(test_annot_ers)[["grl"]][[2]])[2] - 1)
     expect_equal(BiocGenerics::end(test_annot_ers["9"]), BiocGenerics::end(test_parref_ers["9"]))
 })

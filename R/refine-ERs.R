@@ -68,98 +68,68 @@ refine_ERs <- function(annot_ers) {
 
 #' Changes the ers starts and ends based on the junctions
 #'
-#' @param annot_ers annotated ers with overlapping junctions
+#' @param ar annotated ers with overlapping junctions
 #'
 #' @return ers with refined starts and ends and a logical vector listing the
 #' changes
 #' @keywords internal
 #' @noRd
-modify_ers <- function(annot_ers) {
+modify_ers <- function(ar) {
     changes <- logical(0) # logical vector to record changes
-
-    for (a in seq_along(annot_ers)) {
-        er_start <- BiocGenerics::start(IRanges::ranges(annot_ers)[a])
-        er_end <- BiocGenerics::end(IRanges::ranges(annot_ers)[a])
-        change <- FALSE
-        # seeing if single junction overlaps
-        if (length(IRanges::ranges(S4Vectors::mcols(
-            annot_ers
-        )[["grl"]])[[a]]) == 1) {
+    for (a in seq_along(ar)) {
+        er_start <- BiocGenerics::start(IRanges::ranges(ar)[a])
+        er_end <- BiocGenerics::end(IRanges::ranges(ar)[a])
+        change <- FALSE ## seeing if single junction overlaps
+        if (length(IRanges::ranges(S4Vectors::mcols(ar)[["grl"]])[[a]]) == 1) {
             j_start <- as.integer(BiocGenerics::start(
-                IRanges::ranges(S4Vectors::mcols(annot_ers)[["grl"]])[a]
+                IRanges::ranges(S4Vectors::mcols(ar)[["grl"]])[a]
             ))
             j_end <- as.integer(BiocGenerics::end(
-                IRanges::ranges(S4Vectors::mcols(annot_ers)[["grl"]])[a]
+                IRanges::ranges(S4Vectors::mcols(ar)[["grl"]])[a]
             ))
-            if (inbetween(value = j_start, rstart = er_start, rend = er_end) &
+            if (inbetween(j_start, er_start, er_end) &
                 inbetween(value = j_end, rstart = er_start, rend = er_end)) {
                 er_start <- j_start + 1
                 er_end <- j_end - 1
                 change <- TRUE
-            } else if (inbetween(
-                value = j_start,
-                rstart = er_start,
-                rend = er_end
-            )) {
+            } else if (inbetween(j_start, er_start, er_end)) {
                 er_end <- j_start - 1
                 change <- TRUE
-            } else if (inbetween(
-                value = j_end,
-                rstart = er_start,
-                rend = er_end
-            )) {
+            } else if (inbetween(j_end, er_start, er_end)) {
                 er_start <- j_end + 1
                 change <- TRUE
-            }
-            # seeing if one or two junctions overlap
+            } # seeing if one or two junctions overlap
         } else if (length(IRanges::ranges(S4Vectors::mcols(
-            annot_ers
+            ar
         )[["grl"]])[[a]]) == 2) {
-            if (colgrs(IRanges::ranges(S4Vectors::mcols(
-                annot_ers
-            )[["grl"]])[[a]])) {
+            if (colgrs(IRanges::ranges(S4Vectors::mcols(ar)[["grl"]])[[a]])) {
                 changes <- c(changes, change)
                 next
             }
-            if (IRanges::ranges(S4Vectors::mcols(annot_ers)[["grl"]])[[a]][1] >
-                IRanges::ranges(S4Vectors::mcols(annot_ers)[["grl"]])[[a]][2]) {
+            if (IRanges::ranges(S4Vectors::mcols(ar)[["grl"]])[[a]][1] >
+                IRanges::ranges(S4Vectors::mcols(ar)[["grl"]])[[a]][2]) {
                 er_start <- as.integer(
-                    BiocGenerics::end(
-                        IRanges::ranges(
-                            S4Vectors::mcols(annot_ers)[["grl"]]
-                        )[[a]][2]
-                    )
+                    BiocGenerics::end(IRanges::ranges(
+                        S4Vectors::mcols(ar)[["grl"]]
+                    )[[a]][2])
                 ) + 1
-                er_end <- as.integer(
-                    BiocGenerics::start(
-                        IRanges::ranges(
-                            S4Vectors::mcols(annot_ers)[["grl"]]
-                        )[[a]][1]
-                    )
-                ) - 1
+                er_end <- as.integer(BiocGenerics::start(
+                    IRanges::ranges(S4Vectors::mcols(ar)[["grl"]])[[a]][1]
+                )) - 1
                 change <- TRUE
             } else {
-                er_start <- as.integer(
-                    BiocGenerics::end(
-                        IRanges::ranges(
-                            S4Vectors::mcols(annot_ers)[["grl"]]
-                        )[[a]][1]
-                    )
-                ) + 1
-                er_end <- as.integer(
-                    BiocGenerics::start(
-                        IRanges::ranges(
-                            S4Vectors::mcols(annot_ers)[["grl"]]
-                        )[[a]][2]
-                    )
-                ) - 1
+                er_start <- as.integer(BiocGenerics::end(IRanges::ranges(
+                    S4Vectors::mcols(ar)[["grl"]]
+                )[[a]][1])) + 1
+                er_end <- as.integer(BiocGenerics::start(IRanges::ranges(
+                    S4Vectors::mcols(ar)[["grl"]]
+                )[[a]][2])) - 1
                 change <- TRUE
             }
         }
-
-        BiocGenerics::start(annot_ers[a]) <- er_start
-        BiocGenerics::end(annot_ers[a]) <- er_end
+        BiocGenerics::start(ar[a]) <- er_start
+        BiocGenerics::end(ar[a]) <- er_end
         changes <- c(changes, change)
     }
-    return(list(annot_ers, changes))
+    return(list(ar, changes))
 }

@@ -16,7 +16,8 @@ gtex_SRP012682_SRX222703_lung_ers_1
 }
 \description{
 An example set of Expressed Regions generated for a user to try out the
-package and to pass in for tests. Generated using gtex_SRP012682_SRX222703_lung_coverage_1 and
-MCCs of 5 and 10 and MRGs of 10 and 20.
+package and to pass in for tests. Generated using
+gtex_SRP012682_SRX222703_lung_coverage_1 and MCCs of 5 and 10 and MRGs of
+10 and 20.
 }
 \keyword{datasets}
