@@ -105,18 +105,23 @@ get_tissue <- function(input_file = NULL, tissue) {
         gtex_data <- data.table::fread(input_file)
     }
 
-    data <- gtex_data %>% dplyr::mutate(
+    gtex_data <- gtex_data %>% dplyr::mutate(
         Name = stringr::str_split_fixed(Name, "\\.", n = 2)[, 1]
     )
 
-    names <- colnames(data) %>%
+    names <- colnames(gtex_data) %>%
         stringr::str_replace_all("\\.+", "_") %>%
         stringr::str_replace("_$", "") %>%
         tolower()
 
     tissue_index <- match(tissue, tissue_options) + 2
 
-    df <- data[, c(1, tissue_index)] %>% dplyr::filter(.[[2]] > 0.1)
+    df <- dplyr::as_tibble(gtex_data) %>%
+        .[, c(1, tissue_index)] %>%
+        dplyr::filter(.[[2]] > 0.1)
+
+    # gtex_data %>%
+    #     dplyr::filter(!!as.symbol(tissue) > 0.1)
 
     return(df)
 }

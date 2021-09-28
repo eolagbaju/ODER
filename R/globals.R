@@ -48,5 +48,6 @@ utils::globalVariables(c(
     "first.X.pseudoGene_id",
     "Name",
     "tissue_options",
-    "gtf_path"
+    "gtf_path",
+    "pseudogene"
 ))
