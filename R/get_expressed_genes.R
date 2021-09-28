@@ -50,24 +50,28 @@
 #' )
 #'
 #' ex_opt_ers_w_exp_genes
-add_expressed_genes <- function(input_file = NULL, tissue, gtf,
-    species = "Homo_sapiens", annot_ers, type_col_name = "type") {
-    tissue_df <- get_tissue(input_file = input_file, tissue = tissue)
-
+add_expressed_genes <- function(input_file = NULL,
+    tissue,
+    gtf,
+    species = "Homo_sapiens",
+    annot_ers,
+    type_col_name = "type") {
+    tissue_df <- get_tissue(
+        input_file = input_file,
+        tissue = tissue
+    )
     expressed_genes <- get_expressed_genes(
         gtf = gtf,
         species = species,
         tissue_df = tissue_df,
         type_col_name = type_col_name
     )
-
     full_annot_ers <- get_nearest_expressed_genes(
         annot_ers = annot_ers,
         exp_genes = expressed_genes,
         gtf = gtf,
         type_col_name = type_col_name
     )
-
     return(full_annot_ers)
 }
 
