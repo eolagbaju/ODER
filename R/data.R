@@ -67,3 +67,14 @@
 #' @source See tissues.R in data-raw
 #'
 "tissue_options"
+#' Different transcript biotypes that count as pseudogene
+#'
+#' These are the various transcript biotypes typically found in the transcript
+#' biotype column of a gtf file.
+#'
+#' @format A character vector with all of the different pseudogene categories
+#' \code{\link{get_exons}} function.
+#'
+#' @source See exon_biotypes.R in data-raw
+#'
+"pseudogene"
