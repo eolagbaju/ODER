@@ -442,22 +442,7 @@ tp_exons <- function(gtf.df.pc.tsl1, all_data_gr) {
     message(stringr::str_c(Sys.time(), " - Obtaining Three Prime exons"))
     utr_all <- gtf.df.pc.tsl1 %>% dplyr::filter(type %in% "three_prime_utr")
     # Collapsing the 3'UTRs among the transcripts for each gene
-    utr_all_grList <- GenomicRanges::makeGRangesListFromDataFrame(
-        utr_all,
-        split.field = "gene_id", names.field = "transcript_id"
-    )
-    utr_all_collapse <- IRanges::reduce(
-        utr_all_grList,
-        with.revmap = TRUE
-    ) %>%
-        as.data.frame() %>%
-        dplyr::mutate(
-            elements_collapsed = lengths(revmap),
-            three_prime_utr_id = paste(group_name, seqnames, start, end,
-                strand, elements_collapsed,
-                sep = ":"
-            )
-        )
+    utr_all_collapse <- collapse_gtf(utr_all, "three_prime_utr_id")
     utr.gr <- GenomicRanges::makeGRangesFromDataFrame(utr_all_collapse,
         keep.extra.columns = TRUE
     )
@@ -568,22 +553,7 @@ fp_exons <- function(gtf.df.pc.tsl1, all_data_gr) {
 int_exons <- function(gtf.df.pc.tsl1, all_data_gr) {
     internal.cds <- .int_prep(gtf.df.pc.tsl1)
     # Collapsing the ICEs amongst the transcripts for each gene
-    internal_cds_grList <- GenomicRanges::makeGRangesListFromDataFrame(
-        internal.cds,
-        split.field = "gene_id", names.field = "transcript_id"
-    )
-    internal_cds_collapse <- IRanges::reduce(
-        internal_cds_grList,
-        with.revmap = TRUE
-    ) %>%
-        as.data.frame() %>%
-        dplyr::mutate(
-            elements_collapsed = lengths(revmap),
-            cds_id = paste(group_name, seqnames, start, end,
-                strand, elements_collapsed,
-                sep = ":"
-            )
-        )
+    internal_cds_collapse <- collapse_gtf(internal.cds, "cds_id")
     internal.cds.gr <- GenomicRanges::makeGRangesFromDataFrame(
         internal_cds_collapse,
         keep.extra.columns = TRUE
@@ -682,7 +652,7 @@ lnc_exons <- function(gtf.df.pc.tsl1, all_data_gr, gtf.df) {
     )
     lncrna.gtf <- gtf.df.pc.tsl1 %>% dplyr::filter(type %in% "exon")
     # Collapsing the transcripts for each gene
-    lncrna_all_collapse <- collapse_gtf(lncrna.gtf)
+    lncrna_all_collapse <- collapse_gtf(lncrna.gtf, "lncrna_id")
     lncrna.gr <- GenomicRanges::makeGRangesFromDataFrame(
         lncrna_all_collapse,
         keep.extra.columns = TRUE
@@ -733,20 +703,7 @@ nc_exons <- function(all_data_gr, gtf.df) {
         gene_biotype %in% ncRNA, type %in% "exon"
     )
     # Collapsing among the transcripts for each gene
-    ncrna_all_grList <- GenomicRanges::makeGRangesListFromDataFrame(
-        ncrna.gtf,
-        split.field = "gene_id", names.field = "transcript_id"
-    )
-    ncrna_all_collapse <- IRanges::reduce(ncrna_all_grList, with.revmap = TRUE) %>%
-        as.data.frame() %>%
-        dplyr::mutate(
-            elements_collapsed = lengths(revmap),
-            ncrna_id = paste(
-                group_name, seqnames, start, end,
-                strand, elements_collapsed,
-                sep = ":"
-            )
-        )
+    ncrna_all_collapse <- collapse_gtf(ncrna.gtf, "ncrna_id")
     ncrna.gr <- GenomicRanges::makeGRangesFromDataFrame(
         ncrna_all_collapse,
         keep.extra.columns = TRUE
@@ -813,12 +770,11 @@ pseudo_exons <- function(gtf.df.pc.tsl1, all_data_gr, gtf.df) {
     pseudo.gtf <- gtf.df.pc.tsl1 %>% dplyr::filter(
         gene_biotype %in% pseudogene, type %in% "exon"
     )
-    pseudo_all_collapse <- collapse_gtf(pseudo.gtf)
+    pseudo_all_collapse <- collapse_gtf(pseudo.gtf, "pseudoGene_id")
     pseudogene.gr <- GenomicRanges::makeGRangesFromDataFrame(
         pseudo_all_collapse,
         keep.extra.columns = TRUE
-    )
-    # Compute the overlap
+    ) # Compute the overlap
     y <- IRanges::findOverlapPairs(
         pseudogene.gr, all_data_gr,
         ignore.strand = TRUE
@@ -847,11 +803,12 @@ pseudo_exons <- function(gtf.df.pc.tsl1, all_data_gr, gtf.df) {
 #' Collapsing among the transcripts for each gene
 #'
 #' @param a gtf in GRanges
+#' @param exon_type string of exon location/type to collapse on
 #'
 #' @return all_collapse
 #' @keywords internal
 #' @noRd
-collapse_gtf <- function(gtf) {
+collapse_gtf <- function(gtf, exon_type) {
     # Collapsing among the transcripts for each gene
     all_grList <- GenomicRanges::makeGRangesListFromDataFrame(
         gtf,
@@ -864,7 +821,7 @@ collapse_gtf <- function(gtf) {
         as.data.frame() %>%
         dplyr::mutate(
             elements_collapsed = lengths(revmap),
-            pseudoGene_id = paste(
+            "{exon_type}" := paste(
                 group_name, seqnames, start, end,
                 strand, elements_collapsed,
                 sep = ":"
