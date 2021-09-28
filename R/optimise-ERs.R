@@ -75,14 +75,14 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE,
         return(int_exons(gtf.df.pc.tsl1, all_data_gr))
     }
     if (biotype == "lncRNA" | biotype == "LNCRNA" | biotype == "lncrna") {
-        return(lnc_exons(gtf.df.pc.tsl1, all_data_gr, gtf.df))
+        return(lnc_exons(all_data_gr, gtf.df))
     }
     if (biotype == "ncRNA" | biotype == "NCRNA" | biotype == "ncrna") {
         return(nc_exons(all_data_gr, gtf.df))
     }
     if (biotype == "pseudo" | biotype == "Pseudo" |
         biotype == "pseudogene" | biotype == "Pseudogene") {
-        return(pseudo_exons(gtf.df.pc.tsl1, all_data_gr, gtf.df))
+        return(pseudo_exons(all_data_gr, gtf.df))
     }
 }
 
@@ -447,7 +447,10 @@ tp_exons <- function(gtf.df.pc.tsl1, all_data_gr) {
         keep.extra.columns = TRUE
     )
     # Compute the overlap
-    x <- IRanges::findOverlapPairs(utr.gr, all_data_gr, ignore.strand = TRUE) %>%
+    x <- IRanges::findOverlapPairs(utr.gr,
+        all_data_gr,
+        ignore.strand = TRUE
+    ) %>%
         as.data.frame() %>%
         dplyr::mutate(gold = ifelse(
             first.X.group_name %in% second.X.gene_id,
@@ -489,26 +492,16 @@ fp_exons <- function(gtf.df.pc.tsl1, all_data_gr) {
         type %in% "five_prime_utr"
     )
     # Collapsing the 5'UTRs among the transcripts for each gene
-    five_prime_grList <- GenomicRanges::makeGRangesListFromDataFrame(
-        five_prime,
-        split.field = "gene_id", names.field = "transcript_id"
-    )
-    five_prime_collapse <- IRanges::reduce(five_prime_grList, with.revmap = TRUE) %>%
-        as.data.frame() %>%
-        dplyr::mutate(
-            elements_collapsed = lengths(revmap),
-            five_prime_utr_id = paste(
-                group_name, seqnames, start, end, strand,
-                elements_collapsed,
-                sep = ":"
-            )
-        )
+    five_prime_collapse <- collapse_gtf(five_prime, "five_prime_utr_id")
     five.gr <- GenomicRanges::makeGRangesFromDataFrame(
         five_prime_collapse,
         keep.extra.columns = TRUE
     )
     # Compute the overlap
-    y <- IRanges::findOverlapPairs(five.gr, all_data_gr, ignore.strand = TRUE) %>%
+    y <- IRanges::findOverlapPairs(five.gr,
+        all_data_gr,
+        ignore.strand = TRUE
+    ) %>%
         as.data.frame() %>%
         dplyr::mutate(gold = ifelse(
             first.X.group_name %in% second.X.gene_id,
@@ -599,7 +592,11 @@ int_exons <- function(gtf.df.pc.tsl1, all_data_gr) {
     # Extract all the coding exons
     cds_all <- gtf.df.pc.tsl1 %>%
         dplyr::filter(type %in% "CDS") %>%
-        dplyr::mutate(CDS_id = paste(gene_id, seqnames, start, end, strand, sep = ":"))
+        dplyr::mutate(CDS_id = paste(gene_id,
+            seqnames,
+            start, end, strand,
+            sep = ":"
+        ))
     # number of coding exons per transcript
     cds_count <- table(cds_all$transcript_id) %>% as.data.frame()
     # Only the transcripts with >2 coding exons will contain internal exons,
@@ -628,14 +625,13 @@ int_exons <- function(gtf.df.pc.tsl1, all_data_gr) {
 # 2. If lncrna overlaps any part of a transcript from a DIFFERENT gene,
 # then this should be removed.
 #'
-#' @param gtf.df.pc.tsl1 GRanges
 #' @param all_data_gr gold standard granges
 #' @param gtf.df GRanges
 #'
 #' @return lncrna_exons Long Non-coding RNAs
 #' @keywords internal
 #' @noRd
-lnc_exons <- function(gtf.df.pc.tsl1, all_data_gr, gtf.df) {
+lnc_exons <- function(all_data_gr, gtf.df) {
     lncRNA <- c(
         "non_coding", "3prime_overlapping_ncRNA", "antisense", "lincRNA",
         "sense_intronic", "sense_overlapping", "macro_lncRNA", "lncRNA"
@@ -658,7 +654,10 @@ lnc_exons <- function(gtf.df.pc.tsl1, all_data_gr, gtf.df) {
         keep.extra.columns = TRUE
     )
     # Compute the overlap
-    y <- IRanges::findOverlapPairs(lncrna.gr, all_data_gr, ignore.strand = TRUE) %>%
+    y <- IRanges::findOverlapPairs(lncrna.gr,
+        all_data_gr,
+        ignore.strand = TRUE
+    ) %>%
         as.data.frame() %>%
         dplyr::mutate(gold = ifelse(
             first.X.group_name %in% second.X.gene_id, "YES", "NO"
@@ -709,7 +708,10 @@ nc_exons <- function(all_data_gr, gtf.df) {
         keep.extra.columns = TRUE
     )
     # Compute the overlap
-    y <- IRanges::findOverlapPairs(ncrna.gr, all_data_gr, ignore.strand = TRUE) %>%
+    y <- IRanges::findOverlapPairs(ncrna.gr,
+        all_data_gr,
+        ignore.strand = TRUE
+    ) %>%
         as.data.frame() %>%
         dplyr::mutate(
             gold = ifelse(
@@ -741,23 +743,14 @@ nc_exons <- function(all_data_gr, gtf.df) {
 #' 2. If pseudogene overlaps any part of a transcript from a
 #' DIFFERENT gene, then this should be removed.
 #'
-#' @param gtf.df.pc.tsl1 GRanges
 #' @param all_data_gr gold standard granges
 #' @param gtf.df GRanges
 #'
 #' @return lncrna_exons Long Non-coding RNAs
 #' @keywords internal
 #' @noRd
-pseudo_exons <- function(gtf.df.pc.tsl1, all_data_gr, gtf.df) {
+pseudo_exons <- function(all_data_gr, gtf.df) {
     message(stringr::str_c(Sys.time(), " - Obtaining Pseudogene"))
-    pseudogene <- c(
-        "pseudogene", "processed_pseudogene", "unprocessed_pseudogene",
-        "transcribed_processed_pseudogene", "transcribed_unitary_pseudogene",
-        "transcribed_unprocessed_pseudogene", "translated_processed_pseudogene",
-        "unitary_pseudogene", "unprocessed_pseudogene", "TR_V_pseudogene",
-        "TR_J_pseudogene", "rRNA_pseudogene", "polymorphic_pseudogene",
-        "IG_V_pseudogene", "IG_pseudogene", "IG_J_pseudogene", "IG_C_pseudogene"
-    )
     gtf.df.pc <- gtf.df %>% dplyr::filter(
         gene_biotype %in% pseudogene, transcript_biotype %in% pseudogene
     ) # Select TSL level 1
