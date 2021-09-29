@@ -18,6 +18,13 @@ if (!exists("test_exons")) {
     )
 }
 
+suppressWarnings(test_3p_exons <- get_exons(gtf = gtf_grs, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Three Prime"))
+suppressWarnings(test_5p_exons <- get_exons(gtf= gtf_grs, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Five Prime"))
+suppressWarnings(test_int_exons <- get_exons(gtf= gtf_grs, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Internal"))
+suppressWarnings(test_lnc_exons <- get_exons(gtf= gtf_grs, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "lncRNA"))
+suppressWarnings(test_nc_exons <- get_exons(gtf= gtf_grs, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "ncRNA"))
+suppressWarnings(test_ps_exons <- get_exons(gtf= gtf_grs, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Pseudogene"))
+
 if (!exists("test_ers_delta")) {
     test_ers_delta <- get_ers_delta(
         ers = gtex_SRP012682_SRX222703_lung_ers_1, # gtex_SRP012682_SRX222703_lung_ers_1 is from the data folder
@@ -65,6 +72,12 @@ test_that("get_exons works", {
         "Please check your gtf file path"
     )
     expect_true(methods::is(test_exons, "GenomicRanges"))
+    expect_true(methods::is(test_3p_exons, "GenomicRanges"))
+    expect_true(methods::is(test_5p_exons, "GenomicRanges"))
+    expect_true(methods::is(test_int_exons, "GenomicRanges"))
+    expect_true(methods::is(test_lnc_exons, "GenomicRanges"))
+    expect_true(methods::is(test_nc_exons, "GenomicRanges"))
+    expect_true(methods::is(test_ps_exons, "GenomicRanges"))
 })
 
 test_that("get_ers_delta works", {
