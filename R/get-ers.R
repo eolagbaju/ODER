@@ -27,15 +27,15 @@
 #' eg_ers
 get_ers <- function(coverage, mccs, mrgs) {
     er_entry_check(coverage, mccs, mrgs)
-    mccs_list <- vector(mode = "list", length = length(mccs)) 
+    mccs_list <- vector(mode = "list", length = length(mccs))
     names(mccs_list) <- stringr::str_c("mcc_", mccs)
-    mrgs_list <- vector(mode = "list", length = length(mrgs)) %>% 
+    mrgs_list <- vector(mode = "list", length = length(mrgs)) %>%
         lapply(FUN = function(x) list())
     names(mrgs_list) <- stringr::str_c("mrg_", mrgs)
 
-    ers <- mccs_list %>% 
+    ers <- mccs_list %>%
         lapply(function(x) x <- mrgs_list)
-    
+
     for (i in seq_along(coverage)) { ##### Generate ERs #####
         message(stringr::str_c(
             Sys.time(), " - Generating ERs for ", names(coverage)[i]
