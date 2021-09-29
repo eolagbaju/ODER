@@ -181,7 +181,7 @@
 <span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="fu">recount</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/recount/man/all_metadata.html" class="external-link">all_metadata</a></span><span class="op">(</span><span class="st">"gtex"</span><span class="op">)</span>
 <span class="co">#&gt; Setting options('download.file.method.GEOquery'='auto')</span>
 <span class="co">#&gt; Setting options('GEOquery.inmemory.gpl'=FALSE)</span>
-<span class="co">#&gt; 2021-09-29 11:51:48 downloading the metadata to /tmp/RtmpoOGvES/metadata_clean_gtex.Rdata</span>
+<span class="co">#&gt; 2021-09-29 14:23:00 downloading the metadata to /tmp/RtmpNBMsEp/metadata_clean_gtex.Rdata</span>
 <span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="va">gtex_metadata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
     <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">project</span> <span class="op">==</span> <span class="st">"SRP012682"</span><span class="op">)</span>
@@ -198,15 +198,19 @@
 
 <span class="va">bw_path</span>
 <span class="co">#&gt;                                                                                         BFC1 </span>
-<span class="co">#&gt; "/github/home/.cache/R/BiocFileCache/33e21857e3e_SRR660824_SRS389722_SRX222703_male_lung.bw"</span></code></pre></div>
+<span class="co">#&gt; "/github/home/.cache/R/BiocFileCache/3397297fceb_SRR660824_SRS389722_SRX222703_male_lung.bw"</span></code></pre></div>
 <p>To get the optimum set of ERs from a BigWig file we can use the <code><a href="../reference/ODER.html">ODER()</a></code> function.This will obtain the optimally defined ERs by finding the combination of MCC and MRG parameters that gives the lowest exon delta between the ERs and the inputted gold-standard exons. The MCC is minimum read depth that a base pair needs to have to be considered expressed. The MRG is the maximum number of base pairs between reads that fall below the MCC before you would not include it as part of the expressed region. Internally, gold-standard exons are obtained by finding the non-overlapping exons from the inputted reference annotation.</p>
 <p>In this example, we demonstrate <code><a href="../reference/ODER.html">ODER()</a></code> on a single unstranded <code>Bigwig</code>. However, in reality, it is likely that you will want to optimise the ER definitions across multiple <code>BigWigs</code>. It is worth noting that the arguments <code>bw_pos</code> and <code>bw_neg</code> in <code><a href="../reference/ODER.html">ODER()</a></code> allow for the input of stranded <code>BigWigs</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load reference annotation from Ensembl</span>
-<span class="va">gtf_url</span> <span class="op">&lt;-</span> <span class="st">"http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
+<span class="va">gtf_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span>
+    <span class="st">"http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens"</span>,
+    <span class="st">"/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span>
+<span class="op">)</span>
 <span class="va">gtf_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/file_cache.html">file_cache</a></span><span class="op">(</span><span class="va">gtf_url</span><span class="op">)</span>
 <span class="va">gtf_gr</span> <span class="op">&lt;-</span> <span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu">import</span><span class="op">(</span><span class="va">gtf_path</span><span class="op">)</span>
-<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu">xfun</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/xfun/man/os.html" class="external-link">is_windows</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> <span class="co"># As of rtracklayer 1.25.16, BigWig is not supported on Windows.</span>
+<span class="co"># As of rtracklayer 1.25.16, BigWig is not supported on Windows.</span>
+<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu">xfun</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/xfun/man/os.html" class="external-link">is_windows</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
     <span class="va">opt_ers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ODER.html">ODER</a></span><span class="op">(</span>
         bw_paths <span class="op">=</span> <span class="va">bw_path</span>, auc_raw <span class="op">=</span> <span class="va">gtex_metadata</span><span class="op">[[</span><span class="st">"auc"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
         auc_target <span class="op">=</span> <span class="fl">40e6</span> <span class="op">*</span> <span class="fl">100</span>, chrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"chr21"</span><span class="op">)</span>,
@@ -236,12 +240,12 @@
 <span class="co">#&gt; The following objects are masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     expand.grid, I, unname</span>
-<span class="co">#&gt; 2021-09-29 11:52:42 - Obtaining mean coverage across 1 samples</span>
-<span class="co">#&gt; 2021-09-29 11:52:42 - chr21</span>
-<span class="co">#&gt; 2021-09-29 11:52:43 - Generating ERs for chr21</span>
-<span class="co">#&gt; 2021-09-29 11:52:45 - Obtaining non-overlapping exons</span>
-<span class="co">#&gt; 2021-09-29 11:52:49 - Calculating delta for ERs...</span>
-<span class="co">#&gt; 2021-09-29 11:52:51 - Obtaining optimal set of ERs...</span></code></pre></div>
+<span class="co">#&gt; 2021-09-29 14:23:56 - Obtaining mean coverage across 1 samples</span>
+<span class="co">#&gt; 2021-09-29 14:23:56 - chr21</span>
+<span class="co">#&gt; 2021-09-29 14:23:56 - Generating ERs for chr21</span>
+<span class="co">#&gt; 2021-09-29 14:23:59 - Obtaining non-overlapping exons</span>
+<span class="co">#&gt; 2021-09-29 14:24:03 - Calculating delta for ERs...</span>
+<span class="co">#&gt; 2021-09-29 14:24:05 - Obtaining optimal set of ERs...</span></code></pre></div>
 <p>Once we have the obtained the optimised set of ERs, we may consider plotting the exon delta across the various MCCs and MRGs. This can be useful to check the error associated with the definition of the set of optimised ERs. This error is measured through two metrics; the median exon delta and the number of ERs with exon delta equal to 0. The median exon delta represents the overall accuracy of all ER definitions, whereas the number of ERs with exon delta equal to 0 indicates the extent to which ER definitions precisely match overlapping gold-standard exon boundaries.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># visualise the spread of mccs and mrgs</span>
@@ -299,16 +303,16 @@
     <span class="co"># print first 5 ERs</span>
     <span class="va">annot_ers</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>
 <span class="op">}</span>
-<span class="co">#&gt; [1] "2021-09-29 11:53:02 - Obtaining co-ordinates of annotated exons and junctions..."</span>
-<span class="co">#&gt; [1] "2021-09-29 11:53:03 - Getting junction annotation using overlapping exons..."</span>
-<span class="co">#&gt; [1] "2021-09-29 11:53:03 - Tidying junction annotation..."</span>
-<span class="co">#&gt; [1] "2021-09-29 11:53:04 - Deriving junction categories..."</span>
-<span class="co">#&gt; [1] "2021-09-29 11:53:04 - done!"</span>
-<span class="co">#&gt; 2021-09-29 11:53:04 - Finding junctions overlapping ers...</span>
-<span class="co">#&gt; 2021-09-29 11:53:06 - Annotating the Expressed regions...</span>
-<span class="co">#&gt; 2021-09-29 11:53:06 annotateRegions: counting</span>
-<span class="co">#&gt; 2021-09-29 11:53:06 annotateRegions: annotating</span>
-<span class="co">#&gt; 2021-09-29 11:53:11 - done!</span>
+<span class="co">#&gt; [1] "2021-09-29 14:24:15 - Obtaining co-ordinates of annotated exons and junctions..."</span>
+<span class="co">#&gt; [1] "2021-09-29 14:24:16 - Getting junction annotation using overlapping exons..."</span>
+<span class="co">#&gt; [1] "2021-09-29 14:24:17 - Tidying junction annotation..."</span>
+<span class="co">#&gt; [1] "2021-09-29 14:24:17 - Deriving junction categories..."</span>
+<span class="co">#&gt; [1] "2021-09-29 14:24:18 - done!"</span>
+<span class="co">#&gt; 2021-09-29 14:24:18 - Finding junctions overlapping ers...</span>
+<span class="co">#&gt; 2021-09-29 14:24:19 - Annotating the Expressed regions...</span>
+<span class="co">#&gt; 2021-09-29 14:24:19 annotateRegions: counting</span>
+<span class="co">#&gt; 2021-09-29 14:24:20 annotateRegions: annotating</span>
+<span class="co">#&gt; 2021-09-29 14:24:24 - done!</span>
 <span class="co">#&gt; GRanges object with 5 ranges and 5 metadata columns:</span>
 <span class="co">#&gt;       seqnames          ranges strand |           grl           genes</span>
 <span class="co">#&gt;          &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; | &lt;GRangesList&gt; &lt;CharacterList&gt;</span>
@@ -333,7 +337,7 @@
 
     <span class="va">refined_ers</span>
 <span class="op">}</span>
-<span class="co">#&gt; 2021-09-29 11:53:12 - Refining the Expressed regions...</span>
+<span class="co">#&gt; 2021-09-29 14:24:24 - Refining the Expressed regions...</span>
 <span class="co">#&gt; GRanges object with 2 ranges and 5 metadata columns:</span>
 <span class="co">#&gt;       seqnames          ranges strand |                     grl           genes</span>
 <span class="co">#&gt;          &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; |           &lt;GRangesList&gt; &lt;CharacterList&gt;</span>
@@ -355,7 +359,7 @@
 <span class="fu">megadepth</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/megadepth/man/install_megadepth.html" class="external-link">install_megadepth</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; The latest megadepth version is 1.1.1</span>
 <span class="co">#&gt; This is not an interactive session, therefore megadepth has been installed temporarily to </span>
-<span class="co">#&gt; /tmp/RtmpoOGvES/megadepth</span>
+<span class="co">#&gt; /tmp/RtmpNBMsEp/megadepth</span>
 <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu">xfun</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/xfun/man/os.html" class="external-link">is_windows</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> <span class="co"># uses product of ODER</span>
     <span class="va">er_count_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_count_matrix.html">get_count_matrix</a></span><span class="op">(</span>
         bw_paths <span class="op">=</span> <span class="va">bw_path</span>, annot_ers <span class="op">=</span> <span class="va">annot_ers</span>,
@@ -396,9 +400,9 @@
 </ul>
 <p>This package was developed using <em><a href="https://bioconductor.org/packages/3.14/biocthis" class="external-link">biocthis</a></em>.</p>
 <p>Date the vignette was generated.</p>
-<pre><code>#&gt; [1] "2021-09-29 11:53:34 UTC"</code></pre>
+<pre><code>#&gt; [1] "2021-09-29 14:24:44 UTC"</code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code>#&gt; Time difference of 1.96 mins</code></pre>
+<pre><code>#&gt; Time difference of 1.931 mins</code></pre>
 <p><code>R</code> session information.</p>
 <pre><code>#&gt; ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt;  setting  value                       
