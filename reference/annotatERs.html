@@ -6,8 +6,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Connects ERs to genes using junction data, then classifies ERs into "exonic",
-"intronic", "intergenic", or a combination of these categories — annotatERs • ODER</title>
+<title>Connects ERs to genes using junction data, then classifies ERs
+into "exonic", "intronic", "intergenic",
+or a combination of these categories — annotatERs • ODER</title>
 
 
 <!-- jquery -->
@@ -40,12 +41,13 @@
 
 
 
-<meta property="og:title" content="Connects ERs to genes using junction data, then classifies ERs into "exonic",
-"intronic", "intergenic", or a combination of these categories — annotatERs" />
-<meta property="og:description" content="Finds the overlap between junctions and ERs, then adds gene info and junction
-info as metadata columns. Then, uses a gtf file or a Txdb passed in to
-generate a genomic state used to label each ER as to whether they are exonic,
-intronic, intergenic or none." />
+<meta property="og:title" content="Connects ERs to genes using junction data, then classifies ERs
+into "exonic", "intronic", "intergenic",
+or a combination of these categories — annotatERs" />
+<meta property="og:description" content="Finds the overlap between junctions and ERs, then adds gene info
+and junction info as metadata columns. Then, uses a gtf file
+or a Txdb passed in to generate a genomic state used to label
+each ER as to whether they are exonic, intronic, intergenic or none." />
 
 
 
@@ -130,17 +132,18 @@ intronic, intergenic or none." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Connects ERs to genes using junction data, then classifies ERs into "exonic",
-"intronic", "intergenic", or a combination of these categories</h1>
+    <h1>Connects ERs to genes using junction data, then classifies ERs
+into "exonic", "intronic", "intergenic",
+or a combination of these categories</h1>
     <small class="dont-index">Source: <a href='https://github.com/eolagbaju/ODER/blob/master/R/annotatER.R'><code>R/annotatER.R</code></a></small>
     <div class="hidden name"><code>annotatERs.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Finds the overlap between junctions and ERs, then adds gene info and junction
-info as metadata columns. Then, uses a <code>gtf</code> file or a <code>Txdb</code> passed in to
-generate a genomic state used to label each ER as to whether they are exonic,
-intronic, intergenic or none.</p>
+    <p>Finds the overlap between junctions and ERs, then adds gene info
+and junction info as metadata columns. Then, uses a <code>gtf</code> file
+or a <code>Txdb</code> passed in to generate a genomic state used to label
+each ER as to whether they are exonic, intronic, intergenic or none.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>annotatERs</span><span class='op'>(</span><span class='va'>opt_ers</span>, <span class='va'>junc_data</span>, <span class='va'>genom_state</span>, <span class='va'>gtf</span>, <span class='va'>txdb</span><span class='op'>)</span></code></pre></div>
@@ -168,9 +171,9 @@ for annotation.</p></td>
     </tr>
     <tr>
       <th>txdb</th>
-      <td><p><a href='https://rdrr.io/pkg/GenomicFeatures/man/TxDb-class.html'>TxDb-class</a> (txdb object) to create
-genomic state. This is used to annotate the expressed regions as exonic,
-intronic or intergenic.</p></td>
+      <td><p><a href='https://rdrr.io/pkg/GenomicFeatures/man/TxDb-class.html'>TxDb-class</a> (txdb object)
+to create genomic state. This is used to annotate the
+expressed regions as exonic, intronic or intergenic.</p></td>
     </tr>
     </table>
 
@@ -236,16 +239,16 @@ intronic or intergenic.</p></td>
 <span class='r-in'>        gtf <span class='op'>=</span> <span class='va'>gtf_gr</span>, txdb <span class='op'>=</span> <span class='va'>ens_txdb</span>, genom_state <span class='op'>=</span> <span class='va'>genom_state</span></span>
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-28 16:09:33 - Obtaining co-ordinates of annotated exons and junctions..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-28 16:09:34 - Getting junction annotation using overlapping exons..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-28 16:09:35 - Tidying junction annotation..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-28 16:09:36 - Deriving junction categories..."</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-28 16:09:40 - done!"</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-28 16:09:40 - Finding junctions overlapping ers...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-28 16:09:40 - Annotating the Expressed regions...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-28 16:09:40 annotateRegions: counting</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-28 16:09:41 annotateRegions: annotating</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-28 16:09:42 - done!</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-29 10:04:38 - Obtaining co-ordinates of annotated exons and junctions..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-29 10:04:39 - Getting junction annotation using overlapping exons..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-29 10:04:41 - Tidying junction annotation..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-29 10:04:41 - Deriving junction categories..."</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2021-09-29 10:04:45 - done!"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-29 10:04:46 - Finding junctions overlapping ers...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-29 10:04:46 - Annotating the Expressed regions...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-29 10:04:46 annotateRegions: counting</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-29 10:04:46 annotateRegions: annotating</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-29 10:04:48 - done!</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='va'>annot_ers1</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 5 ranges and 5 metadata columns:</span>
