@@ -103,15 +103,19 @@ modify_ers <- function(ar) {
             if (ranges(mcols(ar)[["grl"]])[[a]][1] >
                 ranges(mcols(ar)[["grl"]])[[a]][2]) {
                 er_start <- as.integer(
-                    end(ranges(mcols(ar)[["grl"]])[[a]][2])) + 1
+                    end(ranges(mcols(ar)[["grl"]])[[a]][2])
+                ) + 1
                 er_end <- as.integer(
-                    start(ranges(mcols(ar)[["grl"]])[[a]][1])) - 1
+                    start(ranges(mcols(ar)[["grl"]])[[a]][1])
+                ) - 1
                 change <- TRUE
             } else {
                 er_start <- as.integer(
-                    end(ranges(mcols(ar)[["grl"]])[[a]][1])) + 1
+                    end(ranges(mcols(ar)[["grl"]])[[a]][1])
+                ) + 1
                 er_end <- as.integer(
-                    start(ranges(mcols(ar)[["grl"]])[[a]][2])) - 1
+                    start(ranges(mcols(ar)[["grl"]])[[a]][2])
+                ) - 1
                 change <- TRUE
             }
         }
