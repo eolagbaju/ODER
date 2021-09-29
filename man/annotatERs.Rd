@@ -2,8 +2,9 @@
 % Please edit documentation in R/annotatER.R
 \name{annotatERs}
 \alias{annotatERs}
-\title{Connects ERs to genes using junction data, then classifies ERs into "exonic",
-"intronic", "intergenic", or a combination of these categories}
+\title{Connects ERs to genes using junction data, then classifies ERs
+into "exonic", "intronic", "intergenic",
+or a combination of these categories}
 \usage{
 annotatERs(opt_ers, junc_data, genom_state, gtf, txdb)
 }
@@ -18,18 +19,18 @@ annotatERs(opt_ers, junc_data, genom_state, gtf, txdb)
 \code{rtracklayer::import} . This is used to provide the gene information
 for annotation.}
 
-\item{txdb}{\link[GenomicFeatures:TxDb-class]{TxDb-class} (txdb object) to create
-genomic state. This is used to annotate the expressed regions as exonic,
-intronic or intergenic.}
+\item{txdb}{\link[GenomicFeatures:TxDb-class]{TxDb-class} (txdb object)
+to create genomic state. This is used to annotate the
+expressed regions as exonic, intronic or intergenic.}
 }
 \value{
 annotated ERs
 }
 \description{
-Finds the overlap between junctions and ERs, then adds gene info and junction
-info as metadata columns. Then, uses a \code{gtf} file or a \code{Txdb} passed in to
-generate a genomic state used to label each ER as to whether they are exonic,
-intronic, intergenic or none.
+Finds the overlap between junctions and ERs, then adds gene info
+and junction info as metadata columns. Then, uses a \code{gtf} file
+or a \code{Txdb} passed in to generate a genomic state used to label
+each ER as to whether they are exonic, intronic, intergenic or none.
 }
 \examples{
 

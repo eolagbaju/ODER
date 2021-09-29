@@ -1,8 +1,9 @@
 #' Cache a file if it is not found locally
 #'
-#' `file_cache` will use [BiocFileCache][BiocFileCache::BiocFileCache-class]
-#' will cache the file for faster repeated retrival, if it is not found locally
-#' (i.e. a URL).
+#' `file_cache` will use:
+#' [BiocFileCache][BiocFileCache::BiocFileCache-class]
+#' and will then cache the file for faster repeated retrival,
+#' if it is not found locally (i.e. a URL).
 #'
 #' @param file_path a path to file of interest.
 #'

@@ -41,8 +41,7 @@ get_ers <- function(coverage, mccs, mrgs) {
         ))
         for (j in seq_along(mccs)) {
             mcc_label <- stringr::str_c("mcc_", mccs[j])
-            # generate ERs at particular mcc
-            er_mcc <- derfinder::findRegions(
+            er_mcc <- derfinder::findRegions( # generate ERs at particular mcc
                 position = S4Vectors::Rle(
                     TRUE, length(coverage[[i]][["meanCoverage"]])
                 ),
@@ -52,11 +51,11 @@ get_ers <- function(coverage, mccs, mrgs) {
                 # to reduce run time. No impact on ERs
                 maxClusterGap = length(coverage[[i]][["meanCoverage"]]),
                 verbose = FALSE
-            )
+            ) # collapse ERs with less than a MRG apart
             for (k in seq_along(mrgs)) {
                 mrg_label <- stringr::str_c("mrg_", mrgs[k])
-                # collapse ERs with less than a MRG apart
-                ers[[mcc_label]][[mrg_label]][[names(coverage)[i]]] <- er_mcc %>%
+                ers[[mcc_label]][[mrg_label]][[
+                names(coverage)[i]]] <- er_mcc %>%
                     GenomicRanges::reduce(min.gapwidth = mrgs[k])
             }
         }

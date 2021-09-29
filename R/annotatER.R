@@ -129,22 +129,23 @@ get_junctions <- function(opt_ers, junc_data, txdb) {
 
 
 
-#' Connects ERs to genes using junction data, then classifies ERs into "exonic",
-#' "intronic", "intergenic", or a combination of these categories
+#' Connects ERs to genes using junction data, then classifies ERs
+#' into "exonic", "intronic", "intergenic",
+#' or a combination of these categories
 #'
-#' Finds the overlap between junctions and ERs, then adds gene info and junction
-#' info as metadata columns. Then, uses a `gtf` file or a `Txdb` passed in to
-#' generate a genomic state used to label each ER as to whether they are exonic,
-#' intronic, intergenic or none.
+#' Finds the overlap between junctions and ERs, then adds gene info
+#' and junction info as metadata columns. Then, uses a `gtf` file
+#' or a `Txdb` passed in to generate a genomic state used to label
+#' each ER as to whether they are exonic, intronic, intergenic or none.
 #'
 #' @inheritParams get_junctions
 #' @param genom_state a genomic state object
 #' @param gtf gtf in a GRanges object, pre-imported using
 #' `rtracklayer::import` . This is used to provide the gene information
 #' for annotation.
-#' @param txdb [TxDb-class][GenomicFeatures::TxDb-class] (txdb object) to create
-#' genomic state. This is used to annotate the expressed regions as exonic,
-#' intronic or intergenic.
+#' @param txdb [TxDb-class][GenomicFeatures::TxDb-class] (txdb object)
+#' to create genomic state. This is used to annotate the
+#' expressed regions as exonic, intronic or intergenic.
 #' @return annotated ERs
 #' @export
 #'

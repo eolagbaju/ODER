@@ -50,8 +50,7 @@
 #' )
 #'
 #' ex_opt_ers_w_exp_genes
-add_expressed_genes <- function(input_file = NULL,
-    tissue,
+add_expressed_genes <- function(input_file = NULL, tissue,
     gtf,
     species = "Homo_sapiens",
     annot_ers,

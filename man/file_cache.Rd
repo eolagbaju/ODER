@@ -13,9 +13,10 @@ file_cache(file_path)
 file_path of cached file or unchanged file_path if found locally.
 }
 \description{
-\code{file_cache} will use \link[BiocFileCache:BiocFileCache-class]{BiocFileCache}
-will cache the file for faster repeated retrival, if it is not found locally
-(i.e. a URL).
+\code{file_cache} will use:
+\link[BiocFileCache:BiocFileCache-class]{BiocFileCache}
+and will then cache the file for faster repeated retrival,
+if it is not found locally (i.e. a URL).
 }
 \examples{
 if (!exists("rec_url")) {
