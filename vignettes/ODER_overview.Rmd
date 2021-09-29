@@ -212,10 +212,14 @@ definitions across multiple `BigWigs`. It is worth noting that the arguments
 ```{r ODER}
 
 # load reference annotation from Ensembl
-gtf_url <- "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+gtf_url <- paste0(
+    "http://ftp.ensembl.org/pub/release-103/gtf/homo_sapiens",
+    "/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+)
 gtf_path <- file_cache(gtf_url)
 gtf_gr <- rtracklayer::import(gtf_path)
-if (!xfun::is_windows()) { # As of rtracklayer 1.25.16, BigWig is not supported on Windows.
+# As of rtracklayer 1.25.16, BigWig is not supported on Windows.
+if (!xfun::is_windows()) {
     opt_ers <- ODER(
         bw_paths = bw_path, auc_raw = gtex_metadata[["auc"]][1],
         auc_target = 40e6 * 100, chrs = c("chr21"),
@@ -351,7 +355,8 @@ if (!xfun::is_windows()) { # uses product of ODER
 
 # Reproducibility
 
-The `r Biocpkg("ODER")` package `r Citep(bib[["ODER"]])` was made possible thanks to:
+The `r Biocpkg("ODER")` package `r Citep(bib[["ODER"]])` was made possible 
+thanks to:
 
 -   R `r Citep(bib[["R"]])`
 -   `r Biocpkg("BiocStyle")` `r Citep(bib[["BiocStyle"]])`

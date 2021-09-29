@@ -21,10 +21,10 @@ optimally defined ers annotated with junction and gene information
 \description{
 The junctions will be added to the ERs passed in as a metadata column, a
 \code{GRangeslist} with each GRanges element of the list corresponding to it's
-associated ER. If there are no overlaps, the \code{GRangeslist} will be empty. Any
-ERs that do not have an overlapping junction will have an empty GRanges. The
-respective genes that each ER could be associated with will also be passed in
-as a metadata column, a character list.
+associated ER. If there are no overlaps, the \code{GRangeslist} will be empty.
+Any ERs that do not have an overlapping junction will have an empty GRanges.
+The respective genes that each ER could be associated with will also be
+passed in as a metadata column, a character list.
 }
 \examples{
 gtf_url <- paste0(
