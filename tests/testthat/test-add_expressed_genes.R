@@ -25,10 +25,9 @@ livexpr_genes <- get_expressed_genes(gtf = gtf_grs, tissue_df = liver_tissue)
 
 full_annot_liver_ers <- get_nearest_expressed_genes(annot_ers = ex_opt_ers, exp_genes = livexpr_genes, gtf = gtf_grs)
 
-
 test_that("get_tissue works", {
-    expect_equal(colnames(liver_tissue)[2], "Liver")
-    expect_equal(colnames(stomach_tissue)[2], "Stomach")
+    expect_equal(colnames(liver_tissue)[2], "liver")
+    expect_equal(colnames(stomach_tissue)[2], "stomach")
 })
 
 test_that("get_expressed_genes works", {
