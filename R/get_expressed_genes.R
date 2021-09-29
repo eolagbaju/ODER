@@ -87,7 +87,7 @@ add_expressed_genes <- function(input_file = NULL, tissue,
 #'
 #' @param input_file GTEX median expression file, if left as NULL
 #' \code{\link{get_tissue}} will use the default file
-#' @param tissue Tissue to filter for. See tissue_options for options
+#' @param tissue Tissue to filter for. See `tissue_options` for options.
 #'
 #' @return Dataframe containing expressed genes
 #' @keywords internal
@@ -104,25 +104,25 @@ get_tissue <- function(input_file = NULL, tissue) {
         gtex_data <- data.table::fread(input_file)
     }
 
-    gtex_data <- gtex_data %>% dplyr::mutate(
-        Name = stringr::str_split_fixed(Name, "\\.", n = 2)[, 1]
-    )
+    gtex_data <- gtex_data %>%
+        dplyr::tibble() %>%
+        dplyr::mutate(
+            Name = Name %>% stringr::str_remove("\\..*")
+        )
 
     names <- colnames(gtex_data) %>%
         stringr::str_replace_all("\\.+", "_") %>%
         stringr::str_replace("_$", "") %>%
         tolower()
 
-    tissue_index <- match(tissue, tissue_options) + 2
+    stopifnot(identical(names[3:length(names)], tissue_options))
+    colnames(gtex_data)[3:length(names)] <- tissue_options
 
-    df <- dplyr::as_tibble(gtex_data) %>%
-        .[, c(1, tissue_index)] %>%
-        dplyr::filter(.[[2]] > 0.1)
+    gtex_data_tidy <- gtex_data %>%
+        dplyr::filter(!!as.symbol(tissue) > 0.1) %>%
+        dplyr::select(Name, dplyr::one_of(tissue))
 
-    # gtex_data %>%
-    #     dplyr::filter(!!as.symbol(tissue) > 0.1)
-
-    return(df)
+    return(gtex_data_tidy)
 }
 
 #' Get the expressed genes
