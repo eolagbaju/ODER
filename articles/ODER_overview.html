@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.19</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.20</span>
       </span>
     </div>
 
@@ -135,7 +135,7 @@
 <span class="co">#&gt; eolagbaju (2021). _Optimising the Definition of Expressed Regions_.</span>
 <span class="co">#&gt; doi: 10.18129/B9.bioc.ODER (URL:</span>
 <span class="co">#&gt; https://doi.org/10.18129/B9.bioc.ODER),</span>
-<span class="co">#&gt; https://github.com/eolagbaju/ODER/ODER - R package version 0.99.19,</span>
+<span class="co">#&gt; https://github.com/eolagbaju/ODER/ODER - R package version 0.99.20,</span>
 <span class="co">#&gt; &lt;URL: http://www.bioconductor.org/packages/ODER&gt;.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; eolagbaju (2021). "Optimising the Definition of Expressed Regions."</span>
@@ -182,7 +182,7 @@
 <span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="fu">recount</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/recount/man/all_metadata.html" class="external-link">all_metadata</a></span><span class="op">(</span><span class="st">"gtex"</span><span class="op">)</span>
 <span class="co">#&gt; Setting options('download.file.method.GEOquery'='auto')</span>
 <span class="co">#&gt; Setting options('GEOquery.inmemory.gpl'=FALSE)</span>
-<span class="co">#&gt; 2021-09-30 14:25:52 downloading the metadata to /tmp/RtmpBgg58P/metadata_clean_gtex.Rdata</span>
+<span class="co">#&gt; 2021-09-30 22:53:16 downloading the metadata to /tmp/RtmpVv50DE/metadata_clean_gtex.Rdata</span>
 
 <span class="va">gtex_metadata</span> <span class="op">&lt;-</span> <span class="va">gtex_metadata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
     <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -200,7 +200,7 @@
 
 <span class="va">bw_path</span>
 <span class="co">#&gt;                                                                                         BFC1 </span>
-<span class="co">#&gt; "/github/home/.cache/R/BiocFileCache/3886d55d4ba_SRR660824_SRS389722_SRX222703_male_lung.bw"</span></code></pre></div>
+<span class="co">#&gt; "/github/home/.cache/R/BiocFileCache/58c3385b9c4_SRR660824_SRS389722_SRX222703_male_lung.bw"</span></code></pre></div>
 <p>To get the optimum set of ERs from a BigWig file we can use the <code><a href="../reference/ODER.html">ODER()</a></code> function.This will obtain the optimally defined ERs by finding the combination of MCC and MRG parameters that gives the lowest exon delta between the ERs and the inputted gold-standard exons. The MCC is minimum read depth that a base pair needs to have to be considered expressed. The MRG is the maximum number of base pairs between reads that fall below the MCC before you would not include it as part of the expressed region. Internally, gold-standard exons are obtained by finding the non-overlapping exons from the inputted reference annotation.</p>
 <p>In this example, we demonstrate <code><a href="../reference/ODER.html">ODER()</a></code> on a single unstranded <code>Bigwig</code>. However, in reality, it is likely that you will want to optimise the ER definitions across multiple <code>BigWigs</code>. It is worth noting that the arguments <code>bw_pos</code> and <code>bw_neg</code> in <code><a href="../reference/ODER.html">ODER()</a></code> allow for the input of stranded <code>BigWigs</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -243,12 +243,12 @@
 <span class="co">#&gt; The following objects are masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     expand.grid, I, unname</span>
-<span class="co">#&gt; 2021-09-30 14:26:44 - Obtaining mean coverage across 1 samples</span>
-<span class="co">#&gt; 2021-09-30 14:26:44 - chr21</span>
-<span class="co">#&gt; 2021-09-30 14:26:44 - Generating ERs for chr21</span>
-<span class="co">#&gt; 2021-09-30 14:26:47 - Obtaining non-overlapping exons</span>
-<span class="co">#&gt; 2021-09-30 14:26:51 - Calculating delta for ERs...</span>
-<span class="co">#&gt; 2021-09-30 14:26:52 - Obtaining optimal set of ERs...</span></code></pre></div>
+<span class="co">#&gt; 2021-09-30 22:54:16 - Obtaining mean coverage across 1 samples</span>
+<span class="co">#&gt; 2021-09-30 22:54:16 - chr21</span>
+<span class="co">#&gt; 2021-09-30 22:54:17 - Generating ERs for chr21</span>
+<span class="co">#&gt; 2021-09-30 22:54:20 - Obtaining non-overlapping exons</span>
+<span class="co">#&gt; 2021-09-30 22:54:25 - Calculating delta for ERs...</span>
+<span class="co">#&gt; 2021-09-30 22:54:26 - Obtaining optimal set of ERs...</span></code></pre></div>
 <p>Once we have the obtained the optimised set of ERs, we may consider plotting the exon delta across the various MCCs and MRGs. This can be useful to check the error associated with the definition of the set of optimised ERs. This error is measured through two metrics; the median exon delta and the number of ERs with exon delta equal to 0. The median exon delta represents the overall accuracy of all ER definitions, whereas the number of ERs with exon delta equal to 0 indicates the extent to which ER definitions precisely match overlapping gold-standard exon boundaries.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># visualise the spread of mccs and mrgs</span>
@@ -308,16 +308,16 @@
     <span class="co"># print first 5 ERs</span>
     <span class="va">annot_ers</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>
 <span class="op">}</span>
-<span class="co">#&gt; [1] "2021-09-30 14:27:02 - Obtaining co-ordinates of annotated exons and junctions..."</span>
-<span class="co">#&gt; [1] "2021-09-30 14:27:02 - Getting junction annotation using overlapping exons..."</span>
-<span class="co">#&gt; [1] "2021-09-30 14:27:03 - Tidying junction annotation..."</span>
-<span class="co">#&gt; [1] "2021-09-30 14:27:03 - Deriving junction categories..."</span>
-<span class="co">#&gt; [1] "2021-09-30 14:27:04 - done!"</span>
-<span class="co">#&gt; 2021-09-30 14:27:04 - Finding junctions overlapping ers...</span>
-<span class="co">#&gt; 2021-09-30 14:27:05 - Annotating the Expressed regions...</span>
-<span class="co">#&gt; 2021-09-30 14:27:05 annotateRegions: counting</span>
-<span class="co">#&gt; 2021-09-30 14:27:06 annotateRegions: annotating</span>
-<span class="co">#&gt; 2021-09-30 14:27:09 - done!</span>
+<span class="co">#&gt; [1] "2021-09-30 22:54:39 - Obtaining co-ordinates of annotated exons and junctions..."</span>
+<span class="co">#&gt; [1] "2021-09-30 22:54:40 - Getting junction annotation using overlapping exons..."</span>
+<span class="co">#&gt; [1] "2021-09-30 22:54:41 - Tidying junction annotation..."</span>
+<span class="co">#&gt; [1] "2021-09-30 22:54:41 - Deriving junction categories..."</span>
+<span class="co">#&gt; [1] "2021-09-30 22:54:42 - done!"</span>
+<span class="co">#&gt; 2021-09-30 22:54:42 - Finding junctions overlapping ers...</span>
+<span class="co">#&gt; 2021-09-30 22:54:44 - Annotating the Expressed regions...</span>
+<span class="co">#&gt; 2021-09-30 22:54:44 annotateRegions: counting</span>
+<span class="co">#&gt; 2021-09-30 22:54:44 annotateRegions: annotating</span>
+<span class="co">#&gt; 2021-09-30 22:54:49 - done!</span>
 <span class="co">#&gt; GRanges object with 5 ranges and 5 metadata columns:</span>
 <span class="co">#&gt;       seqnames          ranges strand |           grl           genes</span>
 <span class="co">#&gt;          &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; | &lt;GRangesList&gt; &lt;CharacterList&gt;</span>
@@ -342,7 +342,7 @@
 
     <span class="va">refined_ers</span>
 <span class="op">}</span>
-<span class="co">#&gt; 2021-09-30 14:27:10 - Refining the Expressed regions...</span>
+<span class="co">#&gt; 2021-09-30 22:54:50 - Refining the Expressed regions...</span>
 <span class="co">#&gt; GRanges object with 2 ranges and 5 metadata columns:</span>
 <span class="co">#&gt;       seqnames          ranges strand |                     grl           genes</span>
 <span class="co">#&gt;          &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; |           &lt;GRangesList&gt; &lt;CharacterList&gt;</span>
@@ -365,7 +365,7 @@
 <span class="fu">megadepth</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/megadepth/man/install_megadepth.html" class="external-link">install_megadepth</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; The latest megadepth version is 1.1.1</span>
 <span class="co">#&gt; This is not an interactive session, therefore megadepth has been installed temporarily to </span>
-<span class="co">#&gt; /tmp/RtmpBgg58P/megadepth</span>
+<span class="co">#&gt; /tmp/RtmpVv50DE/megadepth</span>
 <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu">xfun</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/xfun/man/os.html" class="external-link">is_windows</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> <span class="co"># uses product of ODER</span>
     <span class="va">er_count_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_count_matrix.html">get_count_matrix</a></span><span class="op">(</span>
         bw_paths <span class="op">=</span> <span class="va">bw_path</span>, annot_ers <span class="op">=</span> <span class="va">annot_ers</span>,
@@ -406,9 +406,9 @@
 </ul>
 <p>This package was developed using <em><a href="https://bioconductor.org/packages/3.14/biocthis" class="external-link">biocthis</a></em>.</p>
 <p>Date the vignette was generated.</p>
-<pre><code>#&gt; [1] "2021-09-30 14:27:28 UTC"</code></pre>
+<pre><code>#&gt; [1] "2021-09-30 22:55:14 UTC"</code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code>#&gt; Time difference of 1.792 mins</code></pre>
+<pre><code>#&gt; Time difference of 2.194 mins</code></pre>
 <p><code>R</code> session information.</p>
 <pre><code>#&gt; ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────
 #&gt;  setting  value                       
@@ -436,7 +436,7 @@
 #&gt;  BiocGenerics         * 0.39.2     2021-08-18 [1] Bioconductor                  
 #&gt;  BiocIO                 1.3.0      2021-05-19 [1] Bioconductor                  
 #&gt;  BiocManager            1.30.16    2021-06-15 [2] CRAN (R 4.1.1)                
-#&gt;  BiocParallel           1.27.10    2021-09-23 [1] Bioconductor                  
+#&gt;  BiocParallel           1.27.12    2021-09-29 [1] Bioconductor                  
 #&gt;  BiocStyle            * 2.21.3     2021-06-16 [1] Bioconductor                  
 #&gt;  biomaRt                2.49.4     2021-08-12 [1] Bioconductor                  
 #&gt;  Biostrings             2.61.2     2021-08-04 [1] Bioconductor                  
@@ -531,11 +531,11 @@
 #&gt;  memoise                2.0.0      2021-01-26 [2] RSPM (R 4.1.0)                
 #&gt;  munsell                0.5.0      2018-06-12 [1] RSPM (R 4.1.0)                
 #&gt;  nnet                   7.3-16     2021-05-03 [3] CRAN (R 4.1.1)                
-#&gt;  ODER                 * 0.99.19    2021-09-30 [1] Bioconductor                  
+#&gt;  ODER                 * 0.99.20    2021-09-30 [1] Bioconductor                  
 #&gt;  openxlsx               4.2.4      2021-06-16 [1] RSPM (R 4.1.0)                
 #&gt;  pillar                 1.6.3      2021-09-26 [2] RSPM (R 4.1.0)                
 #&gt;  pkgconfig              2.0.3      2019-09-22 [2] RSPM (R 4.1.0)                
-#&gt;  pkgdown                1.6.1.9001 2021-09-27 [1] Github (r-lib/pkgdown@6328892)
+#&gt;  pkgdown                1.6.1.9001 2021-09-30 [1] Github (r-lib/pkgdown@b9db036)
 #&gt;  pkgload                1.2.2      2021-09-11 [2] RSPM (R 4.1.0)                
 #&gt;  plyr                   1.8.6      2020-03-03 [1] RSPM (R 4.1.0)                
 #&gt;  png                    0.1-7      2013-12-03 [1] RSPM (R 4.1.0)                
