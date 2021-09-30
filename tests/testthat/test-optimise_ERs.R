@@ -52,7 +52,7 @@ test_grs <- GenomicRanges::GRanges(
     GC = seq(1, 0, length = 10)
 )
 
-test_deltas <- ODER:::.delta(test_grs, test_exons)
+test_deltas <- .delta(test_grs, test_exons)
 
 test_that("get_exons works", {
     expect_error(
