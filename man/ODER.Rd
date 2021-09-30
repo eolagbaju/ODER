@@ -43,13 +43,9 @@ chromosome i.e. chrs = c(1,X)}
 
 \item{genome}{the UCSC genome you want to use, the default is hg38.}
 
-\item{mccs}{numeric vector containing the mean coverage cut-offs to apply.
-MCCs are the mininmum number of reads that a base has to have to be
-considered as expressed.}
+\item{mccs}{mean coverage cut-offs to apply.}
 
-\item{mrgs}{numeric vector containing the max region gaps to apply. MRGs are
-the maximum number of bases between ERs that can be below the MCC and the
-adjacent ERs will be merged.}
+\item{mrgs}{max region gaps to apply.}
 
 \item{gtf}{Either a string containg the path to a .gtf file or a pre-imported
 gtf using \code{rtracklayer::import} .}

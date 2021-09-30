@@ -20,6 +20,9 @@
 #' @return GRanges object containing non-overlapping exons.
 #' @export
 #'
+#' @describeIn get_opt_ers Filter for the exons to calculate the deltas
+#' against
+#'
 #' @examples
 #' \dontshow{
 #' if (!exists("gtf_path")) {
@@ -105,26 +108,12 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE,
 #'   of ERs.
 #' @export
 #'
+#' @describeIn get_opt_ers Method to get ers delta to help determine the
+#'  optimum ers
+#'
 #' @examples
 #' \dontshow{
-#' gtf_url <- paste0(
-#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#' )
-#' gtf_path <- file_cache(gtf_url)
-#' # file_cache is an internal function to download a bigwig file from a
-#' # link
-#' # if the file has been downloaded recently, it will be retrieved from a
-#' # cache gtf_path <- file_cache(gtf_url)
 #'
-#'
-#' if (!exists("eg_opt_exons")) {
-#'     eg_opt_exons <- get_exons(
-#'         gtf = gtf_path,
-#'         ucsc_chr = TRUE,
-#'         ignore.strand = TRUE
-#'     )
-#' }
 #' }
 #' if (!exists("eg_ers_delta")) {
 #'     eg_ers_delta <- get_ers_delta(
@@ -200,29 +189,6 @@ get_ers_delta <- function(ers, opt_exons, delta_fun = NULL) {
 #' \code{delta_df}
 #' @export
 #' @examples
-#' \dontshow{
-#' if (!exists("gtf_path")) {
-#'     gtf_url <- paste0(
-#'         "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'         "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#'     )
-#'     gtf_path <- file_cache(gtf_url)
-#' }
-#' if (!exists("eg_opt_exons")) {
-#'     eg_opt_exons <- get_exons(
-#'         gtf = gtf_path,
-#'         ucsc_chr = TRUE,
-#'         ignore.strand = TRUE
-#'     )
-#' }
-#' if (!exists("eg_ers_delta")) {
-#'     eg_ers_delta <- get_ers_delta(
-#'         ers = gtex_SRP012682_SRX222703_lung_ers_1,
-#'         # gtex_SRP012682_SRX222703_lung_ers_1 is from the package data folder
-#'         opt_exons = eg_opt_exons
-#'     )
-#' }
-#' }
 #' opt_ers <- get_opt_ers(
 #'     ers = gtex_SRP012682_SRX222703_lung_ers_1,
 #'     ers_delta = eg_ers_delta

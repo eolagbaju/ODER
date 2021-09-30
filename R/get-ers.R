@@ -101,6 +101,9 @@ get_ers <- function(coverage, mccs, mrgs) {
 #'
 #' @return list containing sets of stranded ERs, each generated using a
 #' particular combination of MCC and MRG.
+#'
+#' @describeIn get_ers Method for getting ers from stranded BigWig files
+#'
 #' @export
 #'
 #' @examples
