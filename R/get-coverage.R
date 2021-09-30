@@ -63,7 +63,7 @@ get_coverage <- function(bw_paths, auc_raw, auc_target, chrs = "",
         length(bw_paths), " samples"
     ))
 
-    for (i in 1:nrow(chr_info)) {
+    for (i in seq_along(chr_info[["chrom"]])) {
         message(stringr::str_c(Sys.time(), " - ", chr_info[["chrom"]][i]))
         # loading coverage information for designated chromosomes and merging
         # them into a dataframe

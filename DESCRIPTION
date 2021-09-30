@@ -68,3 +68,5 @@ Imports:
     plyr,
     purrr,
     tibble
+Depends: 
+    R (>= 2.10)

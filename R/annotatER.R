@@ -106,7 +106,7 @@ get_junctions <- function(opt_ers, junc_data, txdb) {
     )
     er_indices <- unique(S4Vectors::queryHits(hits))
     miss_ers <- numeric(0)
-    for (i in 1:length(opt_ers)) {
+    for (i in seq_along(opt_ers)) {
         if (!(i %in% er_indices)) {
             miss_ers <- c(miss_ers, i)
         }
