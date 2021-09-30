@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Obtains optimised set of ERs — get_opt_ers • ODER</title>
+<title>Obtain set of non-overlapping exons — get_exons • ODER</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,13 @@
 
 
 
-<meta property="og:title" content="Obtains optimised set of ERs — get_opt_ers" />
-<meta property="og:description" content="Uses a delta calculating function and a well defined set of exons to find
+<meta property="og:title" content="Obtain set of non-overlapping exons — get_exons" />
+<meta property="og:description" content="Downloads a well-defined set of exons to be used in obtaining the optimum set
+of Expressed regions. These exons are used in calculating the exon deltas.
+Calculates the median exon delta and the number of ERs with an exon delta of
+0 by comparing each combination of MCC and MRG with the optimum exons from
+the ensembl database.
+Uses a delta calculating function and a well defined set of exons to find
 which combination of MCC and MRG gives the best definition of the Expressed
 regions." />
 
@@ -127,26 +132,71 @@ regions." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Obtains optimised set of ERs</h1>
+    <h1>Obtain set of non-overlapping exons</h1>
     <small class="dont-index">Source: <a href='https://github.com/eolagbaju/ODER/blob/master/R/optimise-ERs.R'><code>R/optimise-ERs.R</code></a></small>
     <div class="hidden name"><code>get_opt_ers.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Uses a delta calculating function and a well defined set of exons to find
+    <p>Downloads a well-defined set of exons to be used in obtaining the optimum set
+of Expressed regions. These exons are used in calculating the exon deltas.</p>
+<p>Calculates the median exon delta and the number of ERs with an exon delta of
+0 by comparing each combination of MCC and MRG with the optimum exons from
+the ensembl database.</p>
+<p>Uses a delta calculating function and a well defined set of exons to find
 which combination of MCC and MRG gives the best definition of the Expressed
 regions.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_opt_ers</span><span class='op'>(</span><span class='va'>ers</span>, <span class='va'>ers_delta</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_exons</span><span class='op'>(</span><span class='va'>gtf</span>, <span class='va'>ucsc_chr</span>, ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span>, biotype <span class='op'>=</span> <span class='st'>"Non-overlapping"</span><span class='op'>)</span>
+
+<span class='fu'>get_ers_delta</span><span class='op'>(</span><span class='va'>ers</span>, <span class='va'>opt_exons</span>, delta_fun <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>get_opt_ers</span><span class='op'>(</span><span class='va'>ers</span>, <span class='va'>ers_delta</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>gtf</th>
+      <td><p>Either a string containg the path to a .gtf file or a pre-imported
+gtf using <code>rtracklayer::import</code> .</p></td>
+    </tr>
+    <tr>
+      <th>ucsc_chr</th>
+      <td><p>logical scalar, determining whether to add "chr" prefix to
+the seqnames of non-overlapping exons and change "chrMT" -&gt; "chrM". Note,
+if set to TRUE and seqnames already have "chr", it will not add another.</p></td>
+    </tr>
+    <tr>
+      <th>ignore.strand</th>
+      <td><p>logical value for input into
+<code><a href='https://rdrr.io/pkg/GenomicRanges/man/findOverlaps-methods.html'>findOverlaps</a></code>, default is True.</p></td>
+    </tr>
+    <tr>
+      <th>biotype</th>
+      <td><p>Filters the GTF file passed in to what would be considered the
+"Gold Standard" exons. The Default is "Non-overlapping" but the options are:
+"Non-overlapping" (exons that don't intersect each other),
+"Three Prime" (3' UTR), "Five Prime" (5' UTR), "Internal" (Internal coding),
+"lncRNA" (Long Non-Coding RNA), "ncRNA" (Non-Coding RNA) and "Pseudogene"</p></td>
+    </tr>
+    <tr>
       <th>ers</th>
       <td><p>Sets of ERs across various MCCs/MRGs - output of
 <code><a href='get_ers.html'>get_ers</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>opt_exons</th>
+      <td><p>GRanges object that contains the regions that ideally, you
+want the ER definitions to match - output of <code>get_exons</code>.</p></td>
+    </tr>
+    <tr>
+      <th>delta_fun</th>
+      <td><p>Function that calculates the delta between ERs and
+<code>opt_exons</code>. Takes as input a set of ERs from <code>ers</code> and
+<code>opt_exons</code>. Then outputs a tibble/dataframe containing the summarised
+delta scores for that set of one set of ERs.</p></td>
     </tr>
     <tr>
       <th>ers_delta</th>
@@ -157,8 +207,20 @@ per set of ERs.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list containing optimised ERs, optimal pair of MCC/MRGs and
+    <p>GRanges object containing non-overlapping exons.</p>
+<p>tibble/dataframe containing summarised delta values. One row per set
+of ERs.</p>
+<p>list containing optimised ERs, optimal pair of MCC/MRGs and
 <code>delta_df</code></p>
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    
+<ul>
+<li><p><code>get_exons</code>: Filter for the exons to calculate the deltas
+against</p></li>
+<li><p><code>get_ers_delta</code>: Method to get ers delta to help determine the
+optimum ers</p></li>
+</ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \dontshow{</span></span>
@@ -169,29 +231,127 @@ per set of ERs.</p></td>
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'>    <span class='va'>gtf_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='file_cache.html'>file_cache</a></span><span class='op'>(</span><span class='va'>gtf_url</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"gtf_gr"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>gtf_gr</span> <span class='op'>&lt;-</span> <span class='fu'>rtracklayer</span><span class='fu'>::</span><span class='fu'>import</span><span class='op'>(</span><span class='va'>gtf_path</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='co'># }</span></span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"eg_opt_exons"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'>    <span class='va'>eg_opt_exons</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_exons.html'>get_exons</a></span><span class='op'>(</span></span>
-<span class='r-in'>        gtf <span class='op'>=</span> <span class='va'>gtf_path</span>,</span>
+<span class='r-in'>    <span class='va'>eg_opt_exons</span> <span class='op'>&lt;-</span> <span class='fu'>get_exons</span><span class='op'>(</span></span>
+<span class='r-in'>        gtf <span class='op'>=</span> <span class='va'>gtf_gr</span>,</span>
 <span class='r-in'>        ucsc_chr <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
 <span class='r-in'>        ignore.strand <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 12:40:57 - Loading in GTF...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 12:41:32 - Obtaining non-overlapping exons</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 14:25:31 - Obtaining non-overlapping exons</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>eg_opt_exons</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 160103 ranges and 22 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            seqnames      ranges strand |   source     type     score     phase</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;factor&gt; &lt;factor&gt; &lt;numeric&gt; &lt;integer&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [1]     chr1 12975-13052      + |   havana     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [2]     chr1 24738-24891      - |   havana     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [3]     chr1 18268-18366      - |   havana     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [4]     chr1 17915-18061      - |   havana     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [5]     chr1 17606-17742      - |   havana     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        ...      ...         ...    ... .      ...      ...       ...       ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160099]     chrM 14149-14673      - |    insdc     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160100]     chrM 14674-14742      - |    insdc     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160101]     chrM 14747-15887      + |    insdc     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160102]     chrM 15888-15953      + |    insdc     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160103]     chrM 15956-16023      - |    insdc     exon        NA      &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    gene_id gene_version   gene_name gene_source</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                &lt;character&gt;  &lt;character&gt; &lt;character&gt; &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [1] ENSG00000223972            5     DDX11L1      havana</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [2] ENSG00000227232            5      WASH7P      havana</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [3] ENSG00000227232            5      WASH7P      havana</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [4] ENSG00000227232            5      WASH7P      havana</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [5] ENSG00000227232            5      WASH7P      havana</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        ...             ...          ...         ...         ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160099] ENSG00000198695            2      MT-ND6       insdc</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160100] ENSG00000210194            1       MT-TE       insdc</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160101] ENSG00000198727            2      MT-CYB       insdc</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160102] ENSG00000210195            2       MT-TT       insdc</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160103] ENSG00000210196            2       MT-TP       insdc</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                      gene_biotype   transcript_id transcript_version</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       &lt;character&gt;     &lt;character&gt;        &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [1] transcribed_unproces.. ENST00000450305                  2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [2] unprocessed_pseudogene ENST00000488147                  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [3] unprocessed_pseudogene ENST00000488147                  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [4] unprocessed_pseudogene ENST00000488147                  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [5] unprocessed_pseudogene ENST00000488147                  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        ...                    ...             ...                ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160099]         protein_coding ENST00000361681                  2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160100]                Mt_tRNA ENST00000387459                  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160101]         protein_coding ENST00000361789                  2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160102]                Mt_tRNA ENST00000387460                  2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160103]                Mt_tRNA ENST00000387461                  2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            transcript_name transcript_source     transcript_biotype         tag</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                &lt;character&gt;       &lt;character&gt;            &lt;character&gt; &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [1]     DDX11L1-201            havana transcribed_unproces..       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [2]      WASH7P-201            havana unprocessed_pseudogene       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [3]      WASH7P-201            havana unprocessed_pseudogene       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [4]      WASH7P-201            havana unprocessed_pseudogene       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [5]      WASH7P-201            havana unprocessed_pseudogene       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        ...             ...               ...                    ...         ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160099]      MT-ND6-201             insdc         protein_coding       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160100]       MT-TE-201             insdc                Mt_tRNA       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160101]      MT-CYB-201             insdc         protein_coding       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160102]       MT-TT-201             insdc                Mt_tRNA       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160103]       MT-TP-201             insdc                Mt_tRNA       basic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            transcript_support_level exon_number         exon_id exon_version</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                         &lt;character&gt; &lt;character&gt;     &lt;character&gt;  &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [1]                       NA           4 ENSE00001799933            2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [2]                       NA           2 ENSE00003507205            1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [3]                       NA           3 ENSE00003477500            1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [4]                       NA           4 ENSE00003565697            1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [5]                       NA           5 ENSE00003475637            1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        ...                      ...         ...             ...          ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160099]                       NA           1 ENSE00001434974            2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160100]                       NA           1 ENSE00001544476            1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160101]                       NA           1 ENSE00001436074            2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160102]                       NA           1 ENSE00001544475            2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160103]                       NA           1 ENSE00001544473            2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             protein_id protein_version     ccds_id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            &lt;character&gt;     &lt;character&gt; &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [1]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [2]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [3]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [4]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        [5]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        ...         ...             ...         ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160099]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160100]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160101]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160102]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [160103]        &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 25 sequences from an unspecified genome; no seqlengths</span>
+<span class='r-in'><span class='co'># \dontshow{</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># }</span></span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"eg_ers_delta"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'>    <span class='va'>eg_ers_delta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_ers_delta.html'>get_ers_delta</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='va'>eg_ers_delta</span> <span class='op'>&lt;-</span> <span class='fu'>get_ers_delta</span><span class='op'>(</span></span>
 <span class='r-in'>        ers <span class='op'>=</span> <span class='va'>gtex_SRP012682_SRX222703_lung_ers_1</span>,</span>
 <span class='r-in'>        <span class='co'># gtex_SRP012682_SRX222703_lung_ers_1 is from the package data folder</span></span>
 <span class='r-in'>        opt_exons <span class='op'>=</span> <span class='va'>eg_opt_exons</span></span>
-<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>)</span> <span class='co'># .delta is ODER's default and is used if delta_fun is left NULL</span></span>
+<span class='r-in'>    <span class='co'># you can pass in your own if you have one</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 12:41:33 - Calculating delta for ERs...</span>
-<span class='r-in'><span class='co'># }</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 14:25:33 - Calculating delta for ERs...</span>
+<span class='r-in'><span class='va'>eg_ers_delta</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 7</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     mcc   mrg     sum  mean median n_eq_0 propor_eq_0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>     5    10 2<span style='text-decoration: underline;'>187</span>300  964.   150.    322       0.142</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>     5    20 1<span style='text-decoration: underline;'>892</span>386  898.   141     335       0.159</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>    10    10 1<span style='text-decoration: underline;'>771</span>837 <span style='text-decoration: underline;'>1</span>009.   139     316       0.180</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span>    10    20 1<span style='text-decoration: underline;'>457</span>726  911.   118     323       0.202</span>
 <span class='r-in'><span class='va'>opt_ers</span> <span class='op'>&lt;-</span> <span class='fu'>get_opt_ers</span><span class='op'>(</span></span>
 <span class='r-in'>    ers <span class='op'>=</span> <span class='va'>gtex_SRP012682_SRX222703_lung_ers_1</span>,</span>
 <span class='r-in'>    ers_delta <span class='op'>=</span> <span class='va'>eg_ers_delta</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 12:41:34 - Obtaining optimal set of ERs...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 14:25:33 - Obtaining optimal set of ERs...</span>
 <span class='r-in'><span class='va'>opt_ers</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $opt_ers</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 15977 ranges and 0 metadata columns:</span>

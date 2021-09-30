@@ -52,19 +52,10 @@
     <loc>/reference/get_ers.html</loc>
   </url>
   <url>
-    <loc>/reference/get_ers_delta.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_exons.html</loc>
-  </url>
-  <url>
     <loc>/reference/get_junctions.html</loc>
   </url>
   <url>
     <loc>/reference/get_opt_ers.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_strand_ers.html</loc>
   </url>
   <url>
     <loc>/reference/gtex_SRP012682_SRX222703_lung_auc_1.html</loc>
