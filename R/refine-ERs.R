@@ -77,22 +77,22 @@ refine_ERs <- function(annot_ers) {
 modify_ers <- function(ar) {
     changes <- logical(0) # logical vector to record changes
     for (a in seq_along(ar)) {
-        er_start <- start(ranges(ar)[a])
-        er_end <- end(ranges(ar)[a])
+        e_s <- start(ranges(ar)[a])
+        e_e <- end(ranges(ar)[a])
         change <- FALSE ## seeing if single junction overlaps
         if (length(ranges(mcols(ar)[["grl"]])[[a]]) == 1) {
             j_start <- as.integer(start(ranges(mcols(ar)[["grl"]])[a]))
             j_end <- as.integer(end(ranges(mcols(ar)[["grl"]])[a]))
-            if (inbetween(j_start, er_start, er_end) &
-                inbetween(value = j_end, rstart = er_start, rend = er_end)) {
-                er_start <- j_start + 1
-                er_end <- j_end - 1
+            if (inbetween(j_start, e_s, e_e) &
+                inbetween(value = j_end, rstart = e_s, rend = e_e)) {
+                e_s <- j_start + 1
+                e_e <- j_end - 1
                 change <- TRUE
-            } else if (inbetween(j_start, er_start, er_end)) {
-                er_end <- j_start - 1
+            } else if (inbetween(j_start, e_s, e_e)) {
+                e_e <- j_start - 1
                 change <- TRUE
-            } else if (inbetween(j_end, er_start, er_end)) {
-                er_start <- j_end + 1
+            } else if (inbetween(j_end, e_s, e_e)) {
+                e_s <- j_end + 1
                 change <- TRUE
             } # seeing if one or two junctions overlap
         } else if (length(ranges(mcols(ar)[["grl"]])[[a]]) == 2) {
@@ -102,25 +102,17 @@ modify_ers <- function(ar) {
             }
             if (ranges(mcols(ar)[["grl"]])[[a]][1] >
                 ranges(mcols(ar)[["grl"]])[[a]][2]) {
-                er_start <- as.integer(
-                    end(ranges(mcols(ar)[["grl"]])[[a]][2])
-                ) + 1
-                er_end <- as.integer(
-                    start(ranges(mcols(ar)[["grl"]])[[a]][1])
-                ) - 1
+                e_s <- as.integer(end(ranges(mcols(ar)[["grl"]])[[a]][2])) + 1
+                e_e <- as.integer(start(ranges(mcols(ar)[["grl"]])[[a]][1])) - 1
                 change <- TRUE
             } else {
-                er_start <- as.integer(
-                    end(ranges(mcols(ar)[["grl"]])[[a]][1])
-                ) + 1
-                er_end <- as.integer(
-                    start(ranges(mcols(ar)[["grl"]])[[a]][2])
-                ) - 1
+                e_s <- as.integer(end(ranges(mcols(ar)[["grl"]])[[a]][1])) + 1
+                e_e <- as.integer(start(ranges(mcols(ar)[["grl"]])[[a]][2])) - 1
                 change <- TRUE
             }
         }
-        BiocGenerics::start(ar[a]) <- er_start
-        BiocGenerics::end(ar[a]) <- er_end
+        BiocGenerics::start(ar[a]) <- e_s
+        BiocGenerics::end(ar[a]) <- e_e
         changes <- c(changes, change)
     }
     return(list(ar, changes))
