@@ -16,68 +16,8 @@
 #' passed in.
 #'
 #' @return optimally defined ers annotated with junction and gene information
-#' @export
-#'
-#' @examples
-#' gtf_url <- paste0(
-#'     "http://ftp.ensembl.org/pub/release-103/gtf/",
-#'     "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-#' )
-#' # file_cache is an internal function to download a bigwig file from a link
-#' # if the file has been downloaded recently, it will be retrieved from a cache
-#' gtf_path <- file_cache(gtf_url)
-#'
-#' example_ers <- GenomicRanges::GRanges(
-#'     seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(10, 1)),
-#'     ranges = IRanges::IRanges(
-#'         start = c(
-#'             5026423, 24738, 5032218, 5033895, 17554, 50800446,
-#'             50800539, 16570, 50800790, 15005, 20312
-#'         ),
-#'         end = c(
-#'             5323718, 24891, 5033407, 5033980, 17728, 50800910,
-#'             50800817, 16723, 50800910, 15038, 20582
-#'         ),
-#'         names = head(letters, 11)
-#'     ),
-#'     strand = S4Vectors::Rle((c("+", "-")), c(6, 5)),
-#'     score = 1:11,
-#'     GC = seq(1, 0, length = 11)
-#' )
-#' if (!exists("gtf_gr")) {
-#'     gtf_gr <- rtracklayer::import(gtf_path)
-#' }
-#' chrs_to_keep <- c("21", "22")
-#' #### preparing the txdb and genomstate object(s)
-#' hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
-#' new_info <- hg38_chrominfo$size[match(
-#'     chrs_to_keep,
-#'     GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
-#' )]
-#' names(new_info) <- chrs_to_keep
-#' gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
-#'     chrs_to_keep,
-#'     pruning.mode = "tidy"
-#' )
-#' GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
-#' GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
-#' GenomeInfoDb::genome(gtf_gr_tx) <- "hg38"
-#'
-#' ucsc_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
-#' genom_state <- derfinder::makeGenomicState(txdb = ucsc_txdb)
-#' ens_txdb <- ucsc_txdb
-#' GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
-#' ################### end of genomstate creation
-#'
-#' junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
-#'
-#' example_er_juncs <- get_junctions(
-#'     opt_ers = example_ers,
-#'     junc_data = junctions,
-#'     txdb = ens_txdb # can either be a gtf file or txdb in the Ensembl format
-#' )
-#'
-#' example_er_juncs
+#' @keywords internal
+#' @noRd
 get_junctions <- function(opt_ers, junc_data, txdb) {
     if (methods::is(junc_data, "data.frame")) {
         junc_data <- GenomicRanges::makeGRangesFromDataFrame(junc_data)
@@ -138,7 +78,8 @@ get_junctions <- function(opt_ers, junc_data, txdb) {
 #' or a `Txdb` passed in to generate a genomic state used to label
 #' each ER as to whether they are exonic, intronic, intergenic or none.
 #'
-#' @inheritParams get_junctions
+#' @param opt_ers optimally defined ERs (the product of the ODER function)
+#' @param junc_data junction data that should match the ERs passed into opt_ers
 #' @param genom_state a genomic state object
 #' @param gtf gtf in a GRanges object, pre-imported using
 #' `rtracklayer::import` . This is used to provide the gene information
