@@ -83,7 +83,7 @@ cut-offs (MCCs) and max region gaps (MRGs) from the coverage." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.21</span>
       </span>
     </div>
 
@@ -228,8 +228,8 @@ particular combination of MCC and MRG.</p>
 <span class='r-in'>    mccs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>,</span>
 <span class='r-in'>    mrgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 22:50:44 - Generating ERs for chr21</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 22:50:45 - Generating ERs for chr22</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 09:14:33 - Generating ERs for chr21</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 09:14:34 - Generating ERs for chr22</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='va'>eg_ers</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5</span>
@@ -315,7 +315,7 @@ particular combination of MCC and MRG.</p>
 <span class='r-in'>        <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span class='r-in'>        <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>project</span> <span class='op'>==</span> <span class='st'>"SRP012682"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 22:50:47 downloading the metadata to /tmp/RtmpUt6QRY/metadata_clean_gtex.Rdata</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 09:14:36 downloading the metadata to /tmp/RtmpETqizL/metadata_clean_gtex.Rdata</span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"rec_url"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'>    <span class='va'>rec_url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span></span>
 <span class='r-in'>        project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,</span>
@@ -338,12 +338,12 @@ particular combination of MCC and MRG.</p>
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'>    <span class='va'>stranded_ers</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 22:50:48 - Obtaining mean coverage across 1 samples</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 22:50:48 - chr21</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 22:50:49 - Obtaining mean coverage across 1 samples</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 22:50:49 - chr21</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 22:50:49 - Generating ERs for chr21</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-09-30 22:50:51 - Generating ERs for chr21</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 09:14:38 - Obtaining mean coverage across 1 samples</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 09:14:38 - chr21</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 09:14:38 - Obtaining mean coverage across 1 samples</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 09:14:38 - chr21</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 09:14:38 - Generating ERs for chr21</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 09:14:40 - Generating ERs for chr21</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $mcc_5$mrg_10</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 6355 ranges and 0 metadata columns:</span>
