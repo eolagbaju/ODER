@@ -81,7 +81,7 @@ Internally, this operates through derfinder::loadCoverage." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.21</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.22</span>
       </span>
     </div>
 
@@ -187,16 +187,12 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
     <p>a list of Rles detailing the mean coverage per chromosome passed in.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \dontshow{</span></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>"rec_url"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'>    <span class='va'>rec_url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span></span>
-<span class='r-in'>        project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,</span>
-<span class='r-in'>        type <span class='op'>=</span> <span class='st'>"samples"</span>,</span>
-<span class='r-in'>        download <span class='op'>=</span> <span class='cn'>FALSE</span></span>
-<span class='r-in'>    <span class='op'>)</span></span>
-<span class='r-in'>    <span class='va'>bw_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='file_cache.html'>file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-<span class='r-in'><span class='co'># }</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>rec_url</span> <span class='op'>&lt;-</span> <span class='fu'>recount</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/recount/man/download_study.html'>download_study</a></span><span class='op'>(</span></span>
+<span class='r-in'>    project <span class='op'>=</span> <span class='st'>"SRP012682"</span>,</span>
+<span class='r-in'>    type <span class='op'>=</span> <span class='st'>"samples"</span>,</span>
+<span class='r-in'>    download <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>bw_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='file_cache.html'>file_cache</a></span><span class='op'>(</span><span class='va'>rec_url</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span></span>
 <span class='r-in'><span class='co'># As of rtracklayer 1.25.16, BigWig is not supported on Windows.</span></span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'>xfun</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xfun/man/os.html'>is_windows</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'>    <span class='va'>eg_coverage</span> <span class='op'>&lt;-</span> <span class='fu'>get_coverage</span><span class='op'>(</span></span>
@@ -207,9 +203,9 @@ with a "chr" preceding the chromosome i.e. "chr1" vs "1". Can be either
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'>    <span class='va'>eg_coverage</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 09:14:32 - Obtaining mean coverage across 1 samples</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 09:14:32 - chr21</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 09:14:32 - chr22</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 15:45:46 - Obtaining mean coverage across 1 samples</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 15:45:46 - chr21</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 2021-10-01 15:45:47 - chr22</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $chr21</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $chr21$meanCoverage</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> numeric-Rle of length 46709983 with 351770 runs</span>
