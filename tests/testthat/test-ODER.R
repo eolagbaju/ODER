@@ -1,3 +1,6 @@
+data(gtex_SRP012682_SRX222703_lung_auc_1, package = "ODER")
+data(gtex_SRP012682_SRX222703_lung_ers_1, package = "ODER")
+
 if (!exists("gtf_path")) {
     gtf_url <- paste0(
         "http://ftp.ensembl.org/pub/release-103/",
@@ -41,7 +44,6 @@ if (!exists("rec_url")) {
     )
 }
 bw_path <- ODER::file_cache(rec_url[1])
-
 
 test_ODER_opt_ers <- ODER(
     bw_paths = bw_path, auc_raw = gtex_SRP012682_SRX222703_lung_auc_1,

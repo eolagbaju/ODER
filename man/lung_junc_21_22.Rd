@@ -12,7 +12,7 @@ number of samples, acceptor and donor
 GTEx
 }
 \usage{
-lung_junc_21_22
+data(lung_junc_21_22)
 }
 \description{
 These junctions were sampled from a local junction file.

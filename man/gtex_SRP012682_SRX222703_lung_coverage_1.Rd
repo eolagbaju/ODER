@@ -12,7 +12,7 @@ A list of length 2 containing 2 Rles for chromosomes 21 and
 See example.R in data-raw
 }
 \usage{
-gtex_SRP012682_SRX222703_lung_coverage_1
+data(gtex_SRP012682_SRX222703_lung_coverage_1)
 }
 \description{
 Coverage generated for a user to try out the package and

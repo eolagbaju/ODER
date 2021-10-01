@@ -20,6 +20,7 @@ Plots the median deltas and the number of ERs with a delta of 0 against the
 MCCs on two separate graphs with a line for each of the various MRGs.
 }
 \examples{
+data(gtex_SRP012682_SRX222703_lung_erdelta_1, package = "ODER")
 # gtex_SRP012682_SRX222703_lung_erdelta_1 is from the package data folder
 eg_plots <- plot_ers(
     ers_delta = gtex_SRP012682_SRX222703_lung_erdelta_1, opt_mcc_mrg = c(

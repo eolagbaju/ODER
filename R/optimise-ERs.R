@@ -112,9 +112,8 @@ get_exons <- function(gtf, ucsc_chr, ignore.strand = TRUE,
 #'  optimum ers
 #'
 #' @examples
-#' \dontshow{
+#' data(gtex_SRP012682_SRX222703_lung_ers_1, package = "ODER")
 #'
-#' }
 #' if (!exists("eg_ers_delta")) {
 #'     eg_ers_delta <- get_ers_delta(
 #'         ers = gtex_SRP012682_SRX222703_lung_ers_1,
@@ -189,6 +188,7 @@ get_ers_delta <- function(ers, opt_exons, delta_fun = NULL) {
 #' \code{delta_df}
 #' @export
 #' @examples
+#' data(gtex_SRP012682_SRX222703_lung_ers_1, package = "ODER")
 #' opt_ers <- get_opt_ers(
 #'     ers = gtex_SRP012682_SRX222703_lung_ers_1,
 #'     ers_delta = eg_ers_delta
@@ -717,16 +717,16 @@ nc_exons <- function(all_data_gr, gtf.df) {
 #' @noRd
 pseudo_exons <- function(all_data_gr, gtf.df) {
     message(stringr::str_c(Sys.time(), " - Obtaining Pseudogene"))
+    data(pseudogene, package = "ODER")
     gtf.df.pc <- gtf.df %>% dplyr::filter(
-        gene_biotype %in% pseudogene, transcript_biotype %in% pseudogene
+        gene_biotype %in% pseudogene,
+        transcript_biotype %in% pseudogene
     ) # Select TSL level 1
     gtf.df.pc$transcript_support_level <- gsub(
         "\\s*\\([^\\)]+\\)", "", as.numeric(gtf.df.pc$transcript_support_level)
     )
-    gtf.df.pc.tsl1 <- gtf.df.pc %>% dplyr::filter(
-        transcript_support_level %in% 1
-    ) # Select pseudoGenes
-    pseudo.gtf <- gtf.df.pc.tsl1 %>% dplyr::filter(
+    tsl1 <- gtf.df.pc %>% dplyr::filter(transcript_support_level %in% 1)
+    pseudo.gtf <- tsl1 %>% dplyr::filter( # Select pseudoGenes
         gene_biotype %in% pseudogene, type %in% "exon"
     )
     pseudo_all_collapse <- collapse_gtf(pseudo.gtf, "pseudoGene_id")
@@ -734,8 +734,7 @@ pseudo_exons <- function(all_data_gr, gtf.df) {
         pseudo_all_collapse,
         keep.extra.columns = TRUE
     ) # Compute the overlap
-    y <- IRanges::findOverlapPairs(
-        pseudogene.gr, all_data_gr,
+    y <- IRanges::findOverlapPairs(pseudogene.gr, all_data_gr,
         ignore.strand = TRUE
     ) %>%
         as.data.frame() %>%

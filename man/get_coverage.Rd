@@ -42,16 +42,12 @@ a list of Rles detailing the mean coverage per chromosome passed in.
 Internally, this operates through \code{derfinder::loadCoverage}.
 }
 \examples{
-\dontshow{
-if (!exists("rec_url")) {
-    rec_url <- recount::download_study(
-        project = "SRP012682",
-        type = "samples",
-        download = FALSE
-    )
-    bw_path <- file_cache(rec_url[1])
-}
-}
+rec_url <- recount::download_study(
+    project = "SRP012682",
+    type = "samples",
+    download = FALSE
+)
+bw_path <- file_cache(rec_url[1])
 # As of rtracklayer 1.25.16, BigWig is not supported on Windows.
 if (!xfun::is_windows()) {
     eg_coverage <- get_coverage(

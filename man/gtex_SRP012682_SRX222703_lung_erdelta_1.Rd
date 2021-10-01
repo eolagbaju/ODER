@@ -12,7 +12,7 @@ propor_eq_0 for each combination of mccs (5 & 10) and mrgs (10 & 20)
 See example.R in data-raw
 }
 \usage{
-gtex_SRP012682_SRX222703_lung_erdelta_1
+data(gtex_SRP012682_SRX222703_lung_erdelta_1)
 }
 \description{
 This set of deltas was calculated using gtex_lung_ers_1 and exons from

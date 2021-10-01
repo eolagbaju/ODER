@@ -262,7 +262,7 @@ To note, it is recommended that the inputted junctions are derived from the same
 samples or tissue as the `BigWig` files used to define ERs.
 
 ```{r annotatER_example}
-
+library(utils)
 # running only chr21 to reduce runtime
 chrs_to_keep <- c("21")
 
@@ -295,6 +295,7 @@ GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
 # lung_junc_21_22 is an example data set of junctions
 # obtained from recount3, derived from the lung tissue
 # run annotatERs()
+data(lung_junc_21_22, package = "ODER")
 if (!xfun::is_windows()) { # uses product of ODER
     annot_ers <- annotatERs(
         opt_ers = head(opt_ers[["opt_ers"]], 100),

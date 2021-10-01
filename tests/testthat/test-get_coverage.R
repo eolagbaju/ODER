@@ -16,7 +16,9 @@ bw_path <- ODER::file_cache(rec_url[1])
 bw_plus <- ODER::file_cache(rec_url[58])
 bw_minus <- ODER::file_cache(rec_url[84])
 
-
+data(gtex_SRP012682_SRX222703_lung_auc_1, package = "ODER")
+data(gtex_SRP012682_SRX222703_lung_coverage_1, package = "ODER")
+data(gtex_SRP012682_SRX222703_lung_ers_1, package = "ODER")
 
 test_that("get_chr_info works", {
     chrs <- c("chr1", "chr2", "chr3")

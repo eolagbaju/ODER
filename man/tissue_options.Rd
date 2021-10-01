@@ -10,10 +10,10 @@ on. These are to be used in conjunction with the
 \code{\link{add_expressed_genes}} function.
 }
 \source{
-See tissues.R in data-raw
+local data
 }
 \usage{
-tissue_options
+data(tissue_options)
 }
 \description{
 These options were derived from the contents of the GTEx analysis gene median

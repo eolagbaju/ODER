@@ -12,7 +12,7 @@ ranges for the different combinations of mcc and mrg
 See example.R in data-raw
 }
 \usage{
-gtex_SRP012682_SRX222703_lung_ers_1
+data(gtex_SRP012682_SRX222703_lung_ers_1)
 }
 \description{
 An example set of Expressed Regions generated for a user to try out the

@@ -114,6 +114,7 @@ get_tissue <- function(input_file = NULL, tissue) {
         stringr::str_replace_all("\\.+", "_") %>%
         stringr::str_replace("_$", "") %>%
         tolower()
+    data(tissue_options, package = "ODER")
 
     stopifnot(identical(names[3:length(names)], tissue_options))
     colnames(gtex_data)[3:length(names)] <- tissue_options

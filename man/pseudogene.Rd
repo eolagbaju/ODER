@@ -12,7 +12,7 @@ A character vector with all of the different pseudogene categories
 See exon_biotypes.R in data-raw
 }
 \usage{
-pseudogene
+data(pseudogene)
 }
 \description{
 These are the various transcript biotypes typically found in the transcript

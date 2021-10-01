@@ -11,7 +11,7 @@ A numeric value
 See example.R in data-raw
 }
 \usage{
-gtex_SRP012682_SRX222703_lung_auc_1
+data(gtex_SRP012682_SRX222703_lung_auc_1)
 }
 \description{
 An Area Under Coverage (AUC) value for a user to try out the package and to

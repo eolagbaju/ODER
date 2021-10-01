@@ -24,13 +24,11 @@ Scores the mean coverage of the expressed regions as a count matrix
 \examples{
 megadepth::install_megadepth()
 
-if (!exists("rec_url")) {
-    rec_url <- recount::download_study(
-        project = "SRP012682",
-        type = "samples",
-        download = FALSE
-    )
-}
+rec_url <- recount::download_study(
+    project = "SRP012682",
+    type = "samples",
+    download = FALSE
+)
 # file_cache is an internal function to download a bigwig file from a link
 # if the file has been downloaded recently, it will be retrieved from a cache
 bw_path <- file_cache(rec_url[1])

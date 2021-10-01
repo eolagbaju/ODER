@@ -69,6 +69,7 @@ cut-offs (MCCs) and max region gaps (MRGs) from the coverage.
 }}
 
 \examples{
+data(gtex_SRP012682_SRX222703_lung_coverage_1, package = "ODER")
 # gtex_SRP012682_SRX222703_lung_coverage_1 is from the package data folder
 eg_ers <- get_ers(
     coverage = gtex_SRP012682_SRX222703_lung_coverage_1,
@@ -84,13 +85,11 @@ if (!exists("gtex_metadata")) {
         as.data.frame() \%>\%
         dplyr::filter(project == "SRP012682")
 }
-if (!exists("rec_url")) {
-    rec_url <- recount::download_study(
-        project = "SRP012682",
-        type = "samples",
-        download = FALSE
-    )
-}
+rec_url <- recount::download_study(
+    project = "SRP012682",
+    type = "samples",
+    download = FALSE
+)
 # file_cache is an internal function to download a bigwig file from a link
 # if the file has been downloaded recently, it will be retrieved from a cache
 bw_plus <- file_cache(rec_url[58])

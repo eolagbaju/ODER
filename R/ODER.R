@@ -18,14 +18,11 @@
 #' @export
 #'
 #' @examples
-#' \dontshow{
-#' if (!exists("rec_url")) {
-#'     rec_url <- recount::download_study(
-#'         project = "SRP012682",
-#'         type = "samples",
-#'         download = FALSE
-#'     )
-#' }
+#' rec_url <- recount::download_study(
+#'     project = "SRP012682",
+#'     type = "samples",
+#'     download = FALSE
+#' )
 #' # file_cache is an internal function to download a bigwig file from a link
 #' # if the file has been downloaded recently, it will be retrieved from a cache
 #' bw_path <- file_cache(rec_url[1])
@@ -37,10 +34,11 @@
 #'     gtf_path <- file_cache(gtf_url)
 #' }
 #' # As of rtracklayer 1.25.16, BigWig is not supported on Windows.
-#' }
+#' data(gtex_SRP012682_SRX222703_lung_auc_1, package = "ODER")
 #' if (!xfun::is_windows()) {
 #'     opt_ers <- ODER(
-#'         bw_paths = bw_path, auc_raw = gtex_SRP012682_SRX222703_lung_auc_1,
+#'         bw_paths = bw_path,
+#'         auc_raw = gtex_SRP012682_SRX222703_lung_auc_1,
 #'         auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
 #'         genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
 #'         gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,

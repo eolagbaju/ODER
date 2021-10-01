@@ -5,7 +5,7 @@
 #' value is 11872688252.
 #'
 #' @format A numeric value
-#'
+#' @usage data(gtex_SRP012682_SRX222703_lung_auc_1)
 #' @source See example.R in data-raw
 #'
 "gtex_SRP012682_SRX222703_lung_auc_1"
@@ -17,7 +17,7 @@
 #'
 #' @format A list of length 2 containing 2 Rles for chromosomes 21 and
 #' 22 respectively
-#'
+#' @usage data(gtex_SRP012682_SRX222703_lung_coverage_1)
 #' @source See example.R in data-raw
 #'
 "gtex_SRP012682_SRX222703_lung_coverage_1"
@@ -30,7 +30,7 @@
 #'
 #' @format A list containing two lists (for each mcc) each with a set of genomic
 #' ranges for the different combinations of mcc and mrg
-#'
+#' @usage data(gtex_SRP012682_SRX222703_lung_ers_1)
 #' @source See example.R in data-raw
 #'
 "gtex_SRP012682_SRX222703_lung_ers_1"
@@ -41,7 +41,7 @@
 #'
 #' @format A tibble/dataframe with the sums, means, medians, n_eq_0 and
 #' propor_eq_0 for each combination of mccs (5 & 10) and mrgs (10 & 20)
-#'
+#' @usage data(gtex_SRP012682_SRX222703_lung_erdelta_1)
 #' @source See example.R in data-raw
 #'
 "gtex_SRP012682_SRX222703_lung_erdelta_1"
@@ -51,7 +51,7 @@
 #'
 #' @format A dataframe with the junction ID, chromosome, start and ends, strand,
 #' number of samples, acceptor and donor
-#'
+#' @usage data(lung_junc_21_22)
 #' @source GTEx
 #'
 "lung_junc_21_22"
@@ -63,8 +63,8 @@
 #' @format A character vector with all of the tissue options available to filter
 #' on. These are to be used in conjunction with the
 #' \code{\link{add_expressed_genes}} function.
-#'
-#' @source See tissues.R in data-raw
+#' @usage data(tissue_options)
+#' @source local data
 #'
 "tissue_options"
 #' Different transcript biotypes that count as pseudogene
@@ -74,7 +74,7 @@
 #'
 #' @format A character vector with all of the different pseudogene categories
 #' \code{\link{get_exons}} function.
-#'
+#' @usage data(pseudogene)
 #' @source See exon_biotypes.R in data-raw
 #'
 "pseudogene"

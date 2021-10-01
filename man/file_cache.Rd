@@ -19,13 +19,11 @@ and will then cache the file for faster repeated retrival,
 if it is not found locally (i.e. a URL).
 }
 \examples{
-if (!exists("rec_url")) {
-    rec_url <- recount::download_study(
-        project = "SRP012682",
-        type = "samples",
-        download = FALSE
-    )
-}
+rec_url <- recount::download_study(
+    project = "SRP012682",
+    type = "samples",
+    download = FALSE
+)
 eg_bwfile <- file_cache(rec_url[1])
 eg_bwfile
 }

@@ -25,6 +25,8 @@ suppressWarnings(test_lnc_exons <- get_exons(gtf = gtf_grs, ucsc_chr = TRUE, ign
 suppressWarnings(test_nc_exons <- get_exons(gtf = gtf_grs, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "ncRNA"))
 suppressWarnings(test_ps_exons <- get_exons(gtf = gtf_grs, ucsc_chr = TRUE, ignore.strand = TRUE, biotype = "Pseudogene"))
 
+data(gtex_SRP012682_SRX222703_lung_ers_1, package = "ODER")
+
 if (!exists("test_ers_delta")) {
     test_ers_delta <- get_ers_delta(
         ers = gtex_SRP012682_SRX222703_lung_ers_1, # gtex_SRP012682_SRX222703_lung_ers_1 is from the data folder

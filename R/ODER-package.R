@@ -15,4 +15,5 @@ NULL
 #' @importFrom IRanges ranges
 #' @importFrom BiocGenerics start end
 #' @importFrom S4Vectors mcols
+#' @importFrom utils data
 NULL

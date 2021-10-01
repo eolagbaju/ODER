@@ -96,9 +96,8 @@ if (!exists("eg_opt_exons")) {
 }
 
 eg_opt_exons
-\dontshow{
+data(gtex_SRP012682_SRX222703_lung_ers_1, package = "ODER")
 
-}
 if (!exists("eg_ers_delta")) {
     eg_ers_delta <- get_ers_delta(
         ers = gtex_SRP012682_SRX222703_lung_ers_1,
@@ -108,6 +107,7 @@ if (!exists("eg_ers_delta")) {
     # you can pass in your own if you have one
 }
 eg_ers_delta
+data(gtex_SRP012682_SRX222703_lung_ers_1, package = "ODER")
 opt_ers <- get_opt_ers(
     ers = gtex_SRP012682_SRX222703_lung_ers_1,
     ers_delta = eg_ers_delta
