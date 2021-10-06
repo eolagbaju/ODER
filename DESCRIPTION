@@ -1,14 +1,14 @@
 Package: ODER
 Title: Optimising the Definition of Expressed Regions
-Version: 0.99.23
+Version: 0.99.24
 Date: 2021-04-13
 Authors@R: 
     c(person(given = "Emmanuel",family = "Olagbaju",
            role = c("aut", "cre"),
            email = "eoolagbaju@gmail.com"),
            person(given = "David",family = "Zhang",
-           role = c("ctb"),
-           email = "david.zhang.12@ucl.ac.uk",
+           role = c("aut"),
+           email = "dyzhang32@gmail.com",
            comment = c(ORCID = "0000-0003-2382-8460")),
            person(given = "Sebastian",family = "Guelfi",
            role = c("ctb"),
@@ -16,6 +16,7 @@ Authors@R:
            person(given = "Siddharth",family = "Sethi",
            role = c("ctb"),
            email = "siddharth.sethi@astx.com"))
+Maintainer: David Zhang <dyzhang32@gmail.com>
 Description: The aim of ODER is to identify previously unannotated expressed 
     regions (ERs) using RNA-sequencing data. For this purpose, ODER defines and 
     optimises the definition of ERs, then connected these ERs to genes using 
