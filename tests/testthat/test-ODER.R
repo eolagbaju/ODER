@@ -43,42 +43,48 @@ if (!exists("rec_url")) {
         download = FALSE
     )
 }
-bw_path <- ODER::file_cache(rec_url[1])
 
-test_ODER_opt_ers <- ODER(
-    bw_paths = bw_path, auc_raw = gtex_SRP012682_SRX222703_lung_auc_1,
-    auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
-    genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
-    gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-    exons_no_overlap = NULL, bw_chr = "chr"
-)
+# don't test this on Windows
+# ODER() -> get_coverage() -> derfinder::loadCoverage()
+# which doesn't work on Windows due to rtracklayer version 1.25.16
+if (!xfun::is_windows()) {
+    bw_path <- ODER::file_cache(rec_url[1])
 
-test_ODER_strand_ers <- ODER(
-    chrs = c("chr21", "chr22"), genome = "hg38", mccs = c(5, 10),
-    mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
-    biotype = "Non-overlapping", bw_chr = "chr", file_type = "stranded",
-    bw_pos = bw_path, bw_neg = bw_path, auc_target = 40e6 * 100,
-    auc_raw_pos = gtex_SRP012682_SRX222703_lung_auc_1,
-    auc_raw_neg = gtex_SRP012682_SRX222703_lung_auc_1
-)
-
-test_that("ODER works", {
-    expect_error(ODER(
+    test_ODER_opt_ers <- ODER(
         bw_paths = bw_path, auc_raw = gtex_SRP012682_SRX222703_lung_auc_1,
         auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
         genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
-        gtf = NULL, ucsc_chr = TRUE, ignore.strand = TRUE,
+        gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
         exons_no_overlap = NULL, bw_chr = "chr"
-    ), "gtf must be provided.")
-    expect_equal(test_opt_ers, test_ODER_opt_ers)
-    expect_true(methods::is(test_ODER_opt_ers, "list"))
-    expect_true(methods::is(test_ODER_opt_ers[[1]], "GenomicRanges"))
-    expect_true(methods::is(test_ODER_opt_ers[[2]], "character"))
-    expect_true(methods::is(test_ODER_opt_ers[[3]], "data.frame"))
-    expect_equal(as.character(unique(BiocGenerics::strand(
-        test_ODER_opt_ers[["opt_ers"]]
-    ))), "*")
-    expect_true(all(as.character(unique(strand(
-        test_ODER_strand_ers[["opt_ers"]]
-    ))) == c("+", "-")))
-})
+    )
+
+    test_ODER_strand_ers <- ODER(
+        chrs = c("chr21", "chr22"), genome = "hg38", mccs = c(5, 10),
+        mrgs = c(10, 20), gtf = gtf_path, ucsc_chr = TRUE, ignore.strand = TRUE,
+        biotype = "Non-overlapping", bw_chr = "chr", file_type = "stranded",
+        bw_pos = bw_path, bw_neg = bw_path, auc_target = 40e6 * 100,
+        auc_raw_pos = gtex_SRP012682_SRX222703_lung_auc_1,
+        auc_raw_neg = gtex_SRP012682_SRX222703_lung_auc_1
+    )
+
+    test_that("ODER works", {
+        expect_error(ODER(
+            bw_paths = bw_path, auc_raw = gtex_SRP012682_SRX222703_lung_auc_1,
+            auc_target = 40e6 * 100, chrs = c("chr21", "chr22"),
+            genome = "hg38", mccs = c(5, 10), mrgs = c(10, 20),
+            gtf = NULL, ucsc_chr = TRUE, ignore.strand = TRUE,
+            exons_no_overlap = NULL, bw_chr = "chr"
+        ), "gtf must be provided.")
+        expect_equal(test_opt_ers, test_ODER_opt_ers)
+        expect_true(methods::is(test_ODER_opt_ers, "list"))
+        expect_true(methods::is(test_ODER_opt_ers[[1]], "GenomicRanges"))
+        expect_true(methods::is(test_ODER_opt_ers[[2]], "character"))
+        expect_true(methods::is(test_ODER_opt_ers[[3]], "data.frame"))
+        expect_equal(as.character(unique(BiocGenerics::strand(
+            test_ODER_opt_ers[["opt_ers"]]
+        ))), "*")
+        expect_true(all(as.character(unique(strand(
+            test_ODER_strand_ers[["opt_ers"]]
+        ))) == c("+", "-")))
+    })
+}
