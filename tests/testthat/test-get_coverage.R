@@ -90,7 +90,7 @@ test_that("get_coverage works", {
     )
     expect_type(gtex_SRP012682_SRX222703_lung_coverage_1, "list") # gtex_SRP012682_SRX222703_lung_coverage_1 is from the data folder
     expect_type(gtex_SRP012682_SRX222703_lung_coverage_1[["chr21"]][["meanCoverage"]], "S4")
-    expect_true(methods::is(gtex_SRP012682_SRX222703_lung_coverage_1[["chr21"]][["meanCoverage"]], "Rle"))
+    expect_s4_class(gtex_SRP012682_SRX222703_lung_coverage_1[["chr21"]][["meanCoverage"]], "Rle")
     expect_equal(length(c("chr21", "chr22")), length(gtex_SRP012682_SRX222703_lung_coverage_1))
 })
 
@@ -121,7 +121,7 @@ test_that("get_ers works", {
 
     expect_type(gtex_SRP012682_SRX222703_lung_ers_1, "list") # gtex_SRP012682_SRX222703_lung_ers_1 is from the data folder
     expect_type(gtex_SRP012682_SRX222703_lung_ers_1[[1]][[1]], "S4")
-    expect_true(methods::is(gtex_SRP012682_SRX222703_lung_ers_1[[1]][[1]], "GenomicRanges"))
+    expect_s4_class(gtex_SRP012682_SRX222703_lung_ers_1[[1]][[1]], "GenomicRanges")
     expect_true(methods::is(test_er_df, "data.frame"))
 })
 
