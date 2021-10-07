@@ -1,6 +1,6 @@
 Package: ODER
 Title: Optimising the Definition of Expressed Regions
-Version: 0.99.26
+Version: 0.99.27
 Date: 2021-04-13
 Authors@R: 
     c(person(given = "Emmanuel",family = "Olagbaju",
@@ -8,7 +8,7 @@ Authors@R:
            email = "eoolagbaju@gmail.com"),
            person(given = "David",family = "Zhang",
            role = c("aut", "cre"),
-           email = "dyzhang32@gmail.com",
+           email = "david.zhang.12@ucl.ac.uk",
            comment = c(ORCID = "0000-0003-2382-8460")),
            person(given = "Sebastian",family = "Guelfi",
            role = c("ctb"),
