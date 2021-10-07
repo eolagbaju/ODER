@@ -54,7 +54,7 @@ run this yourself to check for any updates on how to cite **ODER**.
 
 ``` r
 message(citation("ODER"), bibtex = TRUE)
-#> list(title = "Optimising the Definition of Expressed Regions", author = list(list(given = NULL, family = "eolagbaju", role = NULL, email = NULL, comment = NULL)), year = "2021", url = "http://www.bioconductor.org/packages/ODER", note = "https://github.com/eolagbaju/ODER/ODER - R package version 0.99.25", doi = "10.18129/B9.bioc.ODER")list(title = "Optimising the Definition of Expressed Regions", author = list(list(given = NULL, family = "eolagbaju", role = NULL, email = NULL, comment = NULL)), year = "2021", journal = "bioRxiv", doi = "10.1101/TODO", url = "https://www.biorxiv.org/content/10.1101/TODO")TRUE
+#> list(title = "Optimising the Definition of Expressed Regions", author = list(list(given = NULL, family = "eolagbaju", role = NULL, email = NULL, comment = NULL)), year = "2021", url = "http://www.bioconductor.org/packages/ODER", note = "https://github.com/eolagbaju/ODER/ODER - R package version 0.99.26", doi = "10.18129/B9.bioc.ODER")list(title = "Optimising the Definition of Expressed Regions", author = list(list(given = NULL, family = "eolagbaju", role = NULL, email = NULL, comment = NULL)), year = "2021", journal = "bioRxiv", doi = "10.1101/TODO", url = "https://www.biorxiv.org/content/10.1101/TODO")TRUE
 ```
 
 Please note that the `ODER` was only made possible thanks to many other
