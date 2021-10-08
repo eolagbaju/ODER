@@ -1,6 +1,6 @@
 Package: ODER
 Title: Optimising the Definition of Expressed Regions
-Version: 0.99.29
+Version: 0.99.30
 Date: 2021-04-13
 Authors@R: 
     c(person(given = "Emmanuel",family = "Olagbaju",
@@ -70,4 +70,4 @@ Imports:
     tibble,
     utils
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1)
