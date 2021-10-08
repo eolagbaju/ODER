@@ -93,14 +93,11 @@ eg_opt_exons <- get_exons(
 eg_opt_exons
 data(gtex_SRP012682_SRX222703_lung_ers_1, package = "ODER")
 
-if (!exists("eg_ers_delta")) {
-    eg_ers_delta <- get_ers_delta(
-        ers = gtex_SRP012682_SRX222703_lung_ers_1,
-        # gtex_SRP012682_SRX222703_lung_ers_1 is from the package data folder
-        opt_exons = eg_opt_exons
-    ) # .delta is ODER's default and is used if delta_fun is left NULL
-    # you can pass in your own if you have one
-}
+eg_ers_delta <- get_ers_delta(
+    ers = gtex_SRP012682_SRX222703_lung_ers_1,
+    opt_exons = eg_opt_exons
+)
+
 eg_ers_delta
 data(gtex_SRP012682_SRX222703_lung_ers_1, package = "ODER")
 opt_ers <- get_opt_ers(
