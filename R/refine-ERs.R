@@ -14,8 +14,8 @@
 #' @export
 #'
 #' @examples
-#' # example set of ers to save runtime
-#' ex_annot_ers <- GenomicRanges::GRanges( # this is created to not overlap
+#' # create example set of ers to save runtime
+#' ex_annot_ers <- GenomicRanges::GRanges(
 #'     seqnames = S4Vectors::Rle(c("chr21"), c(3)),
 #'     ranges = IRanges::IRanges(
 #'         start = c(5093576, 5097663, 5162182),
@@ -48,6 +48,7 @@
 #'     ),
 #'     annotation = c("intron", "intron", "intron")
 #' )
+#'
 #' refined_ers <- refine_ERs(ex_annot_ers)
 #'
 #' refined_ers

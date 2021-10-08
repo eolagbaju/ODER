@@ -74,26 +74,21 @@ optimum ers
 }}
 
 \examples{
-\dontshow{
-if (!exists("gtf_path")) {
-    gtf_url <- paste0(
-        "http://ftp.ensembl.org/pub/release-103/gtf/",
-        "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-    )
-    gtf_path <- file_cache(gtf_url)
-}
 
-if (!exists("gtf_gr")) {
-    gtf_gr <- rtracklayer::import(gtf_path)
-}
-}
-if (!exists("eg_opt_exons")) {
-    eg_opt_exons <- get_exons(
-        gtf = gtf_gr,
-        ucsc_chr = TRUE,
-        ignore.strand = TRUE
-    )
-}
+gtf_url <- paste0(
+    "http://ftp.ensembl.org/pub/release-103/gtf/",
+    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+)
+gtf_path <- file_cache(gtf_url)
+
+gtf_gr <- rtracklayer::import(gtf_path)
+
+eg_opt_exons <- get_exons(
+    gtf = gtf_gr,
+    ucsc_chr = TRUE,
+    ignore.strand = TRUE
+)
+
 
 eg_opt_exons
 data(gtex_SRP012682_SRX222703_lung_ers_1, package = "ODER")

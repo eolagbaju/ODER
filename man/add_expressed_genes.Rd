@@ -45,17 +45,12 @@ ERs.
 }
 \examples{
 
-if (!exists("gtf_path")) {
-    gtf_url <- paste0(
-        "http://ftp.ensembl.org/pub/release-103/gtf/",
-        "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
-    )
-    gtf_path <- file_cache(gtf_url)
-}
-
-if (!exists("gtf_gr")) {
-    gtf_gr <- rtracklayer::import(gtf_path)
-}
+gtf_url <- paste0(
+    "http://ftp.ensembl.org/pub/release-103/gtf/",
+    "homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"
+)
+gtf_path <- file_cache(gtf_url)
+gtf_gr <- rtracklayer::import(gtf_path)
 
 ex_opt_ers <- GenomicRanges::GRanges(
     seqnames = S4Vectors::Rle(c("chr21", "chr22"), c(2, 2)),

@@ -22,7 +22,7 @@
 #'
 #' @examples
 #' data(gtex_SRP012682_SRX222703_lung_erdelta_1, package = "ODER")
-#' # gtex_SRP012682_SRX222703_lung_erdelta_1 is from the package data folder
+#'
 #' eg_plots <- plot_ers(
 #'     ers_delta = gtex_SRP012682_SRX222703_lung_erdelta_1, opt_mcc_mrg = c(
 #'         "mcc_10",

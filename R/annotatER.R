@@ -100,10 +100,8 @@ get_junctions <- function(opt_ers, junc_data, txdb) {
 #' # if the file has been downloaded recently, it will be retrieved from a cache
 #' gtf_path <- file_cache(gtf_url)
 #'
+#' gtf_gr <- rtracklayer::import(gtf_path)
 #'
-#' if (!exists("gtf_gr")) {
-#'     gtf_gr <- rtracklayer::import(gtf_path)
-#' }
 #' ex_opt_ers <- GenomicRanges::GRanges(
 #'     seqnames = S4Vectors::Rle(c("chr21"), c(5)),
 #'     ranges = IRanges::IRanges(
@@ -114,36 +112,32 @@ get_junctions <- function(opt_ers, junc_data, txdb) {
 #'
 #' junctions <- SummarizedExperiment::rowRanges(dasper::junctions_example)
 #' chrs_to_keep <- c("21", "22")
-#' if (!exists("genom_state")) {
-#'     #### preparing the txdb and genomstate object(s)
-#'     hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
-#'     new_info <- hg38_chrominfo$size[match(
-#'         chrs_to_keep,
-#'         GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
-#'     )]
-#'     names(new_info) <- chrs_to_keep
-#'     gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
-#'         chrs_to_keep,
-#'         pruning.mode = "tidy"
-#'     )
-#'     GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
-#'     GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
-#'     rtracklayer::genome(gtf_gr_tx) <- "hg38"
 #'
-#'     ucsc_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
-#'     genom_state <- derfinder::makeGenomicState(txdb = ucsc_txdb)
-#'     ens_txdb <- ucsc_txdb
-#'     GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
-#'     ################### end of genomstate creation
-#' }
+#' #### preparing the txdb and genomstate object(s)
 #'
+#' hg38_chrominfo <- GenomeInfoDb::getChromInfoFromUCSC("hg38")
+#' new_info <- hg38_chrominfo$size[match(
+#'     chrs_to_keep,
+#'     GenomeInfoDb::mapSeqlevels(hg38_chrominfo$chrom, "Ensembl")
+#' )]
+#' names(new_info) <- chrs_to_keep
+#' gtf_gr_tx <- GenomeInfoDb::keepSeqlevels(gtf_gr,
+#'     chrs_to_keep,
+#'     pruning.mode = "tidy"
+#' )
+#' GenomeInfoDb::seqlengths(gtf_gr_tx) <- new_info
+#' GenomeInfoDb::seqlevelsStyle(gtf_gr_tx) <- "UCSC"
+#' rtracklayer::genome(gtf_gr_tx) <- "hg38"
 #'
-#' if (!exists("annot_ers1")) {
-#'     annot_ers1 <- annotatERs(
-#'         opt_ers = ex_opt_ers, junc_data = junctions,
-#'         gtf = gtf_gr, txdb = ens_txdb, genom_state = genom_state
-#'     )
-#' }
+#' ucsc_txdb <- GenomicFeatures::makeTxDbFromGRanges(gtf_gr_tx)
+#' genom_state <- derfinder::makeGenomicState(txdb = ucsc_txdb)
+#' ens_txdb <- ucsc_txdb
+#' GenomeInfoDb::seqlevelsStyle(ens_txdb) <- "Ensembl"
+#'
+#' annot_ers1 <- annotatERs(
+#'     opt_ers = ex_opt_ers, junc_data = junctions,
+#'     gtf = gtf_gr, txdb = ens_txdb, genom_state = genom_state
+#' )
 #'
 #' annot_ers1
 annotatERs <- function(opt_ers, junc_data, genom_state, gtf, txdb) {

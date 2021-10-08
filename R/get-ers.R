@@ -18,7 +18,7 @@
 #'
 #' @examples
 #' data(gtex_SRP012682_SRX222703_lung_coverage_1, package = "ODER")
-#' # gtex_SRP012682_SRX222703_lung_coverage_1 is from the package data folder
+#'
 #' eg_ers <- get_ers(
 #'     coverage = gtex_SRP012682_SRX222703_lung_coverage_1,
 #'     mccs = c(5, 10),
@@ -109,12 +109,11 @@ get_ers <- function(coverage, mccs, mrgs) {
 #'
 #' @examples
 #' library("magrittr")
-#' if (!exists("gtex_metadata")) {
-#'     gtex_metadata <- recount::all_metadata("gtex")
-#'     gtex_metadata <- gtex_metadata %>%
-#'         as.data.frame() %>%
-#'         dplyr::filter(project == "SRP012682")
-#' }
+#' gtex_metadata <- recount::all_metadata("gtex")
+#' gtex_metadata <- gtex_metadata %>%
+#'     as.data.frame() %>%
+#'     dplyr::filter(project == "SRP012682")
+#'
 #' rec_url <- recount::download_study(
 #'     project = "SRP012682",
 #'     type = "samples",
