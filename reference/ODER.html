@@ -26,7 +26,7 @@ most ideal."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ODER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.30</span>
       </span>
     </div>
 
@@ -170,16 +170,16 @@ order of the negative bigwig paths.</p></td>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Setting options('download.file.method.GEOquery'='auto')</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Setting options('GEOquery.inmemory.gpl'=FALSE)</span>
+<span class="r-in"></span>
 <span class="r-in"><span class="co"># file_cache is an internal function to download a bigwig file from a link</span></span>
 <span class="r-in"><span class="co"># if the file has been downloaded recently, it will be retrieved from a cache</span></span>
 <span class="r-in"><span class="va">bw_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="file_cache.html">file_cache</a></span><span class="op">(</span><span class="va">rec_url</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html">exists</a></span><span class="op">(</span><span class="st">"gtf_path"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">    <span class="va">gtf_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span></span>
-<span class="r-in">        <span class="st">"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,</span>
-<span class="r-in">        <span class="st">"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span></span>
-<span class="r-in">    <span class="op">)</span></span>
-<span class="r-in">    <span class="va">gtf_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="file_cache.html">file_cache</a></span><span class="op">(</span><span class="va">gtf_url</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span class="va">gtf_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span></span>
+<span class="r-in">    <span class="st">"http://ftp.ensembl.org/pub/release-103/gtf/"</span>,</span>
+<span class="r-in">    <span class="st">"homo_sapiens/Homo_sapiens.GRCh38.103.chr.gtf.gz"</span></span>
+<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span class="va">gtf_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="file_cache.html">file_cache</a></span><span class="op">(</span><span class="va">gtf_url</span><span class="op">)</span></span>
+<span class="r-in"></span>
 <span class="r-in"><span class="co"># As of rtracklayer 1.25.16, BigWig is not supported on Windows.</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">gtex_SRP012682_SRX222703_lung_auc_1</span>, package <span class="op">=</span> <span class="st">"ODER"</span><span class="op">)</span></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu">xfun</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/xfun/man/os.html">is_windows</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -215,15 +215,15 @@ order of the negative bigwig paths.</p></td>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     I, expand.grid, unname</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-07 15:46:18 - Obtaining mean coverage across 1 samples</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-07 15:46:18 - chr21</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-07 15:46:19 - chr22</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-07 15:46:20 - Generating ERs for chr21</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-07 15:46:23 - Generating ERs for chr22</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-07 15:46:25 - Loading in GTF...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-07 15:47:05 - Obtaining non-overlapping exons</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-07 15:47:07 - Calculating delta for ERs...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-07 15:47:07 - Obtaining optimal set of ERs...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-08 14:29:27 - Obtaining mean coverage across 1 samples</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-08 14:29:27 - chr21</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-08 14:29:28 - chr22</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-08 14:29:29 - Generating ERs for chr21</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-08 14:29:32 - Generating ERs for chr22</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-08 14:29:34 - Loading in GTF...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-08 14:30:20 - Obtaining non-overlapping exons</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-08 14:30:22 - Calculating delta for ERs...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2021-10-08 14:30:23 - Obtaining optimal set of ERs...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $opt_ers</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> GRanges object with 15977 ranges and 0 metadata columns:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           seqnames            ranges strand</span>
