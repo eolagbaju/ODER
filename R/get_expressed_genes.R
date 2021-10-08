@@ -109,7 +109,7 @@ get_tissue <- function(input_file = NULL, tissue) {
         stringr::str_replace_all("\\.+", "_") %>%
         stringr::str_replace("_$", "") %>%
         tolower()
-    data(tissue_options, package = "ODER")
+    tissue_options <- .get_tissue_options()
 
     stopifnot(identical(names[3:length(names)], tissue_options))
     colnames(gtex_data)[3:length(names)] <- tissue_options
@@ -119,6 +119,54 @@ get_tissue <- function(input_file = NULL, tissue) {
         dplyr::select(Name, dplyr::one_of(tissue))
 
     return(gtex_data_tidy)
+}
+
+#' @keywords internal
+#' @noRd
+.get_tissue_options <- function() {
+    tissue_options <- c(
+        "adipose - subcutaneous", "adipose - visceral (omentum)",
+        "adrenal gland",
+        "artery - aorta", "artery - coronary", "artery - tibial",
+        "bladder",
+        "brain - amygdala", "brain - anterior cingulate cortex (ba24)",
+        "brain - caudate (basal ganglia)", "brain - cerebellar hemisphere",
+        "brain - cerebellum", "brain - cortex",
+        "brain - frontal cortex (ba9)", "brain - hippocampus",
+        "brain - hypothalamus", "brain - nucleus accumbens (basal ganglia)",
+        "brain - putamen (basal ganglia)", "brain - spinal cord (cervical c-1)",
+        "brain - substantia nigra",
+        "breast - mammary tissue",
+        "cells - ebv-transformed lymphocytes",
+        "cells - transformed fibroblasts",
+        "cervix - ectocervix", "cervix - endocervix",
+        "colon - sigmoid", "colon - transverse",
+        "esophagus - gastroesophageal junction", "esophagus - mucosa",
+        "esophagus - muscularis",
+        "fallopian tube",
+        "heart - atrial appendage", "heart - left ventricle",
+        "kidney - cortex",
+        "liver",
+        "lung",
+        "minor salivary gland",
+        "muscle - skeletal",
+        "nerve - tibial",
+        "ovary",
+        "pancreas",
+        "pituitary",
+        "prostate",
+        "skin - not sun exposed (suprapubic)", "skin - sun exposed (lower leg)",
+        "small intestine - terminal ileum",
+        "spleen",
+        "stomach",
+        "testis",
+        "thyroid",
+        "uterus",
+        "vagina",
+        "whole blood"
+    )
+
+    return(tissue_options)
 }
 
 #' Get the expressed genes

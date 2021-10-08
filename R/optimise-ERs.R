@@ -709,7 +709,7 @@ nc_exons <- function(all_data_gr, gtf.df) {
 #' @noRd
 pseudo_exons <- function(all_data_gr, gtf.df) {
     message(stringr::str_c(Sys.time(), " - Obtaining Pseudogene"))
-    data(pseudogene, package = "ODER")
+    pseudogene <- .get_pseudogene()
     gtf.df.pc <- gtf.df %>% dplyr::filter(
         gene_biotype %in% pseudogene,
         transcript_biotype %in% pseudogene
@@ -748,6 +748,32 @@ pseudo_exons <- function(all_data_gr, gtf.df) {
     )
     GenomeInfoDb::seqlevelsStyle(pseudogene_exons) <- "UCSC"
     return(pseudogene_exons)
+}
+
+#' @keywords internal
+#' @noRd
+.get_pseudogene <- function() {
+    pseudogene <- c(
+        "pseudogene",
+        "processed_pseudogene",
+        "unprocessed_pseudogene",
+        "transcribed_processed_pseudogene",
+        "transcribed_unitary_pseudogene",
+        "transcribed_unprocessed_pseudogene",
+        "translated_processed_pseudogene",
+        "unitary_pseudogene",
+        "unprocessed_pseudogene",
+        "TR_V_pseudogene",
+        "TR_J_pseudogene",
+        "rRNA_pseudogene",
+        "polymorphic_pseudogene",
+        "IG_V_pseudogene",
+        "IG_pseudogene",
+        "IG_J_pseudogene",
+        "IG_C_pseudogene"
+    )
+
+    return(pseudogene)
 }
 
 #' Collapsing among the transcripts for each gene
